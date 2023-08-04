@@ -1,0 +1,28 @@
+﻿{
+  "TUTO_1": "Introduction",
+  "TUTO_2": "Bienvenue dans le tutoriel de l'outil de visualisation des prix de l'énergie d'Eurostat. Cette visite guidée vous montrera les principales façons d'interagir avec l'outil.",
+  "TUTO_3": "Graphique",
+  "TUTO_4": "La hauteur de ces barres représente les prix que les clients paient pour le gaz ou l'électricité. En cliquant dessus, il est possible de les subdiviser davantage en sous-catégories ou d'explorer d'autres statistiques telles que des graphiques temporels, des diagrammes circulaires ou des histogrammes pour comparer les différents niveaux de consommation pour le pays sélectionné.",
+  "TUTO_5": "Menu",
+  "TUTO_6": "En plus des options de barre, l'outil contient un menu pour des fonctionnalités supplémentaires. Cliquez sur l'icône du menu pour personnaliser le graphique. Cliquez sur suivant pour en savoir plus sur les options du menu.",
+  "TUTO_7": "Fonction Tableau",
+  "TUTO_8": "Utilisez cette option pour changer le graphique en tableau.",
+  "TUTO_9": "Ordonner le graphique",
+  "TUTO_10": "Utilisez cette option pour changer l'ordre du graphique.",
+  "TUTO_11": "Fonction Agrégats",
+  "TUTO_12": "Utilisez cette option pour ajouter ou supprimer les agrégats du graphique.",
+  "TUTO_13": "Info",
+  "TUTO_14": "Utilisez ce menu pour accéder au tutoriel, aux métadonnées ou envoyer des commentaires.",
+  "TUTO_15": "Options de téléchargement",
+  "TUTO_16": "Cliquez ici pour télécharger une image ou des données.",
+  "TUTO_17": "Intégration",
+  "TUTO_18": "Utilisez ce bouton pour intégrer le graphique dans d'autres outils.",
+  "TUTO_19": "Changer de langue",
+  "TUTO_20": "Utilisez cette option pour changer la langue de l'outil. Il prend en charge l'anglais, le français ou l'allemand.",
+  "TUTO_21": "C'est tout pour notre visite.",
+  "TUTO_22": "Si vous trouvez cet outil de visualisation utile, veuillez le partager avec d'autres sur Twitter, Facebook, par e-mail et sur LinkedIn. Merci !",
+ 
+ 
+  "PROMO_TUTO_1": "Tutorial",
+  "PROMO_TUTO_2": "Bienvenue au tutoriel de l'outil de visualisation des prix des énergies d'Eurostat. Pour une visite guidée des fonctionnalités <a href = '#' onclick='tutorial();'>cliquez ici</a>."
+}

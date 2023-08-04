@@ -1,0 +1,27 @@
+{
+	"TUTO_1": "Introduction",
+	"TUTO_2": "Welcome to the tutorial of Eurostat's Energy prices visualization tool. This guided tour will show you the main ways of interacting with the tool",
+	"TUTO_3": "Chart",
+	"TUTO_4": "The height of these bars represents the prices that customers pay for gas or electricity. By clicking on them, it is possible to further disaggregate them into sub-categories or to explore some other statistics such as time graphs, pie charts or bar charts to compare the different consumption levels for the selected country.",
+	"TUTO_5": "Menu",
+	"TUTO_6": "In addition to the bar options, the tool contains a menu for additional features. Click on the menu icon to customize the chart. Click next to learn about the menu options.",
+	"TUTO_7": "Table feature",
+	"TUTO_8": "Use this option to change the chart to table.",
+	"TUTO_9": "Order the chart",
+	"TUTO_10": "Use this option to change the order of the chart.",
+	"TUTO_11": "Agreegates feature",
+	"TUTO_12": "Use this option to add or remove the agregates from the chart.",
+	"TUTO_13": "Info",
+	"TUTO_14": "Use this menu to access the tutorial or metadata or send some feedback",
+	"TUTO_15": "Download options",
+	"TUTO_16": "Click here to download a picture or data.",
+	"TUTO_17": "Embebbed",
+	"TUTO_18": "use this button to embebed the chart in other tools",
+	"TUTO_19": "Change language",
+	"TUTO_20": "Use this option to change the language of the tool, it supports English, French or German.",
+	"TUTO_21": "That is it for our tour.",
+	"TUTO_22": "If you find this visualisation tool useful, please show your support by sharing it with others on Twitter, Facebook, email and LinkedIn. Thank you!",
+
+	"PROMO_TUTO_1": "Tutorial",
+	"PROMO_TUTO_2": "Welcome to Eurostat's visualisation tool for Energy Prices. For a guided tour of features <a href = '#' onclick='tutorial();'>click here and a tour will start!</a>.</a>"
+}

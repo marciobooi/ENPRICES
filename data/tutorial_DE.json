@@ -1,0 +1,28 @@
+﻿{
+  "TUTO_1": "Einführung",
+  "TUTO_2": "Willkommen zum Tutorial des Eurostat-Energiepreis-Visualisierungstools. Diese geführte Tour zeigt Ihnen die wichtigsten Interaktionsmöglichkeiten mit dem Tool.",
+  "TUTO_3": "Diagramm",
+  "TUTO_4": "Die Höhe dieser Balken repräsentiert die Preise, die Kunden für Gas oder Strom zahlen. Durch Anklicken können sie weiter unterteilt werden in Unterkategorien oder um andere Statistiken wie Zeitdiagramme, Tortendiagramme oder Balkendiagramme zu erkunden, um die verschiedenen Verbrauchsniveaus für das ausgewählte Land zu vergleichen.",
+  "TUTO_5": "Menü",
+  "TUTO_6": "Neben den Balkenoptionen enthält das Tool ein Menü für zusätzliche Funktionen. Klicken Sie auf das Menü-Symbol, um das Diagramm anzupassen. Klicken Sie auf 'Weiter', um mehr über die Menüoptionen zu erfahren.",
+  "TUTO_7": "Tabellenfunktion",
+  "TUTO_8": "Verwenden Sie diese Option, um das Diagramm in eine Tabelle zu ändern.",
+  "TUTO_9": "Diagramm sortieren",
+  "TUTO_10": "Verwenden Sie diese Option, um die Reihenfolge des Diagramms zu ändern.",
+  "TUTO_11": "Aggregatsfunktion",
+  "TUTO_12": "Verwenden Sie diese Option, um Aggregatsdaten zum Diagramm hinzuzufügen oder zu entfernen.",
+  "TUTO_13": "Info",
+  "TUTO_14": "Verwenden Sie dieses Menü, um auf das Tutorial, die Metadaten oder Rückmeldungen zuzugreifen.",
+  "TUTO_15": "Download-Optionen",
+  "TUTO_16": "Klicken Sie hier, um ein Bild oder Daten herunterzuladen.",
+  "TUTO_17": "Einbetten",
+  "TUTO_18": "Verwenden Sie diese Schaltfläche, um das Diagramm in andere Tools einzubetten.",
+  "TUTO_19": "Sprache ändern",
+  "TUTO_20": "Verwenden Sie diese Option, um die Sprache des Tools zu ändern. Es unterstützt Englisch, Französisch oder Deutsch.",
+  "TUTO_21": "Das ist alles für unsere Tour.",
+  "TUTO_22": "Wenn Ihnen dieses Visualisierungstool nützlich ist, zeigen Sie bitte Ihre Unterstützung, indem Sie es auf Twitter, Facebook, per E-Mail und auf LinkedIn teilen. Vielen Dank!",
+ 
+ 
+  "PROMO_TUTO_1": "Tutorial",
+  "PROMO_TUTO_2": "Willkommen zum Tutorial des Energiepreis-Tools von Eurostat. Für eine Führung durch alle Features <a href = '#' onclick='tutorial();'>bitte hier klicken um die Tour zu starten!</a>"
+}
