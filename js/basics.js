@@ -432,7 +432,7 @@ function stopLoadingAnimation() {
 
 function agregateIcon() {
   const iconHTML = `
-  <span class="agregates fa-stack fa-rotate-180" style="font-size: .9rem; position: absolute; top: 8px;">
+  <span class="agregates fa-stack fa-rotate-180" style=" position: absolute; top: 8px;">
     <i class="fa fa-square fa-stack-1x" style="top: .0em; left: .0em; color: white;"></i>
     <i class="fa fa-square fa-stack-1x" style="top: .2em; left: .2em; color: #0a328e;"></i>
     <i class="fa fa-square fa-stack-1x" style="top: .2em; left: .2em; color: transparent;"></i>
@@ -450,7 +450,7 @@ return iconHTML;
 
 function nonagregateIcon() {
   const iconHTML = `
-      <span class="nonAgregates fa-stack fa-rotate-180" style="font-size: .9rem;position: absolute;top: 4px;">
+      <span class="nonAgregates fa-stack fa-rotate-180" style="position: absolute;top: 4px;">
         <i class="fa fa-square fa-stack-1x" style="top: .0em;left: .0em;color: white;"></i>
         <i class="fa fa-square fa-stack-1x" style="top: .2em;left: .2em;color: #0a328e;"></i>
         <i class="fa fa-square fa-stack-1x" style="top: .2em;left: .2em;color: transparent;"></i>

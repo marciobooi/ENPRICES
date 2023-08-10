@@ -102,3 +102,9 @@ dl, ol, ul {
     margin-top: 0;
     margin-bottom: 0rem;
 }
+
+span.agregates.fa-stack.fa-rotate-180 {
+    font-size: .9rem;
+}
+
+

@@ -5,7 +5,7 @@ class FloatingChartControls {
     this.chartControls.id = 'menuSwitch';
 
     this.chartControls.innerHTML = `
-   
+      <div>
         <div class="form-check form-switch form-check-reverse">
           <input class="form-check-input focus-ring" type="checkbox" value="${REF.detail == 1 ? 1 : 0}" role="switch" id="switchDetails" ${REF.detail == 1 ? 'checked' : ''}>
           <label class="form-check-label" for="switchDetails">${languageNameSpace.labels['details']}</label>
@@ -14,9 +14,9 @@ class FloatingChartControls {
           <input class="form-check-input focus-ring" type="checkbox" value="${REF.component == 1 ? 1 : 0}" role="switch" id="switchComponents" ${REF.component == 1 ? 'checked' : ''}>
           <label class="form-check-label" for="switchComponents">${languageNameSpace.labels['componentsShow']}</label>
         </div>
-   
+      </div>
       
-        
+      <div>  
         <ul id="floatingMenu">   
         <li class="nav-item px-1" id="togglePercentage" role="none" style="display:${REF.detail == 1 ? "" : "none"}"></li>
         <li class="nav-item px-1" id="Agregates" role="none"></li>			  
@@ -30,8 +30,8 @@ class FloatingChartControls {
           </li>
 
           <li class="nav-item px-1" id="toggleTable" role="none"></li>
-        </ul>`;
-
+        </ul>
+      </div>`;
 
 
     this.dopdownListSelect();
