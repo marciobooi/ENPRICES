@@ -84,6 +84,7 @@ function tutorial(buttonTimer) {
 		showBullets: false,
 		autoPosition:false,
 		tooltipClass: "customTooltip",
+		exitOnEsc: true,
 		nextLabel:  languageNameSpace.labels['tutNEXT'],
 		prevLabel: languageNameSpace.labels['tutBACK'],
 		doneLabel: languageNameSpace.labels['tutFINISH'],
@@ -101,12 +102,12 @@ function tutorial(buttonTimer) {
 		currentStep = this._currentStep
 
 		if (currentStep === 0) {
-			document.querySelector("body > div.introjs-tooltipReferenceLayer > div > div.introjs-tooltipbuttons > a.introjs-button.introjs-prevbutton").innerHTML = "Close"
+			document.querySelector("body > div.introjs-tooltipReferenceLayer > div > div.introjs-tooltipbuttons > a.introjs-button.introjs-prevbutton").innerHTML = languageNameSpace.labels['tutFINISH']
 			setTimeout(() => {
 				$("body > div.introjs-tooltipReferenceLayer > div > div.introjs-tooltipbuttons > a.introjs-button.introjs-prevbutton.introjs-disabled").addClass( "close" )
 			}, 100);
 		} else {
-			document.querySelector("body > div.introjs-tooltipReferenceLayer > div > div.introjs-tooltipbuttons > a.introjs-button.introjs-prevbutton").innerHTML = "back"
+			document.querySelector("body > div.introjs-tooltipReferenceLayer > div > div.introjs-tooltipbuttons > a.introjs-button.introjs-prevbutton").innerHTML = languageNameSpace.labels['tutBACK']
 			$("body > div.introjs-tooltipReferenceLayer > div > div.introjs-tooltipbuttons > a.introjs-button.introjs-prevbutton").removeClass( "close" )
 
 			$(".introjs-tooltip.customTooltip.introjs-auto").css({
@@ -128,7 +129,7 @@ function tutorial(buttonTimer) {
 		"class": "btn btn-primary min-with--nav"
 	});
 
-	document.querySelector("body > div.introjs-tooltipReferenceLayer > div > div.introjs-tooltipbuttons > a.introjs-button.introjs-prevbutton").innerHTML = "Close"
+	document.querySelector("body > div.introjs-tooltipReferenceLayer > div > div.introjs-tooltipbuttons > a.introjs-button.introjs-prevbutton").innerHTML = languageNameSpace.labels['tutFINISH']
 	$("body > div.introjs-tooltipReferenceLayer > div > div.introjs-tooltipbuttons > a.introjs-button.introjs-prevbutton").addClass( "close " )
 
 
