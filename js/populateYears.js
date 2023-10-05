@@ -16,11 +16,13 @@ function populateYearsData() {
 
   const url = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/"+dataset+"?format=JSON&geo=EU27_2020&nrg_cons=TOT_KWH&currency=EUR";  
 
+  const yearsArray = JSONstat(url).Dataset(0).Dimension("time").id;  
 
-  const yearsArray = JSONstat(url).Dataset(0).Dimension("time").id;
- 
-  REF.time = yearsArray[yearsArray.length - 1]
+  log(dataset)
 
+  if(REF.time == "" || REF.time == undefined){      
+    REF.time = yearsArray[yearsArray.length - 1]
+  }
 
   const yearsDropDown = $("#chartOptionsMenu > div.dropdown-grid > div > div:nth-child(4) > div > ul");
   yearsDropDown.empty()

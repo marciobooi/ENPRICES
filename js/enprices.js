@@ -145,11 +145,9 @@ function enprices(d = null) {
 
   populateDropdownData()
 
-
-
   chartdata(d);
 
-getTitle()
+  getTitle()
 
 const mainColors = (REF.detail == 0) ? totalColors : (REF.component == 1) ? componentColors : detailColors;
 

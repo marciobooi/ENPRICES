@@ -14,7 +14,7 @@ const dataNameSpace = {
     component: 0,
     order: "DESC",
     dataset: "nrg_pc_204",
-    time: "2022-S2",
+    time: "",
     chartInDetails: 0,
     chartId: "mainChart",
     chartGeo: "",
