@@ -11,6 +11,8 @@
     width: 3rem;
     cursor: pointer;
     border: none;
+    color: var(--tool-1);
+    background-color: transparent;
 }
 
 .btnGroup {
@@ -36,12 +38,12 @@ span.iconText {
 li > button {
     background-color: var(--tool-1) !important;
     border-color: var(--tool-1) !important;
-    width: 2.875rem;
+    width: 2.5rem;
     height: 2.5rem;
     display: flex !important;
     justify-content: center;
     align-items: center;
-    border-radius: 0.4rem !important;
+    font-size: 1.2em !important;
 }
 
 #menuSwitch {
@@ -79,16 +81,16 @@ ul.dropdown-menu.dropdown-menu-end.show {
 }
 
 
-.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+/* .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
     text-decoration: none;
     color: #262626;
     background-color: lightgray;
-}
+} */
 
 
-#menu:hover {
+/* #menu:hover {
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-}
+} */
 .min-with--nav:hover {
     box-shadow: 0 0 0 0.15rem rgba(49, 132, 253, 0.3);
 }
@@ -106,5 +108,10 @@ dl, ol, ul {
 span.agregates.fa-stack.fa-rotate-180 {
     font-size: .9rem;
 }
+
+.round-btn {
+    border-radius: 50%;
+}
+
 
 

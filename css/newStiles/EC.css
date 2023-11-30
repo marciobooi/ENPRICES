@@ -5,3 +5,67 @@
 .ecl-u-type-color-grey {
     color: #262b38!important;
 }
+
+.ecl-primary-color {
+    background-color: #3e6cd5 !important;
+}
+
+
+
+
+/* btns */
+
+
+
+.ecl-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: none;
+    border-radius: 4px;
+    border-width: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    font: normal normal 400 1rem/1.25rem arial,sans-serif;
+    font-weight: 400;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+}
+
+.ecl-button--primary {
+    background-color: #0e47cb;
+    color: #fff;
+}
+
+.ecl-button--secondary {
+    background-color: #fff;
+    border: 2px solid #0e47cb;
+    color: #0e47cb;
+    padding: calc(0.75rem - 2px) calc(1rem - 2px);
+}
+
+.ecl-button--primary:active, .ecl-button--primary:hover {
+    background-color: #3e6cd5;
+}
+.ecl-button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -4px;
+    text-decoration: none;
+}
+
+.ecl-button--secondary:active, .ecl-button--secondary:hover {
+    border-color: #0e47cb;
+    color: #0e47cb;
+}
+
+.ecl-button--secondary:focus-visible {
+    box-shadow: inset 0 0 0 4px #0e47cb;
+    outline: 2px solid #fff;
+}
+
+.ecl-button:active, .ecl-button:hover {
+    box-shadow: 0 2px 4px rgb(9 49 142 / 8%), 0 0 10px rgb(9 49 142 / 4%), 0 4px 5px rgb(9 49 142 / 4%), 0 -4px 4px rgb(9 49 142 / 4%);
+    text-decoration: none;
+}
