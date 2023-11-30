@@ -8,7 +8,7 @@ class SubNavbar {
       // const isMobile = /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 768
   
 
-      const notMobileContent = `<div class="container-fluid">
+      const browser = `<div class="container-fluid">
             <div class="col-1">              
               <button id="menu" class="btnGroup" type="button" aria-label="${languageNameSpace.labels["MAINMENU"]}" title="${languageNameSpace.labels["MAINMENU"]}" aria-haspopup="true">
                 <i class="fas fa-bars"></i>             
@@ -168,7 +168,7 @@ class SubNavbar {
 
         } else {
 
-          this.subNavbar.innerHTML = notMobileContent         
+          this.subNavbar.innerHTML = browser         
 
           this.dropdownButton = this.subNavbar.querySelector('.dropdown-toggle');
 

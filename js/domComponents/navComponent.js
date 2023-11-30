@@ -12,12 +12,14 @@ class Navbar {
 
     this.navbar.innerHTML = `
     <div class="container-fluid">
-      <div class="col-9 col-xs-9">
+
+      <div class="col-6 col-lg-9">
         <div id="header-title">
           <h1 id="header-title-label"></h1>
         </div>
       </div>
-      <div class="col-1 col-xs-1" id="lang-section">
+
+      <div class="col-3 col-lg-1" id="lang-section">
       <label for="lang-selection" class="visually-hidden">Select Language:</label>
         <select id="lang-selection" class="form-select langSelect" tabindex="0" aria-labelledby="Select language" aria-expanded="false">
           <option value="EN"><span class="bold">EN</span> English</option>
@@ -25,11 +27,14 @@ class Navbar {
           <option value="DE"><span class="bold">DE</span> Deutsch</option>
         </select>
       </div>
-      <div class="col-2  col-xs-2 logo"> 
+
+      <div class="col-3  col-lg-2 logo"> 
         <a id="home" href="https://ec.europa.eu/eurostat/web/main/home">
           <img id="eurostatLogo" src="img/estat_RGB_neg.png" alt="Eurostat - Official Logo">
         </a>
       </div>
+
+
     </div>`;
 
     this.langSelection = this.navbar.querySelector("#lang-selection");
