@@ -24,8 +24,6 @@ function chartdata(d = null) {
   }
   d = chartApiCall();
 
-  log(d)
-
   geos = d.Dimension("geo").id;
   tax = REF.component == 1 ? d.Dimension('nrg_prc').id : REF.taxs;  
   dec = REF.unit == "MWH" ? 0 : 4;
@@ -143,7 +141,7 @@ function enprices(d = null) {
 
   REF.chartId = "mainChart"
 
-  populateDropdownData()
+  // populateDropdownData()
 
   chartdata(d);
 

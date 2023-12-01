@@ -2,18 +2,20 @@ function populateConsumption() {
 
  
     const conditions = {
-      "4100_HOUSEHOLD": "nrg_pc_202_c",
-      "4100_HOUSEHOLD": "nrg_pc_202",
-      "4100_N_HOUSEHOLD": "nrg_pc_203_c",
-      "4100_N_HOUSEHOLD": "nrg_pc_203",
-      "6000_HOUSEHOLD": "nrg_pc_204_c",
-      "6000_HOUSEHOLD": "nrg_pc_204",
-      "6000_N_HOUSEHOLD": "nrg_pc_205_c",
-      "6000_N_HOUSEHOLD": "nrg_pc_205"
+      "4100_HOUSEHOLD_1": "nrg_pc_202_c",
+      "4100_HOUSEHOLD_0": "nrg_pc_202",
+      "4100_N_HOUSEHOLD_1": "nrg_pc_203_c",
+      "4100_N_HOUSEHOLD_0": "nrg_pc_203",
+      "6000_HOUSEHOLD_1": "nrg_pc_204_c",
+      "6000_HOUSEHOLD_0": "nrg_pc_204",
+      "6000_N_HOUSEHOLD_1": "nrg_pc_205_c",
+      "6000_N_HOUSEHOLD_0": "nrg_pc_205"
     };
 
-    consomsList = codesDataset[conditions[`${REF.product}_${REF.consumer}`]].consoms
-    REF.consoms = codesDataset[conditions[`${REF.product}_${REF.consumer}`]].defaultConsom
+    consomsList = codesDataset[conditions[`${REF.product}_${REF.consumer}_${REF.component}`]].consoms
+    REF.consoms = codesDataset[conditions[`${REF.product}_${REF.consumer}_${REF.component}`]].defaultConsom
+
+    log(REF.consoms)
 
     const consomsDropDown = $("#chartOptionsMenu > div.dropdown-grid > div > div:nth-child(5) > div > ul");
     consomsDropDown.empty()
@@ -51,6 +53,8 @@ function populateConsumption() {
         $('#selectConsuption').text(selectedText).append('<i class="fas fa-angle-down" aria-hidden="true"></i>');
 
         REF.consoms = target.attr('data-consoms')       
+
+        log(REF.consoms)
        
         enprices()
 

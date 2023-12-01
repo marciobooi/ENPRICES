@@ -376,6 +376,8 @@ function chartApiCall() {
   url += "format=JSON";
   url += "&lang=" + REF.language;
 
+
+
   switch (REF.chartId) {
     case "lineChart":
       url += (REF.component == 1? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : REF.taxs.map(tax => "&tax=" + tax).join(""));
@@ -405,6 +407,8 @@ function chartApiCall() {
       url += (REF.component == 1 ? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : "&product=" + REF.product + "&unit=" + REF.unit);
       break;
   }
+
+  log(url)
 
   const request = new XMLHttpRequest();
   request.open("GET", url, false); // Setting the third parameter to 'false' makes it synchronous

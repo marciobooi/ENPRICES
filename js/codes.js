@@ -302,7 +302,7 @@ codesDataset = {
 		"consoms": ["TOT_GJ", "GJ_LT20", "GJ20-199", "GJ_GE200"],
 		"unit": ["KWH", "GJ_GCV", "MWH"],
 		"currency": ["EUR", "PPS"],
-		"defaultConsom": "TOT_GJ",
+		"defaultConsom": "GJ20-199",
 		"defaultUnit": "KWH",
 		"defaultCurrency": "EUR"
 	},
@@ -324,11 +324,10 @@ codesDataset = {
 		"consoms": ["TOT_GJ", "GJ_LT1000", "GJ1000-9999", "GJ10000-99999", "GJ100000-999999", "GJ1000000-3999999", "GJ_GE4000000"],
 		"unit": ["KWH", "GJ_GCV", "MWH"],
 		"currency": ["EUR", "PPS"],
-		"defaultConsom": "TOT_GJ",
+		"defaultConsom": "GJ1000-9999",
 		"defaultUnit": "KWH",
 		"defaultCurrency": "EUR"
 	},
-
 	"nrg_pc_204_c": {
 		"product": "6000",
 		"consumer": "HOUSEHOLD",
@@ -343,14 +342,13 @@ codesDataset = {
 	"nrg_pc_204": {
 		"product": "6000",
 		"consumer": "HOUSEHOLD",
-		"consoms": ["TOT_KWH","KWH_LT1000","KWH1000-2499","KWH2500-4999","KWH5000-14999","KWH_GE15000"],
+		"consoms": ["KWH_LT1000", "KWH_GE15000", "KWH5000-14999", "KWH2500-4999", "KWH1000-2499"],
 		"unit": ["KWH", "MWH"],
 		"currency": ["EUR", "PPS"],
-		"defaultConsom": "TOT_KWH",
+		"defaultConsom": "KWH_LT1000",
 		"defaultUnit": "KWH",
 		"defaultCurrency": "EUR"
 	},
-
 	"nrg_pc_205_c": {
 		"product": "6000",
 		"consumer": "N_HOUSEHOLD",
@@ -369,7 +367,7 @@ codesDataset = {
 		"consoms": ["TOT_KWH", "MWH_LT20", "MWH20-499", "MWH500-1999", "MWH2000-19999", "MWH20000-69999", "MWH70000-149999", "MWH_GE150000"],
 		"unit": ["KWH", "MWH"],
 		"currency": ["EUR", "PPS"],		
-		"defaultConsom": "TOT_KWH",
+		"defaultConsom": "MWH20-499",
 		"defaultUnit": "KWH",
 		"defaultCurrency": "EUR"
 	},

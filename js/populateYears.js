@@ -18,11 +18,14 @@ function populateYearsData() {
 
   const yearsArray = JSONstat(url).Dataset(0).Dimension("time").id;  
 
-  log(dataset)
+  var numberOfItems = $("#dropdown-years-list").children().length;
 
-  if(REF.time == "" || REF.time == undefined){      
+  if(numberOfItems !== yearsArray.length) {
     REF.time = yearsArray[yearsArray.length - 1]
   }
+  
+
+
 
   const yearsDropDown = $("#chartOptionsMenu > div.dropdown-grid > div > div:nth-child(4) > div > ul");
   yearsDropDown.empty()
