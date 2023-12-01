@@ -138,7 +138,16 @@ class SubNavbar {
             </li>    
 
 
-
+            <li class="nav-item dropdown px-1" id="social-media" role="none">
+            <button class="btn btn-primary min-with--nav round-btn" type="button" aria-label="Share in social media" data-bs-toggle="dropdown" role="menuitem" title="Share chart" aria-haspopup="true" aria-expanded="true" id="shareChart">
+              <i class="fas fa-share-alt" aria-hidden="true"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="Share chart">     					
+              <button class="dropdown-item" role="menuitem" onclick="socialNameSpace.twitter()" aria-label="${languageNameSpace.labels['twitter']}">${languageNameSpace.labels["twitter"]}</button>
+              <button class="dropdown-item" role="menuitem" onclick="socialNameSpace.facebook()" aria-label="${languageNameSpace.labels['facebook']}">${languageNameSpace.labels["facebook"]}</button>
+              <button class="dropdown-item" role="menuitem" onclick="socialNameSpace.linkedin()" aria-label="${languageNameSpace.labels['linkedin']}">${languageNameSpace.labels["linkedin"]}</button>        		
+            </ul>
+          </li>    
 
 
 
@@ -296,7 +305,7 @@ class SubNavbar {
     
       dropdownBtnGroupData.forEach(data => {
         const col = document.createElement('div');
-        col.classList.add('col-4');
+        col.classList.add('col-12', 'col-sm-4');
     
         const dropdownBtnGroup = document.createElement('div');
         dropdownBtnGroup.classList.add('dropdownBtnGroup');
