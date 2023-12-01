@@ -105,7 +105,7 @@ function chartdata(d = null) {
       barcateg.push(languageNameSpace.labels[geo]);
 
       const languageLabel = languageNameSpace.labels[geo];
-      const color = geo == "EU27_2020" ? '#14375a' : (geo == "EA" ? '#800000' : "#32afaf");
+      const color = geo == "EU27_2020" ? '#CCA300' : (geo == "EA" ? '#208486' : "#0E47CB");
       bartotals.push({ name: languageLabel, y: taxValue, color }); 
     });
   }
