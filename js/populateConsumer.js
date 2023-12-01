@@ -32,7 +32,7 @@ function populateConsumer() {
         checkIcon.removeClass('invisible');
 
         const selectedText = target.find('span').text();
-        $('#selectConsumer').text(selectedText).append('<i class="fas fa-caret-down"></i>');
+        $('#selectConsumer').text(selectedText).append('<i class="fas fa-angle-down" aria-hidden="true"></i>');
 
         REF.consumer = target.attr('data-consumer')
 
@@ -47,12 +47,12 @@ function populateConsumer() {
     $('#selectConsumer').hover(
         function() {
           $(this).data('prevText', $(this).text());
-          $(this).html(`${languageNameSpace.labels['MENU_CONSUMER']} <i class="fas fa-caret-down"></i>`);
+          $(this).html(`${languageNameSpace.labels['MENU_CONSUMER']} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
         },
         function() {
           const dropdownConsumerList = $('#dropdown-consumer-list');
           const prevText = dropdownConsumerList.find('.dropdown-item.active span').text();
-          $(this).html(`${prevText} <i class="fas fa-caret-down"></i>`);
+          $(this).html(`${prevText} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
         }
       );
 

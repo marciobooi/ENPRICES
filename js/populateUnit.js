@@ -47,7 +47,7 @@ function populateUnit() {
         checkIcon.removeClass('invisible');
 
         const selectedText = target.find('span').text();
-        $('#selectUnit').text(selectedText).append('<i class="fas fa-caret-down"></i>');
+        $('#selectUnit').text(selectedText).append('<i class="fas fa-angle-down" aria-hidden="true"></i>');
 
         REF.unit = target.attr('data-unit')
 
@@ -60,12 +60,12 @@ function populateUnit() {
     $('#selectUnit').hover(
         function() {
           $(this).data('prevText', $(this).text());
-          $(this).html(`${languageNameSpace.labels['MENU_UNIT']} <i class="fas fa-caret-down"></i>`);
+          $(this).html(`${languageNameSpace.labels['MENU_UNIT']} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
         },
         function() {
           const dropdownConsumerList = $('#dropdown-unit-list');
           const prevText = dropdownConsumerList.find('.dropdown-item.active span').text();
-          $(this).html(`${prevText} <i class="fas fa-caret-down"></i>`);
+          $(this).html(`${prevText} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
         }
       );
 

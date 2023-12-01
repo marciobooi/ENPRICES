@@ -22,7 +22,7 @@
 }
 
 ul.dropdown-menu {
-    max-width: 19rem;
+    /* max-width: 19rem; */
     padding-top: 0;
     padding-bottom: 0;
 }

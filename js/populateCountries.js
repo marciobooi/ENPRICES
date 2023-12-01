@@ -64,9 +64,9 @@
         const dropdownToggle = $('#selectCountry');
         if (selectedItemsText.length > 0) {
           dropdownToggle.text(selectedItemsText.join(', '));
-          dropdownToggle.append('<i class="fas fa-caret-down"></i>');
+          dropdownToggle.append('<i class="fas fa-angle-down" aria-hidden="true"></i>');
         } else {
-          dropdownToggle.text(languageNameSpace.labels['MENU_COUNTRY']).append('<i class="fas fa-caret-down"></i>');
+          dropdownToggle.text(languageNameSpace.labels['MENU_COUNTRY']).append('<i class="fas fa-angle-down" aria-hidden="true"></i>');
         }
 
       });  
@@ -87,7 +87,7 @@
       prevText = REF.geos.map((geo) => languageNameSpace.labels[geo]).join(', ');
     } 
 
-    $('#selectCountry').html(`${prevText} <i class="fas fa-caret-down"></i>`);
+    $('#selectCountry').html(`${prevText} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
  
     $('#selectCountry').on('shown.bs.dropdown', function() {
         originalSelection = []
@@ -181,7 +181,7 @@
       function() {
           // Store the current text in a data attribute
           $(this).data('prevText', $(this).text());
-          $(this).html(`${languageNameSpace.labels['MENU_COUNTRY']} <i class="fas fa-caret-down"></i>`);
+          $(this).html(`${languageNameSpace.labels['MENU_COUNTRY']} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
       },
       function() {
           // Retrieve and display the previously stored text
@@ -192,7 +192,7 @@
           } else if (Array.isArray(REF.geos)) {
             prevText = REF.geos.map((geo) => languageNameSpace.labels[geo]).join(', ');
         } 
-          $(this).html(`${prevText} <i class="fas fa-caret-down"></i>`);
+          $(this).html(`${prevText} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
       }
   );
       

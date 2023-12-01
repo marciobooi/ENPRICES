@@ -77,7 +77,7 @@ class SubNavbar {
                 </button>
               </div>
               <div class="dropdown-grid">
-                <div class="row"></div>
+                <div class="row w-75"></div>
               </div>
             </div>
           </div>`;
@@ -313,7 +313,7 @@ class SubNavbar {
         button.setAttribute('data-bs-toggle', 'dropdown');
         button.setAttribute('aria-expanded', 'false');
         button.setAttribute('aria-labelledby', data.area);
-        button.innerHTML = `${data.defaultText}<i class="fas fa-caret-down"></i>`;
+        button.innerHTML = `${data.defaultText}<i class="fas fa-angle-down" aria-hidden="true"></i>`;
     
         button.addEventListener('click', event => {
           this.handleDropdownItemClick(event, data);
@@ -348,7 +348,7 @@ class SubNavbar {
     
       // Update the dropdown button's text and value
       const dropdownButton = selectedItem.closest('.dropdownBtnGroup').querySelector('.dropdown-toggle');
-      dropdownButton.innerHTML = `${selectedText}<i class="fas fa-caret-down"></i>`;
+      dropdownButton.innerHTML = `${selectedText}<i class="fas fa-angle-down" aria-hidden="true"></i>`;
       dropdownButton.setAttribute('value', selectedValue);
     
       // this.addHoverEvent();
@@ -393,7 +393,7 @@ class SubNavbar {
           if (dropdownGroup) {
             const dropdownToggle = dropdownGroup.querySelector('.dropdown-toggle');
             if (dropdownToggle) {
-              dropdownToggle.innerHTML = `${selectedText}<i class="fas fa-caret-down"></i>`;
+              dropdownToggle.innerHTML = `${selectedText}<i class="fas fa-angle-down" aria-hidden="true"></i>`;
               dropdownToggle.setAttribute('value', selectedValue);
               // this.addHoverEvent();
               this.highlightSelectedValue();

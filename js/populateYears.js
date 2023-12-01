@@ -56,7 +56,7 @@ function populateYearsData() {
     checkIcon.removeClass('invisible');
 
     const selectedText = target.find('span').text();
-    $('#selectYear').text(selectedText).append('<i class="fas fa-caret-down"></i>');
+    $('#selectYear').text(selectedText).append('<i class="fas fa-angle-down" aria-hidden="true"></i>');
 
     REF.time = target.attr('data-year');
 
@@ -65,19 +65,19 @@ function populateYearsData() {
 
   yearsDropDown.prepend(dropdownMenu);
 
-  $('#selectYear').text(REF.time).append('<i class="fas fa-caret-down"></i>');
+  $('#selectYear').text(REF.time).append('<i class="fas fa-angle-down" aria-hidden="true"></i>');
 
   $('#selectYear').off('mouseenter mouseleave');
 
   $('#selectYear').hover(
     function() {
       $(this).data('prevText', $(this).text());
-      $(this).html(`${languageNameSpace.labels['MENU_YEARS']} <i class="fas fa-caret-down"></i>`);
+      $(this).html(`${languageNameSpace.labels['MENU_YEARS']} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
     },
     function() {
       const dropdownConsumerList = $('#dropdown-years-list');
       const prevText = dropdownConsumerList.find('.dropdown-item.active span').text();
-      $(this).html(`${prevText} <i class="fas fa-caret-down"></i>`);
+      $(this).html(`${prevText} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
     }
   );
 }

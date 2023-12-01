@@ -48,7 +48,7 @@ function populateConsumption() {
         checkIcon.removeClass('invisible');
 
         const selectedText = target.find('span').text();
-        $('#selectConsuption').text(selectedText).append('<i class="fas fa-caret-down"></i>');
+        $('#selectConsuption').text(selectedText).append('<i class="fas fa-angle-down" aria-hidden="true"></i>');
 
         REF.consoms = target.attr('data-consoms')       
        
@@ -61,12 +61,12 @@ function populateConsumption() {
     $('#selectConsuption').hover(
         function() {
           $(this).data('prevText', $(this).text());
-          $(this).html(`${languageNameSpace.labels['MENU_BAND']} <i class="fas fa-caret-down"></i>`);
+          $(this).html(`${languageNameSpace.labels['MENU_BAND']} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
         },
         function() {
           const dropdownConsumerList = $('#dropdown-consoms-list');
           const prevText = dropdownConsumerList.find('.dropdown-item.active span').text();
-          $(this).html(`${prevText} <i class="fas fa-caret-down"></i>`);
+          $(this).html(`${prevText} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
         }
       );
 
