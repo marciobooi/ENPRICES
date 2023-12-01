@@ -173,10 +173,10 @@ class FloatingChartControls {
 
     const self = this; 
 
-		const percentageButton = new Button("tb-togle-percentage", ["btn", "btn-primary", "min-with--nav"], "Toggle percentage", "", "true");
-		const agregatesButton = new Button("toggleAgregates", ["btn", "btn-primary", "min-with--nav"], languageNameSpace.labels["TOGGLEAGREGATES"], "", "true");
-		const tableButton = new Button("tb-togle-table", ["btn", "btn-primary", "min-with--nav"], "Toggle table", "", "true");
-		const orderButton = new Button("tb-togle-order", ["btn", "btn-primary", "min-with--nav"], "Select order of the chart", "", "true");
+		const percentageButton = new Button("tb-togle-percentage", ["btn", "btn-primary", "min-with--nav", "round-btn"], "Toggle percentage", "", "true");
+		const agregatesButton = new Button("toggleAgregates", ["btn", "btn-primary", "min-with--nav", "round-btn"], languageNameSpace.labels["TOGGLEAGREGATES"], "", "true");
+		const tableButton = new Button("tb-togle-table", ["btn", "btn-primary", "min-with--nav", "round-btn"], "Toggle table", "", "true");
+		const orderButton = new Button("tb-togle-order", ["btn", "btn-primary", "min-with--nav", "round-btn"], "Select order of the chart", "", "true");
 
     percentageButton.setInnerHtml('<i id="percentage-icon" class="fas fa-percentage"></i>');
     agregatesButton.setInnerHtml(agregateIcon())

@@ -210,6 +210,8 @@ chart.createChart();
 
 dataNameSpace.setRefURL();
 
+enableScreenREader()
+
 stopLoadingAnimation()
 
 }
