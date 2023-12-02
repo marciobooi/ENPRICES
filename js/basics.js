@@ -192,7 +192,24 @@ function chartNormalTooltip(points) {
   const unit = `${languageNameSpace.labels["S_" + REF.currency]}/${languageNameSpace.labels["S_" + REF.unit]}`;
   const na = languageNameSpace.labels['FLAG_NA'];
   const title = REF.chartId==="mainChart" ?  points[0].key : points[0].x
-  return this.y == 0 ? `<b>${title}<br>Total: <b>${na}</b>` : `<b>${title}<br>Total: <b>${value}</b> ${unit}`;
+
+  const toolValue =  this.y == 0 ? na : value
+
+  let html = "";
+
+  html += `<table id="tooltipTable" class="table tooltipTable"> 
+  <thead class="tooltipTableHead">
+    <tr class="tooltipTableTr">
+        <th scope="cols" colspan="2">${title}</th>                
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="tooltipTableTd">
+        <td><b>${toolValue}</b> ${unit}</td>
+    </tr>
+  </tbody>
+</table>`;
+  return html
 }
 
 function tooltipTable(points) {
@@ -201,8 +218,7 @@ function tooltipTable(points) {
     html += `<table id="tooltipTable" class="table">                
                 <thead>
                   <tr>
-                    <th scope="cols">${points[0].x}</th>                    
-                    <th scope="cols"></th>                    
+                    <th colspan="2" scope="cols">${points[0].x}</th>      
                   </tr>
                 </thead>`
       points.forEach(element => {
@@ -210,7 +226,7 @@ function tooltipTable(points) {
           const category = element.point.series.name; 
           const color = element.point.color;              
           html += `<tr>
-                      <td><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${color}" /></svg> ${category}</td>
+                      <td style="text-align: start;"><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${color}" /></svg> ${category}</td>
                       <td>${value} %</td>
                   </tr>` 
       });
@@ -230,8 +246,7 @@ function tooltipTable(points) {
   html += `<table id="tooltipTable" class="table">                
                 <thead>
                   <tr>
-                    <th scope="cols">${sortedPoints[0].key}</th>                    
-                    <th scope="cols"></th>                    
+                    <th colspan="2" scope="cols">${sortedPoints[0].key}</th>                                     
                   </tr>
                 </thead>`;
   sortedPoints.forEach(function (point) {
@@ -240,14 +255,9 @@ function tooltipTable(points) {
     const category = point.series.name;    
     
     html += `<tr>
-                <td><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${color}" /></svg> ${category}</td>
+                <td style="text-align: start;"><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${color}" /></svg> ${category}</td>
                       <td>${value}</td>
                   </tr>` 
-    
-    
-    
-
-
     // Check if point is "Total" and set the flag if found
     if (category == languageNameSpace.labels['TOTAL']) {
       totalAdded = true;
@@ -266,7 +276,7 @@ function tooltipTable(points) {
 
     // Add a row for the total
     html += `<tr>
-                      <td><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${totalColor}" /></svg> ${languageNameSpace.labels['TOTAL']}</td>
+                      <td style="text-align: start;"><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${totalColor}" /></svg> ${languageNameSpace.labels['TOTAL']}</td>
                       <td>${totalValue}</td>
   </tr>`
     

@@ -53,7 +53,7 @@ class Chart {
           valueDecimals: 4,
           shared: true,
           useHTML: true,         
-          padding: 5,
+          padding: 0,
           backgroundColor: "rgba(255,255,255,0.9)",   
         },
         credits: {
