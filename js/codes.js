@@ -226,7 +226,7 @@ totalColors = ["#32afaf","#802F09", "#faa519", "#1F497D"];
 
 lineColors = ["#802F09", "#faa519",  "#7cb5ec","#1F497D",];
 
-detailColors = ["#802F09", "#faa519", "#1F497D"];
+detailColors = ["#b09121", "#aa5f18", "#2644a7"];
 
 piecomponentColors = [
 	
