@@ -33,6 +33,7 @@
     line-height: inherit !important;
     border-collapse: inherit !important;
     margin-bottom: 0 !important;
+    background-color: #fff;
 }
 
 tbody, td, tfoot, th, thead, tr {
@@ -68,7 +69,7 @@ tbody, td, tfoot, th, thead, tr {
     padding: 2px 5px;
     text-align: left;
     color: white;
-    
+
 }
 
 

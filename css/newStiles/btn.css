@@ -93,6 +93,7 @@ ul.dropdown-menu.dropdown-menu-end.show {
 } */
 .min-with--nav:hover {
     box-shadow: 0 0 0 0.15rem rgba(49, 132, 253, 0.3);
+    background-color: #082b7a !important;
 }
 
 .form-switch.form-check-reverse {

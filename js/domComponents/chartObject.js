@@ -54,7 +54,7 @@ class Chart {
           shared: true,
           useHTML: true,         
           padding: 0,
-          backgroundColor: "rgba(255,255,255,0.9)",   
+          // backgroundColor: "rgba(255,255,255,0.9)",   
         },
         credits: {
           text: this.creditsText,
