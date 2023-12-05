@@ -222,55 +222,88 @@ colors = [
 	"#B9C31E", "#1A5757"
 ];
 
-totalColors = ["#32afaf","#802F09", "#faa519", "#1F497D"];
+totalColors = ["#2644A7", "#EFD18C", "#208486"];
 
-lineColors = ["#802F09", "#faa519",  "#7cb5ec","#1F497D",];
+lineColors = ["#2644A7", "#EFD18C", "#208486"];
 
-detailColors = ["#b09121", "#aa5f18", "#2644a7"];
+detailColors = ["#2644A7", "#EFD18C", "#208486"];
+
 
 piecomponentColors = [
 	
-	"#1F497D", //Network costs
-	"#802F09", //Other
-	"#1A5757", //Capacity taxes
-	"#00ff80", //Environmental taxes
-	"#D73C41", //Nuclear taxes
-	"#5fb441", //Renewable taxes
-	"#faa519", //Value added tax - VAT
-	"#F06423", //Energy and supply
-	"#32AFAF", //TAX_LEV_X_VAT
-	"#7cb5ec", //Total
+	"#17256B",
+	"#3A1380",
+	"#14212E",
+	"#388AE2",
+	"#005C99",
+	"#B656BD",
+	"#FFA3A3",
+	"#388AE2",
+	"#CCB151",
+	"#806300",
 ]
 
 linecomponentColors = [
 	
-	"#1F497D", //Network costs
-	"#802F09", //Other
-	"#1A5757", //Capacity taxes
-	"#00ff80", //Environmental taxes
-	"#D73C41", //Nuclear taxes
-	"#5fb441", //Renewable taxes
-	"#faa519", //Value added tax - VAT
-	"#F06423", //Energy and supply
-	"#32AFAF", //TAX_LEV_X_VAT
-	"#7cb5ec", //Total
+	"#17256B",
+	"#3A1380",
+	"#14212E",
+	"#388AE2",
+	"#005C99",
+	"#B656BD",
+	"#FFA3A3",
+	"#388AE2",
+	"#CCB151",
+	"#806300",
 
 ]
 
 componentColors = [
 	
-	"#1F497D", //Network costs
-	"#802F09", //Other
-	"#1A5757", //Capacity taxes
-	"#00ff80", //Environmental taxes
-	"#D73C41", //Nuclear taxes
-	"#5fb441", //Renewable taxes
-	"#faa519", //Value added tax - VAT
-	"#F06423", //Energy and supply
-	"#32AFAF", //TAX_LEV_X_VAT
-	"#7cb5ec", //Total
+	"#17256B",
+	"#3A1380",
+	"#14212E",
+	"#388AE2",
+	"#005C99",
+	"#B656BD",
+	"#FFA3A3",
+	"#388AE2",
+	"#CCB151",
+	"#806300",
 
 ]
+
+// #17256B
+// #3A1380
+// #14212E
+// #388AE2
+// #005C99
+// #B656BD
+// #FFA3A3
+// #388AE2
+// #CCB151
+// #806300
+// #FFE066
+// #208486
+// #00525C
+// #5FADAD
+// #00E9FF
+// #AA5F18
+// #803F02
+// #CC833E
+// #DFB18B
+// #672DC4
+// #E04040
+// #7F1148
+// #E0A8A8
+// #007243
+// #33A033
+// #1A4C1A
+// #A2DDB2
+// #982630
+// #AF155C
+// #672DC4
+// #AB9CFF
 
 codesEnprices = {
 	"geo": Object.keys(energyCountries),
