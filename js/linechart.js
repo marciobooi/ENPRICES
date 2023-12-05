@@ -34,7 +34,8 @@ function lineData() {
         data: data,
         id: item,
         index: item,
-        legendIndex: item
+        legendIndex: item,
+        color: colors[taxs[item]]
       };
       linedata.push(obj);
     } 
@@ -44,7 +45,8 @@ function lineData() {
         index: taxs.length.toString(),
         legendIndex: taxs.length.toString(),
         id: taxs.length.toString(),
-        data: REF.component == 1 ? total_data : [],        
+        data: REF.component == 1 ? total_data : [],      
+        color: colors['TOTAL']  
       });
 
     categoriesAndStacks = lineCat.map((el, i) => {

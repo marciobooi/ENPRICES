@@ -109,8 +109,10 @@ function piechartdata() {
       } else {
         piedata.push([
           languageNameSpace.labels[tax[i]],
-          d.value[i]
+          d.value[i],colors[tax[i]]
         ]);
+
+        log(languageNameSpace.labels[tax[i]],tax[i], colors[tax[i]])
       }
     }
   }

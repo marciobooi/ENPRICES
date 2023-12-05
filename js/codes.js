@@ -215,18 +215,27 @@ fuelColors = {
 ALL ABOUT BAND CODES
 */
 //define a generic list of 14 band colors to be used for the pie charts and time graphs
-colors = [
-	"#1F497D", "#faa519", "#32AFAF", "#F06423",
-	"#C84B96", "#5FB441", "#286EB4", "#802F09",
-	"#D73C41", "#5E620F", "#00A5E6", "#0F243E",
-	"#B9C31E", "#1A5757"
-];
+
 
 totalColors = ["#2644A7", "#EFD18C", "#208486", "#388AE2"];
 
 lineColors = ["#2644A7", "#EFD18C", "#208486", "#388AE2"];
 
 detailColors = ["#2644A7", "#EFD18C", "#208486"];
+
+colors = {
+	"NRG_SUP":"#388AE2",
+	"NETC":"#b38f00",
+	"TAX_LEV_X_VAT":"#208486",
+	"VAT":"#AA5F18",
+	"TAX_RNW":"#672DC4",
+	"TAX_CAP":"#007243",
+	"TAX_ENV":"#982630",
+	"TAX_NUC":"#17256B",
+	"OTH":"#005C99",
+	"TOTAL":"#CCB151",
+}
+
 
 
 piecomponentColors = [
@@ -244,8 +253,7 @@ piecomponentColors = [
 	"#00525C",
 ]
 
-linecomponentColors = [
-	
+linecomponentColors = [	
 	"#388AE2",
 	"#b38f00",
 	"#208486",
@@ -257,11 +265,9 @@ linecomponentColors = [
 	"#005C99",
 	"#CCB151",
 	"#00525C",
-
 ]
 
-componentColors = [
-	
+componentColors = [	
 	"#388AE2",
 	"#b38f00",
 	"#208486",
@@ -273,7 +279,6 @@ componentColors = [
 	"#005C99",
 	"#CCB151",
 	"#00525C",
-
 ]
 
 

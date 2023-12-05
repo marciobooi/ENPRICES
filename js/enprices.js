@@ -52,6 +52,7 @@ function chartdata(d = null) {
       barobj = {
         name: languageNameSpace.labels[tax[item]],
         data: data,
+        color: colors[tax[item]]
       };
       bardata.push(barobj);
     }
