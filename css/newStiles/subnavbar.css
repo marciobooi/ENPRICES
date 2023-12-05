@@ -30,7 +30,8 @@ ul.dropdown-menu {
 
 .flag {
     max-width: 25px;
-    height: auto;
+    height: 20px;
+    object-fit: fill;
 }
 
 
