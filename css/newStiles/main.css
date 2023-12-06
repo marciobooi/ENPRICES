@@ -67,3 +67,12 @@ body {
   display: flex;
   align-content: center;
 }
+
+
+ul.dropdown-menu {
+  background-color: white;
+}
+
+.dropdown-item {
+  background-color: white;
+}
