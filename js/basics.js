@@ -107,11 +107,17 @@ function removeAuxiliarBarGraphOptions() {
 function showMenuSwitch() {
   $("#menuSwitch > fieldset:nth-child(1)").css('display', "block") 
   $('#ChartOrder').css('display', "initial") 
+  $("li#Agregates").css('display', "initial") 
+  $("li#ChartOrder").css('display', "initial") 
+  $(".form-check.form-switch.form-check-reverse").css('display', "block") 
 }
+
 function hideMenuSwitch() {
-  $("#menuSwitch > fieldset:nth-child(1)").css('display', "none") 
-  $('#ChartOrder').css('display', "none") 
+  $("li#Agregates").css('display', "none") 
+  $("li#ChartOrder").css('display', "none") 
+  $(".form-check.form-switch.form-check-reverse").css('display', "none") 
 }
+
 
 function sortArrayAlphabetically() {
   if (REF.detail == 1) {

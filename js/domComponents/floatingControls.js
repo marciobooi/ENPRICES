@@ -216,6 +216,8 @@ class FloatingChartControls {
     dropdownOrderBtn.setAttribute("data", "dropdown");
     dropdownOrderBtn.setAttribute("data", "dropdown");
 
+    
+
   }
 }
 
