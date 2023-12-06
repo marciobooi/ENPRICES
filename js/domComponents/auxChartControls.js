@@ -19,11 +19,11 @@ class ChartControls {
 				<ul id="chartBtns" role="menubar" aria-label="options graph toolbox" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
 				  <li class="nav-item button px-1" id="toggleBarChart" role="none"></li>
 				  <li class="nav-item button px-1" id="togglePieChart" role="none"></li>
-				  <li class="nav-item button px-1" id="toggleLineChart" role="none"></li>
+				  <li class="nav-item button px-1" id="toggleLineChart" role="none" style="margin-right: 2rem;"></li>
 				  <li class="nav-item button px-1" id="printChart" role="none"></li>
 				  <li class="nav-item dropdown px-1" id="downloadChart" role="none"></li>
 				  <li class="nav-item button px-1" id="downloadExcel" role="none"></li>
-				  <li class="nav-item button px-1" id="embebedChart" role="none"></li>
+				  <li class="nav-item button px-1" id="embebedChart" role="none" style="margin-right: 2rem;"></li>
 				  <li class="nav-item button px-1" id="closeChart" role="none"></li>
 				</ul>
 			  </div>
