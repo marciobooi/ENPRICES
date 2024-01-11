@@ -215,8 +215,8 @@ a.dropdown-item.selected {
   outline: none;
 }
 
-.close-chart-menu-btn:hover, .btn:first-child:active {
-  color: #000;
+.close-chart-menu-btn:hover {
+  color: white;
   background-color: transparent;
   border-color: var(--bs-btn-hover-border-color);
 }

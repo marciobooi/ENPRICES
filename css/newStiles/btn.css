@@ -92,8 +92,20 @@ ul.dropdown-menu.dropdown-menu-end.show {
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 } */
 .min-with--nav:hover {
-    box-shadow: 0 0 0 0.15rem rgba(49, 132, 253, 0.3);
-    background-color: #082b7a !important;
+    box-shadow: 0 0 0 0.15rem #cca3004d;
+    background-color: #CCA300!important;
+    border-color: #CCA300 !important;
+}
+button:focus:not(:focus-visible), button:active {
+    box-shadow: 0 0 0 0.15rem #cca3004d;
+    background-color: #CCA300!important;
+    border-color: #CCA300 !important;
+}
+.btn:focus-visible { 
+    outline: 0;   
+    box-shadow: 0 0 0 0.15rem #cca3004d;
+    background-color: #CCA300!important;
+    border-color: #CCA300 !important;
 }
 
 .form-switch.form-check-reverse {
