@@ -104,9 +104,10 @@ button:focus:not(:focus-visible):not(.dropdown-toggle), button:active:not(.dropd
 }
 
 .btn:disabled {
-    box-shadow: 0 0 0 0.15rem #cca3006e;
-    background-color: #cca3008f!important;
-    border-color: #cca3008f!important;
+    box-shadow: 0 0 0 0.15rem #c3c2bf6e;
+    background-color: #c3c2bf6e!important;
+    border-color: #c3c2bf6e!important;
+    color: gray !important;
 }
 
 .btn:focus-visible { 
