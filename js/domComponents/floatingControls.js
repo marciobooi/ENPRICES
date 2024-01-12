@@ -149,10 +149,20 @@ class FloatingChartControls {
     const tableIcon = this.chartControls.querySelector('#table-icon');
     const chartIcon = this.chartControls.querySelector('#chart-icon');
     const toggleButton = this.chartControls.querySelector('#tb-togle-table');
+    const percentage = this.chartControls.querySelector('#togglePercentage');
+    const Agregates = this.chartControls.querySelector('#Agregates');
+    const ChartOrder = this.chartControls.querySelector('#ChartOrder');
+    const menuSwitch = this.chartControls.querySelector('#menuSwitch div');
   
   
     tableIcon.style.display = tableIcon.style.display === 'none' ? '' : 'none';
     chartIcon.style.display = chartIcon.style.display === 'none' ? '' : 'none';
+    if (REF.detail === 1) {
+      percentage.style.display = percentage.style.display === 'none' ? '' : 'none';
+    }
+    Agregates.style.display = Agregates.style.display === 'none' ? '' : 'none';
+    ChartOrder.style.display = ChartOrder.style.display === 'none' ? '' : 'none';
+    menuSwitch.style.display = menuSwitch.style.display === 'none' ? '' : 'none';
   
     if (tableIcon.style.display === 'none') {
       toggleButton.setAttribute('aria-label', 'Toggle chart');

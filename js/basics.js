@@ -109,6 +109,7 @@ function showMenuSwitch() {
   $('#ChartOrder').css('display', "initial") 
   $("li#Agregates").css('display', "initial") 
   $("li#ChartOrder").css('display', "initial") 
+  $("#toggleTable").css('display', "initial") 
   $(".form-check.form-switch.form-check-reverse").css('display', "block") 
 }
 
@@ -116,6 +117,8 @@ function hideMenuSwitch() {
   $("li#Agregates").css('display', "none") 
   $("li#ChartOrder").css('display', "none") 
   $(".form-check.form-switch.form-check-reverse").css('display', "none") 
+  $("#toggleTable").css('display', "none") 
+  
 }
 
 
