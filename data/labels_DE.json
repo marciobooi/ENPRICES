@@ -352,7 +352,7 @@
   "KWH_GE15000" : "Band DE: Verbrauch von 15.000 kWh oder mehr",
   "FEED": "Feedback",
   "TOOLS": "Werkzeuge",
-  "DB": "Zugriff auf Datensatz",
+  "DB": "zugriff auf Datensatz",
   "%": "in Prozent",
   "TOGGLEAGREGATES": "Aggregierte Daten umschalten"
  

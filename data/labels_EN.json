@@ -368,7 +368,7 @@
   "KWH_GE15000" : "band DE: Consumption for 15 000 kWh or over",
   "FEED": "Feedback",
   "TOOLS": "Tools",
-  "DB": "Access to dataset",
+  "DB": "access to dataset",
   "%": "in percentages",
   "TOGGLEAGREGATES": "Toggle aggregates"
   

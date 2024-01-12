@@ -358,7 +358,7 @@
   "KWH_GE15000" : "Tranche DE : Consommation de 15 000 kWh ou plus",
   "FEED": "Retour d'information",
   "TOOLS": "Outils",
-  "DB": "Accès à la base de données",
+  "DB": "accès à la base de données",
   "%": "en pourcentage",
   "TOGGLEAGREGATES": "Basculer les agrégats"
  
