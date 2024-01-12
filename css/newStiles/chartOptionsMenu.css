@@ -128,6 +128,13 @@ ul.dropdown-menu {
 }
 
 
+#dropdown-geo-list a:nth-child(3) {
+  border-bottom: 2px solid #c7c1c1 !important;
+}
+#dropdown-geo-list a:nth-last-child(8) {
+  border-bottom: 2px solid #c7c1c1 !important;
+}
+
 
 
 /* .dropdownBtnGroup .btn:focus-visible:not(.min-with--geo), .dropdownBtnGroup .btn.active:not(.min-with--geo), :not(.btn-check) + .btn:active:not(.min-with--geo), .dropdownBtnGroup .btn:hover:not(.min-with--geo), .dropdownBtnGroup .show:not(.min-with--geo) {

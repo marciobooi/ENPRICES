@@ -44,6 +44,7 @@ li > button {
     justify-content: center;
     align-items: center;
     font-size: 1.2em !important;
+    
 }
 
 #menuSwitch {
@@ -101,12 +102,20 @@ button:focus:not(:focus-visible):not(.dropdown-toggle), button:active:not(.dropd
     background-color: #CCA300!important;
     border-color: #CCA300 !important;
 }
+
+.btn:disabled {
+    box-shadow: 0 0 0 0.15rem #cca3006e;
+    background-color: #cca3008f!important;
+    border-color: #cca3008f!important;
+}
+
 .btn:focus-visible { 
     outline: 0;   
     box-shadow: 0 0 0 0.15rem #cca3004d;
     background-color: #CCA300!important;
     border-color: #CCA300 !important;
 }
+
 
 .form-switch.form-check-reverse {
     padding-right: 2.5em;

@@ -11,15 +11,14 @@
           <i class="fas fa-check ms-2 ${isActive ? '' : 'invisible'}"></i>
         </a>`;
     });
+
     const dropdownMenu = $("<div>")
       .attr("id", "dropdown-geo-list")
       .attr("role", "menu")
       .css("height", "auto")
       .css("maxHeight", "48vh")
       .css("overflowX", "hidden")
-      .html(content);
-
-     
+      .html(content);     
   
     let originalSelection = [];
     let activeDataGeos = [];
