@@ -8,7 +8,7 @@ class ChartControls {
 	  select.setAttribute("aria-label", "Select flow");
   
 	  const notMobileContent = `
-		<div class="container-fluid">
+		<div class="">
 		  <nav aria-label="Chart controls" id="chartControls" class="navbar navbar-expand-sm navbar-light bg-light navChartControls">
 			<div class="container-fluid">
 			  <div id="auxChartTitle">
