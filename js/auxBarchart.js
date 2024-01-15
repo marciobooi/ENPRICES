@@ -88,7 +88,7 @@ function auxiliarBarGraph() {
 
   const xAxis = REF.chartInDetails == 1 ? { reversedStacks: true, categories: categoriesAndStacks.map((e) => e.x) } : { categories: auxBarCateg };
   const series = REF.chartInDetails == 1 ? orderedSeries.reverse() : [{ name: "Total", data: auxBarTotals }];
-  const colors = REF.chartInDetails == 1 ? barColors : ["#32afaf"];
+  const colors = REF.chartInDetails == 1 ? barColors : ["#0e47cb"];
   const legend = REF.chartInDetails == 1 ? {enabled:true} : {enabled:false};
 
 
