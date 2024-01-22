@@ -110,6 +110,7 @@ function showMenuSwitch() {
   $("li#Agregates").css('display', "initial") 
   $("li#ChartOrder").css('display', "initial") 
   $("#toggleTable").css('display', "initial") 
+  $("#togglePercentage").css('display', "initial") 
   $(".form-check.form-switch.form-check-reverse").css('display', "block") 
 }
 
@@ -118,6 +119,7 @@ function hideMenuSwitch() {
   $("li#ChartOrder").css('display', "none") 
   $(".form-check.form-switch.form-check-reverse").css('display', "none") 
   $("#toggleTable").css('display', "none") 
+  $("#togglePercentage").css('display', "none") 
   
 }
 
@@ -220,6 +222,44 @@ function chartNormalTooltip(points) {
 </table>`;
   return html
 }
+
+
+function pieTolltip(point) {
+  // Assuming there is a variable 'unit' representing the unit you want to display
+  const unit = REF.unit; // Replace 'your_unit' with the actual unit
+  const na = languageNameSpace.labels['FLAG_NA'];
+  
+  const formatPointTooltip = function () {
+    return `<tr class="tooltipTableRow"><td><span style="color:${point.color}">\u25CF</span> ${point.name}:</td><td>${point.y} ${unit}</td></tr>`;
+  };
+
+  // Construct the complete tooltip content
+  const tooltipRows = formatPointTooltip();
+
+  // Create the HTML table structure
+  const html = `<table id="tooltipTable" class="table tooltipTable"> 
+    <thead class="tooltipTableHead">
+      <tr class="tooltipTableTr">
+        <th scope="col" colspan="2">${languageNameSpace.labels[REF.geos]}</th>                
+      </tr>
+    </thead>
+    <tbody>
+      ${tooltipRows}
+    </tbody>
+  </table>`;
+
+  return html;   
+}
+
+
+
+
+
+
+
+
+
+
 
 function tooltipTable(points) {
   if(REF.percentage == 1 ){

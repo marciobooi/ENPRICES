@@ -148,15 +148,7 @@ class ChartControls {
 				disableChatOptionsBtn(REF.chartId)
 
 				tableBtn.focus();
-			}
-		
-	
-	
-	
-
-
-	
-		
+			}			
 		});
 		createprintChart.setClickHandler(function() {
 		  printChart();

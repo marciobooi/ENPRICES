@@ -139,17 +139,30 @@ span.agregates.fa-stack.fa-rotate-180 {
 
 
 #btnCloseModalChart {
-    background-color: red !important;
-    border-color:red!important;
+    background-color: #ff000000 !important;
+    border-color: #E7EDFA!important;
+    color: #082B7A;
+    border: 3px solid #E7EDFA!important;
+    font-size: 1.7rem !important;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
 }
 
 #btnCloseModalChart:hover {
-    box-shadow: 0 0 0 0.15rem rgba(255, 0, 0, 0.3);
-    background-color: rgb(146, 2, 2) !important;
+    box-shadow: 0 0 0 0.15rem #cca3004d;
+    background-color: #CCA300!important;
+    border-color: #CCA300 !important;
+    color: white !important;
 }
 
 #btnCloseModalChart:focus {
-    box-shadow: 0 0 0 0.15rem rgba(255, 0, 0, 0.3);
+    box-shadow: 0 0 0 0.15rem #cca3004d;
+    background-color: #CCA300!important;
+    border-color: #CCA300 !important;
 }
 
 .text-truncate {

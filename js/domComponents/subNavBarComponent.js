@@ -304,15 +304,15 @@ class SubNavbar {
         button.innerHTML = `${data.defaultText}<i class="fas fa-angle-down" aria-hidden="true"></i>`;
     
         button.addEventListener('click', event => {
-          this.handleDropdownItemClick(event, data);
+            this.handleDropdownItemClick(event, data);
         });
     
         const dropdownMenu = document.createElement('ul');
         dropdownMenu.classList.add('dropdown-menu');
-        dropdownMenu.setAttribute('aria-labelledby', data.id);    
-       
+        dropdownMenu.setAttribute('aria-labelledby', data.id);
+    
         if (data.data) {
-          dropdownMenu.innerHTML = data.data;
+            dropdownMenu.innerHTML = data.data;
         }
     
         dropdownBtnGroup.appendChild(label);
@@ -320,8 +320,9 @@ class SubNavbar {
         dropdownBtnGroup.appendChild(dropdownMenu);
     
         col.appendChild(dropdownBtnGroup);
-        dropdownRow.appendChild(col);
-      });
+        dropdownRow.appendChild(col);  
+    });
+    
     }
     
 
@@ -333,13 +334,12 @@ class SubNavbar {
       const selectedItem = event.target;
       const selectedValue = selectedItem.getAttribute('value');
       const selectedText = selectedItem.textContent;
-    
-      // Update the dropdown button's text and value
+  
       const dropdownButton = selectedItem.closest('.dropdownBtnGroup').querySelector('.dropdown-toggle');
       dropdownButton.innerHTML = `${selectedText}<i class="fas fa-angle-down" aria-hidden="true"></i>`;
       dropdownButton.setAttribute('value', selectedValue);
     
-      // this.addHoverEvent();
+ 
       
     }
 
