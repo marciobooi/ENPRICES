@@ -3,10 +3,7 @@ class SubNavbar {
       this.subNavbar = document.createElement('nav');
       this.subNavbar.setAttribute('aria-label', 'Menu toolbar');
       this.subNavbar.setAttribute('id', 'menuToolbar');
-      this.subNavbar.setAttribute('class', 'navbar navbar-expand-sm navbar-light bg-light');
-
-      // const isMobile = /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 768
-  
+      this.subNavbar.setAttribute('class', 'navbar navbar-expand-sm navbar-light bg-light');  
 
       const browser = `<div class="container-fluid center-align">
             <div class="col-1">              
@@ -77,7 +74,14 @@ class SubNavbar {
                 </button>
               </div>
               <div class="dropdown-grid">
-                <div class="row w-75"></div>
+                <div class="row w-75">
+                  <div id="containerCountry" class="col-12 col-sm-4"></div>
+                  <div id="containerFuel" class="col-12 col-sm-4"></div>
+                  <div id="containerConsumer" class="col-12 col-sm-4"></div>
+                  <div id="containerYear" class="col-12 col-sm-4"></div>
+                  <div id="containerConsumption" class="col-12 col-sm-4"></div>
+                  <div id="containerUnit" class="col-12 col-sm-4"></div>
+                </div>
               </div>
             </div>
           </div>`;
@@ -188,7 +192,7 @@ class SubNavbar {
 
           this.subNavbar.innerHTML = browser         
 
-          this.dropdownButton = this.subNavbar.querySelector('.dropdown-toggle');
+      
 
           this.menuButton = this.subNavbar.querySelector('#menu');
           this.chartOptionsMenu = this.subNavbar.querySelector('#chartOptionsMenu');
@@ -207,188 +211,17 @@ class SubNavbar {
           this.closeChartMenuBtn.addEventListener('click', () => {
               this.toggleChartOptionsMenu();
           });
-  
-  
-  
-          document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' || event.keyCode === 27) {
-              $('#chartOptionsMenu').addClass('toggleMenu')
-              // toggleMenu
-              // this.toggleChartOptionsMenu();
-            }        
-            if (event.key === 'Enter' && document.activeElement === closeChartMenuBtn) {
-              this.toggleChartOptionsMenu();
-            }  
-          });
 
         }     
     }
-
     toggleChartOptionsMenu() {
       this.chartOptionsMenu.classList.toggle('toggleMenu');
       this.chartMenuOpen.classList.toggle('menuOpen');
     }
 
-    createDropdownBtnGroups() {
-      const dropdownBtnGroupData = [
-        {
-          label: languageNameSpace.labels["COUNTRY"],
-          id: "selectCountry",
-          defaultText: languageNameSpace.labels["BOX_SELECTION_ALL_COUNTRY"],
-          area: languageNameSpace.labels["MENU_COUNTRY"],
-          data: `<div class="d-flex justify-content-evenly py-2">
-                  <button class="btn btn-outline-secondary btn-sm px-2 min-with--geo" type="button" id="btn-country-reset">Reset</button>
-                  <button class="btn btn-outline-secondary btn-sm px-2 min-with--geo" type="button" id="btn-country-cancel">Cancel</button>
-                  <button class="btn btn-secondary btn-sm px-2 min-with--geo" type="button" id="btn-country-ok">OK</button>
-                </div>`
-        },
-        {
-          label: languageNameSpace.labels["FUEL"],
-          id: "selectFuel",
-          defaultText: languageNameSpace.labels["6000"],
-          area: languageNameSpace.labels["MENU_FUEL"],
-          data: ``
-        },
-        {
-          label: languageNameSpace.labels["CONSUMER"],
-          id: "selectConsumer",
-          defaultText: languageNameSpace.labels["HOUSEHOLD"],
-          area: languageNameSpace.labels["MENU_CONSUMER"],
-          data: ``
-        },
-        {
-          label: languageNameSpace.labels["REFERENCE"],
-          id: "selectYear",
-          defaultText: "2022 - S2",
-          area: languageNameSpace.labels["MENU_YEARS"],
-          data: ``
-        },
-        {
-          label: languageNameSpace.labels["CONSUME"],
-          id: "selectConsuption",
-          defaultText: languageNameSpace.labels["4141900"],
-          area: languageNameSpace.labels["MENU_BAND"],
-          data: ``
-        },
-        {
-          label: languageNameSpace.labels["UNIT"],
-          id: "selectUnit",
-          defaultText: `${languageNameSpace.labels["EUR"]}/${languageNameSpace.labels["KWH"]}`,
-          area: languageNameSpace.labels["MENU_UNIT"],
-          data: ``
-        }
-      ];
-    
-      const dropdownGrid = this.subNavbar.querySelector('.dropdown-grid');
-      const dropdownRow = dropdownGrid.querySelector('.row');
-    
-      dropdownBtnGroupData.forEach(data => {
-        const col = document.createElement('div');
-        col.classList.add('col-12', 'col-sm-4');
-    
-        const dropdownBtnGroup = document.createElement('div');
-        dropdownBtnGroup.classList.add('dropdownBtnGroup');
-    
-        const label = document.createElement('label');
-        label.setAttribute('for', data.id);
-        label.classList.add('form-label');
-        label.textContent = data.label;
-    
-        const button = document.createElement('button');
-        button.classList.add('btn', 'btn-primary', 'dropdown-toggle');
-        button.setAttribute('type', 'button');
-        button.setAttribute('id', data.id);
-        button.setAttribute('data-bs-toggle', 'dropdown');
-        button.setAttribute('aria-expanded', 'false');
-        button.setAttribute('aria-labelledby', data.area);
-        button.innerHTML = `${data.defaultText}<i class="fas fa-angle-down" aria-hidden="true"></i>`;
-    
-        button.addEventListener('click', event => {
-            this.handleDropdownItemClick(event, data);
-        });
-    
-        const dropdownMenu = document.createElement('ul');
-        dropdownMenu.classList.add('dropdown-menu');
-        dropdownMenu.setAttribute('aria-labelledby', data.id);
-    
-        if (data.data) {
-            dropdownMenu.innerHTML = data.data;
-        }
-    
-        dropdownBtnGroup.appendChild(label);
-        dropdownBtnGroup.appendChild(button);
-        dropdownBtnGroup.appendChild(dropdownMenu);
-    
-        col.appendChild(dropdownBtnGroup);
-        dropdownRow.appendChild(col);  
-    });
-    
-    }
-    
-
-
-
-
-
-    handleDropdownItemClick(event, data) {
-      const selectedItem = event.target;
-      const selectedValue = selectedItem.getAttribute('value');
-      const selectedText = selectedItem.textContent;
-  
-      const dropdownButton = selectedItem.closest('.dropdownBtnGroup').querySelector('.dropdown-toggle');
-      dropdownButton.innerHTML = `${selectedText}<i class="fas fa-angle-down" aria-hidden="true"></i>`;
-      dropdownButton.setAttribute('value', selectedValue);
-    
- 
-      
-    }
-
-    highlightSelectedValue() {
-      const dropdownToggles = this.subNavbar.querySelectorAll('.dropdown-toggle');
-    
-      dropdownToggles.forEach(dropdownToggle => {
-        const selectedValue = dropdownToggle.getAttribute('value');
-        const dropdownItems = dropdownToggle.nextElementSibling.querySelectorAll('.dropdown-item');
-    
-        dropdownItems.forEach(dropdownItem => {
-          const itemValue = dropdownItem.getAttribute('value');
-    
-          if (itemValue === selectedValue) {
-            dropdownItem.classList.add('selected');
-          } else {
-            dropdownItem.classList.remove('selected');
-          }
-        });
-      });
-    }
-
-
     addToDOM(targetElement) {
       const container = document.querySelector(targetElement);
-      container.appendChild(this.subNavbar);
-      this.createDropdownBtnGroups();
-      // this.addHoverEvent();
-    
-      const dropdownItems = this.subNavbar.querySelectorAll('.dropdown-item');
-    
-      dropdownItems.forEach(dropdownItem => {
-        dropdownItem.addEventListener('click', (event) => {
-          // event.stopPropagation();
-          const selectedItem = event.target;
-          const selectedValue = selectedItem.getAttribute('value');
-          const selectedText = selectedItem.textContent;
-          const dropdownGroup = selectedItem.closest('.dropdownBtnGroup');
-          if (dropdownGroup) {
-            const dropdownToggle = dropdownGroup.querySelector('.dropdown-toggle');
-            if (dropdownToggle) {
-              dropdownToggle.innerHTML = `${selectedText}<i class="fas fa-angle-down" aria-hidden="true"></i>`;
-              dropdownToggle.setAttribute('value', selectedValue);
-              // this.addHoverEvent();
-              this.highlightSelectedValue();
-            }
-          }
-        });
-      });      
+      container.appendChild(this.subNavbar);   
     }
   }
 

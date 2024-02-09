@@ -59,3 +59,13 @@ ul.dropdown-menu {
     visibility: hidden !important;
 }
 
+.ecl-form-label {
+    color: #171a22;
+    display: inline-flex;
+    font-weight: 500;
+    white-space: pre-wrap;
+    font-size: 0.8em;
+    margin-left: 0.6rem;
+    line-height: 0.5rem;
+    color: #656872;
+}

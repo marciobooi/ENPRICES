@@ -474,11 +474,11 @@ function chartApiCall() {
   request.send();
 
   if (request.status === 500 || request.status === 503) {
-    submitFormDown();
+    // submitFormDown();
   }
 
   if (request.status !== 200) {
-    submitFormDown();
+    // submitFormDown();
   }
 
   const data = JSON.parse(request.responseText);

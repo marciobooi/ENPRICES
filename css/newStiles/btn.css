@@ -1,3 +1,11 @@
+.btn:hover, #btn-country-ok:hover {
+    color: white;
+    box-shadow: 0 0 0 0.15rem #cca3004d;
+    background-color: #CCA300!important;
+    border-color: #CCA300 !important;
+    
+}
+
 .btn-secondary {
     background-color: var(--tool-1);
 }

@@ -129,11 +129,11 @@ ul.dropdown-menu {
 }
 
 
-#dropdown-geo-list a:nth-child(3) {
-  border-bottom: 2px solid #c7c1c1 !important;
-}
-#dropdown-geo-list a:nth-last-child(8) {
-  border-bottom: 2px solid #c7c1c1 !important;
+#dropdown-geo-list a:nth-child(1),
+#dropdown-geo-list a:nth-child(3),
+#dropdown-geo-list a:nth-child(30),
+#dropdown-geo-list a:nth-child(33) {
+    border-bottom: 2px solid #c7c1c1;
 }
 
 

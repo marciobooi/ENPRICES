@@ -370,7 +370,14 @@
   "TOOLS": "Tools",
   "DB": "access to dataset",
   "%": "in percentages",
-  "TOGGLEAGREGATES": "Toggle aggregates"
+  "TOGGLEAGREGATES": "Toggle aggregates",
+
+  "SELITEN" : "Select an item",
+  "NORESULTS" : "No results found",
+  "SELALL" : "Select all",
+  "CLEAR" : "Clear all",
+  "CLOSE" : "Close",
+  "KEYWORD" : "Enter keyword"
   
 
 }

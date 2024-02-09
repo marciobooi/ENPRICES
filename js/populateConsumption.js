@@ -1,5 +1,4 @@
 function populateConsumption() {
-
  
     const conditions = {
       "4100_HOUSEHOLD_1": "nrg_pc_202_c",
@@ -15,63 +14,28 @@ function populateConsumption() {
     consomsList = codesDataset[conditions[`${REF.product}_${REF.consumer}_${REF.component}`]].consoms
     REF.consoms = codesDataset[conditions[`${REF.product}_${REF.consumer}_${REF.component}`]].defaultConsom
 
-    log(REF.consoms)
+    const target = document.querySelector("#containerConsumption");
+    const elementId = 'selectConsuption';
+    const optionsArray = consomsList;
+    const labelDescription = languageNameSpace.labels["CONSUME"];
+    const activeElement = REF.consoms;
+    const textChange = languageNameSpace.labels["MENU_BAND"];
 
-    const consomsDropDown = $("#chartOptionsMenu > div.dropdown-grid > div > div:nth-child(5) > div > ul");
-    consomsDropDown.empty()
-    let content = '';
+    const existingSingleSelect = document.getElementById(elementId);
+    if (existingSingleSelect) {
+        existingSingleSelect.parentElement.parentElement.remove();
+    }
   
-    consomsList.forEach(consoms => {     
-        const isActive = consoms == REF.consoms ? 'active' : '';
-      content += `
-        <a role="menuitem" class="dropdown-item d-flex justify-content-between align-items-center ${isActive}" href="#" data-consoms="${consoms}" data-bs-toggle="button" aria-pressed="true">
-          <span>${languageNameSpace.labels[consoms]}</span>
-          <i class="fas fa-check ms-2 ${isActive ? '' : 'invisible'}"></i>
-        </a>`;
+    const singleSelect = new Singleselect(elementId, optionsArray, labelDescription, activeElement, textChange, selectedValue => {
+        REF.consoms = selectedValue;
+        populateConsumption()
+        enprices();
     });
   
-    const dropdownMenu = $("<div>")
-      .attr("id", "dropdown-consoms-list")
-      .attr("role", "menu")
-      .css("height", "auto")
-      .css("maxHeight", "48vh")
-      .css("overflowX", "hidden")
-      .html(content);
-
-
-      dropdownMenu.on('click', '.dropdown-item', function() {
-        const target = $(this);
-        const checkIcon = target.find('.fas.fa-check');
-      
-        dropdownMenu.find('.dropdown-item').removeClass('active');
-        dropdownMenu.find('.fas.fa-check').addClass('invisible');
-      
-        target.addClass('active');
-        checkIcon.removeClass('invisible');
-
-        const selectedText = target.find('span').text();
-        $('#selectConsuption').text(selectedText).append('<i class="fas fa-angle-down" aria-hidden="true"></i>');
-
-        REF.consoms = target.attr('data-consoms')       
-
-        log(REF.consoms)
-       
-        enprices()
-
-      });
+    const singleSelectHTML = singleSelect.createSingleSelect();
+    target.insertAdjacentHTML('beforeend', singleSelectHTML);
   
-    consomsDropDown.prepend(dropdownMenu);
-
-    $('#selectConsuption').hover(
-        function() {
-          $(this).data('prevText', $(this).text());
-          $(this).html(`${languageNameSpace.labels['MENU_BAND']} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
-        },
-        function() {
-          const dropdownConsumerList = $('#dropdown-consoms-list');
-          const prevText = dropdownConsumerList.find('.dropdown-item.active span').text();
-          $(this).html(`${prevText} <i class="fas fa-angle-down" aria-hidden="true"></i>`);
-        }
-      );
-
+    singleSelect.attachEventListeners();
   }
+
+

@@ -57,7 +57,8 @@ class FloatingChartControls {
             REF.component = switchElement.value === '1' ? 1 : 0;
           }
 
-          enprices()
+          enprices()     
+
           
         }
       });
