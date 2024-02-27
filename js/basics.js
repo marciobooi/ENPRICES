@@ -102,6 +102,9 @@ function addAuxiliarBarGraphOptions() {
 function removeAuxiliarBarGraphOptions() {
   const auxiliarBarGraphOptions = new ChartControls();
   auxiliarBarGraphOptions.removeFromDOM(); 
+
+
+
   enprices()
 }
 function showMenuSwitch() {
@@ -159,9 +162,7 @@ function sortArrayByDescValues(arr) {
 function sortArrayByProtocolOrder(arr) {
   if (REF.detail == 1) {
     const energyCountriesCodes = REF.geos;
-    arr.sort((a, b) => {
-      if (a.code === "all") return -1; // Move "all" to the beginning
-      if (b.code === "all") return 1; // Move "all" to the beginning
+    arr.sort((a, b) => {     
       return energyCountriesCodes.indexOf(a.code) - energyCountriesCodes.indexOf(b.code);
     });
     orderedSeries = makeOrderedSeries(categoriesAndStacks);
@@ -171,11 +172,11 @@ function sortArrayByProtocolOrder(arr) {
 
     log(bardata);
 
-    const geosProto = REF.geos.filter(geop => geop !== "all"); // Ignore "all" in REF.geos
+    const geosProto = REF.geos; // Ignore "all" in REF.geos
 
     geosProto.map((geop, gIdx) => {
       geos.map((geo, yIdx) => {
-        if (geop == geo && geop !== "all") {
+        if (geop == geo ) {
           values = tax.map((tax, cIdx) => {
             return (num = arr.value[cIdx * geos.length + yIdx]);
           });
@@ -189,7 +190,8 @@ function sortArrayByProtocolOrder(arr) {
       barcateg.push(languageNameSpace.labels[geop]);
 
       const languageLabel = languageNameSpace.labels[geop];
-      const color = geop == "EU27_2020" ? '#14375a' : (geop == "EA" ? '#800000' : "#32afaf");
+      // const color = geop == "EU27_2020" ? '#14375a' : (geop == "EA" ? '#800000' : "#32afaf");
+      const color = geop == "EU27_2020" ? '#CCA300' : (geop == "EA" ? '#208486' : "#0E47CB");
 
       barproto.push({ name: languageLabel, y: taxValue, color });
     });
@@ -208,14 +210,14 @@ function chartNormalTooltip(points) {
 
   let html = "";
 
-  html += `<table id="tooltipTable" class="table tooltipTable"> 
-  <thead class="tooltipTableHead">
-    <tr class="tooltipTableTr">
+  html += `<table id="tooltipTable" class="table_component"> 
+  <thead class="">
+    <tr class="">
         <th scope="cols" colspan="2">${title}</th>                
     </tr>
   </thead>
   <tbody>
-    <tr class="tooltipTableTd">
+    <tr class="">
         <td><b>${toolValue}</b> ${unit}</td>
     </tr>
   </tbody>
@@ -237,10 +239,10 @@ function pieTolltip(point) {
   const tooltipRows = formatPointTooltip();
 
   // Create the HTML table structure
-  const html = `<table id="tooltipTable" class="table tooltipTable"> 
-    <thead class="tooltipTableHead">
-      <tr class="tooltipTableTr">
-        <th scope="col" colspan="2">${languageNameSpace.labels[REF.geos]}</th>                
+  const html = `<table id="tooltipTable" class="table_component"> 
+    <thead class="">
+      <tr class="">
+        <th scope="col" colspan="2">${languageNameSpace.labels[REF.chartGeo]}</th>                
       </tr>
     </thead>
     <tbody>
@@ -252,19 +254,10 @@ function pieTolltip(point) {
 }
 
 
-
-
-
-
-
-
-
-
-
 function tooltipTable(points) {
   if(REF.percentage == 1 ){
     let html = "";
-    html += `<table id="tooltipTable" class="table">                
+    html += `<table id="tooltipTable" class="table_component">                
                 <thead>
                   <tr>
                     <th colspan="2" scope="cols">${points[0].x}</th>      
@@ -292,7 +285,7 @@ function tooltipTable(points) {
     if (b.series.name == languageNameSpace.labels['TOTAL']) return -1;
     return 0;
   });
-  html += `<table id="tooltipTable" class="table">                
+  html += `<table id="tooltipTable" class="table_component">                
                 <thead>
                   <tr>
                     <th colspan="2" scope="cols">${sortedPoints[0].key}</th>                                     
@@ -356,17 +349,17 @@ function getTitle() {
     case "lineChart":
       chartTitle = `${dataset}<br><span style="font-size:10px; padding-top:5px">${geoLabel} - ${consoms}</span>`;
       title = `${dataset}`;
-      subtitle = `<span style="font-size:12px; padding-top:5px">${geoLabel} - ${consoms}</span>`;
+      subtitle = `<span >${geoLabel} - ${consoms}</span>`;
       break;
     case "pieChart":
       chartTitle = `${dataset}<br><span style="font-size:10px; padding-top:5px">${geoLabel} - ${time} - ${consoms}</span>`;
       title = `${dataset}`;
-      subtitle = `<span style="font-size:12px; padding-top:5px">${geoLabel} - ${time} - ${consoms}</span>`;
+      subtitle = `<span >${geoLabel} - ${time} - ${consoms}</span>`;
       break;
     case "barChart":
-      chartTitle = `${dataset}<br><span style="font-size:12px; padding-top:5px">${barText} - ${geoLabel} - ${time}</span>`;
+      chartTitle = `${dataset}<br><span >${barText} - ${geoLabel} - ${time}</span>`;
       title = `${dataset}`;
-      subtitle = `<span style="font-size:12px; padding-top:5px">${barText} - ${geoLabel} - ${time}</span>`;
+      subtitle = `<span >${barText} - ${geoLabel} - ${time}</span>`;
       break;
     default:    
     chartTitle = `${dataset}<br><span style="font-size:10px; padding-top:5px">${time} - ${consoms}</span>`;
@@ -571,3 +564,5 @@ function enableScreenREader(params) {
 
 
   }
+
+

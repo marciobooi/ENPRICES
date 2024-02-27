@@ -20,7 +20,7 @@ function populateCountries() {
       
             <div class="ecl-form-group" role="application">
                 <label for="selectCountries" id="selectCountry" class="ecl-form-label">${languageNameSpace.labels["MENU_COUNTRY"]}</label>
-                <div class="ecl-select__container ecl-select__container--m">
+                <div class="ecl-select__container ecl-select__container--l">
                     <select class="ecl-select" id="selectCountries" name="country" required="" multiple="" 
                         data-ecl-auto-init="Select" 
                         data-ecl-select-multiple=""
@@ -31,14 +31,14 @@ function populateCountries() {
                         data-ecl-select-clear-all="${languageNameSpace.labels["CLEAR"]}" 
                         data-ecl-select-close="${languageNameSpace.labels["CLOSE"]}">
                         <optgroup label="Agreggates">
-                            ${countriesAgregates.map(ctr => `<option value="${ctr}">${languageNameSpace.labels[ctr]}</option>`).join('')}
-                        </optgroup>
-                        <optgroup label="European members">
-                            ${EU_MEMBER_COUNTRY_CODES.map(ctr => `<option value="${ctr}">${languageNameSpace.labels[ctr]}</option>`).join('')}
-                        </optgroup>
-                        <optgroup label="Non European members">
-                            ${NON_MEMBER_COUNTRY_CODES.map(ctr => `<option value="${ctr}">${languageNameSpace.labels[ctr]}</option>`).join('')}
-                        </optgroup>
+                        ${countriesAgregates.map(ctr => `<option value="${ctr}" selected>${languageNameSpace.labels[ctr]}</option>`).join('')}
+                    </optgroup>
+                    <optgroup label="European members">
+                        ${EU_MEMBER_COUNTRY_CODES.map(ctr => `<option value="${ctr}" selected>${languageNameSpace.labels[ctr]}</option>`).join('')}
+                    </optgroup>
+                    <optgroup label="Non European members">
+                        ${NON_MEMBER_COUNTRY_CODES.map(ctr => `<option value="${ctr}" selected>${languageNameSpace.labels[ctr]}</option>`).join('')}
+                    </optgroup>
                     </select>
                     <div class="ecl-select__icon">
                         <svg class="ecl-icon ecl-icon--s ecl-icon--rotate-180 ecl-select__icon-shape"
@@ -50,6 +50,8 @@ function populateCountries() {
             </div>`;
 
     $(target).append(html);
+
+
 
     $(document).on('mouseover', `#containerCountry > div > div > div.ecl-select__multiple > div:nth-child(1) > input`, function(event) {
         console.log('here')
@@ -63,7 +65,7 @@ function populateCountries() {
         );
     });
 
-    $(document).on('click', `button.ecl-button.ecl-button--primary`, function(event) {
+    $(document).on('click', `.ecl-select-multiple-toolbar > .ecl-button.ecl-button--primary`, function(event) {
         const selectedValues = Array.from(document.getElementById('selectCountries').selectedOptions).map(option => option.value);
         REF.geos = selectedValues;
         enprices();
@@ -71,6 +73,38 @@ function populateCountries() {
 
     ECL.autoInit();
 
-    // Trigger "Select all"
-    document.querySelector('.ecl-checkbox__input').click();
+
+
+    const selectAllContainer = document.querySelector('.ecl-select__multiple');
+
+
+    
+setTimeout(() => {
+        if (selectAllContainer) {
+            log(REF.geos.length)
+    
+            const checkboxes = selectAllContainer.querySelectorAll('.ecl-checkbox__input');
+            if(REF.geos.length > 0) {
+                checkboxes.forEach(checkbox => {          
+                    const countryCode = checkbox.id.split('-')[2];
+                    if (REF.geos.includes(countryCode)) {
+                        checkbox.checked = true;
+                    } else {
+                        checkbox.checked = false;
+                    }
+                });  
+            } else {
+                    const selectAllCheckbox = selectAllContainer.querySelector('.ecl-checkbox__input').checked = true;
+                    selectAllCheckbox.checked = true;
+            }
+    
+            const selectionsCounter = document.querySelector('.ecl-select-multiple-selections-counter');
+            const spanElement = selectionsCounter.querySelector('span');
+            selectionsCounter.classList.add('ecl-select-multiple-selections-counter--visible');
+            REF.geos.length > 0 ? spanElement.textContent = REF.geos.length : spanElement.textContent = "42"
+        }
+}, 1000);
+    
 }
+
+

@@ -1,4 +1,4 @@
-.btn:hover, #btn-country-ok:hover {
+.ecl-button:hover, #btn-country-ok:hover {
     color: white;
     box-shadow: 0 0 0 0.15rem #cca3004d;
     background-color: #CCA300!important;
@@ -66,7 +66,7 @@ li > button {
 }
 
 #menuSwitch label {
-    font-size: 0.8rem;   
+    font-size: 0.9rem;   
 }
 
 #menuSwitch input[type="checkbox"]:checked + label {
@@ -104,26 +104,22 @@ ul.dropdown-menu.dropdown-menu-end.show {
 } */
 .min-with--nav:hover:not(.dropdown-toggle) {
     box-shadow: 0 0 0 0.15rem #cca3004d;
-    background-color: #CCA300!important;
-    border-color: #CCA300 !important;
+    background-color: #CCA300;
+    border-color: #CCA300 ;
 }
 button:focus:not(:focus-visible):not(.dropdown-toggle), button:active:not(.dropdown-toggle) {
     box-shadow: 0 0 0 0.15rem #cca3004d;
-    background-color: #CCA300!important;
-    border-color: #CCA300 !important;
+    background-color: #CCA300;
+    border-color: #CCA300 ;
 }
 
-.btn:disabled {
-    box-shadow: 0 0 0 0.15rem #cca3006e;
-    background-color: #cca3008f!important;
-    border-color: #cca3008f!important;
-}
 
-.btn:focus-visible { 
+
+.ecl-button:focus-visible { 
     outline: 0;   
     box-shadow: 0 0 0 0.15rem #cca3004d;
-    background-color: #CCA300!important;
-    border-color: #CCA300 !important;
+    background-color: #CCA300;
+    border-color: #CCA300 ;
 }
 
 
@@ -142,7 +138,7 @@ span.agregates.fa-stack.fa-rotate-180 {
 }
 
 .round-btn {
-    border-radius: 50%;
+    border-radius: 50% !important;
 }
 
 
@@ -178,3 +174,4 @@ span.agregates.fa-stack.fa-rotate-180 {
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
 }
+

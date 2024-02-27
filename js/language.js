@@ -32,8 +32,10 @@ var languageNameSpace = {
     const elementsId = [".pie", ".barchart", ".line", ".db", ".meta", 
     ".info", ".details", "#close", ".componentsShow", ".componentsHide",
     ".play", "#share", ".Modalshare", ".twitter", ".linkedin", ".facebook", ".chartMenu",
-    "#vizualizationMenu", "#visualization-table", "#find-more-menu-icon", ".toggle-thumb", "#header-title-label"
+    "#vizualizationMenu", "#visualization-table", "#find-more-menu-icon", ".toggle-thumb", "#header-title-label",
     ]
+
+    
 
     elementsId.forEach(id => {
       const element = $(id);
@@ -46,9 +48,43 @@ var languageNameSpace = {
       element.html(languageNameSpace.labels[id.substring(1)]);
     });
 
+    const btns = [
+    '#infoBtn',
+    '#downloadBtn',
+    '#shareBtn',
+    '#embebedBtn',
+    '#shareChart',
+    '#toggleAgregates',
+    '#tb-togle-order',
+    '#tb-togle-table',
+    '#barChart',
+    '#pieChart',
+    '#lineChart',
+    '#table',
+    '#createprintChart',
+    '#downloadChart',
+    '#downloadExcel',
+    '#embebedeChart',
+    '#closeChart',
+    ]
+
+
+
+    btns.forEach(id => {
+      const element = $(id);
+      const label = languageNameSpace.labels[id.substring(1)];
+      element.attr({
+        'title': label,
+        'data-original-title': label,
+        'aria-label': label
+      });
+
+    });
+
       $("#footer-cookies").html(languageNameSpace.labels["COOKIES"]);
       $("#footer-privacy").html(languageNameSpace.labels["PRIVACY"]);
       $("#footer-legal").html(languageNameSpace.labels["LEGAL"]);
+      $("#footer-access").html(languageNameSpace.labels["ACCESS"]);
 
 
 
@@ -72,26 +108,6 @@ var languageNameSpace = {
 
     if(REF.chartId != "mainChart"){
       addAuxiliarBarGraphOptions()
-    }
-
-    linksContent = 	"<div class='modalHeader'>"
-    + '<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">x</button>'
-    + "<h5>" + languageNameSpace.labels["LINKS"] + "</h5>"
-    + "</div>"
-    + "<div>"
-    + '<a href=\"https://ec.europa.eu/info/cookies_'+ REF.language.toLowerCase() +'\" target=\"_blank\" class="underline"><span>'+languageNameSpace.labels["COOKIES"]+'</span><svg viewBox="0 0 13 20"><polyline points="0.5 19.5 3 19.5 12.5 10 3 0.5" /></svg></a>'
-    + "</div>"
-    + "<div>"
-    + '<a href=\"https://ec.europa.eu/info/privacy-policy_'+ REF.language.toLowerCase() +'\" target=\"_blank\" class="underline"><span>'+languageNameSpace.labels["PRIVACY"]+'</span><svg viewBox="0 0 13 20"><polyline points="0.5 19.5 3 19.5 12.5 10 3 0.5" /></svg></a>'
-    + "</div>"
-    + "<div>"
-    + '<a href=\"https://ec.europa.eu/info/legal-notice_'+ REF.language.toLowerCase() +'\" target=\"_blank\" class="underline"><span>'+languageNameSpace.labels["LEGAL"]+'</span><svg viewBox="0 0 13 20"><polyline points="0.5 19.5 3 19.5 12.5 10 3 0.5" /></svg></a>'
-    + "</div>"  
-    + "<div>"
-    + "</div>"
-  
-    if($("#links").html() === "") {
-      $("#links").append(linksContent);
     }
   }
 };

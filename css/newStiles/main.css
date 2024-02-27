@@ -76,3 +76,43 @@ ul.dropdown-menu {
 .dropdown-item {
   background-color: white;
 }
+
+
+.ecl-select__multiple .ecl-select-multiple-selections-counter * {
+  box-sizing: initial !important;
+}
+
+
+
+.ecl-modal--s .ecl-modal__content {
+  max-height: initial;
+}
+
+header.ecl-modal__header {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.ecl-modal__body {
+  padding: 0;
+}
+
+.ecl-modal__body > p, #btnControl {
+  padding: 1rem !important;
+}
+
+.ecl-modal__footer {
+  padding: 1rem;
+}
+
+#btnControl > .ecl-button {
+  margin-left: 1rem;
+}
+
+.ecl-modal__body-scroll {
+  word-break: break-all;
+  text-align: justify;
+  overflow-y: auto;
+  padding: 1rem;
+}

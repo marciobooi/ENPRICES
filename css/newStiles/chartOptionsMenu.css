@@ -7,7 +7,7 @@
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   width: 95vw;
   /* height: 18vh; */
-  padding: 0.5rem;
+  padding: 1.5rem;
 }
 
 .dropdownBtnGroup {
@@ -190,7 +190,10 @@ a.dropdown-item.selected {
 
 .menuOpen {
   background-color: #f3f6fc;
+  height: 100%;
+
 }
+
 
 .toggleMenu {
   display: none !important;
@@ -249,5 +252,9 @@ a.dropdown-item.selected {
   box-shadow: var(--bs-btn-focus-box-shadow);
 }
 
-
+.important-styles {
+  box-shadow: 0 0 0 0.15rem #cca30000 !important;
+  background-color: #cca30000 !important;
+  color: #0e47cb !important;
+}
 

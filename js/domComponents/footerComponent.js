@@ -23,17 +23,23 @@ class Footer {
       const footerCredits = document.querySelector('#footerCredits');
       footerCredits.innerHTML = '';
   
-      const linksContent = ` <li>
-      <a href="https://ec.europa.eu/info/cookies_${REF.language.toLowerCase()}" target="_blank" rel="noreferrer noopener" id="footer-cookies" class="footer-decoration"></a>
-    </li>
-    <hr>
-    <li>
-      <a href="https://ec.europa.eu/info/privacy-policy_${REF.language.toLowerCase()}" target="_blank" rel="noreferrer noopener" id="footer-privacy" class="footer-decoration"></a>
-    </li>
-    <hr>
-    <li>
-      <a href="https://ec.europa.eu/info/legal-notice_${REF.language.toLowerCase()}" target="_blank" rel="noreferrer noopener" id="footer-legal" class="footer-decoration"></a>
-    </li>`;
+      const linksContent = /*html*/`
+      <li class="ecl-site-footer__list-item">
+        <a id="footer-cookies" href="https://ec.europa.eu/info/cookies_${REF.language.toLowerCase()}" target="_self" rel="noreferrer noopener" class="ecl-link ecl-link--standalone ecl-site-footer__link"></a>
+      </li class="ecl-site-footer__list-item">
+        <hr>
+      <li class="ecl-site-footer__list-item">
+        <a id="footer-privacy" href="https://ec.europa.eu/info/privacy-policy_${REF.language.toLowerCase()}" target="_self" rel="noreferrer noopener" class="ecl-link ecl-link--standalone ecl-site-footer__link"></a>
+      </li>
+        <hr>
+      <li class="ecl-site-footer__list-item">
+        <a id="footer-legal" href="https://ec.europa.eu/info/legal-notice_${REF.language.toLowerCase()}" target="_self" rel="noreferrer noopener"  class="ecl-link ecl-link--standalone ecl-site-footer__link"></a>
+      </li>
+        <hr>
+      <li class="ecl-site-footer__list-item">
+        <a id="footer-access" href="https://ec.europa.eu/eurostat/web/main/help/accessibility" target="_self" rel="noreferrer noopener" class="ecl-link ecl-link--standalone ecl-site-footer__link"></a>
+      </li>
+  `;
   
       footerCredits.innerHTML = linksContent;
     }

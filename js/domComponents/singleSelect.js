@@ -18,7 +18,7 @@ class Singleselect {
         const singleSelectHTML = /*html*/`
                 <div class="ecl-form-group" role="application">
                     <label for="${this.elementId}" class="ecl-form-label">${this.labelDescription}</label>        
-                    <div class="ecl-select__container ecl-select__container--m">
+                    <div class="ecl-select__container ecl-select__container--l">
                         <select class="ecl-select" id="${this.elementId}" name="country" required="">
                             ${this.optionsArray.map(option => `
                                 <option value="${option}" ${this.activeElement === option ? 'selected' : ''}>

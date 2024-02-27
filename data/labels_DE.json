@@ -300,6 +300,7 @@
   "COOKIES": "Cookies",
 	"PRIVACY": "Datenschutz",
 	"LEGAL": "Rechtlicher Hinweis",
+  "ACCESS": "Zugänglichkeit",
 
   "tutBACK": "Zurück",
   "tutNEXT": "Weiter",
@@ -354,7 +355,25 @@
   "TOOLS": "Werkzeuge",
   "DB": "zugriff auf Datensatz",
   "%": "in Prozent",
-  "TOGGLEAGREGATES": "Aggregierte Daten umschalten"
+  "TOGGLEAGREGATES": "Aggregierte Daten umschalten",
+
+  "infoBtn": "Info anzeigen",
+  "downloadBtn": "Diagrammbild herunterladen",
+  "shareBtn": "Diagramm teilen",
+  "embebedBtn": "Diagramm einbetten (iframe)",
+  "shareChart": "In sozialen Medien teilen",
+  "toggleAgregates": "Aggregatumschaltung",
+  "tb-togle-order": "Reihenfolge des Diagramms auswählen",
+  "tb-togle-table": "Tabelle umschalten",
+  "barChart": "Balkendiagramm umschalten",
+  "pieChart": "Kreisdiagramm umschalten",
+  "lineChart": "Liniendiagramm umschalten",
+  "table": "Tabelle umschalten",
+  "createprintChart": "Diagramm drucken",
+  "downloadChart": "Diagrammbild herunterladen",
+  "downloadExcel": "Diagrammdaten herunterladen",
+  "embebedeChart": "Diagramm einbetten (iframe)",
+  "closeChart": "Schließen"
  
 
 }

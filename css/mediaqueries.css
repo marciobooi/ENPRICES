@@ -5,6 +5,10 @@
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) {
 
+    .navbar-top {
+      padding: 0.2rem 1rem 0.2rem 1rem;
+  }
+
     #header-title-label {
       font-size: 1.3rem;
       font-weight: 600;
@@ -18,7 +22,7 @@
 
   #lang-section {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-content: space-around;
   }
   select#lang-selection {
@@ -83,11 +87,17 @@
 span.iconText {
   font-size: .6em;
 }
+.subNavOne .menuBtn {
+  width: 4rem !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
 
 #menu {
   margin-left: 0;
   color: white;
-  width: 5rem;
   font-size: .8em;
 }
 
@@ -99,20 +109,51 @@ span.iconText {
   background-color: #f3f6fc;
   height: 4rem;
   z-index: 9;
+  box-shadow: rgb(0 0 0 / 10%) 0px 4px 6px -1px, rgb(0 0 0 / 6%) 0px 2px 4px -1px;
 }
 
 #chartBtns {
+  display: flex;
   justify-content: center;
   flex-direction: row;
-  align-items: center;
+  flex-wrap: nowrap;
   align-content: center;
+  align-items: center;
+  width: 100%;
 }
+li#closeChart {
+  position: absolute;
+  right: 11px;
+  top: -50%;
+}
+#btnCloseModalChart {
+  /* background-color: #ff000000 !important; */
+  /* border-color: #E7EDFA!important; */
+  /* color: #082B7A; */
+  /* border: 3px solid #E7EDFA!important; */
+  /* font-size: 1.7rem !important; */
+  /* position: absolute; */
+  /* right: 10px; */
+  /* top: 10px; */
+  /* justify-content: center; */
+  /* align-content: center; */
+  /* align-items: center; */
+  all: unset;
+  border: 0px solid red !important;
+  color: white;
+  font-size: 2em!important;
+}
+
+.fa-times::before{    
+  -webkit-text-stroke: 2.5px #0e47cb;
+  }
 
 ul.dropdown-menu.dropdown-menu-end.show {
   position: fixed;
   left: -1px;
   top: 13rem;
   border: none;
+  box-shadow: 0 7px 8px rgb(9 49 142 / 0%);
 }
 
 button.dropdown-item {
@@ -141,7 +182,7 @@ button.dropdown-item:last-child {
   left: 0;
   z-index: 9;
   background-color: #f3f6fc;
-  box-shadow: rgb(50 50 93 / 25%) 0px 6px 12px -2px, rgb(0 0 0 / 30%) 0px 3px 7px -3px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 4px 6px -1px, rgb(0 0 0 / 6%) 0px 2px 4px -1px;
   width: 100vw;
   height: auto;
   padding: 0.5rem;
@@ -186,7 +227,12 @@ i.fas.fa-caret-down {
 /* marcio end here */
 
 #chart {
-  height: 65vh !important;
+  height: 70vh !important;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #auxChartTitle {
@@ -207,9 +253,10 @@ i.fas.fa-caret-down {
   left: 0;
   width: 100vw;
   background-color: #f3f6fc;
-  height: 4rem;
+  height: 5rem;
   z-index: 9;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 4px 6px -1px, rgb(0 0 0 / 6%) 0px 2px 4px -1px;
+  display: flex;
 }
 
 
@@ -234,6 +281,9 @@ button:focus, .input:focus {
   align-content: center;
   justify-content: center;
   align-items: center;
+
+  padding-bottom: 0;
+  
 }
 
 #menuSwitch {
@@ -242,6 +292,14 @@ button:focus, .input:focus {
   align-items: center;
   justify-content: space-around;
   width: 100%;
+  background-color: #f3f6fc;
+  width: 100vw;
+  position: absolute;
+  top: 99%;
+  left: 0;
+  height: 10vh;
+  z-index: 9;
+  box-shadow: rgb(0 0 0 / 10%) 0px 4px 6px -1px, rgb(0 0 0 / 6%) 0px 2px 4px -1px;
 }
 
 #floatingMenu {
@@ -268,11 +326,11 @@ span.agregates.fa-stack.fa-rotate-180 {
   margin-top: 0.8rem;
 }
 
-
-
-
-
-
+ul#footerCredits li a {
+  color: var(--main-color);
+  font-size: .8em;
+  padding: 0.3rem;
+}
 
 } /* end of portrait mobile */
 
@@ -492,9 +550,9 @@ i.fas.fa-caret-down {
 }
 
 #title, #subtitle {
-  font-size: .8em;
+  font-size: .7em;
   color: black;
-  line-height: 1.2em;
+  line-height: 1em;
   margin-bottom: 0;
 }
 
@@ -534,10 +592,14 @@ span.iconText {
 
 ul.dropdown-menu.dropdown-menu-end.show {
   position: fixed;
-  left: -1px;
-  top: 13rem;
+  left: 0px;
+  top: 11rem;
   border: none;
 }
+ul.dropdown-menu {
+  background-color: transparent;
+}
+
 
 button.dropdown-item {
   width: 100vw;

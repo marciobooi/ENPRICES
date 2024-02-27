@@ -102,9 +102,11 @@ function initenprices(d = null) {
   + "<div>"
   + "</div>"
 
- 
-
-
+// code to prevent user to swipe left and right with the finger on mobile
+document.body.addEventListener('touchmove', function(event) {
+  // Prevent horizontal scrolling
+  event.preventDefault();
+}, { passive: false });
 }
 
 function createForm(actionURL, nextURL) {

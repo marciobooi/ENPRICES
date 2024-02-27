@@ -319,6 +319,7 @@
   "COOKIES": "Cookies policy",
 	"PRIVACY": "Privacy policy",
 	"LEGAL": "Legal notice",
+  "ACCESS": "Accessibility",
 
   "tutBACK": "Back",
   "tutNEXT": "Next",
@@ -377,7 +378,25 @@
   "SELALL" : "Select all",
   "CLEAR" : "Clear all",
   "CLOSE" : "Close",
-  "KEYWORD" : "Enter keyword"
-  
+  "KEYWORD" : "Enter keyword",
+
+  "infoBtn": "Show info",
+  "downloadBtn": "download chart image",
+  "shareBtn": "share chart",
+  "embebedBtn": "Embebed chart iframe",
+  "shareChart": "Share in social media",
+  "toggleAgregates": "Toggle aggregates",
+  "tb-togle-order": "Select order of the chart",
+  "tb-togle-table": "Toggle table",
+  "barChart": "Toggle bar Chart",
+  "pieChart": "Toggle pie Chart",
+  "lineChart": "Toggle line Chart",
+  "table": "Toggle table",
+  "createprintChart": "Print chart",
+  "downloadChart": "Download chart image",
+  "downloadExcel": "Download chart data",
+  "embebedeChart": "Embebed chart iframe",
+  "closeChart": "Close"
+
 
 }
