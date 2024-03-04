@@ -10,7 +10,7 @@ class Navbar {
     this.navbar.className = 'navbar navbar-top';
     this.navbar.setAttribute('role', 'navigation');
 
-    this.navbar.innerHTML = `
+    this.navbar.innerHTML = /*html*/`
     <div class="container-fluid">
 
       <div class="col-6 col-lg-9">
@@ -20,12 +20,27 @@ class Navbar {
       </div>
 
       <div class="col-3 col-lg-1" id="lang-section">
+      
       <label for="lang-selection" class="visually-hidden">Select Language:</label>
         <select id="lang-selection" class="form-select langSelect" tabindex="0" aria-labelledby="Select language" aria-expanded="false">
           <option value="EN"><span class="bold">EN</span> English</option>
           <option value="FR"><span class="bold">FR</span> Français</option>
           <option value="DE"><span class="bold">DE</span> Deutsch</option>
         </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       </div>
 
       <div class="col-3  col-lg-2 logo"> 

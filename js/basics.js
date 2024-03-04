@@ -169,9 +169,6 @@ function sortArrayByProtocolOrder(arr) {
   } else {
     barproto = [];
     bardata = barproto;
-
-    log(bardata);
-
     const geosProto = REF.geos; // Ignore "all" in REF.geos
 
     geosProto.map((geop, gIdx) => {
@@ -275,16 +272,20 @@ function tooltipTable(points) {
     html += `</table>`;
     return `<div>${html}</div>`;
   } else {
+
   let html = "";
   let totalAdded = false; // Flag to track if total row has been added
   let totalColor = "#7cb5ec"
-  
   // Sort the points so that "Total" item is at the last place
   const sortedPoints = points.slice().sort(function (a, b) {
     if (a.series.name == languageNameSpace.labels['TOTAL']) return 1;
     if (b.series.name == languageNameSpace.labels['TOTAL']) return -1;
     return 0;
   });
+
+
+
+
   html += `<table id="tooltipTable" class="table_component">                
                 <thead>
                   <tr>
@@ -459,8 +460,6 @@ function chartApiCall() {
       url += (REF.component == 1 ? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : "&product=" + REF.product + "&unit=" + REF.unit);
       break;
   }
-
-  log(url)
 
   const request = new XMLHttpRequest();
   request.open("GET", url, false); // Setting the third parameter to 'false' makes it synchronous

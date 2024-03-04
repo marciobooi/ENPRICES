@@ -32,7 +32,7 @@ var languageNameSpace = {
     const elementsId = [".pie", ".barchart", ".line", ".db", ".meta", 
     ".info", ".details", "#close", ".componentsShow", ".componentsHide",
     ".play", "#share", ".Modalshare", ".twitter", ".linkedin", ".facebook", ".chartMenu",
-    "#vizualizationMenu", "#visualization-table", "#find-more-menu-icon", ".toggle-thumb", "#header-title-label",
+    "#vizualizationMenu", "#visualization-table", "#find-more-menu-icon", ".toggle-thumb", "#header-title-label"
     ]
 
     
@@ -81,6 +81,8 @@ var languageNameSpace = {
 
     });
 
+    getTitle()
+
       $("#footer-cookies").html(languageNameSpace.labels["COOKIES"]);
       $("#footer-privacy").html(languageNameSpace.labels["PRIVACY"]);
       $("#footer-legal").html(languageNameSpace.labels["LEGAL"]);
@@ -109,5 +111,21 @@ var languageNameSpace = {
     if(REF.chartId != "mainChart"){
       addAuxiliarBarGraphOptions()
     }
+
+
+    if ($('.highcharts-data-table').is(':visible')) {
+      closeTable();     
+      openVizTable();
+      $('#tb-togle-table').focus();
+      $('#table-icon').css('display', 'none');
+      $('#chart-icon').css('display', '');
+    } 
+
+
+
+
+
+
+
   }
 };

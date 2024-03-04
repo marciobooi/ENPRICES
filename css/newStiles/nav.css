@@ -25,15 +25,15 @@
     margin: 0;
 }
 
-select#lang-selection {
+/* select#lang-selection {
     width: 7.5rem;
     height: 2rem;
     font-size: 0.8em;
-}
+} */
 
-.langSelect {
+/* .langSelect {
     color: var(--main-color);
-}
+} */
 
 img#eurostatLogo {
     height: 1.5rem;

@@ -188,8 +188,6 @@ $(document).on("click keydown", ".close", function(event) {
 
 	const focusableElements = '.introjs-tooltip.customTooltip.introjs-floating a[role="button"][tabindex="0"]:not([tabindex="-1"])';
 	const element = document.querySelector('.introjs-tooltip.customTooltip.introjs-floating');
-
-	log(element)
   
 	if (element) {
 	  const focusableContent = element.querySelectorAll(focusableElements);

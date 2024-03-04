@@ -14,6 +14,7 @@ function populateConsumer() {
 
     const singleSelect = new Singleselect(elementId, optionsArray, labelDescription, activeElement, textChange, selectedValue => {
         REF.consumer = selectedValue;
+        populateConsumption()
         enprices();
     });
 

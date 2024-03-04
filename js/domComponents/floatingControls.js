@@ -168,10 +168,14 @@ class FloatingChartControls {
     if (tableIcon.style.display === 'none') {
       toggleButton.setAttribute('aria-label', 'Toggle chart');
       toggleButton.title = 'Toggle chart';
+      $('.ecl-button').not('button#tb-togle-table').not('#toggleTableBtn').prop('disabled', true);		
+      $('#menu').prop('disabled', true);		
       openVizTable()
     } else {
       toggleButton.setAttribute('aria-label', 'Toggle table');
       toggleButton.title = 'Toggle table';      
+      $('.ecl-button').not('button#tb-togle-table').prop('disabled', false);		
+      $('#menu').prop('disabled', false);		
       closeTable()
     }
   }

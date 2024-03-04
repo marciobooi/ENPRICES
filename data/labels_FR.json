@@ -57,6 +57,9 @@
   "4141901": "Bande D1 : Consommation < 20 GJ",
   "4141902": "Bande D2 : 20 GJ < Consommation < 200 GJ",
   "4141903": "Bande D3 : Consommation > 200 GJ",
+  "GJ_LT20": "Bande D1 : Consommation < 20 GJ",
+  "GJ20-199": "Bande D2 : 20 GJ < Consommation < 200 GJ",
+  "GJ_GE200": "Bande D3 : Consommation > 200 GJ",
 
   "4142900": "Bands I1-I5 : Consommation +< 3 999 999 GJ",
   "4142901": "Bande I1 : Consommation < 1 000 GJ",
@@ -362,6 +365,13 @@
   "DB": "accès à la base de données",
   "%": "en pourcentage",
   "TOGGLEAGREGATES": "Basculer les agrégats",
+
+  "SELITEN": "Sélectionnez un élément",
+  "NORESULTS": "Aucun résultat trouvé",
+  "SELALL": "Tout sélectionner",
+  "CLEAR": "Effacer",
+  "CLOSE": "Fermer",
+  "KEYWORD": "Entrez un mot-clé",
 
   "infoBtn": "Afficher les infos",
   "downloadBtn": "Télécharger l'image du graphique",

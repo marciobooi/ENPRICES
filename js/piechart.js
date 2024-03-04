@@ -94,7 +94,6 @@ function piechartdata() {
   dec = REF.unit == "MWH" ? 0 : 4;
   factor = REF.unit == "MWH" ? 1000 : 1;
 
-  log(tax)
 
   for (i = 0; i < tax.length; i++) {
     if (d.value[i] != null) {
@@ -116,7 +115,6 @@ function piechartdata() {
           d.value[i],colors[tax[i]]
         ]);
 
-        log(languageNameSpace.labels[tax[i]],tax[i], colors[tax[i]])
       }
     }
   }

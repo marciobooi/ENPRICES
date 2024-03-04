@@ -58,6 +58,10 @@
   "4141902": "Band D2 : 20 GJ < Verbrauch < 200 GJ",
   "4141903": "Band D3 : Verbrauch > 200 GJ",
 
+  "GJ_LT20": "Band D1 : Verbrauch < 20 GJ",
+  "GJ20-199": "Band D2 : 20 GJ < Verbrauch < 200 GJ",
+  "GJ_GE200": "Band D3 : Verbrauch > 200 GJ",
+
   "4142900": "Bands I1-I5 : Verbrauch + <3 999 999 GJ",
   "4142901": "Band I1 : Verbrauch < 1 000 GJ",
   "4142902": "Band I2 : 1 000 GJ < Verbrauch < 10 000 GJ",
@@ -356,6 +360,13 @@
   "DB": "zugriff auf Datensatz",
   "%": "in Prozent",
   "TOGGLEAGREGATES": "Aggregierte Daten umschalten",
+
+  "SELITEN": "Wählen Sie ein Element aus",
+  "NORESULTS": "Keine Ergebnisse gefunden",
+  "SELALL": "Alles auswählen",
+  "CLEAR": "Löschen",
+  "CLOSE": "Schließen",
+  "KEYWORD": "Geben Sie ein Schlüsselwort ein",
 
   "infoBtn": "Info anzeigen",
   "downloadBtn": "Diagrammbild herunterladen",

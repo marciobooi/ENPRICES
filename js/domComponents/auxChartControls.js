@@ -74,7 +74,6 @@ class ChartControls {
 		  this.toolsButton.style.display = "none";
 		});
 	  } else {
-		log(isMobile);
 		this.controls.innerHTML = notMobileContent;
 	  }
 	}
@@ -133,6 +132,9 @@ class ChartControls {
 
 				const charts = ["barChart", "pieChart", "lineChart"];  
 				charts.forEach(chart => {$("#" + chart).attr("disabled", "disabled")})
+
+				$('.ecl-button').not('button#tb-togle-table').not('#toggleTableBtn').prop('disabled', true);		
+				$('#menu').prop('disabled', true);		
 			
 				openVizTable();
 
@@ -147,7 +149,8 @@ class ChartControls {
 				closeTable();
 
 				disableChatOptionsBtn(REF.chartId)
-
+				$('.ecl-button').not('button#tb-togle-table').prop('disabled', false);		
+				$('#menu').prop('disabled', false);		
 				tableBtn.focus();
 			}			
 		});

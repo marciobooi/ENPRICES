@@ -28,7 +28,7 @@ function populateConsumption() {
   
     const singleSelect = new Singleselect(elementId, optionsArray, labelDescription, activeElement, textChange, selectedValue => {
         REF.consoms = selectedValue;
-        populateConsumption()
+        // populateConsumption()
         enprices();
     });
   

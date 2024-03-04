@@ -54,7 +54,6 @@ function populateCountries() {
 
 
     $(document).on('mouseover', `#containerCountry > div > div > div.ecl-select__multiple > div:nth-child(1) > input`, function(event) {
-        console.log('here')
         $('#containerCountry > div > div > div.ecl-select__multiple > div:nth-child(1) > input').hover(
             function() {
                 $(`label#selectCountry`).text(textChange);
@@ -80,9 +79,7 @@ function populateCountries() {
 
     
 setTimeout(() => {
-        if (selectAllContainer) {
-            log(REF.geos.length)
-    
+        if (selectAllContainer) {    
             const checkboxes = selectAllContainer.querySelectorAll('.ecl-checkbox__input');
             if(REF.geos.length > 0) {
                 checkboxes.forEach(checkbox => {          

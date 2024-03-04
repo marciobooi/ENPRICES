@@ -85,7 +85,6 @@ function chartdata(d = null) {
         return myObject;
       }
     });
-
    
   } else {
     bartotals = [];
