@@ -40,11 +40,13 @@ function chartdata(d = null) {
   if (isEmpty) { nullishChart(); return;}
 
   if (REF.detail == 1) {
+    valores = d.value;
     for (var item in tax) {
       data = [];
       for (var j = 0; j < geo.length; j++) {
-        data.push(d.value[0]);
-        d.value.shift();
+        val = valores[0] == null ? 0 : valores[0]
+        data.push(val);
+        valores.shift();
         if (barcateg.length < geo.length) {
           barcateg.push(languageNameSpace.labels[geo[j]]);
         }
@@ -156,7 +158,7 @@ const tooltipFormatter = function() {
 const xAxis =  REF.detail == 1 ? { reversedStacks: true, categories: categoriesAndStacks.map((e) => e.x) } : { type: "category" };
 const series = REF.detail == 1 ? orderedSeries.reverse() : [{ name: "Total", data: bardata }];
 const colors = REF.detail == 1 ? mainColors : "";
-const legend = REF.detail == 1 ? {enabled:true} : {enabled:false};
+const legendStatus = REF.detail == 1 ? true : false ;
 const chartTitle = getTitle();
 const yAxis = REF.percentage == 1? '{value}%' : '{value:.2f}';
 const yAxisTitle =
@@ -178,14 +180,26 @@ const chartOptions = {
   creditsHref: "",
   series: series,
   colors: colors,
-  legend: legend,
+  legend: {
+    enabled: legendStatus,
+    padding: 3,   
+    itemMarginTop: 5,
+    itemMarginBottom: 5,
+    itemHiddenStyle: {
+      color: '#767676'
+    },
+    itemStyle: {
+      fontSize: '.9rem',
+      fontWeight: 'light'
+    }
+  },
   columnOptions: {
       stacking: REF.percentage == 0 ? "normal" : "percent",
       events: {
         mouseOver: function () {
           var point = this;
-          var color = point.color;
-          $('path.highcharts-label-box.highcharts-tooltip-box').css('stroke', color);
+          // var color = point.color;
+          // $('path.highcharts-label-box.highcharts-tooltip-box').css('stroke', color);
         }
       }
     },

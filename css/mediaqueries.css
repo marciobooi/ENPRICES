@@ -139,23 +139,7 @@ li#closeChart {
   right: 11px;
   top: -50%;
 }
-#btnCloseModalChart {
-  /* background-color: #ff000000 !important; */
-  /* border-color: #E7EDFA!important; */
-  /* color: #082B7A; */
-  /* border: 3px solid #E7EDFA!important; */
-  /* font-size: 1.7rem !important; */
-  /* position: absolute; */
-  /* right: 10px; */
-  /* top: 10px; */
-  /* justify-content: center; */
-  /* align-content: center; */
-  /* align-items: center; */
-  all: unset;
-  border: 0px solid red !important;
-  color: white;
-  font-size: 2em!important;
-}
+
 
 .fa-times::before{    
   -webkit-text-stroke: 2.5px #0e47cb;

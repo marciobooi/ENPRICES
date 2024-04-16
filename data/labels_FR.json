@@ -288,6 +288,7 @@
   "db": "Dataset",
   "meta": "Metadata",
   "details": "Afficher les détails",
+  "hidDetails": "Masquer les détails",
   "info": "Afficher les informations",
   "totals": "Afficher les détails",
   "close": "Fermer",
@@ -364,7 +365,7 @@
   "TOOLS": "Outils",
   "DB": "accès à la base de données",
   "%": "en pourcentage",
-  "TOGGLEAGREGATES": "Basculer les agrégats",
+  "TOGGLEAGREGATES": "Afficher les agrégats",
 
   "SELITEN": "Sélectionnez un élément",
   "NORESULTS": "Aucun résultat trouvé",
@@ -378,18 +379,22 @@
   "shareBtn": "Partager le graphique",
   "embebedBtn": "Intégrer le graphique (iframe)",
   "shareChart": "Partager sur les réseaux sociaux",
-  "toggleAgregates": "Basculer les agrégats",
+  "toggleAgregates": "Afficher les agrégats",
   "tb-togle-order": "Sélectionner l'ordre du graphique",
-  "tb-togle-table": "Basculer le tableau",
-  "barChart": "Basculer le diagramme en barres",
-  "pieChart": "Basculer le diagramme circulaire",
-  "lineChart": "Basculer le diagramme linéaire",
-  "table": "Basculer le tableau",
+  "tb-togle-table": "Afficher le tableau",
+  "toggleTableBtn": "Afficher le tableau",
+  "barChart": "Afficher le diagramme en barres",
+  "pieChart": "Afficher le diagramme circulaire",
+  "lineChart": "Afficher le diagramme linéaire",
+  "table": "Afficher le tableau",
   "createprintChart": "Imprimer le graphique",
   "downloadChart": "Télécharger l'image du graphique",
   "downloadExcel": "Télécharger les données du graphique",
   "embebedeChart": "Intégrer le graphique (iframe)",
-  "closeChart": "Fermer"
+  "closeChart": "Fermer",
+  "VAL": "Valeur",
+  "VALS": "Valeurs",
+  "SHARETITLE": "Partager cette page"
  
 
 

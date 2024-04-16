@@ -1,37 +1,65 @@
 class FloatingChartControls {
   constructor() {
     this.chartControls = document.createElement('div');
-    this.chartControls.className = 'menuSwitch';
+    this.chartControls.className = 'menuSwitch col-6';
     this.chartControls.id = 'menuSwitch';
 
     this.chartControls.innerHTML = `
-      <div>
-        <div class="form-check form-switch form-check-reverse">
-          <input class="form-check-input focus-ring" type="checkbox" value="${REF.detail == 1 ? 1 : 0}" role="switch" id="switchDetails" ${REF.detail == 1 ? 'checked' : ''}>
-          <label class="form-check-label" for="switchDetails">${languageNameSpace.labels['details']}</label>
-        </div>
-        <div class="form-check form-switch form-check-reverse">
-          <input class="form-check-input focus-ring" type="checkbox" value="${REF.component == 1 ? 1 : 0}" role="switch" id="switchComponents" ${REF.component == 1 ? 'checked' : ''}>
-          <label class="form-check-label" for="switchComponents">${languageNameSpace.labels['componentsShow']}</label>
-        </div>
+      
+
+
+
+
+
+
+      
+      <div id="footerBtns">  
+        <ul id="floatingMenu">   
+          <li class="nav-item px-1" id="togglePercentage" role="none" style="display:${REF.detail == 1 ? "" : "none"}"></li>
+          <li class="nav-item px-1" id="Agregates" role="none"></li>			  
+            <li class="nav-item dropdown px-1" id="ChartOrder" role="none">
+              <ul class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="select the order of the chart">     					
+                <li><a href="#" class="dropdown-item ${REF.order == "PROTO" ? "selected" : ""}" role="menuitem" aria-label="Protocol order" value="PROTO">${languageNameSpace.labels['SORT_PROTOCOL']}</a></li>
+                <li><a href="#" class="dropdown-item ${REF.order == "DESC" ? "selected" : ""}" role="menuitem" aria-label="Descending values" value="DESC" >${languageNameSpace.labels['SORT_DESC']}</a></li>
+                <li><a href="#" class="dropdown-item ${REF.order == "ASC" ? "selected" : ""}" aria-selected="true" role="menuitem" aria-label="Ascending values" value="ASC">${languageNameSpace.labels['SORT_ASC']}</a></li>
+                <li><a href="#" class="dropdown-item ${REF.order == "ALPHA" ? "selected" : ""}" role="menuitem" aria-label="Alphabetical order" value="ALPHA">${languageNameSpace.labels['SORT_ALPHABETICAL']}</a></li>                		
+              </ul>
+            </li>
+
+            <li class="nav-item px-1" id="toggleTable" role="none"></li>
+        </ul>
       </div>
       
-      <div>  
-        <ul id="floatingMenu">   
-        <li class="nav-item px-1" id="togglePercentage" role="none" style="display:${REF.detail == 1 ? "" : "none"}"></li>
-        <li class="nav-item px-1" id="Agregates" role="none"></li>			  
-          <li class="nav-item dropdown px-1" id="ChartOrder" role="none">
-            <ul class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="select the order of the chart">     					
-              <li><a href="#" class="dropdown-item ${REF.order == "PROTO" ? "selected" : ""}" role="menuitem" aria-label="Protocol order" value="PROTO">${languageNameSpace.labels['SORT_PROTOCOL']}</a></li>
-              <li><a href="#" class="dropdown-item ${REF.order == "DESC" ? "selected" : ""}" role="menuitem" aria-label="Descending values" value="DESC" >${languageNameSpace.labels['SORT_DESC']}</a></li>
-              <li><a href="#" class="dropdown-item ${REF.order == "ASC" ? "selected" : ""}" aria-selected="true" role="menuitem" aria-label="Ascending values" value="ASC">${languageNameSpace.labels['SORT_ASC']}</a></li>
-              <li><a href="#" class="dropdown-item ${REF.order == "ALPHA" ? "selected" : ""}" role="menuitem" aria-label="Alphabetical order" value="ALPHA">${languageNameSpace.labels['SORT_ALPHABETICAL']}</a></li>                		
-            </ul>
-          </li>
+      
+      
+      
+      
+      
+      <div id="switchBtn">
 
-          <li class="nav-item px-1" id="toggleTable" role="none"></li>
-        </ul>
-      </div>`;
+        <div>
+          <label id="HIDE" class="form-check-label" for="switchDetails">${languageNameSpace.labels['hidDetails']}</label>
+          <div class="form-check form-switch d-inline-block">
+            <input class="form-check-input focus-ring" type="checkbox" value="${REF.detail == 1 ? 1 : 0}" role="switch" id="switchDetails" ${REF.detail == 1 ? 'checked' : ''}>
+            <label id="SHOW" class="form-check-label" for="switchDetails">${languageNameSpace.labels['details']}</label>
+          </div>
+        </div>
+
+        <div>      
+          <label id="HIDE" class="form-check-label" for="switchComponents">${languageNameSpace.labels['componentsHide']}</label>
+          <div class="form-check form-switch d-inline-block">
+            <input class="form-check-input focus-ring" type="checkbox" value="${REF.component == 1 ? 1 : 0}" role="switch" id="switchComponents" ${REF.component == 1 ? 'checked' : ''}>
+            <label id="SHOW" class="form-check-label" for="switchComponents">${languageNameSpace.labels['componentsShow']}</label>
+          </div>
+        </div>
+
+      </div>
+      
+      
+      
+      
+      
+      `;
 
 
     this.dopdownListSelect();
@@ -63,8 +91,8 @@ class FloatingChartControls {
         }
       });
 
-      switchElement.addEventListener('click', () => {
-        
+
+      switchElement.addEventListener('click', () => {        
         // Toggle the switch value between 1 and 0 when clicked
         switchElement.value = switchElement.value === '1' ? '0' : '1';    
         if (switchElement.id === 'switchDetails') {
@@ -73,14 +101,39 @@ class FloatingChartControls {
         } else if (switchElement.id === 'switchComponents') {
           REF.component = switchElement.value === '1' ? 1 : 0;
         }     
+        const hide = document.getElementById('HIDE');
+        const show = document.getElementById('SHOW');
+
+        hide.style.fontWeight = switchElement.value == 0 ? 'bold' : 'normal';
+        show.style.fontWeight = switchElement.value == 1 ? 'bold' : 'normal';
 
         const percentageButton = this.chartControls.querySelector('#togglePercentage');
-        percentageButton.style.display = REF.detail == 1 ? '' : 'none';
+        percentageButton.style.display = REF.details == 1 ? '' : 'none';
         REF.percentage = 0
         populateDropdownData()
         enprices()
 
       });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     });
   }
 
@@ -153,7 +206,7 @@ class FloatingChartControls {
     const percentage = this.chartControls.querySelector('#togglePercentage');
     const Agregates = this.chartControls.querySelector('#Agregates');
     const ChartOrder = this.chartControls.querySelector('#ChartOrder');
-    const menuSwitch = this.chartControls.querySelector('#menuSwitch div');
+    // const menuSwitch = this.chartControls.querySelector('#menuSwitch div');
   
   
     tableIcon.style.display = tableIcon.style.display === 'none' ? '' : 'none';
@@ -163,7 +216,7 @@ class FloatingChartControls {
     }
     Agregates.style.display = Agregates.style.display === 'none' ? '' : 'none';
     ChartOrder.style.display = ChartOrder.style.display === 'none' ? '' : 'none';
-    menuSwitch.style.display = menuSwitch.style.display === 'none' ? '' : 'none';
+    // menuSwitch.style.display = menuSwitch.style.display === 'none' ? '' : 'none';
   
     if (tableIcon.style.display === 'none') {
       toggleButton.setAttribute('aria-label', 'Toggle chart');

@@ -1,3 +1,8 @@
+tbody, td, tfoot, th, thead, tr {
+    padding: 0.3rem;
+    font-size: 14px;   
+}
+
 .highcharts-data-table {
     margin-top: 3rem;
     height: 64vh;
@@ -13,17 +18,17 @@
     background-color: #ffffff;
 }
 
-thead {
+.highcharts-data-table thead {
     background-color: #f3f6fc;
     display: table-header-group;
 }
 
-thead tr {
+.highcharts-data-table thead tr {
     border-bottom: 2px solid #6e91e0;
     text-align: center;
 }
 
-tbody tr {
+.highcharts-data-table tbody tr {
     border-bottom: 1px solid #cfdaf5;
     border-top-width: 0;
     text-align: center;
@@ -110,20 +115,17 @@ th.highcharts-text {
 
 
 
-
-
-
-
-
 .highcharts-tooltip span {
     white-space: initial !important;
     font-family: Arial, sans-serif !important;
+    font: normal normal 400 .8rem/1rem arial,sans-serif;
 }
 
 
 .table_component {
-    overflow: auto;
+    overflow: auto; 
     width: 24rem !important;
+  
     
 }
 
@@ -136,7 +138,7 @@ th.highcharts-text {
     text-align: left;
 }
 
-tbody, td, tfoot, th, thead, tr {
+.highcharts-data-table tbody, td, tfoot, th, thead, tr {
     border-color: inherit;
     border-style: solid;
     border-width: 0;

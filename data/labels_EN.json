@@ -64,6 +64,7 @@
   "db": "Dataset",
   "meta": "Metadata",
   "details": "Show details",
+  "hidDetails": "Hide details",
   "info": "Show info",
   "totals": "Show details",
   "close": "Close",
@@ -73,8 +74,8 @@
   
   "chartMenu": "Show download options",
   "vizualizationMenu": "Select chart options",
-  "visualization-table": "Toggle table",
-  "toggle-thumb": "Toggle table",
+  "visualization-table": "Display table",
+  "toggle-thumb": "Display table",
   "find-more-menu-icon": "Open tutorial",
 
   "twitter": "Share on twitter",
@@ -371,7 +372,7 @@
   "TOOLS": "Tools",
   "DB": "access to dataset",
   "%": "in percentages",
-  "TOGGLEAGREGATES": "Toggle aggregates",
+  "TOGGLEAGREGATES": "Display aggregates",
 
   "SELITEN" : "Select an item",
   "NORESULTS" : "No results found",
@@ -385,18 +386,22 @@
   "shareBtn": "share chart",
   "embebedBtn": "Embebed chart iframe",
   "shareChart": "Share in social media",
-  "toggleAgregates": "Toggle aggregates",
+  "toggleAgregates": "Display aggregates",
   "tb-togle-order": "Select order of the chart",
-  "tb-togle-table": "Toggle table",
-  "barChart": "Toggle bar Chart",
-  "pieChart": "Toggle pie Chart",
-  "lineChart": "Toggle line Chart",
-  "table": "Toggle table",
+  "tb-togle-table": "Display table",
+  "toggleTableBtn": "Display table",
+  "barChart": "Display bar Chart",
+  "pieChart": "Display pie Chart",
+  "lineChart": "Display line Chart",
+  "table": "Display table",
   "createprintChart": "Print chart",
   "downloadChart": "Download chart image",
   "downloadExcel": "Download chart data",
   "embebedeChart": "Embebed chart iframe",
-  "closeChart": "Close"
+  "closeChart": "Close",
+  "VAL": "Value",
+  "VALS": "Values",
+  "SHARETITLE": "Share this page"
 
 
 }

@@ -283,6 +283,7 @@
   "db": "Datensatz",
   "meta": "Metadaten",
   "details": "Details anzeigen",
+  "hidDetails": "Details ausblenden",
   "info": "Info anzeigen",
   "totals": "Details anzeigen",
   "close": "schließen",
@@ -359,7 +360,7 @@
   "TOOLS": "Werkzeuge",
   "DB": "zugriff auf Datensatz",
   "%": "in Prozent",
-  "TOGGLEAGREGATES": "Aggregierte Daten umschalten",
+  "TOGGLEAGREGATES": "Aggregatzustände anzeigen",
 
   "SELITEN": "Wählen Sie ein Element aus",
   "NORESULTS": "Keine Ergebnisse gefunden",
@@ -375,16 +376,20 @@
   "shareChart": "In sozialen Medien teilen",
   "toggleAgregates": "Aggregatumschaltung",
   "tb-togle-order": "Reihenfolge des Diagramms auswählen",
-  "tb-togle-table": "Tabelle umschalten",
-  "barChart": "Balkendiagramm umschalten",
-  "pieChart": "Kreisdiagramm umschalten",
-  "lineChart": "Liniendiagramm umschalten",
-  "table": "Tabelle umschalten",
+  "tb-togle-table": "Tabelle anzeigen",
+  "toggleTableBtn": "Tabelle anzeigen",
+  "barChart": "Balkendiagramm anzeigen",
+  "pieChart": "Kreisdiagramm anzeigen",
+  "lineChart": "Liniendiagramm anzeigen",
+  "table": "Tabelle anzeigen",
   "createprintChart": "Diagramm drucken",
   "downloadChart": "Diagrammbild herunterladen",
   "downloadExcel": "Diagrammdaten herunterladen",
   "embebedeChart": "Diagramm einbetten (iframe)",
-  "closeChart": "Schließen"
+  "closeChart": "Schließen",
+  "VAL": "Wert",
+  "VALS": "Werte",
+  "SHARETITLE": "Diese Seite teilen"
  
 
 }

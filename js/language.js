@@ -32,8 +32,10 @@ var languageNameSpace = {
     const elementsId = [".pie", ".barchart", ".line", ".db", ".meta", 
     ".info", ".details", "#close", ".componentsShow", ".componentsHide",
     ".play", "#share", ".Modalshare", ".twitter", ".linkedin", ".facebook", ".chartMenu",
-    "#vizualizationMenu", "#visualization-table", "#find-more-menu-icon", ".toggle-thumb", "#header-title-label"
+    "#vizualizationMenu", "#visualization-table", "#find-more-menu-icon", ".toggle-thumb", "#SHARETITLE", ""
     ]
+
+    // "SHARETITLE"
 
     
 
@@ -57,6 +59,7 @@ var languageNameSpace = {
     '#toggleAgregates',
     '#tb-togle-order',
     '#tb-togle-table',
+    '#toggleTableBtn',
     '#barChart',
     '#pieChart',
     '#lineChart',

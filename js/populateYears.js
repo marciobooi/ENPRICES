@@ -27,7 +27,7 @@ function populateYearsData() {
 
   const target = document.querySelector("#containerYear");
   const elementId = 'selectYear';
-  const optionsArray = yearsArray;
+  const optionsArray = yearsArray.reverse();;
   const labelDescription = languageNameSpace.labels["YEAR"];
   const activeElement = REF.time;
   const textChange = languageNameSpace.labels["MENU_YEARS"];

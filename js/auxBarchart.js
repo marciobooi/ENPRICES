@@ -89,7 +89,7 @@ function auxiliarBarGraph() {
   const xAxis = REF.chartInDetails == 1 ? { reversedStacks: true, categories: categoriesAndStacks.map((e) => e.x) } : { categories: auxBarCateg };
   const series = REF.chartInDetails == 1 ? orderedSeries.reverse() : [{ name: "Total", data: auxBarTotals }];
   const colors = REF.chartInDetails == 1 ? barColors : ["#0e47cb"];
-  const legend = REF.chartInDetails == 1 ? {enabled:true} : {enabled:false};
+  const legendStatus = REF.chartInDetails == 1 ? true : false ;
 
 
   const chartOptions = {
@@ -104,14 +104,26 @@ function auxiliarBarGraph() {
     creditsHref: "",
     series: series,
     colors:  colors,
-    legend: legend,
+    legend: {
+      enabled: legendStatus,
+      padding: 3,   
+      itemMarginTop: 5,
+      itemMarginBottom: 5,
+      itemHiddenStyle: {
+        color: '#767676'
+      },
+      itemStyle: {
+        fontSize: '.9rem',
+        fontWeight: 'light'
+      }
+    },
     columnOptions: {
       stacking: "normal",
       events: {
         mouseOver: function () {
           var point = this;
-          var color = point.color;
-          $('path.highcharts-label-box.highcharts-tooltip-box').css('stroke', color);
+          // var color = point.color;
+          // $('path.highcharts-label-box.highcharts-tooltip-box').css('stroke', color);
         }
       }
     },

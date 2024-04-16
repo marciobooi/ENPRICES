@@ -114,15 +114,21 @@ function showMenuSwitch() {
   $("li#ChartOrder").css('display', "initial") 
   $("#toggleTable").css('display', "initial") 
   $("#togglePercentage").css('display', "initial") 
-  $(".form-check.form-switch.form-check-reverse").css('display', "block") 
+  $("#switchBtn > div:nth-child(1)").css('display', "initial") 
+  $("#switchBtn > div:nth-child(2)").css('display', "initial") 
+
 }
 
 function hideMenuSwitch() {
+  log('here')
   $("li#Agregates").css('display', "none") 
   $("li#ChartOrder").css('display', "none") 
   $(".form-check.form-switch.form-check-reverse").css('display', "none") 
   $("#toggleTable").css('display', "none") 
   $("#togglePercentage").css('display', "none") 
+  $("#switchBtn > div:nth-child(1)").css('display', "none") 
+  $("#switchBtn > div:nth-child(2)").css('display', "none") 
+
   
 }
 
@@ -203,11 +209,20 @@ function chartNormalTooltip(points) {
   const na = languageNameSpace.labels['FLAG_NA'];
   const title = REF.chartId==="mainChart" ?  points[0].key : points[0].x
 
-  const toolValue =  this.y == 0 ? na : value
+  const formatPointTooltip = function () {
+    if (value == 0) {
+      return `<td><b>${na}</b></td>`
+    } else {
+      return `<td><b>${value}</b> ${unit}</td>`
+    }
+    
+  };
+
+  const tooltipRows = formatPointTooltip();
 
   let html = "";
 
-  html += `<table id="tooltipTable" class="table_component"> 
+  html += `<table class="table_component"> 
   <thead class="">
     <tr class="">
         <th scope="cols" colspan="2">${title}</th>                
@@ -215,7 +230,7 @@ function chartNormalTooltip(points) {
   </thead>
   <tbody>
     <tr class="">
-        <td><b>${toolValue}</b> ${unit}</td>
+      ${tooltipRows}
     </tr>
   </tbody>
 </table>`;
@@ -223,11 +238,13 @@ function chartNormalTooltip(points) {
 }
 
 
+
+
 function pieTolltip(point) {
   // Assuming there is a variable 'unit' representing the unit you want to display
   const unit = REF.unit; // Replace 'your_unit' with the actual unit
   const na = languageNameSpace.labels['FLAG_NA'];
-  
+ 
   const formatPointTooltip = function () {
     return `<tr class="tooltipTableRow"><td><span style="color:${point.color}">\u25CF</span> ${point.name}:</td><td>${point.y} ${unit}</td></tr>`;
   };
@@ -252,12 +269,14 @@ function pieTolltip(point) {
 
 
 function tooltipTable(points) {
+
   if(REF.percentage == 1 ){
     let html = "";
     html += `<table id="tooltipTable" class="table_component">                
                 <thead>
                   <tr>
-                    <th colspan="2" scope="cols">${points[0].x}</th>      
+                    <th scope="cols">${points[0].x}</th>                    
+                    <th scope="cols"></th>                    
                   </tr>
                 </thead>`
       points.forEach(element => {
@@ -265,72 +284,88 @@ function tooltipTable(points) {
           const category = element.point.series.name; 
           const color = element.point.color;              
           html += `<tr>
-                      <td style="text-align: start;"><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${color}" /></svg> ${category}</td>
+                      <td><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${color}" /></svg> ${category}</td>
                       <td>${value} %</td>
                   </tr>` 
       });
     html += `</table>`;
     return `<div>${html}</div>`;
   } else {
+    let html = "";
+    let totalAdded = false; // Flag to track if the total row has been added
+    let totalColor = "rgb(14, 71, 203)";
 
-  let html = "";
-  let totalAdded = false; // Flag to track if total row has been added
-  let totalColor = "#7cb5ec"
-  // Sort the points so that "Total" item is at the last place
-  const sortedPoints = points.slice().sort(function (a, b) {
-    if (a.series.name == languageNameSpace.labels['TOTAL']) return 1;
-    if (b.series.name == languageNameSpace.labels['TOTAL']) return -1;
-    return 0;
-  });
-
-
-
-
-  html += `<table id="tooltipTable" class="table_component">                
-                <thead>
-                  <tr>
-                    <th colspan="2" scope="cols">${sortedPoints[0].key}</th>                                     
-                  </tr>
-                </thead>`;
-  sortedPoints.forEach(function (point) {
-    const color = point.series.color;
-    const value = point.y.toFixed(dec); // Limit decimals to three places
-    const category = point.series.name;    
     
-    html += `<tr>
-                <td style="text-align: start;"><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${color}" /></svg> ${category}</td>
-                      <td>${value}</td>
-                  </tr>` 
-    // Check if point is "Total" and set the flag if found
-    if (category == languageNameSpace.labels['TOTAL']) {
-      totalAdded = true;
-    }
-  });
-
-  // Add a row for the total if not already added
-  if (!totalAdded) {
-    // Calculate the total sum of all values
-    const totalSum = sortedPoints.reduce(function (sum, point) {
-      return sum + point.y;
-    }, 0);
-
-    // Format the total sum with three decimal places
-    const totalValue = totalSum.toFixed(dec);
-
-    // Add a row for the total
-    html += `<tr>
-                      <td style="text-align: start;"><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${totalColor}" /></svg> ${languageNameSpace.labels['TOTAL']}</td>
-                      <td>${totalValue}</td>
-  </tr>`
+    // Sort the points so that the "Total" item is at the last place
+    const sortedPoints = points.sort(function (a, b) {
+      if (a.series.name == languageNameSpace.labels['TOTAL']) return 1;
+      if (b.series.name == languageNameSpace.labels['TOTAL']) return -1;
+      return 0;
+    });
     
+    html += `<table id="tooltipTable" class="table_component">                
+      <thead>
+        <tr>
+          <th scope="cols">${sortedPoints[0].key}</th>                    
+          <th scope="cols"></th>                    
+        </tr>
+      </thead>`;
     
+    sortedPoints.forEach(function (point) {
+      const color = point.series.color;
+      const value = point.y.toFixed(dec); // Limit decimals to three places
+      const category = point.series.name;    
+
+      if(REF.details != 0) {
+        html += `<tr>
+        <td><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${color}" /></svg> ${category}</td>
+        <td>${value}</td>
+      </tr>`;
+      }    
+      // Check if point is "Total" and set the flag if found
+      if (category == languageNameSpace.labels['total']) {
+        totalAdded = true;
+      }
+    });
     
+    // Check if all values are zero and display a message if they are
+    const allValuesZero = sortedPoints.every(function (point) {
+      return point.y === 0;
+    });
    
-  }
+    if (allValuesZero) {
+      html = 
+    `<table id="tooltipTable" class="table_component">                
+    <thead>
+      <tr>
+        <th scope="cols">${sortedPoints[0].key}</th>                                    
+      </tr>
+    </thead><tr>      
+    <td>${languageNameSpace.labels["FLAG_NA"]}</td>
+  </tr></table>`;
 
-  html += `</table>`;
 
-  return `<div>${html}</div>`;
+    } else {
+      // Add a row for the total if not already added
+      if (!totalAdded) {
+        // Calculate the total sum of all values
+        const totalSum = sortedPoints.reduce(function (sum, point) {
+          return sum + point.y;
+        }, 0);
+    
+        // Format the total sum with three decimal places
+        const totalValue = totalSum.toFixed(dec);
+    
+        // Add a row for the total
+        html += `<tr>
+          <td><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${totalColor}" /></svg> ${languageNameSpace.labels['TOTAL']}</td>
+          <td>${totalValue}</td>
+        </tr>`;
+      }
+    }    
+    html += `</table>`; 
+    return `<div>${html}</div>`;
+    
   }
 }
 
@@ -348,22 +383,22 @@ function getTitle() {
   let chartTitle = "";
   switch (REF.chartId) {
     case "lineChart":
-      chartTitle = `${dataset}<br><span style="font-size:10px; padding-top:5px">${geoLabel} - ${consoms}</span>`;
+      chartTitle = `${dataset} - ${geoLabel} - ${consoms} `;
       title = `${dataset}`;
       subtitle = `<span >${geoLabel} - ${consoms}</span>`;
       break;
     case "pieChart":
-      chartTitle = `${dataset}<br><span style="font-size:10px; padding-top:5px">${geoLabel} - ${time} - ${consoms}</span>`;
+      chartTitle = `${dataset} - ${geoLabel} - ${time} - ${consoms}`;
       title = `${dataset}`;
       subtitle = `<span >${geoLabel} - ${time} - ${consoms}</span>`;
       break;
     case "barChart":
-      chartTitle = `${dataset}<br><span >${barText} - ${geoLabel} - ${time}</span>`;
+      chartTitle = `${dataset} - ${barText} - ${geoLabel} - ${time}`;
       title = `${dataset}`;
       subtitle = `<span >${barText} - ${geoLabel} - ${time}</span>`;
       break;
     default:    
-    chartTitle = `${dataset}<br><span style="font-size:10px; padding-top:5px">${time} - ${consoms}</span>`;
+    chartTitle = `${dataset} - ${time}, ${consoms}`;
     title = `${dataset} (${currencyLabel}/${unitLabel}) ${time}`;
     subtitle = `${consoms} - ${time}`;   
   }

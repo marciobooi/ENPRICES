@@ -68,20 +68,13 @@ body {
   align-content: center;
 }
 
-
-ul.dropdown-menu {
-  background-color: white;
-}
-
-.dropdown-item {
-  background-color: white;
-}
-
-
 .ecl-select__multiple .ecl-select-multiple-selections-counter * {
   box-sizing: initial !important;
 }
 
+.ecl-link--standalone {
+  text-decoration: underline !important;
+}
 
 
 .ecl-modal--s .ecl-modal__content {
@@ -115,4 +108,8 @@ header.ecl-modal__header {
   text-align: justify;
   overflow-y: auto;
   padding: 1rem;
+}
+
+tspan#credits {
+  fill: #262B38 !important;
 }

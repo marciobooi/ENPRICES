@@ -25,6 +25,7 @@ class Chart {
           plotBackgroundColor: null,
           plotBorderWidth: null,
           plotShadow: false,
+          spacingBottom: 50,
           style: {
             fontFamily: 'arial,sans-serif',
             animation: true,
@@ -63,11 +64,15 @@ class Chart {
             align:'center',
           },   
         },
-        legend: this.legend,
-        legend: {
+        legend: {                
           itemHiddenStyle: {
-          color: '#767676'
-        },},
+            color: '#767676'
+          },
+          itemStyle: {
+            fontSize: '1rem',
+          }
+        },
+        legend: this.legend,
         plotOptions: {
           column: this.columnOptions,
           pie: this.pieOptions,
@@ -82,7 +87,7 @@ class Chart {
               xAxis: [{
                 labels: {
                   style: {
-                    fontSize: '10px'
+                    fontSize: '12px'
                   }
                 }
               }]
@@ -91,7 +96,24 @@ class Chart {
               contextButton: {
                   enabled: false
               }
-          }
+          },
+          csv: {
+            columnHeaderFormatter: function(item, key) {
+                if (!item || item instanceof Highcharts.Axis) {
+                  const chartLabels = {
+                    "pieChart": languageNameSpace.labels["IND"],
+                    "barChart": languageNameSpace.labels["CTR"],
+                    // Add more chart types and their corresponding labels here
+                };                    
+                // Default label for unknown chart types
+                const defaultLabel = languageNameSpace.labels["YEAR"];  
+                const label = chartLabels[REF.chart] || defaultLabel;
+                return label;                   
+                } else {
+                    return item.name;
+                }
+            }
+        }
       }
       }); // end of chart object
 

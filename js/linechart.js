@@ -111,14 +111,25 @@ function createLineChart() {
         creditsHref: 'https://ec.europa.eu/eurostat/databrowser/view/'+REF.dataset+'/default/table?lang=EN',
         series: orderedSeries,
         colors: lineColors,
-        legend: {enabled:true},        
+        legend: {
+          padding: 3,   
+          itemMarginTop: 5,
+          itemMarginBottom: 5,
+          itemHiddenStyle: {
+            color: '#767676'
+          },
+          itemStyle: {
+            fontSize: '.9rem',
+            fontWeight: 'light'
+          }
+        },        
         columnOptions: {
             stacking: "normal",
             events: {
               mouseOver: function () {
                 var point = this;
-                var color = point.color;
-                $('path.highcharts-label-box.highcharts-tooltip-box').css('stroke', color);
+                // var color = point.color;
+                // $('path.highcharts-label-box.highcharts-tooltip-box').css('stroke', color);
               }
             }
           },

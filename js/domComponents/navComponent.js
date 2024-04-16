@@ -27,20 +27,6 @@ class Navbar {
           <option value="FR"><span class="bold">FR</span> Français</option>
           <option value="DE"><span class="bold">DE</span> Deutsch</option>
         </select>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       </div>
 
       <div class="col-3  col-lg-2 logo"> 

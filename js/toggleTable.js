@@ -1,10 +1,16 @@
 function openVizTable() {
   $('#chart').hide();
 
+  $('#toggleTableBtn').focus()
+  $('button#tb-togle-table').focus()
+  $('#switchBtn').css('display', 'none')
+
   setTimeout(function () {
     const chart = $("#chart").highcharts();
     if (chart) {
       chart.viewData();
+
+      
 
       const highchartsNumberElements = document.querySelectorAll('table .highcharts-number');
 
@@ -20,8 +26,8 @@ function openVizTable() {
       // Change the text of table highcharts-data-table-0 header summary to "Data Table"
       $(".highcharts-data-table > table").removeAttr("summary");
 
-      $('button#tb-togle-table').focus()
-      $('#toggleTableBtn').focus()
+     
+
 
       }
   }, 100);
@@ -30,8 +36,10 @@ function openVizTable() {
 function closeTable() {
   $(".highcharts-data-table > table").hide();
   $("#chart").show();
-
   $(".highcharts-data-table").css('display', 'none')
-
+  $('#switchBtn').css('display', 'flex')
   
 }
+
+
+
