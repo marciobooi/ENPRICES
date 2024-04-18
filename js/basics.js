@@ -120,7 +120,6 @@ function showMenuSwitch() {
 }
 
 function hideMenuSwitch() {
-  log('here')
   $("li#Agregates").css('display', "none") 
   $("li#ChartOrder").css('display', "none") 
   $(".form-check.form-switch.form-check-reverse").css('display', "none") 

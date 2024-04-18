@@ -125,6 +125,9 @@ var languageNameSpace = {
     } 
 
 
+if(REF.chartId !== "mainChart"){
+  hideMenuSwitch()
+}
 
 
 
