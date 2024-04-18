@@ -103,11 +103,13 @@ class Chart {
                   const chartLabels = {
                     "pieChart": languageNameSpace.labels["IND"],
                     "barChart": languageNameSpace.labels["CTR"],
+                    "mainChart": languageNameSpace.labels["CTR"],
                     // Add more chart types and their corresponding labels here
                 };                    
                 // Default label for unknown chart types
                 const defaultLabel = languageNameSpace.labels["YEAR"];  
-                const label = chartLabels[REF.chart] || defaultLabel;
+                log(chartLabels[REF.chartId])
+                const label = chartLabels[REF.chartId] || defaultLabel;
                 return label;                   
                 } else {
                     return item.name;

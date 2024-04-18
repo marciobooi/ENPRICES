@@ -401,7 +401,11 @@
   "closeChart": "Close",
   "VAL": "Value",
   "VALS": "Values",
-  "SHARETITLE": "Share this page"
+  "SHARETITLE": "Share this page",
+
+  "IND": "Fuel",
+  "CTR": "Countries"
+
 
 
 }

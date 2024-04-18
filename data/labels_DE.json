@@ -389,7 +389,10 @@
   "closeChart": "Schließen",
   "VAL": "Wert",
   "VALS": "Werte",
-  "SHARETITLE": "Diese Seite teilen"
+  "SHARETITLE": "Diese Seite teilen",
+
+  "IND": "Kraftstoff",
+  "CTR": "Länder"
  
 
 }
