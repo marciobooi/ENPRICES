@@ -392,7 +392,10 @@
   "SHARETITLE": "Diese Seite teilen",
 
   "IND": "Kraftstoff",
-  "CTR": "Länder"
+  "CTR": "Länder",
+
+  "SELECTLANGUAGE": "Sprache auswählen",
+  "OFFICIAL": "Amtssprachen der EU:"
  
 
 }
