@@ -20,7 +20,7 @@
 	"TUTO_19": "Change Language",
 	"TUTO_20": "Use this option to change the language of the tool. It supports English, French, and German.",
 	"TUTO_21": "End of Tour",
-	"TUTO_22": "If you find this visualization tool useful, please show your support by sharing it with others on Twitter, Facebook, email, and LinkedIn. Thank you!",
+	"TUTO_22": "If you find this visualization tool useful, please show your support by sharing it with others on X, Facebook, email, and LinkedIn. Thank you!",
 
 	"PROMO_TUTO_1": "Tutorial",
 	"PROMO_TUTO_2": "Welcome to Eurostat's Visualization Tool for Energy Prices. For a guided tour of the features, <a href='#' onclick='tutorial();'>click here and a tour will start!</a>."
