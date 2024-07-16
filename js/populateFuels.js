@@ -1,4 +1,20 @@
 function populateFuel() {
+
+
+  const conditions = {
+    "4100_HOUSEHOLD": "nrg_pc_202_c",
+    "4100_HOUSEHOLD": "nrg_pc_202",
+    "4100_N_HOUSEHOLD": "nrg_pc_203_c",
+    "4100_N_HOUSEHOLD": "nrg_pc_203",
+    "6000_HOUSEHOLD": "nrg_pc_204_c",
+    "6000_HOUSEHOLD": "nrg_pc_204",
+    "6000_N_HOUSEHOLD": "nrg_pc_205_c",
+    "6000_N_HOUSEHOLD": "nrg_pc_205"
+  };
+
+  const defaultUnit = codesDataset[conditions[`${REF.product}_${REF.consumer}`]].defaultUnit
+
+
   const target = document.querySelector("#containerFuel");
   const elementId = 'selectFuel';
   const optionsArray = Object.keys(energyProducts);
@@ -13,7 +29,9 @@ function populateFuel() {
 
   const singleSelect = new Singleselect(elementId, optionsArray, labelDescription, activeElement, textChange, selectedValue => {
       REF.product = selectedValue;
+      REF.unit = defaultUnit;
       populateConsumption()
+      populateUnit()
       enprices();
   });
 

@@ -148,7 +148,8 @@ function sortArrayByAscValues(arr) {
       return sumA - sumB;
     });
   } else {
-    arr.sort((a, b) => a.y % 2 - b.y % 2 || a.y - b.y);
+    // arr.sort((a, b) => a.y % 2 - b.y % 2 || a.y - b.y);
+    arr.sort((a, b) => b.y - a.y);
   }
 }
 
@@ -160,7 +161,8 @@ function sortArrayByDescValues(arr) {
       return sumB - sumA;
     });
   } else {
-    arr.sort((a, b) => b.y % 2 - a.y % 2 || b.y - a.y);
+    // arr.sort((a, b) => b.y % 2 - a.y % 2 || b.y - a.y);
+    arr.sort((a, b) => b.y - a.y);
   }
 }
 
@@ -463,25 +465,26 @@ function chartApiCall() {
   url += "format=JSON";
   url += "&lang=" + REF.language;
 
-
+  const unitChange = REF.unit == "MWH" ? "KWH" : REF.unit
+ 
 
   switch (REF.chartId) {
     case "lineChart":
       url += (REF.component == 1? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : REF.taxs.map(tax => "&tax=" + tax).join(""));
-      url += (!REF.component ? "&product=" + REF.product + "&unit=" + REF.unit : "");
+      url += (!REF.component ? "&product=" + REF.product + "&unit=" + unitChange : "");
       url += "&nrg_cons=" + REF.consoms;
       url += "&currency=" + REF.currency;
       url += "&geo=" + REF.chartGeo;
       break;
     case "pieChart":
-      url += (REF.component == 1 ? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : "&unit=" + REF.unit);
+      url += (REF.component == 1 ? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : "&unit=" + unitChange);
       url += "&currency=" + REF.currency;
       url += "&time=" + REF.time;
       url += "&geo=" + REF.chartGeo;
       url += "&nrg_cons=" + REF.consoms;
       break;
     case "barChart":
-      url += (REF.component == 1 ? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : "&product=" + REF.product + "&unit=" + REF.unit);
+      url += (REF.component == 1 ? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : "&product=" + REF.product + "&unit=" + unitChange);
       url += "&currency=" + REF.currency;
       url += "&time=" + REF.time;
       url += "&geo=" + REF.chartGeo;
@@ -491,9 +494,11 @@ function chartApiCall() {
       url += "&currency=" + REF.currency;
       url += "&time=" + REF.time;
       url += "&nrg_cons=" + REF.consoms;
-      url += (REF.component == 1 ? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : "&product=" + REF.product + "&unit=" + REF.unit);
+      url += (REF.component == 1 ? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : "&product=" + REF.product + "&unit=" + unitChange);
       break;
   }
+
+  log(url)
 
   const request = new XMLHttpRequest();
   request.open("GET", url, false); // Setting the third parameter to 'false' makes it synchronous

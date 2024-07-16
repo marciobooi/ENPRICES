@@ -35,6 +35,8 @@ function chartdata(d = null) {
   barcateg = []
   bardata = [];
 
+
+
   const isEmpty = Object.values(d.value).every(x => x == null || x == '');
 
   if (isEmpty) { nullishChart(); return;}
@@ -108,8 +110,8 @@ function chartdata(d = null) {
       const color = geo == "EU27_2020" ? '#CCA300' : (geo == "EA" ? '#208486' : "#0E47CB");
       bartotals.push({ name: languageLabel, y: taxValue, color }); 
     });
-  }
-
+  }  
+ 
 
   const detail = REF.detail;
   const order = REF.order;
@@ -129,7 +131,7 @@ function chartdata(d = null) {
   };
   
   const findOrder = `${detail}_${order}`;
-  
+ 
   if (orderChange.hasOwnProperty(findOrder)) {
     orderChange[findOrder]();
   }
@@ -165,7 +167,6 @@ const yAxisTitle =
   REF.percentage == 1
     ? languageNameSpace.labels["PRICE_" + REF.product] + " " + languageNameSpace.labels['%']
     : languageNameSpace.labels["PRICE_" + REF.product] + " [" + languageNameSpace.labels["S_" + REF.currency] + "/" + languageNameSpace.labels["S_" + REF.unit] + "]";
-
 
 const chartOptions = {
   containerId: "chart",

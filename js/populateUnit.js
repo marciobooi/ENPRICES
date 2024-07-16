@@ -14,9 +14,6 @@ function populateUnit() {
 
     unitList = codesDataset[conditions[`${REF.product}_${REF.consumer}`]].unit
 
-
-
-
     const target = document.querySelector("#containerUnit");
     const elementId = 'selectUnit';
     const optionsArray = unitList;
