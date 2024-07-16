@@ -400,7 +400,13 @@
   "CTR": "Pays",
 
   "SELECTLANGUAGE": "Sélectionner la langue",
-  "OFFICIAL": "Langues officielles de l'UE :"
+  "OFFICIAL": "Langues officielles de l'UE :",
+
+  "AGGREGATE": "Agrégats",
+  "EUCTR": "Pays de l'UE",
+  "EFTA": "Pays de l'AELE",
+  "ENLARGEMENT": "Pays en élargissement",
+  "OTHERCTR": "Autres pays tiers"
  
 
 

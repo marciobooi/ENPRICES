@@ -42,15 +42,3 @@ var socialNameSpace = (function () {
     },
   };
 })();
-
-
-
-
-
-
-
-
-
-
-
-
