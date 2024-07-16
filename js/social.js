@@ -14,7 +14,7 @@ var socialNameSpace = (function () {
   }
 
   return {
-    linkedIn: function () {
+    linkedin: function () {
       const description = encodeURIComponent(text[language]);
       const url = `https://www.linkedin.com/shareArticle?mini=true&title=Energyprices&summary=${description}&url=${currentUrl}`;
       openWindow(url);
