@@ -116,9 +116,9 @@
 
   "GJ_GCV": "Gigajoules (pouvoir calorifique supérieur = PCS)",
   "S_GJ_GCV": "GJ PCS",
-  "KWH": "Kilowattheure",
+  "KWH": "Kilowattheure (KWh)",
   "S_KWH": "kWh",
-  "MWH": "Mégawattheure",
+  "MWH": "Mégawattheure (MWh)",
   "S_MWH": "MWh",
 
   "EUR": "Euro",

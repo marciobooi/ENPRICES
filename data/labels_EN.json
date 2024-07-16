@@ -155,9 +155,9 @@
 
   "GJ_GCV": "Gigajoules (gross calorific value = GCV)",
   "S_GJ_GCV": "GJ GCV",
-  "KWH": "Kilowatt-hour",
+  "KWH": "Kilowatt-hour (KWh)",
   "S_KWH": "kWh",
-  "MWH": "Megawatt-hour",
+  "MWH": "Megawatt-hour (MWh)",
   "S_MWH": "MWh",
 
   "EUR": "Euro",
@@ -367,7 +367,7 @@
   "CONSUME": "Consumption level",
   "UNIT": "Unit",
   "all": "Select all countries",
-  "KWH_GE15000" : "band DE: Consumption for 15 000 kWh or over",
+  "KWH_GE15000" : "Band DE: Consumption for 15 000 kWh or over",
   "FEED": "Feedback",
   "TOOLS": "Tools",
   "DB": "access to dataset",

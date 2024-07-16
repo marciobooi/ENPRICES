@@ -112,9 +112,9 @@
 
   "GJ_GCV": "Gigajoule (Bruttoheizwert = GCV)",
   "S_GJ_GCV": "GJ GCV",
-  "KWH": "Kilowattstunde",
+  "KWH": "Kilowattstunde (KWh)",
   "S_KWH": "kWh",
-  "MWH": "Megawattstunde",
+  "MWH": "Megawattstunde (MWh)",
   "S_MWH": "MWh",
 
   "EUR": "Euro",
