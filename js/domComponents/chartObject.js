@@ -82,24 +82,46 @@ class Chart {
           series: this.seriesOptions,
       },
         series: this.series,
-        exporting: {         
-            enabled: true,
-            sourceWidth: 1200,
-            sourceHeight: 600,
-            chartOptions: {
-              xAxis: [{
-                labels: {
-                  style: {
-                    fontSize: '12px'
+        exporting: {      
+          enabled: true,
+          allowHTML: true,
+          sourceWidth: 1200,
+          sourceHeight: 800,
+          scale: 1,
+          chartOptions: {
+            subtitle: null,
+            credits:"",
+            chart: {
+              marginTop: 100,
+              marginLeft: 100,
+              marginRight: 100,
+              events: {
+                load: function () {                  
+                  this.renderer.image(
+                    'https://ec.europa.eu/eurostat/statistics-explained/images/0/09/Logo_RGB-POS.png', 
+                    1100, 
+                    750, 
+                    90, 
+                    50
+                  ).add();
+                },
+                redraw: function () {
+                  const chart = this;
+                  const images = chart.container.getElementsByTagName('image');
+                  if (images.length > 0) {
+                    images[0].setAttribute('x', chart.chartWidth - 100);
+                    images[0].setAttribute('y', chart.chartHeight - 40);
                   }
                 }
-              }]
-            },                   
+              }
+          } 
+          },
+                      
           buttons: {
               contextButton: {
                   enabled: false
               }
-          },
+          }, 
           csv: {
             columnHeaderFormatter: function(item, key) {
                 if (!item || item instanceof Highcharts.Axis) {
