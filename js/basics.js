@@ -308,7 +308,7 @@ function tooltipTable(points) {
       <thead>
         <tr>
           <th scope="cols">${sortedPoints[0].key}</th>                    
-          <th scope="cols"></th>                    
+          <th class="tooltipUnit" scope="cols">${REF.unit}</th>                    
         </tr>
       </thead>`;
     
@@ -358,9 +358,10 @@ function tooltipTable(points) {
         const totalValue = totalSum.toFixed(dec);
     
         // Add a row for the total
-        html += `<tr>
-          <td><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${totalColor}" /></svg> ${languageNameSpace.labels['TOTAL']}</td>
-          <td>${totalValue}</td>
+        html += `
+        <tr class="TOTAL">
+          <td class="TOTAL"> ${languageNameSpace.labels['TOTAL']}</td>
+          <td class="TOTAL">${totalValue}</td>
         </tr>`;
       }
     }    

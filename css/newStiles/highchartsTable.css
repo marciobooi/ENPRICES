@@ -165,6 +165,26 @@ th.highcharts-text {
     padding: 5px;
 }
 
+.tooltipUnit {
+    font-size: .5rem;
+}
+
+#tooltipTable > tbody > tr > td {
+    padding: 0.3rem;
+    font-size: 12px !important;
+    color: #515560 !important;
+}
+
+#tooltipTable > tbody > tr.TOTAL > td {
+    padding: 0.3rem;
+    font-size: 13px !important;
+    color: #212122 !important;
+    font-weight: 600;
+}
+
+#tooltipTable > tbody > tr.TOTAL > td:first-child {
+    padding-left: 1rem !important;
+}
 
 
 
