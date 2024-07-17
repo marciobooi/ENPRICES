@@ -365,7 +365,7 @@
   "TOOLS": "Outils",
   "DB": "accès à la base de données",
   "%": "en pourcentage",
-  "TOGGLEAGREGATES": "Afficher les agrégats",
+"TOGGLEAGREGATES": "Afficher l'agrégat de l'UE",
 
   "SELITEN": "Sélectionnez un élément",
   "NORESULTS": "Aucun résultat trouvé",
@@ -379,7 +379,7 @@
   "shareBtn": "Partager le graphique",
   "embebedBtn": "Intégrer le graphique (iframe)",
   "shareChart": "Partager sur les réseaux sociaux",
-  "toggleAgregates": "Afficher les agrégats",
+  "toggleAgregates": "Afficher l'agrégat de l'UE",
   "tb-togle-order": "Sélectionner l'ordre du graphique",
   "tb-togle-table": "Afficher le tableau",
   "toggleTableBtn": "Afficher le tableau",

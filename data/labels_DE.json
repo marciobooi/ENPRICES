@@ -360,7 +360,7 @@
   "TOOLS": "Werkzeuge",
   "DB": "zugriff auf Datensatz",
   "%": "in Prozent",
-  "TOGGLEAGREGATES": "Aggregatzustände anzeigen",
+  "TOGGLEAGREGATES": "EU-Gesamtwert anzeigen",
 
   "SELITEN": "Wählen Sie ein Element aus",
   "NORESULTS": "Keine Ergebnisse gefunden",
@@ -374,7 +374,7 @@
   "shareBtn": "Diagramm teilen",
   "embebedBtn": "Diagramm einbetten (iframe)",
   "shareChart": "In sozialen Medien teilen",
-  "toggleAgregates": "Aggregatumschaltung",
+  "toggleAgregates": "EU-Gesamtwert anzeigen",
   "tb-togle-order": "Reihenfolge des Diagramms auswählen",
   "tb-togle-table": "Tabelle anzeigen",
   "toggleTableBtn": "Tabelle anzeigen",

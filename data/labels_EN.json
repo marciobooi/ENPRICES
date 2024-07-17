@@ -372,7 +372,7 @@
   "TOOLS": "Tools",
   "DB": "access to dataset",
   "%": "in percentages",
-  "TOGGLEAGREGATES": "Display aggregates",
+  "TOGGLEAGREGATES": "Show EU aggregate",
 
   "SELITEN" : "Select an item",
   "NORESULTS" : "No results found",
@@ -386,7 +386,7 @@
   "shareBtn": "share chart",
   "embebedBtn": "Embebed chart iframe",
   "shareChart": "Share in social media",
-  "toggleAgregates": "Display aggregates",
+  "toggleAgregates": "Show EU aggregate",
   "tb-togle-order": "Select order of the chart",
   "tb-togle-table": "Display table",
   "toggleTableBtn": "Display table",
