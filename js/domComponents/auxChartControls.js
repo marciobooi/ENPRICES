@@ -148,9 +148,10 @@ class ChartControls {
 			
 				closeTable();
 
-				disableChatOptionsBtn(REF.chartId)
+				
 				$('.ecl-button').not('button#tb-togle-table').prop('disabled', false);		
 				$('#menu').prop('disabled', false);		
+				disableChatOptionsBtn(REF.chartId)
 				tableBtn.focus();
 			}			
 		});
@@ -220,6 +221,7 @@ class ChartControls {
   
   function disableChatOptionsBtn(chart) {
 	REF.chartId = chart;  
+	log('here')
 	const charts = ["barChart", "pieChart", "lineChart"];  
 	charts.forEach(chart => {
 	  if (REF.chartId == chart) {
