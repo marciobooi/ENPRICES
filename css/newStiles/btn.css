@@ -1,10 +1,8 @@
-.ecl-button:hover, #btn-country-ok:hover {
-    color: white;
-    box-shadow: 0 0 0 0.15rem #cca3004d;
-    background-color: #CCA300!important;
-    border-color: #CCA300 !important;
+/* .ecl-button:hover, #btn-country-ok:hover {
+    box-shadow: 0 0 0 0.15rem #0e47cb0d;
+    border: 2px solid #0e47cb;
     
-}
+} */
 
 .btn-secondary {
     background-color: var(--tool-1);
@@ -218,4 +216,14 @@ label#HIDE {
     justify-content: center;
     align-items: center;
     align-content: center;
+}
+
+.ecl-button--primary[disabled] {
+    box-shadow: 0 0 0 0.15rem #cca30000;
+    border: 2px solid #0e47cb;
+    background-color: white !important;
+    color: #0e47cb !important;
+    opacity: 1;
+    pointer-events: auto;
+    cursor: not-allowed !important;
 }

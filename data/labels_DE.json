@@ -284,7 +284,7 @@
   "meta": "Metadaten",
   "details": "Details anzeigen",
   "hidDetails": "Details ausblenden",
-  "info": "Info anzeigen",
+  "info": "Informationen anzeigen",
   "totals": "Details anzeigen",
   "close": "schließen",
   "play": "Animation abspielen",
@@ -293,9 +293,9 @@
   "msg": "Text in die Zwischenablage kopiert",
   "legTooltip": "Serie ein- / ausblenden",
 
-  "twitter": "Auf X teilen",
-  "linkedin": "Auf LinkedIn teilen",
-  "facebook": "Auf Facebook teilen",
+  "twitter": "X",
+  "linkedin": "linkedIn",
+  "facebook": "facebook",
 
   "inftitle": "Energiedaten",
 
@@ -369,7 +369,7 @@
   "CLOSE": "Schließen",
   "KEYWORD": "Geben Sie ein Schlüsselwort ein",
 
-  "infoBtn": "Info anzeigen",
+  "infoBtn": "Informationen anzeigen",
   "downloadBtn": "Diagrammbild herunterladen",
   "shareBtn": "Diagramm teilen",
   "embebedBtn": "Diagramm einbetten (iframe)",

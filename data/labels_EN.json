@@ -65,7 +65,7 @@
   "meta": "Metadata",
   "details": "Show details",
   "hidDetails": "Hide details",
-  "info": "Show info",
+  "info": "Show information",
   "totals": "Show details",
   "close": "Close",
   "play": "Play animation",
@@ -78,9 +78,9 @@
   "toggle-thumb": "Display table",
   "find-more-menu-icon": "Open tutorial",
 
-  "twitter": "Share on X",
-  "linkedin": "Share on linkedin",
-  "facebook": "Share on facebook",
+  "twitter": "X",
+  "linkedin": "linkedIn",
+  "facebook": "facebook",
 
   "sharemodaltitle": "Embed chart",
   "msg": "Text copied to clipboard",
@@ -381,7 +381,7 @@
   "CLOSE" : "Close",
   "KEYWORD" : "Enter keyword",
 
-  "infoBtn": "Show info",
+  "infoBtn": "Show information",
   "downloadBtn": "download chart image",
   "shareBtn": "share chart",
   "embebedBtn": "Embebed chart iframe",

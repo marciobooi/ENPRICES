@@ -498,8 +498,6 @@ function chartApiCall() {
       break;
   }
 
-  log(url)
-
   const request = new XMLHttpRequest();
   request.open("GET", url, false); // Setting the third parameter to 'false' makes it synchronous
   request.send();
