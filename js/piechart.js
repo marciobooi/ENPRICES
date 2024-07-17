@@ -34,6 +34,7 @@ function createPieChart() {
     cursor: "pointer",
     dataLabels: {
       enabled: true,
+      y: -10,
       style: {
         fontSize: '.8rem',
         fontWeight: 'normal'
@@ -93,8 +94,11 @@ function createPieChart() {
     creditsHref: "",
     series: [
       {
-        data: piedata.reverse().filter(arr => arr[1] > 0),
-        name: languageNameSpace.labels["S_" + REF.currency] +"/" +languageNameSpace.labels["S_" + REF.unit],
+        data: piedata
+          .filter(arr => arr[1] > 0) // Filter out zero or negative values
+          .sort((a, b) => b[1] - a[1]), // Sort by value in descending order
+          // .reverse(), // Reverse to arrange for clockwise direction
+        name: languageNameSpace.labels["S_" + REF.currency] + "/" + languageNameSpace.labels["S_" + REF.unit],
       },
     ],
     colors: pieColors,

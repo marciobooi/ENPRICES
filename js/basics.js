@@ -245,9 +245,22 @@ function pieTolltip(point) {
   // Assuming there is a variable 'unit' representing the unit you want to display
   const unit = REF.unit; // Replace 'your_unit' with the actual unit
   const na = languageNameSpace.labels['FLAG_NA'];
+
+  const total = point.series.data.reduce((acc, point) => acc + point.y, 0);
+  const percentage = (point.options.y / total) * 100;
+  const formattedPercentage = Highcharts.numberFormat(percentage, 1);
  
   const formatPointTooltip = function () {
-    return `<tr class="tooltipTableRow"><td><span style="color:${point.color}">\u25CF</span> ${point.name}:</td><td>${point.y} ${unit}</td></tr>`;
+    return `
+    <tr class="tooltipTableRow">
+      <td><span style="color:${point.color}">\u25CF</span> ${point.y}</td>
+      <td> ${unit}</td>
+    </tr>
+    <tr class="tooltipTableRow">
+      <td><span style="color:${point.color}">\u25CF</span> ${formattedPercentage}</td>
+      <td> %</td>
+    </tr>
+    `;
   };
 
   // Construct the complete tooltip content
@@ -257,7 +270,7 @@ function pieTolltip(point) {
   const html = `<table id="tooltipTable" class="table_component"> 
     <thead class="">
       <tr class="">
-        <th scope="col" colspan="2">${languageNameSpace.labels[REF.chartGeo]}</th>                
+        <th scope="col" colspan="2">${point.name}</th>                
       </tr>
     </thead>
     <tbody>
