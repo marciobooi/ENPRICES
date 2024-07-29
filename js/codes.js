@@ -202,13 +202,6 @@ energyBreakdowns = {
 };
 
 /*
-ALL ABOUT FUEL CODES
-*/
-fuelColors = {
-	"4100": "#FFA500", // gas
-	"6000": "#D73C41" // electricity
-}
-
 
 /*
 ALL ABOUT BAND CODES
@@ -216,91 +209,52 @@ ALL ABOUT BAND CODES
 //define a generic list of 14 band colors to be used for the pie charts and time graphs
 
 
-totalColors = ["#2644A7", "#EFD18C", "#208486", "#388AE2"];
+totalColors = ["#388AE2", "#06D7FF", "#19FF99", "#4C99FF"];
 
-lineColors = ["#2644A7", "#EFD18C", "#208486", "#388AE2"];
+lineColors = ["#388AE2", "#06D7FF", "#19FF99", "#4C99FF"];
 
-detailColors = ["#2644A7", "#EFD18C", "#208486"];
+detailColors = ["#388AE2", "#06D7FF", "#19FF99"];
 
 colors = {
-	"NRG_SUP":'#388AE2',
-	"NETC":'#A5DAF9',
-	"TAX_LEV_X_VAT":'#80BFFA',
-	"VAT":'#104F99',
-	"TAX_RNW":'#208486',
-	"TAX_CAP":'#92C1C0',
-	"TAX_ENV":"#5FADAD",
-	"TAX_NUC":"#00525C",
-	"OTH":"#008BE6",
-	"TOTAL":"#F4F4F4",
+	"TOTAL":'#388AE2',
+	"NETC":'#06D7FF',
+	"TAX_LEV_X_VAT":'#19FF99',
+	"VAT":'#4C99FF',
+	"TAX_RNW":'#FFD900',
+	"TAX_CAP":'#C88000',
+	"TAX_ENV":'#33D129',
+	"TAX_NUC":'#FFB800',	
+	"OTH":'#E67500',
+	"NRG_SUP":'#05A0FF',
 }
 
-
-// colors = [	
-	//  "NRG_SUP":'#388AE2',
-	// 	"NETC":'#A5DAF9',
-	// 	"TAX_LEV_X_VAT":'#80BFFA',
-	// 	"VAT":'#104F99',
-	// 	"TAX_RNW":'#208486',
-	// 	"TAX_CAP":'#92C1C0',
-	// 	"TAX_ENV":"#5FADAD",
-	// 	"TAX_NUC":"#00525C",
-	// 	"OTH":"#008BE6",
-	// 	"TOTAL":"#F4F4F4",
-	// "#A1CBE6",
-	// "#5CAFE6",
-	// "#005C99",
-// ]
-
-
-piecomponentColors = [
+componentColors = [
+	'#388AE2',
+	'#06D7FF',
+	'#19FF99',
+	'#4C99FF',
+	'#FFD900',
+	'#C88000',
+	'#33D129',
+	'#FFB800',
 	
-	'#388AE2',
-	'#A5DAF9',
-	'#80BFFA',
-	'#104F99',
-	'#208486',
-	'#92C1C0',
-	"#5FADAD",
-	"#00525C",
-	"#008BE6",
-	"#F4F4F4",
-	"#A1CBE6",
-	"#5CAFE6",
-	"#005C99",
+	'#E67500',
+	'#05A0FF',
+	'#2CB523',
+	'#8C4000',
+	'#0033FF',
+	'#00A68C',
+	'#FF8C00',
+	
+	'#00D98C',
+	'#2673FF',
+	'#FFB300',
+	'#FF8A00',
+	'#B35900',
+	'#26A31F',
+	'#0573FF',
 ]
 
-linecomponentColors = [	
-	'#388AE2',
-	'#A5DAF9',
-	'#80BFFA',
-	'#104F99',
-	'#208486',
-	'#92C1C0',
-	"#5FADAD",
-	"#00525C",
-	"#008BE6",
-	"#F4F4F4",
-	"#A1CBE6",
-	"#5CAFE6",
-	"#005C99",
-]
-
-componentColors = [	
-	'#388AE2',
-	'#A5DAF9',
-	'#80BFFA',
-	'#104F99',
-	'#208486',
-	'#92C1C0',
-	"#5FADAD",
-	"#00525C",
-	"#008BE6",
-	"#F4F4F4",
-	"#A1CBE6",
-	"#5CAFE6",
-	"#005C99",
-]
 
 
 
@@ -316,7 +270,7 @@ codesEnprices = {
 	"tax": Object.keys(energyTaxs),
 	"currency": Object.keys(energyCurrencies),
 	"breakdown": Object.keys(energyBreakdowns),
-	"fuel": Object.keys(fuelColors),
+	"fuel": totalColors,
 	"year": [] // to be queried from Eurobase directly
 };
 

@@ -6,7 +6,7 @@ function createPieChart() {
  
   const chartTitle = getTitle()
 
-  const pieColors = (REF.component == 1) ?  piecomponentColors : detailColors;
+  const pieColors = (REF.component == 1) ?  componentColors : detailColors;
     
 
   const emptyResponse = d==null || Object.values(d.value).some(x => (x == null && x == ''))

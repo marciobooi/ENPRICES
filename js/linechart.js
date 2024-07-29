@@ -88,7 +88,7 @@ function createLineChart() {
 
   lineData()
 
-    lineColors = (REF.component == 1) ?  linecomponentColors : lineColors;
+    lineColors = (REF.component == 1) ?  componentColors : lineColors;
 
     const lineTitle = getTitle() 
 
