@@ -4,9 +4,7 @@
     
 } */
 
-.btn-secondary {
-    background-color: var(--tool-1);
-}
+
 
 
 
@@ -25,7 +23,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: var(--tool-1);
+
 }
 
 span.iconText {
@@ -41,29 +39,6 @@ span.iconText {
     justify-content: flex-end;
 }
 
-li > button {
-    background-color: var(--tool-1) !important;
-    border-color: var(--tool-1) !important;
-    width: 2.5rem;
-    height: 2.5rem;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2em !important;
-    
-}
-
-
-
-
-
-
-
-
-
-
-
-button:focus,
 .input:focus {
     box-shadow: var(--bs-btn-focus-box-shadow);
 }
@@ -73,34 +48,13 @@ ul.dropdown-menu.dropdown-menu-end.show {
 }
 
 
-/* .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
-    text-decoration: none;
-    color: #262626;
-    background-color: lightgray;
-} */
-
-
-/* #menu:hover {
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-} */
 .min-with--nav:hover:not(.dropdown-toggle) {
-    box-shadow: 0 0 0 0.15rem #cca3004d;
-    background-color: #CCA300;
-    border-color: #CCA300 ;
-}
-button:focus:not(:focus-visible):not(.dropdown-toggle), button:active:not(.dropdown-toggle) {
-    box-shadow: 0 0 0 0.15rem #cca3004d;
-    background-color: #CCA300 !important;
-    border-color: #CCA300 !important;
-}
-
-
-
-.ecl-button:focus-visible { 
-    outline: 0;   
-    box-shadow: 0 0 0 0.15rem #cca3004d;
-    background-color: #CCA300;
-    border-color: #CCA300 ;
+    box-shadow: 0 2px 4px rgba(9, 49, 142, .08), 0 0 10px rgba(9, 49, 142, .04), 0 4px 5px rgba(9, 49, 142, .04), 0 -4px 4px rgba(9, 49, 142, .04);
+    border: 2px solid #0e47cb;
+    background-color: white;
+    color: #0e47cb;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 
@@ -118,60 +72,11 @@ span.agregates.fa-stack.fa-rotate-180 {
     font-size: .9rem;
 }
 
-.round-btn {
-    border-radius: 50% !important;
-}
-
-
-#btnCloseModalChart {
-    background-color: #cfdaf5 !important;
-    border-color: #cfdaf5!important;
-    color: #0e47cb;
-    border: 3px solid #cfdaf5!important;
-    font-size: 1.7rem !important;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    width: 2.7rem;
-    height: 2.7rem;
-    
-}
-
-#closeChart {
-    margin-left: 2rem;
-}
-
-#toggleLanguageBtn:hover {
-    border-width: 1px;
-    padding: calc(var(--s-s) - 1px) calc(var(--s-m) - 1px);
-}
-
-#toggleLanguageBtn:hover {
-    background-color: var(--c-p-10) !important;
-    border-color: var(--c-d) !important;
-    color: var(--c-d);
-}
-
-#btnCloseModalChart:hover {
-    box-shadow: 0 0 0 0.15rem #0e47cb4d;
-    background-color: #0e47cb!important;
-    border-color: #0e47cb !important;
-    color: white !important;
-}
-
-#btnCloseModalChart:focus {
-    box-shadow: 0 0 0 0.15rem #cca3004d;
-    background-color: #CCA300!important;
-    border-color: #CCA300 !important;
-}
-
 .text-truncate {
     overflow: hidden !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
 }
-
-
 
 #floatingMenu > li {
     text-decoration: none;
@@ -218,12 +123,53 @@ label#HIDE {
     align-content: center;
 }
 
-.ecl-button--primary[disabled] {
-    box-shadow: 0 0 0 0.15rem #cca30000;
+
+.round-btn {  
+    background-color: #0e47cb;
+    color: #fff;
     border: 2px solid #0e47cb;
+    border-radius: 50%;
+    min-height: 2.75rem;
+    min-width: 44px;
+    padding: 0;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em !important;
+
+} 
+
+.round-btn:hover, .round-btn:active {
+    box-shadow: 0 2px 4px rgba(9,49,142,.08), 0 0 10px rgba(9,49,142,.04), 0 4px 5px rgba(9,49,142,.04), 0 -4px 4px rgba(9,49,142,.04);
+    background-color: #fff;
+    color: #0e47cb;
+    border: 2px solid #0e47cb;
+
+    box-shadow: 0 0 0 0.15rem #cca30000 !important;
+    border: 2px solid #0e47cb !important;
     background-color: white !important;
     color: #0e47cb !important;
     opacity: 1;
     pointer-events: auto;
-    cursor: not-allowed !important;
 }
+
+.round-btn:disabled {
+    opacity: .5;
+}
+
+.close-chart-menu-btn {  
+    color: #0e47cb;   
+    background-color: #cfdaf5;   
+    border-color: var(--bs-btn-active-border-color);  
+  }
+  
+  .close-chart-menu-btn:focus {
+    outline: none;
+  }
+  
+  .close-chart-menu-btn:hover, .btn:first-child:active {
+    color: white;
+    background-color: #0e47cb;
+    border-color: var(--bs-btn-hover-border-color);
+  }
+  

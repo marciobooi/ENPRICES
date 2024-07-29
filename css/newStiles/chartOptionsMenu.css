@@ -205,39 +205,7 @@ a.dropdown-item.selected {
   display: none !important;
 }
 
-.close-chart-menu-btn {
-  display: flex;
-  border: none;
-  font-size: 20px;
-  color: #0e47cb;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  background-color: #cfdaf5;
-  border-radius: 50%;
-  padding: 1rem;
-  border-color: var(--bs-btn-active-border-color);
-  width: 2rem;
-  height: 2rem;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-}
 
-.close-chart-menu-btn:focus {
-  outline: none;
-}
-
-.close-chart-menu-btn:hover, .btn:first-child:active {
-  color: white;
-  background-color: #0e47cb;
-  border-color: var(--bs-btn-hover-border-color);
-}
-
-.close-chart-menu-btn span {
-  display: inline-block;
-  width: 30px;
-}
 
 .close-chart-menu-btn:hover span {
   background-color: #aaa;

@@ -97,10 +97,6 @@ header.ecl-modal__header {
   padding: 1rem;
 }
 
-#btnControl > .ecl-button {
-  margin-left: 1rem;
-}
-
 .ecl-modal__body-scroll {
   word-break: break-all;
   text-align: justify;
