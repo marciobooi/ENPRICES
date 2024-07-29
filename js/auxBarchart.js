@@ -102,7 +102,7 @@ function auxiliarBarGraph() {
     tooltipFormatter: tooltipFormatter,
     creditsText: credits(),
     creditsHref: "",
-    series: series,
+    series: series.sort((a, b) => a.name.localeCompare(b.name)),
     colors:  colors,
     legend: {
       enabled: legendStatus,

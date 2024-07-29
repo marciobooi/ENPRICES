@@ -34,20 +34,20 @@ function lineData() {
         data: data,
         id: item,
         index: item,
-        legendIndex: item,
+        // legendIndex: item,
         color: colors[taxs[item]]
       };
       linedata.push(obj);
     } 
 
-    linedata.push({
-        name: languageNameSpace.labels['TOTAL'],
-        index: taxs.length.toString(),
-        legendIndex: taxs.length.toString(),
-        id: taxs.length.toString(),
-        data: REF.component == 1 ? total_data : [],      
-        color: colors['TOTAL']  
-      });
+    // linedata.push({
+    //     name: languageNameSpace.labels['TOTAL'],
+    //     index: taxs.length.toString(),
+    //     legendIndex: taxs.length.toString(),
+    //     id: taxs.length.toString(),
+    //     data: REF.component == 1 ? total_data : [],      
+    //     color: colors['TOTAL']  
+    //   });
 
     categoriesAndStacks = lineCat.map((el, i) => {
       if (i >= linedata[0].data.length) {
@@ -97,6 +97,9 @@ function createLineChart() {
 
    
     const tooltipFormatter = function () { return tooltipTable(this.points);}; 
+
+    log(orderedSeries)
+    log(orderedSeries.sort((a, b) => a.name.localeCompare(b.name)))
      
   
       const chartOptions = {
@@ -109,7 +112,7 @@ function createLineChart() {
         tooltipFormatter: tooltipFormatter,
         creditsText: credits(),
         creditsHref: 'https://ec.europa.eu/eurostat/databrowser/view/'+REF.dataset+'/default/table?lang=EN',
-        series: orderedSeries,
+        series: orderedSeries.sort((a, b) => a.name.localeCompare(b.name)),
         colors: lineColors,
         legend: {
           padding: 3,   
