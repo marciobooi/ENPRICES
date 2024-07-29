@@ -177,7 +177,7 @@ class ChartControls {
 			const pieChartElement = pieChart.createButton();
 			const lineChartElement = lineChart.createButton();
 			const tableChartElement = table.createButton();
-			const printChartElement = createprintChart.createButton();
+			// const printChartElement = createprintChart.createButton();
 			const downloadChartElement = downloadChart.createButton();
 			const downloadExcelElement = downloadExcel.createButton();
 			const embebedeChartElement = embebedeChart.createButton();
@@ -189,7 +189,7 @@ class ChartControls {
 			document.getElementById("togglePieChart").appendChild(pieChartElement);
 			document.getElementById("toggleLineChart").appendChild(lineChartElement);
 			document.getElementById("toggleAuxTable").appendChild(tableChartElement);
-			document.getElementById("printChart").appendChild(printChartElement);
+			// document.getElementById("printChart").appendChild(printChartElement);
 			document.getElementById("downloadChart").appendChild(downloadChartElement);
 			document.getElementById("downloadExcel").appendChild(downloadExcelElement);
 			document.getElementById("embebedChart").appendChild(embebedeChartElement);
