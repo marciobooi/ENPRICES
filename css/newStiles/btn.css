@@ -139,7 +139,7 @@ label#HIDE {
 
 } 
 
-.round-btn:hover, .round-btn:active {
+.round-btn:hover:not(:disabled), .round-btn:active {
     box-shadow: 0 2px 4px rgba(9,49,142,.08), 0 0 10px rgba(9,49,142,.04), 0 4px 5px rgba(9,49,142,.04), 0 -4px 4px rgba(9,49,142,.04);
     background-color: #fff;
     color: #0e47cb;
@@ -154,7 +154,7 @@ label#HIDE {
 }
 
 .round-btn:disabled {
-    opacity: .5;
+    opacity: .7;
 }
 
 .close-chart-menu-btn {  
