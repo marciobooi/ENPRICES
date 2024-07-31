@@ -14,6 +14,7 @@ class Singleselect {
         });        
     } 
 
+
     createSingleSelect() {    
         const singleSelectHTML = /*html*/`
                 <div class="ecl-form-group" role="application">

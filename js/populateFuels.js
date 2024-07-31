@@ -27,7 +27,7 @@ function populateFuel() {
       existingSingleSelect.parentElement.parentElement.remove();
   }
 
-  const singleSelect = new Singleselect(elementId, optionsArray, labelDescription, activeElement, textChange, selectedValue => {
+  const singleSelect = new Singleselect(elementId, optionsArray.reverse(), labelDescription, activeElement, textChange, selectedValue => {
       REF.product = selectedValue;
       REF.unit = defaultUnit;
       populateConsumption()

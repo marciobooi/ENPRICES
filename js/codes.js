@@ -127,8 +127,9 @@ barColors = {
 ALL ABOUT PRODUCT CODES
 */
 energyProducts = {	
-	"6000": "",
-	"4100": "",};
+	
+"4100": "",
+"6000": "",};
 
 /*
 ALL ABOUT CONSUMER CODES
