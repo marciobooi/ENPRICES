@@ -98,8 +98,8 @@ function createLineChart() {
    
     const tooltipFormatter = function () { return tooltipTable(this.points);}; 
 
-    log(orderedSeries)
-    log(orderedSeries.sort((a, b) => a.name.localeCompare(b.name)))
+                                // log(orderedSeries)
+                                // log(orderedSeries.sort((a, b) => a.name.localeCompare(b.name)))
      
   
       const chartOptions = {

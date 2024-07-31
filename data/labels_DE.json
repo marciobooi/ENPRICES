@@ -250,15 +250,16 @@
   "nrg_pc_204_c": "Strompreise Komponenten für haushaltliche Verbraucher - halbjährliche Daten (ab 2007)",
   "nrg_pc_205_c": "Strompreise Komponenten für nichthaushaltliche Verbraucher - halbjährliche Daten (ab 2007)",
 
-  "SORT_PROTOCOL": "protokollarische Reihenfolge",
-  "SORT_ALPHABETICAL": "Alphabetischer Reihenfolge",
-  "SORT_ASC": "Aufsteigende Werte ",
-  "SORT_DESC": "Absteigende Werte",
 
-  "PROTO": "protokollarische Reihenfolge",
-  "ALPHA": "Alphabetischer Reihenfolge",
-  "ASC": "Aufsteigende Werte ",
-  "DESC": "Absteigende Werte",
+  "SORT_PROTOCOL": "Protokoll-Länderreihenfolge",
+  "SORT_ALPHABETICAL": "Alphabetische Länderreihenfolge",
+  "SORT_ASC": "Aufsteigende Datenwerte",
+  "SORT_DESC": "Absteigende Datenwerte",
+
+  "PROTO": "Protokoll-Länderreihenfolge",
+  "ALPHA": "Alphabetische Länderreihenfolge",
+  "ASC": "Aufsteigende Datenwerte",
+  "DESC": "Absteigende Datenwerte",
 
   "WARNING": "WARNUNG",
   "PIE_CHART_DISCLAIMER": "Tortendiagramm kann wegen negativer Beitr�ge nicht dargestellt werden",

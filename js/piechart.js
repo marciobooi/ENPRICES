@@ -39,7 +39,7 @@ function createPieChart() {
         fontSize: '.8rem',
         fontWeight: 'normal'
     },
-    format: "<b>{point.name}</b>:<br>{point.percentage:.1f} %<br>"+ languageNameSpace.labels["VAL"] +" : {point.y:,.4f} " + languageNameSpace.labels["S_" + REF.currency] + "/" + languageNameSpace.labels["S_" + REF.unit],
+    format: "<b>{point.name}</b>:<br>{point.percentage:.1f} %<br>"+ languageNameSpace.labels["VAL"] +" : {point.y:,.2f} " + languageNameSpace.labels["S_" + REF.currency] + "/" + languageNameSpace.labels["S_" + REF.unit],
     },
 } 
 

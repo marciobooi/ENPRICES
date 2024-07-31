@@ -42,9 +42,6 @@ class Chart {
         yAxis: {
           labels: {
             format: this.yAxisFormat,
-            formatter: function () {
-              return Math.round(this.value); // Rounds the value to the nearest integer
-            }
           },
           title: {
             enabled: true,

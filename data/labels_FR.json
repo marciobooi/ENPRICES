@@ -253,15 +253,15 @@
   "nrg_pc_204_c": "Prix sur les composants de l'électricité des consommateurs résidentiels - données bi-annuelles (à partir de 2007)",
   "nrg_pc_205_c": "Prix sur les composants de l'électricité des consommateurs non résidentiels - données bi-annuelles (à partir de 2007)",
 
-  "SORT_PROTOCOL": "Ordre protocolaire",
-  "SORT_ALPHABETICAL": "Ordre alphabétique",
-  "SORT_ASC": "Valeurs croissantes",
-  "SORT_DESC": "Valeurs décroissantes",
+  "SORT_PROTOCOL": "Ordre des pays par protocolaire",
+  "SORT_ALPHABETICAL": "Ordre alphabétique des pays",
+  "SORT_ASC": "Valeurs de données croissantes",
+  "SORT_DESC": "Valeurs de données décroissantes",
 
-  "PROTO": "Ordre protocolaire",
-  "ALPHA": "Ordre alphabétique",
-  "ASC": "Valeurs croissantes",
-  "DESC": "Valeurs décroissantes",
+  "PROTO": "Ordre des pays par protocole",
+  "ALPHA": "Ordre alphabétique des pays",
+  "ASC": "Valeurs de données ascendantes",
+  "DESC": "Valeurs de données descendantes",
 
   "VIEWDATA": "Afficher le tableau",
 

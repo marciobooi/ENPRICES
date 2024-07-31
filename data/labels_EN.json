@@ -273,15 +273,15 @@
   "nrg_pc_204_c": "Electricity components for prices for household consumers - annual data (from 2007 onwards)",
   "nrg_pc_205_c": "Electricity components for prices for non-household consumers - annual data (from 2007 onwards)",
 
-  "SORT_PROTOCOL": "Protocol order",
-  "SORT_ALPHABETICAL": "Alphabetical order",
-  "SORT_ASC": "Ascending values",
-  "SORT_DESC": "Descending values",
+  "SORT_PROTOCOL": "Protocol country order",
+  "SORT_ALPHABETICAL": "Alphabetically country order",
+  "SORT_ASC": "Ascending data values",
+  "SORT_DESC": "Descending data values",
 
-  "PROTO": "Protocol order",
-  "ALPHA": "Alphabetical order",
-  "ASC": "Ascending values",
-  "DESC": "Descending values",
+  "PROTO": "Protocol country order",
+  "ALPHA": "Alphabetically country order",
+  "ASC": "Ascending data values",
+  "DESC": "Descending data values",
 
   "VIEWDATA": "View table",
 
@@ -413,7 +413,5 @@
   "EFTA": "EFTA countries",
   "ENLARGEMENT": "Enlargement countries",
   "OTHERCTR": "Other third countries"
-
-
 
 }
