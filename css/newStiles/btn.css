@@ -153,6 +153,7 @@ ul#floatingMenu {
     color: #0e47cb;   
     background-color: #cfdaf5;   
     border-color: var(--bs-btn-active-border-color);  
+    border-radius: 50%;
   }
   
   .close-chart-menu-btn:focus {
@@ -165,3 +166,12 @@ ul#floatingMenu {
     border-color: var(--bs-btn-hover-border-color);
   }
   
+
+
+  .close-button-container {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    /* border-radius: 50%; */
+}
+

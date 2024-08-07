@@ -11,15 +11,12 @@ function populateCountries() {
 
     const allCountries = ["EU27_2020","EA","BE","BG","CZ","DK","DE","EE","IE","EL","ES","FR","HR","IT","CY","LV","LT","LU","HU","MT","NL","AT","PL","PT","RO","SI","SK","FI","SE","IS","LI","NO","ME","MK","AL","RS","TR","BA","XK","MD","UA","GE"];
     const AGGREGATES_COUNTRY_CODES = ["EU27_2020", "EA"];
-    const EU_COUNTRY_CODES = [
-        "BE", "BG", "CZ", "DK", "DE", "EE", "IE", "EL", "ES", "FR", "HR", "IT", "CY", "LV", 
-        "LT", "LU", "HU", "MT", "NL", "AT", "PL", "PT", "RO", "SI", "SK", "FI", "SE"
-    ].sort();
-    const EFTA_COUNTRY_CODES = ["IS", "LI", "NO"].sort();
+    const EU_COUNTRY_CODES = ["BE", "BG", "CZ", "DK", "DE", "EE", "IE", "EL", "ES", "FR", "HR", "IT", "CY", "LV", "LT", "LU", "HU", "MT", "NL", "AT", "PL", "PT", "RO", "SI", "SK", "FI", "SE"];
+    const EFTA_COUNTRY_CODES = ["IS", "LI", "NO"];
     const ENLARGEMENT_COUNTRY_CODES = [
         "ME", "MK", "AL", "RS", "TR", "BA", "XK"
     ].sort();
-    const OTHER_THIRD_COUNTRY_CODES = ["MD", "UA", "GE"].sort();
+    const OTHER_THIRD_COUNTRY_CODES = ["UA", "MD", "GE"];
 
     const html = /*html*/`
       
