@@ -18,9 +18,9 @@ function populateFuel() {
   const target = document.querySelector("#containerFuel");
   const elementId = 'selectFuel';
   const optionsArray = Object.keys(energyProducts);
-  const labelDescription = languageNameSpace.labels["FUEL"];
+  const labelDescription = "FUEL";
   const activeElement = REF.product;
-  const textChange = languageNameSpace.labels["MENU_FUEL"];
+  const textChange = "MENU_FUEL";
 
   const existingSingleSelect = document.getElementById(elementId);
   if (existingSingleSelect) {    

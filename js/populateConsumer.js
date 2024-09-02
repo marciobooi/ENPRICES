@@ -2,9 +2,9 @@ function populateConsumer() {
     const target = document.querySelector("#containerConsumer");
     const elementId = 'selectConsumer';
     const optionsArray = Object.keys(energyConsumers);
-    const labelDescription = languageNameSpace.labels["CONSUMER"];
+    const labelDescription = "CONSUMER";
     const activeElement = REF.product;
-    const textChange = languageNameSpace.labels["MENU_CONSUMER"];
+    const textChange = "MENU_CONSUMER";
     
 
   const existingSingleSelect = document.getElementById(elementId);

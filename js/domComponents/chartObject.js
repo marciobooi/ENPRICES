@@ -123,8 +123,8 @@ class Chart {
             columnHeaderFormatter: function(item, key) {
                 if (!item || item instanceof Highcharts.Axis) {
                   const chartLabels = {
-                    "pieChart": languageNameSpace.labels["IND"],
-                    "barChart": languageNameSpace.labels["CTR"],
+                    "pieChart": languageNameSpace.labels["TAX"],
+                    "barChart": languageNameSpace.labels["CONSOM"],
                     "mainChart": languageNameSpace.labels["CTR"],
                     // Add more chart types and their corresponding labels here
                 };                    

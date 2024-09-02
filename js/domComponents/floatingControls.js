@@ -10,19 +10,19 @@ class FloatingChartControls {
     <div id="switchBtn">
 
     <div>
-      <label id="hideDetailsLabel" class="form-check-label" for="switchDetails">${languageNameSpace.labels['hidDetails']}</label>
-      <div class="form-check form-switch d-inline-block">
-        <input class="form-check-input focus-ring" type="checkbox" value="${REF.detail == 1 ? 1 : 0}" role="switch" id="switchDetails" ${REF.detail == 1 ? 'checked' : ''}>
-        <label id="showDetailsLabel" class="form-check-label" for="switchDetails">${languageNameSpace.labels['details']}</label>
-      </div>
+    <label id="hideDetailsLabel" class="form-check-label" for="switchDetails" data-i18n="HIDE_DETAILS"></label>
+    <div class="form-check form-switch d-inline-block">
+      <input class="form-check-input focus-ring" type="checkbox" value="${REF.detail == 1 ? 1 : 0}" role="switch" id="switchDetails" ${REF.detail == 1 ? 'checked' : ''}>
+      <label id="showDetailsLabel" class="form-check-label" for="switchDetails" data-i18n="DETAILS"></label>
+    </div>
     </div>
 
     <div>      
-      <label id="hideComponentsLabel" class="form-check-label" for="switchComponents">${languageNameSpace.labels['componentsHide']}</label>
-      <div class="form-check form-switch d-inline-block">
-        <input class="form-check-input focus-ring" type="checkbox" value="${REF.component == 1 ? 1 : 0}" role="switch" id="switchComponents" ${REF.component == 1 ? 'checked' : ''}>
-        <label id="showComponentsLabel" class="form-check-label" for="switchComponents">${languageNameSpace.labels['componentsShow']}</label>
-      </div>
+    <label id="showComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_SHOW"></label>
+    <div class="form-check form-switch d-inline-block">
+      <input class="form-check-input focus-ring" type="checkbox" value="${REF.components == 1 ? 1 : 0}" role="switch" id="switchComponents" ${REF.components == 1 ? 'checked' : ''}>
+      <label id="hideComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_HIDE"></label>
+    </div>
     </div>
 
   </div>      
@@ -33,13 +33,22 @@ class FloatingChartControls {
           
           <li class="nav-item px-1" id="Agregates" role="none"></li>			  
             <li class="nav-item dropdown px-1" id="ChartOrder" role="none">
-                <ul class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="select the order of the chart">     
-                <li><a href="#" id="DESC" class="dropdown-item ecl-link notLink ${REF.order == "DESC" ? "selected" : ""}" role="menuitem" aria-label="Descending values" value="DESC" >${languageNameSpace.labels['DESC']}</a></li>					
-                <li><a href="#" id="ASC" class="dropdown-item ecl-link notLink ${REF.order == "ASC" ? "selected" : ""}" aria-selected="true" role="menuitem" aria-label="Ascending values" value="ASC">${languageNameSpace.labels['ASC']}</a></li>
-                <li><a href="#" id="ALPHA" class="dropdown-item ecl-link notLink ${REF.order == "ALPHA" ? "selected" : ""}" role="menuitem" aria-label="Alphabetical order" value="ALPHA">${languageNameSpace.labels['ALPHA']}</a></li> 
-                <li><a href="#" id="PROTO" class="dropdown-item ecl-link notLink ${REF.order == "PROTO" ? "selected" : ""}" role="menuitem" aria-label="Protocol order" value="PROTO">${languageNameSpace.labels['PROTO']}</a></li>
+            <ul class="dropdown-menu dropdown-menu-end" role="menu" data-i18n-labelledby="SELECT_ORDER_OF_CHART">
+                <li>
+                <a href="#" id="DESC" class="dropdown-item ecl-link notLink ${REF.order == "DESC" ? "selected" : ""}" role="menuitem" aria-label="SORT_DESC" value="DESC" data-i18n="SORT_DESC"></a>
+              </li>					
+              <li>
+                <a href="#" id="ASC" class="dropdown-item ecl-link notLink ${REF.order == "ASC" ? "selected" : ""}" aria-selected="true" role="menuitem" aria-label="SORT_ASC" value="ASC" data-i18n="SORT_ASC"></a>
+              </li>
+              <li>
+                <a href="#" id="ALPHA" class="dropdown-item ecl-link notLink ${REF.order == "ALPHA" ? "selected" : ""}" role="menuitem" aria-label="SORT_ALPHABETICAL" value="ALPHA" data-i18n="SORT_ALPHABETICAL"></a>
+              </li> 
+              <li>
+                <a href="#" id="PROTO" class="dropdown-item ecl-link notLink ${REF.order == "PROTO" ? "selected" : ""}" role="menuitem" aria-label="SORT_PROTOCOL" value="PROTO" data-i18n="SORT_PROTOCOL"></a>
+              </li>
               </ul>
             </li>
+            
             <li class="nav-item px-1" id="toggleTable" role="none"></li>
         </ul>
       </div>
@@ -118,26 +127,6 @@ class FloatingChartControls {
         enprices()
 
       });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     });
   }
 
@@ -245,10 +234,10 @@ class FloatingChartControls {
 
     const self = this; 
 
-		const percentageButton = new Button("tb-togle-percentage", ["ecl-button", "ecl-button--primary", "round-btn"], "Toggle percentage", "", "true");
-		const agregatesButton = new Button("toggleAgregates", ["ecl-button", "ecl-button--primary", "round-btn"], languageNameSpace.labels["TOGGLEAGREGATES"], "", "true");
-		const tableButton = new Button("tb-togle-table", ["ecl-button", "ecl-button--primary", "round-btn"], "Toggle table", "", "true");
-		const orderButton = new Button("tb-togle-order", ["ecl-button", "ecl-button--primary", "round-btn"], "Select order of the chart", "", "true");
+		const percentageButton = new Button("tb-togle-percentage", ["ecl-button", "ecl-button--primary", "round-btn"], "SHOW_PERCENTAGE", "", "true");
+		const agregatesButton = new Button("toggleAgregates", ["ecl-button", "ecl-button--primary", "round-btn"], "SHOW_AGGREGATES", "", "true");
+		const tableButton = new Button("tb-togle-table", ["ecl-button", "ecl-button--primary", "round-btn"], "SHOW_TABLE", "", "true");
+		const orderButton = new Button("tb-togle-order", ["ecl-button", "ecl-button--primary", "round-btn"], "SELECT_ORDER_OF_CHART", "", "true");
 
     percentageButton.setInnerHtml('<i id="percentage-icon" class="fas fa-percentage"></i>');
     agregatesButton.setInnerHtml(agregateIcon())

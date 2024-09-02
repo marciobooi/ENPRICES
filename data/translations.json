@@ -1,0 +1,1138 @@
+{
+  "EU28": {
+    "EN": "European Union (28 countries)",
+    "DE": "Europäische Union (28 Länder)",
+    "FR": "Union européenne (28 pays)"
+  },
+  "EU27_2020": {
+    "EN": "European Union (27 countries)",
+    "DE": "Europäische Union (27 Länder)",
+    "FR": "Union européenne (27 pays)"
+  },
+  "EA": {
+    "EN": "Euro area (19 countries)",
+    "DE": "Eurozone (19 Länder)",
+    "FR": "Zone euro (19 pays)"
+  },
+  "BE": {
+    "EN": "Belgium",
+    "DE": "Belgien",
+    "FR": "Belgique"
+  },
+  "BG": {
+    "EN": "Bulgaria",
+    "DE": "Bulgarien",
+    "FR": "Bulgarie"
+  },
+  "CZ": {
+    "EN": "Czechia",
+    "DE": "Tschechien",
+    "FR": "Tchéquie"
+  },
+  "DK": {
+    "EN": "Denmark",
+    "DE": "Dänemark",
+    "FR": "Danemark"
+  },
+  "DE": {
+    "EN": "Germany",
+    "DE": "Deutschland",
+    "FR": "Allemagne"
+  },
+  "EE": {
+    "EN": "Estonia",
+    "DE": "Estland",
+    "FR": "Estonie"
+  },
+  "IE": {
+    "EN": "Ireland",
+    "DE": "Irland",
+    "FR": "Irlande"
+  },
+  "EL": {
+    "EN": "Greece",
+    "DE": "Griechenland",
+    "FR": "Grèce"
+  },
+  "ES": {
+    "EN": "Spain",
+    "DE": "Spanien",
+    "FR": "Espagne"
+  },
+  "FR": {
+    "EN": "France",
+    "DE": "Frankreich",
+    "FR": "France"
+  },
+  "HR": {
+    "EN": "Croatia",
+    "DE": "Kroatien",
+    "FR": "Croatie"
+  },
+  "IT": {
+    "EN": "Italy",
+    "DE": "Italien",
+    "FR": "Italie"
+  },
+  "CY": {
+    "EN": "Cyprus",
+    "DE": "Zypern",
+    "FR": "Chypre"
+  },
+  "LV": {
+    "EN": "Latvia",
+    "DE": "Lettland",
+    "FR": "Lettonie"
+  },
+  "LT": {
+    "EN": "Lithuania",
+    "DE": "Litauen",
+    "FR": "Lituanie"
+  },
+  "LU": {
+    "EN": "Luxembourg",
+    "DE": "Luxemburg",
+    "FR": "Luxembourg"
+  },
+  "HU": {
+    "EN": "Hungary",
+    "DE": "Ungarn",
+    "FR": "Hongrie"
+  },
+  "MT": {
+    "EN": "Malta",
+    "DE": "Malta",
+    "FR": "Malte"
+  },
+  "NL": {
+    "EN": "Netherlands",
+    "DE": "Niederlande",
+    "FR": "Pays-Bas"
+  },
+  "AT": {
+    "EN": "Austria",
+    "DE": "Österreich",
+    "FR": "Autriche"
+  },
+  "PL": {
+    "EN": "Poland",
+    "DE": "Polen",
+    "FR": "Pologne"
+  },
+  "PT": {
+    "EN": "Portugal",
+    "DE": "Portugal",
+    "FR": "Portugal"
+  },
+  "RO": {
+    "EN": "Romania",
+    "DE": "Rumänien",
+    "FR": "Roumanie"
+  },
+  "SI": {
+    "EN": "Slovenia",
+    "DE": "Slowenien",
+    "FR": "Slovénie"
+  },
+  "SK": {
+    "EN": "Slovakia",
+    "DE": "Slowakei",
+    "FR": "Slovaquie"
+  },
+  "FI": {
+    "EN": "Finland",
+    "DE": "Finnland",
+    "FR": "Finlande"
+  },
+  "SE": {
+    "EN": "Sweden",
+    "DE": "Schweden",
+    "FR": "Suède"
+  },
+  "UK": {
+    "EN": "United Kingdom",
+    "DE": "Vereinigtes Königreich",
+    "FR": "Royaume-Uni"
+  },
+  "IS": {
+    "EN": "Iceland",
+    "DE": "Island",
+    "FR": "Islande"
+  },
+  "LI": {
+    "EN": "Liechtenstein",
+    "DE": "Liechtenstein",
+    "FR": "Liechtenstein"
+  },
+  "NO": {
+    "EN": "Norway",
+    "DE": "Norwegen",
+    "FR": "Norvège"
+  },
+  "ME": {
+    "EN": "Montenegro",
+    "DE": "Montenegro",
+    "FR": "Monténégro"
+  },
+  "MK": {
+    "EN": "North Macedonia",
+    "DE": "Nordmazedonien",
+    "FR": "Macédoine du Nord"
+  },
+  "RS": {
+    "EN": "Serbia",
+    "DE": "Serbien",
+    "FR": "Serbie"
+  },
+  "TR": {
+    "EN": "Türkiye",
+    "DE": "Türkei",
+    "FR": "Turquie"
+  },
+  "BA": {
+    "EN": "Bosnia and Herzegovina",
+    "DE": "Bosnien und Herzegowina",
+    "FR": "Bosnie-Herzégovine"
+  },
+  "XK": {
+    "EN": "Kosovo (UN SCR 1244/99)",
+    "DE": "Kosovo (UNSCR 1244/99)",
+    "FR": "Kosovo (UNSCR 1244/99)"
+  },
+  "MD": {
+    "EN": "Moldova",
+    "DE": "Moldawien",
+    "FR": "Moldavie"
+  },
+  "UA": {
+    "EN": "Ukraine",
+    "DE": "Ukraine",
+    "FR": "Ukraine"
+  },
+  "GE": {
+    "EN": "Georgia",
+    "DE": "Georgien",
+    "FR": "Géorgie"
+  },
+  "AL": {
+    "EN": "Albania",
+    "DE": "Albanien",
+    "FR": "Albanie"
+  },
+  "TITLE": {
+    "EN": "Energy prices",
+    "DE": "Energiepreise",
+    "FR": "Prix de l'énergie"
+  },
+  "SELECTLANGUAGE": {
+    "EN": "Select language",
+    "DE": "Sprache auswählen",
+    "FR": "Sélectionner la langue"
+  },
+  "SELECTLANGUAGELABEL": {
+    "EN": "Change language, current language is ",
+    "DE": "Sprache ändern, aktuelle Sprache ist ",
+    "FR": "Changer de langue, la langue actuelle est "
+  },
+  "OFFICIAL": {
+    "EN": "Official EU languages:",
+    "DE": "Amtssprachen der EU:",
+    "FR": "Langues officielles de l'UE:"
+  },
+  "MAINMENU": {
+    "EN": "Menu",
+    "DE": "Menü",
+    "FR": "Menu"
+  },
+  "INFO": {
+    "EN": "Show information",
+    "DE": "Informationen anzeigen",
+    "FR": "Afficher les infos"
+  },
+  "TUTORIAL": {
+    "EN": "Tutorial",
+    "DE": "Anleitung",
+    "FR": "Tutoriel"
+  },
+  "META": {
+    "EN": "Metadata",
+    "DE": "Metadaten",
+    "FR": "Métadonnées"
+  },
+  "FEED": {
+    "EN": "Feedback",
+    "DE": "Rückmeldung",
+    "FR": "Retour d'information"
+  },
+  "DOWNLOAD": {
+    "EN": "Download",
+    "DE": "Herunterladen",
+    "FR": "Télécharger"
+  },
+  "DOWNLOAD_CHART_IMAGE": {
+    "EN": "Download chart image",
+    "DE": "Diagrammbild herunterladen",
+    "FR": "Télécharger l'image du graphique"
+  },
+  "DOWNLOAD_PNG": {
+    "EN": "Download PNG image",
+    "DE": "PNG-Bild herunterladen",
+    "FR": "Télécharger l'image PNG"
+  },
+  "DOWNLOAD_JPEG": {
+    "EN": "Download JPEG image",
+    "DE": "JPEG-Bild herunterladen",
+    "FR": "Télécharger l'image JPEG"
+  },
+  "DOWNLOAD_XLS": {
+    "EN": "Download Excel file",
+    "DE": "Excel-Datei herunterladen",
+    "FR": "Télécharger le fichier Excel"
+  },
+  "EMBEDDED": {
+    "EN": "Embedded chart iframe",
+    "DE": "Diagramm einbetten (iframe)",
+    "FR": "Intégrer le graphique (iframe)"
+  },
+  "SHARE": {
+    "EN": "Share",
+    "DE": "Teilen",
+    "FR": "Partager"
+  },
+  "TWITTER": {
+    "EN": "X",
+    "DE": "X",
+    "FR": "X"
+  },
+  "LINKEDIN": {
+    "EN": "LinkedIn",
+    "DE": "LinkedIn",
+    "FR": "LinkedIn"
+  },
+  "FACEBOOK": {
+    "EN": "Facebook",
+    "DE": "Facebook",
+    "FR": "Facebook"
+  },
+  "TOOLS": {
+    "EN": "Tools",
+    "DE": "Werkzeuge",
+    "FR": "Outils"
+  },
+  "OPTIONS": {
+    "EN": "Options",
+    "DE": "Optionen",
+    "FR": "Options"
+  },
+  "OPTIONS_GRAPH_TOOLBOX": {
+    "EN": "Options graph toolbox",
+    "DE": "Optionswerkzeugkasten für Grafiken",
+    "FR": "Boîte à outils des options de graphique"
+  },
+  "CLOSE": {
+    "EN": "Close",
+    "DE": "Schließen",
+    "FR": "Fermer"
+  },
+  "COPY": {
+    "EN": "Copy",
+    "DE": "Kopieren",
+    "FR": "Copier"
+  },
+  "COPYURL": {
+    "EN": "Copy the URL",
+    "DE": "URL kopieren",
+    "FR": "Copier l'URL"
+  },
+  "CTR": {
+    "EN": "Countries",
+    "DE": "Länder",
+    "FR": "Pays"
+  },
+  "MENU_COUNTRY": {
+    "EN": "Select countries",
+    "DE": "Länder auswählen",
+    "FR": "Sélectionner les pays"
+  },
+  "FUEL": {
+    "EN": "Fuel",
+    "DE": "Kraftstoff",
+    "FR": "Carburant"
+  },
+  "MENU_FUEL": {
+    "EN": "Select fuel",
+    "DE": "Kraftstoff auswählen",
+    "FR": "Sélectionner le carburant"
+  },
+  "YEAR": {
+    "EN": "Year",
+    "DE": "Jahr",
+    "FR": "Année"
+  },
+  "MENU_YEARS": {
+    "EN": "Select year",
+    "DE": "Jahr auswählen",
+    "FR": "Sélectionner l'année"
+  },
+
+  "ALLSELECTED": {
+    "EN": "All selected",
+    "DE": "Alle ausgewählt",
+    "FR": "Tous sélectionnés"
+  },
+  "SELITEN": {
+    "EN": "Select an item",
+    "DE": "Element auswählen",
+    "FR": "Sélectionner un élément"
+  },
+  "NORESULTS": {
+    "EN": "No results found",
+    "DE": "Keine Ergebnisse gefunden",
+    "FR": "Aucun résultat trouvé"
+  },
+  "SELALL": {
+    "EN": "Select all",
+    "DE": "Alle auswählen",
+    "FR": "Tout sélectionner"
+  },
+  "CLEAR": {
+    "EN": "Clear all",
+    "DE": "Alles löschen",
+    "FR": "Tout effacer"
+  },
+  "KEYWORD": {
+    "EN": "Enter keyword",
+    "DE": "Schlüsselwort eingeben",
+    "FR": "Entrez le mot-clé"
+  },
+  "AGGREGATE": {
+    "EN": "Aggregates",
+    "DE": "Aggregatz",
+    "FR": "Agrégats"
+  },
+  "EUCTR": {
+    "EN": "EU countries",
+    "DE": "EU-Länder",
+    "FR": "Pays de l'UE"
+  },
+  "EFTA": {
+    "EN": "EFTA countries",
+    "DE": "EFTA-Länder",
+    "FR": "Pays de l'AELE"
+  },
+  "ENLARGEMENT": {
+    "EN": "Enlargement countries",
+    "DE": "Erweiterungsländer",
+    "FR": "Pays en élargissement"
+  },
+  "OTHERCTR": {
+    "EN": "Other third countries",
+    "DE": "Andere Drittländer",
+    "FR": "Autres pays tiers"
+  },
+  "CONSUMER": {
+    "EN": "Consumer",
+    "DE": "Verbraucher",
+    "FR": "Consommateur"
+  },
+  "MENU_CONSUMER": {
+    "EN": "Select consumer",
+    "DE": "Verbraucher auswählen",
+    "FR": "Sélectionner un consommateur"
+  },
+  "HOUSEHOLD": {
+    "EN": "Household consumers",
+    "DE": "haushaltliche Verbraucher",
+    "FR": "Consommateurs ménagers"
+  },
+  "N_HOUSEHOLD": {
+    "EN": "Non-household consumers",
+    "DE": "Nichthaushaltliche Verbraucher",
+    "FR": "Consommateurs non ménagers"
+  },
+  "CONSOM": {
+    "EN": "Consumption",
+    "DE": "Verbrauch",
+    "FR": "Consommation"
+  },
+  "MENU_CONSOM": {
+    "EN": "Select consumption level",
+    "DE": "Verbrauchsebene auswählen",
+    "FR": "Sélectionnez le niveau de consommation"
+  },
+  "UNIT": {
+    "EN": "Unit",
+    "DE": "Einheit",
+    "FR": "Unité"
+  },
+  "MENU_UNIT": {
+    "EN": "Selected Unit",
+    "DE": "Ausgewählte Einheit",
+    "FR": "Unité sélectionnée"
+  },
+  "4100": {
+    "EN": "Natural gas",
+    "DE": "Gas",
+    "FR": "Gaz naturel"
+  },
+  "6000": {
+    "EN": "Electricity",
+    "DE": "Elektrizität",
+    "FR": "Électricité"
+  },
+  "PRICE_4100": {
+    "EN": "Gas price",
+    "DE": "Gaspreise",
+    "FR": "Prix du gaz"
+  },
+  "PRICE_6000": {
+    "EN": "Electricity price",
+    "DE": "Strompreise",
+    "FR": "Prix de l'électricité"
+  },
+  "4141900": {
+    "EN": "All bands: Consumption of GJ",
+    "DE": "Alle Bands : Der Verbrauch von GJ",
+    "FR": "Toutes bandes : Consommation de GJ"
+  },
+  "4141901": {
+    "EN": "Band D1: Consumption < 20 GJ",
+    "DE": "Band D1 : Verbrauch < 20 GJ",
+    "FR": "Bande D1 : Consommation < 20 GJ"
+  },
+  "4141902": {
+    "EN": "Band D2: 20 GJ < Consumption < 200 GJ",
+    "DE": "Band D2 : 20 GJ < Verbrauch < 200 GJ",
+    "FR": "Bande D2 : 20 GJ < Consommation < 200 GJ"
+  },
+  "4141903": {
+    "EN": "Band D3: Consumption > 200 GJ",
+    "DE": "Band D3 : Verbrauch > 200 GJ",
+    "FR": "Bande D3 : Consommation > 200 GJ"
+  },
+  "GJ_LT20": {
+    "EN": "Band D1: Consumption < 20 GJ",
+    "DE": "Band D1 : Verbrauch < 20 GJ",
+    "FR": "Bande D1 : Consommation < 20 GJ"
+  },
+  "GJ20-199": {
+    "EN": "Band D2: 20 GJ < Consumption < 200 GJ",
+    "DE": "Band D2 : 20 GJ < Verbrauch < 200 GJ",
+    "FR": "Bande D2 : 20 GJ < Consommation < 200 GJ"
+  },
+  "GJ_GE200": {
+    "EN": "Band D3: Consumption > 200 GJ",
+    "DE": "Band D3 : Verbrauch > 200 GJ",
+    "FR": "Bande D3 : Consommation > 200 GJ"
+  },
+  "4142900": {
+    "EN": "Bands I1-I5: Consumption +< 3 999 999 GJ",
+    "DE": "Bands I1-I5 : Verbrauch + <3 999 999 GJ",
+    "FR": "Bands I1-I5 : Consommation +< 3 999 999 GJ"
+  },
+  "4142901": {
+    "EN": "Band I1: Consumption < 1 000 GJ",
+    "DE": "Band I1 : Verbrauch < 1 000 GJ",
+    "FR": "Bande I1 : Consommation < 1 000 GJ"
+  },
+  "4142902": {
+    "EN": "Band I2: 1 000 GJ < Consumption < 10 000 GJ",
+    "DE": "Band I2 : 1 000 GJ < Verbrauch < 10 000 GJ",
+    "FR": "Bande I2 : 1 000 GJ < Consommation < 10 000 GJ"
+  },
+  "4142903": {
+    "EN": "Band I3: 10 000 GJ < Consumption < 100 000 GJ",
+    "DE": "Band I3 : 10 000 GJ < Verbrauch < 100 000 GJ",
+    "FR": "Bande I3 : 10 000 GJ < Consommation < 100 000 GJ"
+  },
+  "4142904": {
+    "EN": "Band I4: 100 000 GJ < Consumption < 1 000 000 GJ",
+    "DE": "Band I4 : 100 000 GJ < Verbrauch < 1 000 000 GJ",
+    "FR": "Bande I4 : 100 000 GJ < Consommation < 1 000 000 GJ"
+  },
+  "4142905": {
+    "EN": "Band I5: 1 000 000 GJ < Consumption < 4 000 000 GJ",
+    "DE": "Band I5 : 1 000 000 GJ < Verbrauch < 4 000 000 GJ",
+    "FR": "Bande I5 : 1 000 000 GJ < Consommation < 4 000 000 GJ"
+  },
+  "4142906": {
+    "EN": "Band I6: Consumption > 4 000 000 GJ",
+    "DE": "Band I6 : Verbrauch > 4 000 000 GJ",
+    "FR": "Bande I6 : Consommation > 4 000 000 GJ"
+  },
+  "4161900": {
+    "EN": "All bands: Consumption of kWh",
+    "DE": "Alle bands :  Der Verbrauch von kWh",
+    "FR": "Toutes bandes : Consommation de kWh"
+  },
+  "4161901": {
+    "EN": "Band DA: Consumption < 1 000 kWh",
+    "DE": "Band DA : Verbrauch < 1 000 kWh",
+    "FR": "Bande DA : Consommation < 1 000 kWh"
+  },
+  "4161902": {
+    "EN": "Band DB: 1 000 kWh < Consumption < 2 500 kWh",
+    "DE": "Band DB : 1 000 kWh < Verbrauch < 2 500 kWh",
+    "FR": "Bande DB : 1 000 kWh < Consommation < 2 500 kWh"
+  },
+  "4161903": {
+    "EN": "Band DC: 2 500 kWh < Consumption < 5 000 kWh",
+    "DE": "Band DC : 2 500 kWh < Verbrauch < 5 000 kWh",
+    "FR": "Bande DC : 2 500 kWh < Consommation < 5 000 kWh"
+  },
+  "4161904": {
+    "EN": "Band DD: 5 000 kWh < Consumption < 15 000 kWh",
+    "DE": "Band DD : 5 000 kWh < Verbrauch < 15 000 kWh",
+    "FR": "Bande DD : 5 000 kWh < Consommation < 15 000 kWh"
+  },
+  "4161905": {
+    "EN": "Band DE: Consumption > 15 000 kWh",
+    "DE": "Band DE : Verbrauch > 15 000 kWh",
+    "FR": "Bande DE : Consommation > 15 000 kWh"
+  },
+  "4162900": {
+    "EN": "Bands IA-IF: Consumption =< 149 999 MWh",
+    "DE": "Bands IA-IF : Verbrauch =< 149 999 MWh",
+    "FR": "Bands IA-IF : Consommation =< 149 999 MWh"
+  },
+  "4162901": {
+    "EN": "Band IA: Consumption < 20 MWh",
+    "DE": "Band IA : Verbrauch < 20 MWh",
+    "FR": "Bande IA : Consommation < 20 MWh"
+  },
+  "4162902": {
+    "EN": "Band IB: 20 MWh < Consumption < 500 MWh",
+    "DE": "Band IB : 20 MWh < Verbrauch < 500 MWh",
+    "FR": "Bande IB : 20 MWh < Consommation < 500 MWh"
+  },
+  "4162903": {
+    "EN": "Band IC: 500 MWh < Consumption < 2 000 MWh",
+    "DE": "Band IC : 500 MWh < Verbrauch < 2 000 MWh",
+    "FR": "Bande IC : 500 MWh < Consommation < 2 000 MWh"
+  },
+  "4162904": {
+    "EN": "Band ID: 2 000 MWh < Consumption < 20 000 MWh",
+    "DE": "Band ID : 2 000 MWh < Verbrauch < 20 000 MWh",
+    "FR": "Bande ID : 2 000 MWh < Consommation < 20 000 MWh"
+  },
+  "4162905": {
+    "EN": "Band IE: 20 000 MWh < Consumption < 70 000 MWh",
+    "DE": "Band IE : 20 000 MWh < Verbrauch < 70 000 MWh",
+    "FR": "Bande IE : 20 000 MWh < Consommation < 70 000 MWh"
+  },
+  "4162906": {
+    "EN": "Band IF: 70 000 MWh < Consumption < 150 000 MWh",
+    "DE": "Band IF : 70 000 MWh < Verbrauch < 150 000 MWh",
+    "FR": "Bande IF : 70 000 MWh < Consommation < 150 000 MWh"
+  },
+  "4162907": {
+    "EN": "Band IG: Consumption > 150 000 MWh",
+    "DE": "Band IG : Verbrauch > 150 000 MWh",
+    "FR": "Bande IG : Consommation > 150 000 MWh"
+  },
+  "KWH1000-2499": {
+    "EN": "Band DB: 1 000 kWh < Consumption < 2 500 kWh",
+    "DE": "Band DB: 1 000 kWh < Verbrauch <2 500 kWh",
+    "FR": "Bande DB: 1 000 kWh < Consommation <2 500 kWh"
+  },
+  "KWH2500-4999": {
+    "EN": "Band DC: 2 500 kWh < Consumption < 5 000 kWh",
+    "DE": "Band DC: 2 500 kWh < Verbrauch <5 000 kWh",
+    "FR": "Bande DC: 2 500 kWh < Consommation <5 000 kWh"
+  },
+  "KWH5000-14999": {
+    "EN": "Band DD: 5 000 kWh < Consumption < 15 000 kWh",
+    "DE": "Band DD: 5 000 kWh < Verbrauch <15 000 kWh",
+    "FR": "Bande DD: 5 000 kWh < Consommation <15 000 kWh"
+  },
+  "KWH_LE15000": {
+    "EN": "Band DE: Consumption > 15 000 kWh",
+    "DE": "Band DE: Verbrauch > 15 000 kWh",
+    "FR": "Bande DE: Consommation > 15 000 kWh"
+  },
+  "KWH_LT1000": {
+    "EN": "Band DA: Consumption < 1 000 kWh",
+    "DE": "Band DA: Verbrauch < 1 000 kWh",
+    "FR": "Bande DA: Consommation < 1 000 kWh"
+  },
+  "KWH_GE15000": {
+    "EN": "Band DE: Consumption for 15 000 kWh or over",
+    "DE": "Band DE: Verbrauch für 15 000 kWh oder mehr",
+    "FR": "Bande DE : Consommation de 15 000 kWh ou plus"
+  },
+  "TOT_KWH": {
+    "EN": "All bands: Consumption of kWh",
+    "DE": "Alle Bänder: Verbrauch von kWh",
+    "FR": "Toutes les bandes: Consommation de kWh"
+  },
+  "TOT_GJ": {
+    "EN": "All bands: Consumption of GJ",
+    "DE": "Alle Bands: Verbrauch von GJ",
+    "FR": "Toutes les bandes: consommation de GJ"
+  },
+  "TOT_MWH": {
+    "EN": "Bands IA-IF: Consumption =< 149 999 MWh",
+    "DE": "Bänder IA-IF: Verbrauch =< 149 999 MWh",
+    "FR": "Bandes IA-IF: Consommation =< 149 999 MWh"
+  },
+  "MWH_LT20": {
+    "EN": "Band IA: Consumption < 20 MWh",
+    "DE": "Band IA: Verbrauch < 20 MWh",
+    "FR": "Bande IA: Consommation < 20 MWh"
+  },
+  "MWH20-499": {
+    "EN": "Band IB: 20 MWh < Consumption < 500 MWh",
+    "DE": "Band IB: 20 MWh < Verbrauch <500 MWh",
+    "FR": "Bande IB: 20 ​​MWh < Consommation <500 MWh"
+  },
+  "MWH500-1999": {
+    "EN": "Band IC: 500 MWh < Consumption < 2 000 MWh",
+    "DE": "Band IC: 500 MWh < Verbrauch <2 000 MWh",
+    "FR": "Bande IC: 500 MWh < Consommation <2 000 MWh"
+  },
+  "MWH2000-19999": {
+    "EN": "Band ID: 2 000 MWh < Consumption < 20 000 MWh",
+    "DE": "Band ID: 2 000 MWh < Verbrauch <20 000 MWh",
+    "FR": "Band ID: 2 000 MWh < Consommation <20 000 MWh"
+  },
+  "MWH20000-69999": {
+    "EN": "Band IE: 20 000 MWh < Consumption < 70 000 MWh",
+    "DE": "Band IE: 20 000 MWh < Verbrauch <70 000 MWh",
+    "FR": "Bande IE: 20 000 MWh < Consommation <70 000 MWh"
+  },
+  "MWH70000-149999": {
+    "EN": "Band IF: 70 000 MWh < Consumption < 150 000 MWh",
+    "DE": "Band IF: 70 000 MWh < Verbrauch <150 000 MWh",
+    "FR": "Bande IF: 70 000 MWh < Consommation <150 000 MWh"
+  },
+  "MWH_GE150000": {
+    "EN": "Band IG: Consumption > 150 000 MWh",
+    "DE": "Band IG: Verbrauch > 150 000 MWh",
+    "FR": "Bande IG: Consommation > 150 000 MWh"
+  },
+  "GJ_LT1000": {
+    "EN": "Band I1: Consumption < 1 000 GJ",
+    "DE": "Band I1: Verbrauch < 1000 GJ",
+    "FR": "Bande I1 : Consommation < 1 000 GJ"
+  },
+  "GJ1000-9999": {
+    "EN": "Band I2: 1,000 GJ < Consumption <10,000 GJ",
+    "DE": "Band I2: 1.000 GJ < Verbrauch <10.000 GJ",
+    "FR": "Bande I2 : 1 000 GJ < Consommation < 10 000 GJ"
+  },
+  "GJ10000-99999": {
+    "EN": "Band I3: 10,000 GJ < Consumption <100,000 GJ",
+    "DE": "Band I3: 10.000 GJ < Verbrauch <100.000 GJ",
+    "FR": "Bande I3 : 10 000 GJ < Consommation < 100 000 GJ"
+  },
+  "GJ100000-999999": {
+    "EN": "Band I4: 100,000 GJ < Consumption <1,000,000 GJ",
+    "DE": "Band I4: 100.000 GJ < Verbrauch <1.000.000 GJ",
+    "FR": "Bande I4 : 100 000 GJ < Consommation < 1 000 000 GJ"
+  },
+  "GJ1000000-3999999": {
+    "EN": "Band I5: 1,000,000 GJ < Consumption <4,000,000 GJ",
+    "DE": "Band I5: 1.000.000 GJ < Verbrauch <4.000.000 GJ",
+    "FR": "Bande I5 : 1 000 000 GJ < Consommation < 4 000 000 GJ"
+  },
+  "GJ_GE4000000": {
+    "EN": "Band I6: Consumption > 4,000,000 GJ",
+    "DE": "Band I6: Verbrauch > 4.000.000 GJ",
+    "FR": "Bande I6 : Consommation > 4 000 000 GJ"
+  },
+  "GJ_GCV": {
+    "EN": "Gigajoules (gross calorific value = GCV)",
+    "DE": "Gigajoule (Bruttowärmeinhalt = GCV)",
+    "FR": "Gigajoules (valeur calorifique brute = GCV)"
+  },
+  "S_GJ_GCV": {
+    "EN": "GJ GCV",
+    "DE": "GJ GCV",
+    "FR": "GJ GCV"
+  },
+  "KWH": {
+    "EN": "Kilowatt-hour (KWh)",
+    "DE": "Kilowattstunde (KWh)",
+    "FR": "Kilowattheure (KWh)"
+  },
+  "S_KWH": {
+    "EN": "kWh",
+    "DE": "kWh",
+    "FR": "kWh"
+  },
+  "MWH": {
+    "EN": "Megawatt-hour (MWh)",
+    "DE": "Megawattstunde (MWh)",
+    "FR": "Mégawattheure (MWh)"
+  },
+  "S_MWH": {
+    "EN": "MWh",
+    "DE": "MWh",
+    "FR": "MWh"
+  },
+  "EUR": {
+    "EN": "Euro",
+    "DE": "Euro",
+    "FR": "Euro"
+  },
+  "S_EUR": {
+    "EN": "\u20ac",
+    "DE": "\u20ac",
+    "FR": "\u20ac"
+  },
+  "PPS": {
+    "EN": "Purchasing Power Standard",
+    "DE": "Kaufkraftstandard",
+    "FR": "Standard de pouvoir d'achat"
+  },
+  "S_PPS": {
+    "EN": "PPS",
+    "DE": "KKS",
+    "FR": "PPA"
+  },
+  "NAT": {
+    "EN": "National currency",
+    "DE": "Landeswährung",
+    "FR": "Monnaie nationale"
+  },
+  "S_NAT": {
+    "EN": "NAT",
+    "DE": "NAT",
+    "FR": "NAT"
+  },
+  "FLAG_NA": {
+    "EN": "Not available",
+    "DE": "Nicht verfügbar",
+    "FR": "Non disponible"
+  },
+  "FLAG_C": {
+    "EN": "Confidential",
+    "DE": "Vertraulich",
+    "FR": "Confidentiel"
+  },
+  "FLAG_P": {
+    "EN": "Provisional",
+    "DE": "Vorläufig",
+    "FR": "Provisoire"
+  },
+  "FLAG_E": {
+    "EN": "Estimated",
+    "DE": "Geschätzt",
+    "FR": "Estimé"
+  },
+  "FLAG_N": {
+    "EN": "Not significant",
+    "DE": "Nicht signifikant",
+    "FR": "Non significatif"
+  },
+  "FLAG_B": {
+    "EN": "Break in time series",
+    "DE": "Bruch in der Zeitreihe",
+    "FR": "Rupture dans la série chronologique"
+  },
+  "FLAG_S": {
+    "EN": "Eurostat estimate",
+    "DE": "Eurostat-Schätzung",
+    "FR": "Estimation Eurostat"
+  },
+  "FLAG_F": {
+    "EN": "Forecast",
+    "DE": "Prognose",
+    "FR": "Prévision"
+  },
+  "FLAG_U": {
+    "EN": "Low reliability",
+    "DE": "Geringe Zuverlässigkeit",
+    "FR": "Fiabilité faible"
+  },
+  "FLAG_D": {
+    "EN": "Definition differs, see metadata",
+    "DE": "Definition weicht ab, siehe Metadaten",
+    "FR": "La définition diffère, voir les métadonnées"
+  },
+  "FLAG_I": {
+    "EN": "See metadata",
+    "DE": "Siehe Metadaten",
+    "FR": "Voir les métadonnées"
+  },
+  "FLAG_R": {
+    "EN": "Revised",
+    "DE": "Überarbeitet",
+    "FR": "Révisé"
+  },
+  "FLAG_Z": {
+    "EN": "Not applicable",
+    "DE": "Nicht zutreffend",
+    "FR": "Non applicable"
+  },
+  "TOTAL": {
+    "EN": "Total",
+    "DE": "Gesamt",
+    "FR": "Total"
+  },
+  "BAR_CHART_TITLE_CONSOMS": {
+    "EN": "Consumption levels",
+    "DE": "Verbrauchsniveaus",
+    "FR": "Niveaux de consommation"
+  },
+  "EXPORT_FOOTER_TITLE": {
+    "EN": "Source: Eurostat",
+    "DE": "Quelle: Eurostat",
+    "FR": "Source : Eurostat"
+  },
+  "DB": {
+    "EN": "Dataset",
+    "DE": "Datensatz",
+    "FR": "Jeu de données"
+  },
+  "X_TAX": {
+    "EN": "Price excluding taxes and levies",
+    "DE": "Preis ohne Steuern und Abgaben",
+    "FR": "Prix hors taxes et prélèvements"
+  },
+  "X_VAT": {
+    "EN": "VAT and other recoverable taxes and levies",
+    "DE": "MwSt und andere erstattungsfähige Steuern und Abgaben",
+    "FR": "TVA et autres taxes et prélèvements récupérables"
+  },
+  "I_TAX": {
+    "EN": "Rest of taxes and levies",
+    "DE": "Rest der Steuern und Abgaben",
+    "FR": "Reste des taxes et prélèvements"
+  },
+  "NRG_SUP": {
+    "EN": "Energy and supply",
+    "DE": "Energie und Versorgung",
+    "FR": "Énergie et approvisionnement"
+  },
+  "NETC": {
+    "EN": "Network costs",
+    "DE": "Netzkosten",
+    "FR": "Coûts du réseau"
+  },
+  "TAX_FEE_LEV_CHRG": {
+    "EN": "Taxes fees levies and charges",
+    "DE": "Steuern, Gebühren, Abgaben und Auflagen",
+    "FR": "Taxes, frais, prélèvements et charges"
+  },
+  "TAX_LEV_X_VAT": {
+    "EN": "Taxes and levies excluding VAT",
+    "DE": "Steuern und Abgaben ohne MwSt",
+    "FR": "Taxes et prélèvements hors TVA"
+  },
+  "VAT": {
+    "EN": "Value added tax - VAT",
+    "DE": "Mehrwertsteuer - MwSt",
+    "FR": "Taxe sur la valeur ajoutée - TVA"
+  },
+  "TAX_RNW": {
+    "EN": "Renewable taxes",
+    "DE": "Steuern auf erneuerbare Energien",
+    "FR": "Taxes sur les énergies renouvelables"
+  },
+  "TAX_CAP": {
+    "EN": "Capacity taxes",
+    "DE": "Kapazitätssteuern",
+    "FR": "Taxes sur la capacité"
+  },
+  "TAX_ENV": {
+    "EN": "Environmental taxes",
+    "DE": "Umweltsteuern",
+    "FR": "Taxes environnementales"
+  },
+  "TAX_NUC": {
+    "EN": "Nuclear taxes",
+    "DE": "Kernkraftsteuern",
+    "FR": "Taxes nucléaires"
+  },
+  "OTH": {
+    "EN": "Other",
+    "DE": "Andere",
+    "FR": "Autre"
+  },
+  "nrg_pc_202": {
+    "EN": "Gas prices for household consumers - bi-annual data (from 2007 onwards)",
+    "DE": "Gaspreise für Haushaltsverbraucher - halbjährliche Daten (ab 2007)",
+    "FR": "Prix du gaz pour les consommateurs résidentiels - données semestrielles (à partir de 2007)"
+  },
+  "nrg_pc_203": {
+    "EN": "Gas prices for non-household consumers - bi-annual data (from 2007 onwards)",
+    "DE": "Gaspreise für Nicht-Haushaltsverbraucher - halbjährliche Daten (ab 2007)",
+    "FR": "Prix du gaz pour les consommateurs non résidentiels - données semestrielles (à partir de 2007)"
+  },
+  "nrg_pc_204": {
+    "EN": "Electricity prices for household consumers - bi-annual data (from 2007 onwards)",
+    "DE": "Strompreise für Haushaltsverbraucher - halbjährliche Daten (ab 2007)",
+    "FR": "Prix de l'électricité pour les consommateurs résidentiels - données semestrielles (à partir de 2007)"
+  },
+  "nrg_pc_205": {
+    "EN": "Electricity prices for non-household consumers - bi-annual data (from 2007 onwards)",
+    "DE": "Strompreise für Nicht-Haushaltsverbraucher - halbjährliche Daten (ab 2007)",
+    "FR": "Prix de l'électricité pour les consommateurs non résidentiels - données semestrielles (à partir de 2007)"
+  },
+  "nrg_pc_202_c": {
+    "EN": "Gas prices components for household consumers - annual data (from 2007 onwards)",
+    "DE": "Gaspreisbestandteile für Haushaltsverbraucher - Jahresdaten (ab 2007)",
+    "FR": "Composantes des prix du gaz pour les consommateurs résidentiels - données annuelles (à partir de 2007)"
+  },
+  "nrg_pc_203_c": {
+    "EN": "Gas prices components for non-household consumers - annual data (from 2007 onwards)",
+    "DE": "Gaspreisbestandteile für Nicht-Haushaltsverbraucher - Jahresdaten (ab 2007)",
+    "FR": "Composantes des prix du gaz pour les consommateurs non résidentiels - données annuelles (à partir de 2007)"
+  },
+  "nrg_pc_204_c": {
+    "EN": "Electricity components for prices for household consumers - annual data (from 2007 onwards)",
+    "DE": "Strompreisbestandteile für Haushaltsverbraucher - Jahresdaten (ab 2007)",
+    "FR": "Composantes des prix de l'électricité pour les consommateurs résidentiels - données annuelles (à partir de 2007)"
+  },
+  "nrg_pc_205_c": {
+    "EN": "Electricity components for prices for non-household consumers - annual data (from 2007 onwards)",
+    "DE": "Strompreisbestandteile für Nicht-Haushaltsverbraucher - Jahresdaten (ab 2007)",
+    "FR": "Composantes des prix de l'électricité pour les consommateurs non résidentiels - données annuelles (à partir de 2007)"
+  },
+  "SORT_PROTOCOL": {
+    "EN": "Protocol country order",
+    "DE": "Protokoll-Länderreihenfolge",
+    "FR": "Ordre des pays selon le protocole"
+  },
+  "SORT_ALPHABETICAL": {
+    "EN": "Alphabetically country order",
+    "DE": "Alphabetische Länderreihenfolge",
+    "FR": "Ordre alphabétique des pays"
+  },
+  "SORT_ASC": {
+    "EN": "Ascending data values",
+    "DE": "Aufsteigende Datenwerte",
+    "FR": "Valeurs de données croissantes"
+  },
+  "SORT_DESC": {
+    "EN": "Descending data values",
+    "DE": "Absteigende Datenwerte",
+    "FR": "Valeurs de données décroissantes"
+  },
+  "PROTO": {
+    "EN": "Protocol country order",
+    "DE": "Protokoll-Länderreihenfolge",
+    "FR": "Ordre des pays selon le protocole"
+  },
+  "ALPHA": {
+    "EN": "Alphabetically country order",
+    "DE": "Alphabetische Länderreihenfolge",
+    "FR": "Ordre alphabétique des pays"
+  },
+  "ASC": {
+    "EN": "Ascending data values",
+    "DE": "Aufsteigende Datenwerte",
+    "FR": "Valeurs de données croissantes"
+  },
+  "DESC": {
+    "EN": "Descending data values",
+    "DE": "Absteigende Datenwerte",
+    "FR": "Valeurs de données décroissantes"
+  },
+  "%": {
+    "EN": "in percentages",
+    "DE": "in Prozent",
+    "FR": "en pourcentages"
+  },
+  "COOKIES": {
+    "EN": "Cookies policy",
+    "DE": "Cookie-Richtlinie",
+    "FR": "Politique de cookies"
+  },
+  "PRIVACY": {
+    "EN": "Privacy policy",
+    "DE": "Datenschutzrichtlinie",
+    "FR": "Politique de confidentialité"
+  },
+  "LEGAL": {
+    "EN": "Legal notice",
+    "DE": "Rechtlicher Hinweis",
+    "FR": "Mention légale"
+  },
+  "ACCESS": {
+    "EN": "Accessibility",
+    "DE": "Barrierefreiheit",
+    "FR": "Accessibilité"
+  },
+  "DETAILS": {
+    "EN": "Show details",
+    "DE": "Details anzeigen",
+    "FR": "Afficher les détails"
+  },
+  "HIDE_DETAILS": {
+    "EN": "Hide details",
+    "DE": "Details verbergen",
+    "FR": "Masquer les détails"
+  },
+  "COMPONENTS_SHOW": {
+    "EN": "Show components",
+    "FR": "Afficher les composants",
+    "DE": "Komponenten anzeigen"
+  },
+  "COMPONENTS_HIDE": {
+    "EN": "Hide components",
+    "FR": "Masquer les composants",
+    "DE": "Komponenten ausblenden"
+  },
+  "SELECT_ORDER_OF_CHART": {
+    "EN": "Select the order of the chart",
+    "FR": "Sélectionnez l'ordre du graphique",
+    "DE": "Wählen Sie die Reihenfolge des Diagramms"
+  },
+  "SHOW_PERCENTAGE": {
+    "EN": "Show percentage view",
+    "FR": "Afficher la vue en pourcentage",
+    "DE": "Prozentansicht anzeigen"
+  },
+  "SHOW_TABLE": {
+    "EN": "Show table view",
+    "FR": "Afficher la vue en tableau",
+    "DE": "Tabellenansicht anzeigen"
+  },
+  "SHOW_AGGREGATES": {
+    "EN": "Show aggregates",
+    "FR": "Afficher les agrégats",
+    "DE": "Aggregate anzeigen"
+  },
+  "SHOW_BAR_CHART": {
+    "EN": "Show bar chart",
+    "FR": "Afficher le graphique en barres",
+    "DE": "Balkendiagramm anzeigen"
+  },
+  "SHOW_PIE_CHART": {
+    "EN": "Show pie chart",
+    "FR": "Afficher le graphique en secteurs",
+    "DE": "Kreisdiagramm anzeigen"
+  },
+  "SHOW_LINE_CHART": {
+    "EN": "Show line chart",
+    "FR": "Afficher le graphique linéaire",
+    "DE": "Liniendiagramm anzeigen"
+  },
+  "PRINT_CHART": {
+    "EN": "Print chart",
+    "FR": "Imprimer le graphique",
+    "DE": "Diagramm drucken"
+  },
+  "VAL": {
+    "EN": "Value",
+    "FR": "Valeur",
+    "DE": "Wert"
+  },
+  "TAX": {
+    "EN": "Tax",
+    "FR": "Taxe",
+    "DE": "Steuer"
+  },
+  "MSG_BROWSER": {
+    "EN": "Browser does not support HTML5.",
+    "FR": "Le navigateur ne prend pas en charge HTML5.",
+    "DE": "Browser unterstützt HTML5 nicht."
+},
+"MSG_LOADING": {
+    "EN": "Loading",
+    "FR": "Chargement",
+    "DE": "Laden"
+}
+}

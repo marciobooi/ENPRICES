@@ -19,27 +19,33 @@ class Navbar {
 
       <div class="container" id="es_app_header">
         <div id="es_app_header_title" class="">
-          <h1 id="header-title-label" class="es_app_title">${languageNameSpace.labels['header-title-label']}</h1>
+          <h1 id="header-title-label" class="es_app_title" data-i18n="TITLE"></h1>
         </div>
         <div id="lang-section">
-          <button id="toggleLanguageBtn" type="button" class="ecl-button ecl-button--secondary" aria-expanded="false" aria-label="Change language, current language is English">
+          <button id="toggleLanguageBtn" type="button" class="ecl-button ecl-button--secondary" aria-expanded="false" data-i18n-label="SELECTLANGUAGELABEL">
             <i class="fas fa-globe" focusable="false" aria-hidden="true"></i>
             <span id="lang-selection-text" class="btn-text">English</span>
           </button>
           <div class="ecl-site-header__language-container" id="language-list-overlay" data-ecl-language-list-overlay="" aria-labelledby="ecl-site-header__language-title" role="dialog" aria-modal="true">
           <div class="ecl-site-header__language-header">
-              <div class="ecl-site-header__language-title" id="ecl-site-header__language-title">${languageNameSpace.labels['SELECTLANGUAGE']}</div>
-              <button id="languageClsBtn" class="ecl-button ecl-button--ghost ecl-site-header__language-close" type="submit" data-ecl-language-list-close="" tabindex="0">
-                  <span class="ecl-button__container">
-                      <span class="ecl-u-sr-only" data-ecl-label="true">Close</span>   
-                      <i class="fas fa-times-circle ecl-icon ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon=""></i>
-                  </span>
-              </button>
-          </div>
+          <div class="ecl-site-header__language-title" id="ecl-site-header__language-title" data-i18n="SELECTLANGUAGE"></div>
+          <button id="languageClsBtn" 
+                  class="ecl-button ecl-button--ghost ecl-site-header__language-close" 
+                  type="submit" 
+                  data-ecl-language-list-close="" 
+                  tabindex="0"
+                  data-i18n-label="CLOSE">
+              <span class="ecl-button__container">
+                  <span class="ecl-u-sr-only" data-i18n="CLOSE"></span>   
+                  <i class="fas fa-times-circle ecl-icon ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon=""></i>
+              </span>
+          </button>
+      </div>
+      
     
           <div class="ecl-site-header__language-content ecl-site-header__language-content--stack">
               <div class="ecl-site-header__language-category ecl-site-header__language-category--3-col" data-ecl-language-list-eu="">
-                  <div class="ecl-site-header__language-category-title">${languageNameSpace.labels['OFFICIAL']}</div>
+              <div class="ecl-site-header__language-category-title" data-i18n="OFFICIAL"></div>
                   <ul class="ecl-site-header__language-list">
                   <li class="ecl-site-header__language-item" id="EN" data-lang="EN" tabindex="0">
                     <span class="ecl-link ecl-link--standalone ecl-site-header__language-link">
@@ -56,7 +62,7 @@ class Navbar {
                   <li class="ecl-site-header__language-item" id="FR" data-lang="FR" tabindex="0">
                     <span class="ecl-link ecl-link--standalone ecl-site-header__language-link">
                       <span class="ecl-site-header__language-link-code">fr</span>
-                      <span class="ecl-site-header__language-link-label">français</span>
+                      <span class="ecl-site-header__language-link-label">Français</span>
                     </span>
                   </li>
                 </ul>

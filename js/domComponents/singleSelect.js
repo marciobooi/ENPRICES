@@ -18,12 +18,12 @@ class Singleselect {
     createSingleSelect() {    
         const singleSelectHTML = /*html*/`
                 <div class="ecl-form-group" role="application">
-                    <label for="${this.elementId}" class="ecl-form-label">${this.labelDescription}</label>        
+                <label for="${this.elementId}" class="ecl-form-label" data-i18n="${this.labelDescription}"></label>  
                     <div class="ecl-select__container ecl-select__container--l">
                         <select class="ecl-select" id="${this.elementId}" name="country" required="">
                             ${this.optionsArray.map(option => `
-                                <option value="${option}" ${this.activeElement === option ? 'selected' : ''}>
-                                    ${languageNameSpace.labels[option] !== undefined ? languageNameSpace.labels[option] : option}
+                                    <option value="${option}" ${this.activeElement === option ? 'selected' : ''} data-i18n="${option}">
+                                    ${option}
                                 </option>`).join('')
                             }
                         </select>
@@ -37,10 +37,21 @@ class Singleselect {
     }
 
     attachEventListeners() {
+        // Attach event listeners for mouseenter and mouseleave events to show/hide textChange
         const labelElement = document.querySelector(`label[for="${this.elementId}"]`);
         const selectElement = document.getElementById(this.elementId);
-        selectElement.addEventListener('mouseenter', () => { labelElement.textContent = this.textChange });
-        selectElement.addEventListener('mouseleave', () => { labelElement.textContent = this.labelDescription });
+    
+        if (!labelElement || !selectElement) return; // Check if elements exist
+    
+        selectElement.addEventListener('mouseenter', () => {
+            const translatedText = languageNameSpace.labels[this.textChange] || this.textChange;
+            labelElement.textContent = translatedText;
+        });
+    
+        selectElement.addEventListener('mouseleave', () => {
+            const translatedText = languageNameSpace.labels[this.labelDescription] || this.labelDescription;
+            labelElement.textContent = translatedText;
+        });
     }
 
 }

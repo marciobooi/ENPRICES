@@ -36,12 +36,12 @@ class ChartControls {
 	  const mobileContent = `
 		<div id="chartOptions">
 		  <div class="col-12 subNavOne auxChartbtn">
-			<button id="tools" class="btnGroup pe-2" type="button" aria-label="${languageNameSpace.labels["TOOLS"]}" title="${languageNameSpace.labels["TOOLS"]}" aria-haspopup="true">
-			  <i class="fas fa-ellipsis-h"></i>
-			  <span class="iconText">${languageNameSpace.labels["TOOLS"]}</span>
+			<button id="tools" class="btnGroup pe-2" type="button" data-i18n-label="TOOLS" data-i18n-title="TOOLS" aria-haspopup="true">
+			<i class="fas fa-ellipsis-h"></i>
+			<span class="iconText" data-i18n="TOOLS"></span>
 			</button>
 			<div class="menu d-none">
-			  <ul id="chartBtns" role="menubar" aria-label="options graph toolbox" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
+			  <ul id="chartBtns" role="menubar" data-i18n-label="OPTIONS_GRAPH_TOOLBOX" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
 				<li class="nav-item button px-1" id="toggleBarChart" role="none"></li>
 				<li class="nav-item button px-1" id="togglePieChart" role="none"></li>
 				<li class="nav-item button px-1" id="toggleLineChart" role="none"></li>
@@ -84,15 +84,16 @@ class ChartControls {
 	  container.insertBefore(this.controls, container.firstChild);
 
 	    // Create the button instances
-		const barChart = new Button("barChart", ["ecl-button", "ecl-button--primary", "round-btn"], "Toggle bar Chart", "barChart", "true");
-		const pieChart = new Button("pieChart", ["ecl-button", "ecl-button--primary", "round-btn"], "Toggle pie Chart", "pieChart", "false");
-		const lineChart = new Button("lineChart", ["ecl-button", "ecl-button--primary", "round-btn"], "Toggle line Chart", "lineChart", "false");
-		const table = new Button("toggleTableBtn", ["ecl-button", "ecl-button--primary", "round-btn"], "Toggle table", "table", "false");
-		const createprintChart = new Button("printBtn", ["ecl-button", "ecl-button--primary", "round-btn"], "Print chart", "false");
-		const downloadChart = new Button("downloadBtn", ["ecl-button", "ecl-button--primary", "round-btn"], "Download chart image", "false");
-		const downloadExcel = new Button("excelBtn", ["ecl-button", "ecl-button--primary", "round-btn"], "Download chart data", "false");
-		const embebedeChart = new Button("embebedBtn", ["ecl-button", "ecl-button--primary", "round-btn"], "Embebed chart iframe", "false");
-		const closeChart = new Button("btnCloseModalChart", ["ecl-button", "ecl-button--primary", "round-btn", "close-chart-menu-btn"], "Close", "false");
+		const barChart = new Button("barChart", ["ecl-button", "ecl-button--primary", "round-btn"], "SHOW_BAR_CHART", "barChart", "true");
+		const pieChart = new Button("pieChart", ["ecl-button", "ecl-button--primary", "round-btn"], "SHOW_PIE_CHART", "pieChart", "false");
+		const lineChart = new Button("lineChart", ["ecl-button", "ecl-button--primary", "round-btn"], "SHOW_LINE_CHART", "lineChart", "false");
+
+		const table = new Button("toggleTableBtn", ["ecl-button", "ecl-button--primary", "round-btn"], "SHOW_TABLE", "table", "false");
+		const createprintChart = new Button("printBtn", ["ecl-button", "ecl-button--primary", "round-btn"], "PRINT_CHART", "false");
+		const downloadChart = new Button("downloadBtn", ["ecl-button", "ecl-button--primary", "round-btn"], "DOWNLOAD_CHART_IMAGE", "false");
+		const downloadExcel = new Button("excelBtn", ["ecl-button", "ecl-button--primary", "round-btn"], "DOWNLOAD_XLS", "false");
+		const embebedeChart = new Button("embebedBtn", ["ecl-button", "ecl-button--primary", "round-btn"], "EMBEDDED", "false");
+		const closeChart = new Button("btnCloseModalChart", ["ecl-button", "ecl-button--primary", "round-btn", "close-chart-menu-btn"], "CLOSE", "false");
 	
 		// Set inner HTML content for each button
 		barChart.setInnerHtml('<i class="fas fa-chart-bar"></i>');

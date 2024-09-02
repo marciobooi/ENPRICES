@@ -17,9 +17,9 @@ function populateConsumption() {
     const target = document.querySelector("#containerConsumption");
     const elementId = 'selectConsuption';
     const optionsArray = consomsList;
-    const labelDescription = languageNameSpace.labels["CONSUME"];
+    const labelDescription = "CONSOM";
     const activeElement = REF.consoms;
-    const textChange = languageNameSpace.labels["MENU_BAND"];
+    const textChange = "MENU_CONSOM";
 
     const existingSingleSelect = document.getElementById(elementId);
     if (existingSingleSelect) {
