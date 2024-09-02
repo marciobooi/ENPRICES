@@ -18,10 +18,10 @@ class FloatingChartControls {
     </div>
 
     <div>      
-    <label id="showComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_SHOW"></label>
+    <label id="hideComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_HIDE"></label>
     <div class="form-check form-switch d-inline-block">
       <input class="form-check-input focus-ring" type="checkbox" value="${REF.components == 1 ? 1 : 0}" role="switch" id="switchComponents" ${REF.components == 1 ? 'checked' : ''}>
-      <label id="hideComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_HIDE"></label>
+      <label id="showComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_SHOW"></label>
     </div>
     </div>
 
