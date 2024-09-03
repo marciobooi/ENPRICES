@@ -1134,5 +1134,16 @@
     "EN": "Loading",
     "FR": "Chargement",
     "DE": "Laden"
+},
+"BACK": {
+  "EN": "Back",
+   "FR": "Retour",
+  "DE": "Zurück" 
+},
+"NEXT": {
+  "EN": "Next",
+    "FR": "Suivant",
+  "DE": "Weiter"
+
 }
 }

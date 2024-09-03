@@ -56,6 +56,8 @@ var languageNameSpace = {
     selectElement.attr('data-ecl-select-clear-all', languageNameSpace.labels["CLEAR"]);
     selectElement.attr('data-ecl-select-close', languageNameSpace.labels["CLOSE"]);
 
+    checkAndShowTutorial()
+
   },
 
   ChangeLanguage: function (val) {
