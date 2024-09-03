@@ -11,7 +11,7 @@
   },
   "EA": {
     "EN": "Euro area (19 countries)",
-    "DE": "Eurozone (19 Länder)",
+    "DE": "Euroraum (19 Länder)",
     "FR": "Zone euro (19 pays)"
   },
   "BE": {
@@ -192,7 +192,7 @@
   "BA": {
     "EN": "Bosnia and Herzegovina",
     "DE": "Bosnien und Herzegowina",
-    "FR": "Bosnie-Herzégovine"
+    "FR": "Bosnie Herzégovine"
   },
   "XK": {
     "EN": "Kosovo (UN SCR 1244/99)",
@@ -201,7 +201,7 @@
   },
   "MD": {
     "EN": "Moldova",
-    "DE": "Moldawien",
+    "DE": "Moldau",
     "FR": "Moldavie"
   },
   "UA": {
@@ -407,7 +407,7 @@
   },
   "AGGREGATE": {
     "EN": "Aggregates",
-    "DE": "Aggregatz",
+    "DE": "Aggregate",
     "FR": "Agrégats"
   },
   "EUCTR": {
@@ -442,12 +442,12 @@
   },
   "HOUSEHOLD": {
     "EN": "Household consumers",
-    "DE": "haushaltliche Verbraucher",
+    "DE": "Haushaltsverbraucher",
     "FR": "Consommateurs ménagers"
   },
   "N_HOUSEHOLD": {
     "EN": "Non-household consumers",
-    "DE": "Nichthaushaltliche Verbraucher",
+    "DE": "Nichthaushaltsverbraucher",
     "FR": "Consommateurs non ménagers"
   },
   "CONSOM": {
@@ -492,143 +492,143 @@
   },
   "4141900": {
     "EN": "All bands: Consumption of GJ",
-    "DE": "Alle Bands : Der Verbrauch von GJ",
-    "FR": "Toutes bandes : Consommation de GJ"
+    "DE": "Alle Bänder: Der Verbrauch von GJ",
+    "FR": "Toutes bandes: Consommation de GJ"
   },
   "4141901": {
     "EN": "Band D1: Consumption < 20 GJ",
-    "DE": "Band D1 : Verbrauch < 20 GJ",
-    "FR": "Bande D1 : Consommation < 20 GJ"
+    "DE": "Band D1: Verbrauch < 20 GJ",
+    "FR": "Bande D1: Consommation < 20 GJ"
   },
   "4141902": {
     "EN": "Band D2: 20 GJ < Consumption < 200 GJ",
-    "DE": "Band D2 : 20 GJ < Verbrauch < 200 GJ",
-    "FR": "Bande D2 : 20 GJ < Consommation < 200 GJ"
+    "DE": "Band D2: 20 GJ < Verbrauch < 200 GJ",
+    "FR": "Bande D2: 20 GJ < Consommation < 200 GJ"
   },
   "4141903": {
     "EN": "Band D3: Consumption > 200 GJ",
-    "DE": "Band D3 : Verbrauch > 200 GJ",
-    "FR": "Bande D3 : Consommation > 200 GJ"
+    "DE": "Band D3: Verbrauch > 200 GJ",
+    "FR": "Bande D3: Consommation > 200 GJ"
   },
   "GJ_LT20": {
     "EN": "Band D1: Consumption < 20 GJ",
-    "DE": "Band D1 : Verbrauch < 20 GJ",
-    "FR": "Bande D1 : Consommation < 20 GJ"
+    "DE": "Band D1: Verbrauch < 20 GJ",
+    "FR": "Bande D1: Consommation < 20 GJ"
   },
   "GJ20-199": {
     "EN": "Band D2: 20 GJ < Consumption < 200 GJ",
-    "DE": "Band D2 : 20 GJ < Verbrauch < 200 GJ",
-    "FR": "Bande D2 : 20 GJ < Consommation < 200 GJ"
+    "DE": "Band D2: 20 GJ < Verbrauch < 200 GJ",
+    "FR": "Bande D2: 20 GJ < Consommation < 200 GJ"
   },
   "GJ_GE200": {
     "EN": "Band D3: Consumption > 200 GJ",
-    "DE": "Band D3 : Verbrauch > 200 GJ",
-    "FR": "Bande D3 : Consommation > 200 GJ"
+    "DE": "Band D3: Verbrauch > 200 GJ",
+    "FR": "Bande D3: Consommation > 200 GJ"
   },
   "4142900": {
     "EN": "Bands I1-I5: Consumption +< 3 999 999 GJ",
-    "DE": "Bands I1-I5 : Verbrauch + <3 999 999 GJ",
-    "FR": "Bands I1-I5 : Consommation +< 3 999 999 GJ"
+    "DE": "Bands I1-I5: Verbrauch +<3 999 999 GJ",
+    "FR": "Bands I1-I5: Consommation +< 3 999 999 GJ"
   },
   "4142901": {
     "EN": "Band I1: Consumption < 1 000 GJ",
-    "DE": "Band I1 : Verbrauch < 1 000 GJ",
-    "FR": "Bande I1 : Consommation < 1 000 GJ"
+    "DE": "Band I1: Verbrauch < 1 000 GJ",
+    "FR": "Bande I1: Consommation < 1 000 GJ"
   },
   "4142902": {
     "EN": "Band I2: 1 000 GJ < Consumption < 10 000 GJ",
-    "DE": "Band I2 : 1 000 GJ < Verbrauch < 10 000 GJ",
-    "FR": "Bande I2 : 1 000 GJ < Consommation < 10 000 GJ"
+    "DE": "Band I2: 1 000 GJ < Verbrauch < 10 000 GJ",
+    "FR": "Bande I2: 1 000 GJ < Consommation < 10 000 GJ"
   },
   "4142903": {
     "EN": "Band I3: 10 000 GJ < Consumption < 100 000 GJ",
-    "DE": "Band I3 : 10 000 GJ < Verbrauch < 100 000 GJ",
-    "FR": "Bande I3 : 10 000 GJ < Consommation < 100 000 GJ"
+    "DE": "Band I3: 10 000 GJ < Verbrauch < 100 000 GJ",
+    "FR": "Bande I3: 10 000 GJ < Consommation < 100 000 GJ"
   },
   "4142904": {
     "EN": "Band I4: 100 000 GJ < Consumption < 1 000 000 GJ",
-    "DE": "Band I4 : 100 000 GJ < Verbrauch < 1 000 000 GJ",
-    "FR": "Bande I4 : 100 000 GJ < Consommation < 1 000 000 GJ"
+    "DE": "Band I4: 100 000 GJ < Verbrauch < 1 000 000 GJ",
+    "FR": "Bande I4: 100 000 GJ < Consommation < 1 000 000 GJ"
   },
   "4142905": {
     "EN": "Band I5: 1 000 000 GJ < Consumption < 4 000 000 GJ",
-    "DE": "Band I5 : 1 000 000 GJ < Verbrauch < 4 000 000 GJ",
-    "FR": "Bande I5 : 1 000 000 GJ < Consommation < 4 000 000 GJ"
+    "DE": "Band I5: 1 000 000 GJ < Verbrauch < 4 000 000 GJ",
+    "FR": "Bande I5: 1 000 000 GJ < Consommation < 4 000 000 GJ"
   },
   "4142906": {
     "EN": "Band I6: Consumption > 4 000 000 GJ",
-    "DE": "Band I6 : Verbrauch > 4 000 000 GJ",
-    "FR": "Bande I6 : Consommation > 4 000 000 GJ"
+    "DE": "Band I6: Verbrauch > 4 000 000 GJ",
+    "FR": "Bande I6: Consommation > 4 000 000 GJ"
   },
   "4161900": {
     "EN": "All bands: Consumption of kWh",
-    "DE": "Alle bands :  Der Verbrauch von kWh",
-    "FR": "Toutes bandes : Consommation de kWh"
+    "DE": "Alle bands:  Der Verbrauch von kWh",
+    "FR": "Toutes bandes: Consommation de kWh"
   },
   "4161901": {
     "EN": "Band DA: Consumption < 1 000 kWh",
-    "DE": "Band DA : Verbrauch < 1 000 kWh",
-    "FR": "Bande DA : Consommation < 1 000 kWh"
+    "DE": "Band DA: Verbrauch < 1 000 kWh",
+    "FR": "Bande DA: Consommation < 1 000 kWh"
   },
   "4161902": {
     "EN": "Band DB: 1 000 kWh < Consumption < 2 500 kWh",
-    "DE": "Band DB : 1 000 kWh < Verbrauch < 2 500 kWh",
-    "FR": "Bande DB : 1 000 kWh < Consommation < 2 500 kWh"
+    "DE": "Band DB: 1 000 kWh < Verbrauch < 2 500 kWh",
+    "FR": "Bande DB: 1 000 kWh < Consommation < 2 500 kWh"
   },
   "4161903": {
     "EN": "Band DC: 2 500 kWh < Consumption < 5 000 kWh",
-    "DE": "Band DC : 2 500 kWh < Verbrauch < 5 000 kWh",
-    "FR": "Bande DC : 2 500 kWh < Consommation < 5 000 kWh"
+    "DE": "Band DC: 2 500 kWh < Verbrauch < 5 000 kWh",
+    "FR": "Bande DC: 2 500 kWh < Consommation < 5 000 kWh"
   },
   "4161904": {
     "EN": "Band DD: 5 000 kWh < Consumption < 15 000 kWh",
-    "DE": "Band DD : 5 000 kWh < Verbrauch < 15 000 kWh",
-    "FR": "Bande DD : 5 000 kWh < Consommation < 15 000 kWh"
+    "DE": "Band DD: 5 000 kWh < Verbrauch < 15 000 kWh",
+    "FR": "Bande DD: 5 000 kWh < Consommation < 15 000 kWh"
   },
   "4161905": {
     "EN": "Band DE: Consumption > 15 000 kWh",
-    "DE": "Band DE : Verbrauch > 15 000 kWh",
-    "FR": "Bande DE : Consommation > 15 000 kWh"
+    "DE": "Band DE: Verbrauch > 15 000 kWh",
+    "FR": "Bande DE: Consommation > 15 000 kWh"
   },
   "4162900": {
     "EN": "Bands IA-IF: Consumption =< 149 999 MWh",
-    "DE": "Bands IA-IF : Verbrauch =< 149 999 MWh",
-    "FR": "Bands IA-IF : Consommation =< 149 999 MWh"
+    "DE": "Bands IA-IF: Verbrauch =< 149 999 MWh",
+    "FR": "Bands IA-IF: Consommation =< 149 999 MWh"
   },
   "4162901": {
     "EN": "Band IA: Consumption < 20 MWh",
-    "DE": "Band IA : Verbrauch < 20 MWh",
-    "FR": "Bande IA : Consommation < 20 MWh"
+    "DE": "Band IA: Verbrauch < 20 MWh",
+    "FR": "Bande IA: Consommation < 20 MWh"
   },
   "4162902": {
     "EN": "Band IB: 20 MWh < Consumption < 500 MWh",
-    "DE": "Band IB : 20 MWh < Verbrauch < 500 MWh",
-    "FR": "Bande IB : 20 MWh < Consommation < 500 MWh"
+    "DE": "Band IB: 20 MWh < Verbrauch < 500 MWh",
+    "FR": "Bande IB: 20 MWh < Consommation < 500 MWh"
   },
   "4162903": {
     "EN": "Band IC: 500 MWh < Consumption < 2 000 MWh",
-    "DE": "Band IC : 500 MWh < Verbrauch < 2 000 MWh",
-    "FR": "Bande IC : 500 MWh < Consommation < 2 000 MWh"
+    "DE": "Band IC: 500 MWh < Verbrauch < 2 000 MWh",
+    "FR": "Bande IC: 500 MWh < Consommation < 2 000 MWh"
   },
   "4162904": {
     "EN": "Band ID: 2 000 MWh < Consumption < 20 000 MWh",
-    "DE": "Band ID : 2 000 MWh < Verbrauch < 20 000 MWh",
-    "FR": "Bande ID : 2 000 MWh < Consommation < 20 000 MWh"
+    "DE": "Band ID: 2 000 MWh < Verbrauch < 20 000 MWh",
+    "FR": "Bande ID: 2 000 MWh < Consommation < 20 000 MWh"
   },
   "4162905": {
     "EN": "Band IE: 20 000 MWh < Consumption < 70 000 MWh",
-    "DE": "Band IE : 20 000 MWh < Verbrauch < 70 000 MWh",
-    "FR": "Bande IE : 20 000 MWh < Consommation < 70 000 MWh"
+    "DE": "Band IE: 20 000 MWh < Verbrauch < 70 000 MWh",
+    "FR": "Bande IE: 20 000 MWh < Consommation < 70 000 MWh"
   },
   "4162906": {
     "EN": "Band IF: 70 000 MWh < Consumption < 150 000 MWh",
-    "DE": "Band IF : 70 000 MWh < Verbrauch < 150 000 MWh",
-    "FR": "Bande IF : 70 000 MWh < Consommation < 150 000 MWh"
+    "DE": "Band IF: 70 000 MWh < Verbrauch < 150 000 MWh",
+    "FR": "Bande IF: 70 000 MWh < Consommation < 150 000 MWh"
   },
   "4162907": {
     "EN": "Band IG: Consumption > 150 000 MWh",
-    "DE": "Band IG : Verbrauch > 150 000 MWh",
-    "FR": "Bande IG : Consommation > 150 000 MWh"
+    "DE": "Band IG: Verbrauch > 150 000 MWh",
+    "FR": "Bande IG: Consommation > 150 000 MWh"
   },
   "KWH1000-2499": {
     "EN": "Band DB: 1 000 kWh < Consumption < 2 500 kWh",
@@ -658,7 +658,7 @@
   "KWH_GE15000": {
     "EN": "Band DE: Consumption for 15 000 kWh or over",
     "DE": "Band DE: Verbrauch für 15 000 kWh oder mehr",
-    "FR": "Bande DE : Consommation de 15 000 kWh ou plus"
+    "FR": "Bande DE: Consommation de 15 000 kWh ou plus"
   },
   "TOT_KWH": {
     "EN": "All bands: Consumption of kWh",
@@ -667,7 +667,7 @@
   },
   "TOT_GJ": {
     "EN": "All bands: Consumption of GJ",
-    "DE": "Alle Bands: Verbrauch von GJ",
+    "DE": "Alle Bänder: Verbrauch von GJ",
     "FR": "Toutes les bandes: consommation de GJ"
   },
   "TOT_MWH": {
@@ -718,31 +718,31 @@
   "GJ1000-9999": {
     "EN": "Band I2: 1,000 GJ < Consumption <10,000 GJ",
     "DE": "Band I2: 1.000 GJ < Verbrauch <10.000 GJ",
-    "FR": "Bande I2 : 1 000 GJ < Consommation < 10 000 GJ"
+    "FR": "Bande I2: 1 000 GJ < Consommation < 10 000 GJ"
   },
   "GJ10000-99999": {
     "EN": "Band I3: 10,000 GJ < Consumption <100,000 GJ",
     "DE": "Band I3: 10.000 GJ < Verbrauch <100.000 GJ",
-    "FR": "Bande I3 : 10 000 GJ < Consommation < 100 000 GJ"
+    "FR": "Bande I3: 10 000 GJ < Consommation < 100 000 GJ"
   },
   "GJ100000-999999": {
     "EN": "Band I4: 100,000 GJ < Consumption <1,000,000 GJ",
     "DE": "Band I4: 100.000 GJ < Verbrauch <1.000.000 GJ",
-    "FR": "Bande I4 : 100 000 GJ < Consommation < 1 000 000 GJ"
+    "FR": "Bande I4: 100 000 GJ < Consommation < 1 000 000 GJ"
   },
   "GJ1000000-3999999": {
     "EN": "Band I5: 1,000,000 GJ < Consumption <4,000,000 GJ",
     "DE": "Band I5: 1.000.000 GJ < Verbrauch <4.000.000 GJ",
-    "FR": "Bande I5 : 1 000 000 GJ < Consommation < 4 000 000 GJ"
+    "FR": "Bande I5: 1 000 000 GJ < Consommation < 4 000 000 GJ"
   },
   "GJ_GE4000000": {
     "EN": "Band I6: Consumption > 4,000,000 GJ",
     "DE": "Band I6: Verbrauch > 4.000.000 GJ",
-    "FR": "Bande I6 : Consommation > 4 000 000 GJ"
+    "FR": "Bande I6: Consommation > 4 000 000 GJ"
   },
   "GJ_GCV": {
     "EN": "Gigajoules (gross calorific value = GCV)",
-    "DE": "Gigajoule (Bruttowärmeinhalt = GCV)",
+    "DE": "Gigajoule (Bruttoheizwert = GCV)",
     "FR": "Gigajoules (valeur calorifique brute = GCV)"
   },
   "S_GJ_GCV": {
@@ -878,7 +878,7 @@
   "EXPORT_FOOTER_TITLE": {
     "EN": "Source: Eurostat",
     "DE": "Quelle: Eurostat",
-    "FR": "Source : Eurostat"
+    "FR": "Source: Eurostat"
   },
   "DB": {
     "EN": "Dataset",
@@ -947,7 +947,7 @@
   },
   "OTH": {
     "EN": "Other",
-    "DE": "Andere",
+    "DE": "Sonstige",
     "FR": "Autre"
   },
   "nrg_pc_202": {
@@ -957,7 +957,7 @@
   },
   "nrg_pc_203": {
     "EN": "Gas prices for non-household consumers - bi-annual data (from 2007 onwards)",
-    "DE": "Gaspreise für Nicht-Haushaltsverbraucher - halbjährliche Daten (ab 2007)",
+    "DE": "Gaspreise für Nichthaushaltsverbraucher - halbjährliche Daten (ab 2007)",
     "FR": "Prix du gaz pour les consommateurs non résidentiels - données semestrielles (à partir de 2007)"
   },
   "nrg_pc_204": {
@@ -967,7 +967,7 @@
   },
   "nrg_pc_205": {
     "EN": "Electricity prices for non-household consumers - bi-annual data (from 2007 onwards)",
-    "DE": "Strompreise für Nicht-Haushaltsverbraucher - halbjährliche Daten (ab 2007)",
+    "DE": "Strompreise für Nichthaushaltsverbraucher - halbjährliche Daten (ab 2007)",
     "FR": "Prix de l'électricité pour les consommateurs non résidentiels - données semestrielles (à partir de 2007)"
   },
   "nrg_pc_202_c": {
@@ -977,7 +977,7 @@
   },
   "nrg_pc_203_c": {
     "EN": "Gas prices components for non-household consumers - annual data (from 2007 onwards)",
-    "DE": "Gaspreisbestandteile für Nicht-Haushaltsverbraucher - Jahresdaten (ab 2007)",
+    "DE": "Gaspreisbestandteile für Nichthaushaltsverbraucher - Jahresdaten (ab 2007)",
     "FR": "Composantes des prix du gaz pour les consommateurs non résidentiels - données annuelles (à partir de 2007)"
   },
   "nrg_pc_204_c": {
@@ -987,12 +987,12 @@
   },
   "nrg_pc_205_c": {
     "EN": "Electricity components for prices for non-household consumers - annual data (from 2007 onwards)",
-    "DE": "Strompreisbestandteile für Nicht-Haushaltsverbraucher - Jahresdaten (ab 2007)",
+    "DE": "Strompreisbestandteile für Nichthaushaltsverbraucher - Jahresdaten (ab 2007)",
     "FR": "Composantes des prix de l'électricité pour les consommateurs non résidentiels - données annuelles (à partir de 2007)"
   },
   "SORT_PROTOCOL": {
     "EN": "Protocol country order",
-    "DE": "Protokoll-Länderreihenfolge",
+    "DE": "Protokoll Länderreihenfolge",
     "FR": "Ordre des pays selon le protocole"
   },
   "SORT_ALPHABETICAL": {
@@ -1012,7 +1012,7 @@
   },
   "PROTO": {
     "EN": "Protocol country order",
-    "DE": "Protokoll-Länderreihenfolge",
+    "DE": "Protokoll Länderreihenfolge",
     "FR": "Ordre des pays selon le protocole"
   },
   "ALPHA": {
@@ -1129,21 +1129,20 @@
     "EN": "Browser does not support HTML5.",
     "FR": "Le navigateur ne prend pas en charge HTML5.",
     "DE": "Browser unterstützt HTML5 nicht."
-},
-"MSG_LOADING": {
+  },
+  "MSG_LOADING": {
     "EN": "Loading",
     "FR": "Chargement",
     "DE": "Laden"
-},
-"BACK": {
-  "EN": "Back",
-   "FR": "Retour",
-  "DE": "Zurück" 
-},
-"NEXT": {
-  "EN": "Next",
+  },
+  "BACK": {
+    "EN": "Back",
+    "FR": "Retour",
+    "DE": "Zurück"
+  },
+  "NEXT": {
+    "EN": "Next",
     "FR": "Suivant",
-  "DE": "Weiter"
-
-}
+    "DE": "Weiter"
+  }
 }
