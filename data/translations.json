@@ -527,7 +527,7 @@
   },
   "4142900": {
     "EN": "Bands I1-I5: Consumption +< 3 999 999 GJ",
-    "DE": "Bands I1-I5: Verbrauch +<3 999 999 GJ",
+    "DE": "Bänder I1-I5: Verbrauch +<3 999 999 GJ",
     "FR": "Bands I1-I5: Consommation +< 3 999 999 GJ"
   },
   "4142901": {
@@ -562,7 +562,7 @@
   },
   "4161900": {
     "EN": "All bands: Consumption of kWh",
-    "DE": "Alle bands:  Der Verbrauch von kWh",
+    "DE": "Alle Bänder:  Der Verbrauch von kWh",
     "FR": "Toutes bandes: Consommation de kWh"
   },
   "4161901": {
@@ -592,7 +592,7 @@
   },
   "4162900": {
     "EN": "Bands IA-IF: Consumption =< 149 999 MWh",
-    "DE": "Bands IA-IF: Verbrauch =< 149 999 MWh",
+    "DE": "Bänder IA-IF: Verbrauch =< 149 999 MWh",
     "FR": "Bands IA-IF: Consommation =< 149 999 MWh"
   },
   "4162901": {
@@ -1129,20 +1129,10 @@
     "EN": "Browser does not support HTML5.",
     "FR": "Le navigateur ne prend pas en charge HTML5.",
     "DE": "Browser unterstützt HTML5 nicht."
-  },
-  "MSG_LOADING": {
+},
+"MSG_LOADING": {
     "EN": "Loading",
     "FR": "Chargement",
     "DE": "Laden"
-  },
-  "BACK": {
-    "EN": "Back",
-    "FR": "Retour",
-    "DE": "Zurück"
-  },
-  "NEXT": {
-    "EN": "Next",
-    "FR": "Suivant",
-    "DE": "Weiter"
-  }
+}
 }
