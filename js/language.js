@@ -58,6 +58,8 @@ var languageNameSpace = {
 
     checkAndShowTutorial()
 
+    ECL.autoInit();
+
   },
 
   ChangeLanguage: function (val) {

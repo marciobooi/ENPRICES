@@ -33,6 +33,7 @@ function populateFuel() {
       populateConsumption()
       populateUnit()
       enprices();
+      languageNameSpace.initLanguage(REF.language);
   });
 
   const singleSelectHTML = singleSelect.createSingleSelect();

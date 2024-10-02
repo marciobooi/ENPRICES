@@ -23,7 +23,7 @@ class Singleselect {
                         <select class="ecl-select" id="${this.elementId}" name="country" required="">
                             ${this.optionsArray.map(option => `
                                     <option value="${option}" ${this.activeElement === option ? 'selected' : ''} data-i18n="${option}">
-                                    ${option}
+                                   
                                 </option>`).join('')
                             }
                         </select>
