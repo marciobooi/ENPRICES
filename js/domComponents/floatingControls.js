@@ -114,16 +114,17 @@ class FloatingChartControls {
           const showC = document.getElementById('showComponentsLabel');
           hideC.style.fontWeight = switchElement.value == 0 ? 'bold' : 'normal';
           showC.style.fontWeight = switchElement.value == 1 ? 'bold' : 'normal';
-        }    
-        
-     
-      
-
+          populateYearsData();  
+          populateDropdownData();
+          languageNameSpace.initLanguage(REF.language);
+          ECL.autoInit();
+        }       
 
         const percentageButton = this.chartControls.querySelector('#togglePercentage');
         percentageButton.style.display = REF.details == 1 ? '' : 'none';
         REF.percentage = 0
-        populateDropdownData()
+       
+   
         enprices()
 
       });

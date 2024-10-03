@@ -22,6 +22,7 @@ function chartdata(d = null) {
   } else {
     REF.geos = REF.geos
   }
+
   d = chartApiCall();
 
   geos = d.Dimension("geo").id;
