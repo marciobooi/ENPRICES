@@ -17,7 +17,7 @@ class Navbar {
 
   
 
-      <div class="container" id="es_app_header">
+      <div class="container-fluid" id="es_app_header">
         <div id="es_app_header_title" class="">
           <h1 id="header-title-label" class="es_app_title" data-i18n="TITLE"></h1>
         </div>

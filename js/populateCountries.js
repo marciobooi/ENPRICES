@@ -10,8 +10,12 @@ function populateCountries() {
     const AGGREGATES_COUNTRY_CODES = ["EU27_2020", "EA"];
     const EU_COUNTRY_CODES = ["BE", "BG", "CZ", "DK", "DE", "EE", "IE", "EL", "ES", "FR", "HR", "IT", "CY", "LV", "LT", "LU", "HU", "MT", "NL", "AT", "PL", "PT", "RO", "SI", "SK", "FI", "SE"];
     const EFTA_COUNTRY_CODES = ["IS", "LI", "NO"];
-    const ENLARGEMENT_COUNTRY_CODES = ["ME", "MK", "AL", "RS", "TR", "BA", "XK"]
-    const OTHER_THIRD_COUNTRY_CODES = ["UA", "MD", "GE"];
+    const ENLARGEMENT_COUNTRY_CODES = [ "BA","ME","MD","MK","GE","AL","RS","TR","UA","XK",]
+    // const OTHER_THIRD_COUNTRY_CODES = ["UA", "MD", "GE"];
+
+
+
+
 
     const html = /*html*/`      
             <div class="ecl-form-group" role="application">
@@ -37,10 +41,7 @@ function populateCountries() {
                     </optgroup>
                     <optgroup data-i18n-label='ENLARGEMENT'>
                         ${ENLARGEMENT_COUNTRY_CODES.map(ctr => `<option value="${ctr}" ${REF.geos.includes(ctr) ? 'selected' : ''} data-i18n="${ctr}">${languageNameSpace.labels[ctr]}</option>`).join('')}
-                    </optgroup>
-                    <optgroup data-i18n-label='OTHERCTR'>
-                        ${OTHER_THIRD_COUNTRY_CODES.map(ctr => `<option value="${ctr}" ${REF.geos.includes(ctr) ? 'selected' : ''} data-i18n="${ctr}">${languageNameSpace.labels[ctr]}</option>`).join('')}
-                    </optgroup>    
+                    </optgroup> 
                     </select>
                     <div class="ecl-select__icon">
                         <svg class="ecl-icon ecl-icon--s ecl-icon--rotate-180 ecl-select__icon-shape"

@@ -411,24 +411,24 @@
     "FR": "Agrégats"
   },
   "EUCTR": {
-    "EN": "EU countries",
-    "DE": "EU-Länder",
-    "FR": "Pays de l'UE"
+    "EN": "European Union (EU)",
+    "DE": "Europäische Union (EU)",
+    "FR": "Union européenne (UE)"
   },
   "EFTA": {
-    "EN": "EFTA countries",
-    "DE": "EFTA-Länder",
-    "FR": "Pays de l'AELE"
+    "EN": "European Free Trade Association (EFTA)",
+    "DE": "Europäische Freihandelsassoziation (EFTA)",
+    "FR": "Association européenne de libre-échange (AELE)"
   },
   "ENLARGEMENT": {
-    "EN": "Enlargement countries",
-    "DE": "Erweiterungsländer",
-    "FR": "Pays en élargissement"
+    "EN": "EU Enlargement",
+    "DE": "EU-Erweiterung",
+    "FR": "Élargissement de l'UE"
   },
   "OTHERCTR": {
     "EN": "Other third countries",
-    "DE": "Andere Drittländer",
-    "FR": "Autres pays tiers"
+    "DE": "Ländercodes anderer Drittländer",
+    "FR": "Codes d'autres pays tiers"
   },
   "CONSUMER": {
     "EN": "Consumer",
