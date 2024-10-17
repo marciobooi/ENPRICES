@@ -56,6 +56,9 @@ function openMeta() {
 
   bardata = REF.chartId == "lineChart" ? linedata : bardata;
 
+  log(REF.chartId)
+  log(bardata)
+
   for (let i = 0; i < categoriesAndStacks[0].y.length; i++) {
     const temp = categoriesAndStacks.map(category => category.y[i]);
     ordSeries.push({
@@ -328,8 +331,8 @@ function tooltipTable(points) {
     sortedPoints.forEach(function (point) {
       const color = point.series.color;
       const value = point.y.toFixed(dec); // Limit decimals to three places
-      const category = point.series.name;    
-
+      const category = point.series.name;   
+      
       if(REF.details != 0) {
         html += `<tr>
         <td><svg width="10" height="10" style="vertical-align: baseline;"><circle cx="5" cy="5" r="3" fill="${color}" /></svg> ${category}</td>

@@ -49,34 +49,39 @@ function lineData() {
     //     color: colors['TOTAL']  
     //   });
 
-    categoriesAndStacks = lineCat.map((el, i) => {
-      if (i >= linedata[0].data.length) {
-        return false;
-      } else {
-        let myObject = {};
-        myObject.x = el;
-        myObject.code = year[i];
-        myObject.y = [];
+  
 
-        linedata.forEach((bdEl) => {
-          myObject.y.push(bdEl.data[i]);
-        });
+    // categoriesAndStacks = lineCat.map((el, i) => {
+    //   if (i >= linedata[0].data.length) {
+    //     return false;
+    //   } else {
+    //     let myObject = {};
+    //     myObject.x = el;
+    //     myObject.code = year[i];
+    //     myObject.y = [];
 
-        if (!REF.component) {
-          const myXTAX = myObject.y[1];
-          const myXVAT = myObject.y[0] - myObject.y[2];
-          const rest = myObject.y[0] - (myXTAX + myXVAT);
+     
 
-          myObject.y[0] = parseFloat((rest * factor).toFixed(dec));
-          myObject.y[1] = parseFloat((myXTAX * factor).toFixed(dec));
-          myObject.y[2] = parseFloat((myXVAT * factor).toFixed(dec));
-          myObject.y[3] = parseFloat(((myXTAX + myXVAT + rest) * factor).toFixed(dec));
-        }
-        return myObject;
-      }
-    });
+    //     linedata.forEach((bdEl) => {
+    //       log( bdEl)
+    //       myObject.y.push(bdEl.data[i]);
+    //     });
 
-  orderedSeries = makeOrderedSeries(categoriesAndStacks);
+    //     if (!REF.component) {
+    //       const myXTAX = myObject.y[1];
+    //       const myXVAT = myObject.y[0] - myObject.y[2];
+    //       const rest = myObject.y[0] - (myXTAX + myXVAT);
+
+    //       myObject.y[0] = parseFloat((rest * factor).toFixed(dec));
+    //       myObject.y[1] = parseFloat((myXTAX * factor).toFixed(dec));
+    //       myObject.y[2] = parseFloat((myXVAT * factor).toFixed(dec));
+    //       myObject.y[3] = parseFloat(((myXTAX + myXVAT + rest) * factor).toFixed(dec));
+    //     }
+    //     return myObject;
+    //   }
+    // });
+
+  // orderedSeries = makeOrderedSeries(categoriesAndStacks);
   
 }
 
@@ -107,12 +112,12 @@ function createLineChart() {
         type: "spline",
         title: lineTitle,
         subtitle: null,
-        xAxis: {"categories": categoriesAndStacks.map((e) => e.x),},
+        xAxis: {"categories": linedata.map((e) => e.x),},
         yAxisFormat: "{value:.2f}",
         tooltipFormatter: tooltipFormatter,
         creditsText: credits(),
         creditsHref: 'https://ec.europa.eu/eurostat/databrowser/view/'+REF.dataset+'/default/table?lang=EN',
-        series: orderedSeries.sort((a, b) => a.name.localeCompare(b.name)),
+        series: linedata.sort((a, b) => a.name.localeCompare(b.name)),
         colors: lineColors,
         legend: {
           padding: 3,   

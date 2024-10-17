@@ -329,6 +329,16 @@
     "DE": "Optionswerkzeugkasten für Grafiken",
     "FR": "Boîte à outils des options de graphique"
   },
+  "NEXT": {
+    "EN": "Next",
+    "DE": "Weiter",
+    "FR": "Suivant"
+  },
+  "BACK": {
+    "EN": "Back",
+    "DE": "Zurück",
+    "FR": "Retour"
+  },
   "CLOSE": {
     "EN": "Close",
     "DE": "Schließen",
