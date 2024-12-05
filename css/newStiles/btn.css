@@ -183,3 +183,12 @@ ul#floatingMenu {
     outline: 2px solid #0e47cb;
     padding: 1rem;
 }
+
+#toggleLanguageBtn:focus {
+    box-shadow: 0 2px 4px rgb(167 186 231 / 19%), 0 0 10px rgb(167 186 231 / 19%), 0 4px 5px rgb(167 186 231 / 19%), 0 -4px 4px rgb(167 186 231 / 19%);
+    text-decoration: none;
+    color: white !important;
+    background-color: var(--c-p-10) !important;
+    border-color: var(--c-d) !important;
+    color: var(--c-d) !important;
+}

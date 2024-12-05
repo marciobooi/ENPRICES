@@ -59,7 +59,7 @@ var languageNameSpace = {
     checkAndShowTutorial()
 
     ECL.autoInit();
-
+    document.documentElement.lang = language.toLowerCase();
   },
 
   ChangeLanguage: function (val) {
