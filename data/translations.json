@@ -270,9 +270,9 @@
     "FR": "Télécharger"
   },
   "DOWNLOAD_CHART_IMAGE": {
-    "EN": "Download chart image",
-    "DE": "Diagrammbild herunterladen",
-    "FR": "Télécharger l'image du graphique"
+    "EN": "Download chart or data",
+    "DE": "Diagramm oder Daten herunterladen",
+    "FR": "Télécharger le graphique ou les données"
   },
   "DOWNLOAD_PNG": {
     "EN": "Download PNG image",

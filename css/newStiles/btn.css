@@ -175,3 +175,11 @@ ul#floatingMenu {
     /* border-radius: 50%; */
 }
 
+.ecl-button--ghost {
+    padding: 1rem;
+}
+
+.ecl-button--ghost:focus-visible {
+    outline: 2px solid #0e47cb;
+    padding: 1rem;
+}

@@ -561,4 +561,12 @@ body
   border-bottom-color: transparent;
 }
 
-
+a#tutorialClose:focus {
+  outline: 0;
+  text-decoration: none;
+  background-color: var(--tool-1);
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(158, 158, 158, 0.5);
+  box-shadow: 0 0 0 0rem rgba(158, 158, 158, 0.5);
+  border: 1px solid var(--tool-1);
+  color: white;
+}
