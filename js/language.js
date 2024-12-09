@@ -60,6 +60,8 @@ var languageNameSpace = {
 
     ECL.autoInit();
     document.documentElement.lang = language.toLowerCase();
+
+    enableTooltips()
   },
 
   ChangeLanguage: function (val) {

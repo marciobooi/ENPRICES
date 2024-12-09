@@ -20,6 +20,7 @@ function populateCountries() {
     const html = /*html*/`      
             <div class="ecl-form-group" role="application">
                 <label for="selectCountries" id="selectCountry" class="ecl-form-label" data-i18n="CTR">${languageNameSpace.labels["CTR"]}</label>
+                <p class=sr-only>Your selection will automatically update the chart</p>
                 <div class="ecl-select__container ecl-select__container--l">
                     <select class="ecl-select" id="selectCountries" name="country" required="" multiple="" 
                         data-ecl-auto-init="Select" 

@@ -122,6 +122,30 @@ function tutorial(buttonTimer) {
 	  
 	  introProfile.onexit(function () { window.scrollTo(0, 0) });
 
+	  const observer = new MutationObserver(() => {
+		// Locate the tooltip and title elements
+		const tooltip = document.querySelector('.introjs-tooltip');
+		const currentStep = introProfile._currentStep; 
+
+		if (tooltip && itens[currentStep].title) {
+		  const titleId = `introjs-title-${currentStep}`;
+
+		  const titleElement = tooltip.querySelector('.introjs-tooltip-title');
+		  if (titleElement) {
+			titleElement.id = titleId;
+			tooltip.setAttribute('aria-labelledby', titleId);
+		  }
+		}
+	  });
+
+	  observer.observe(
+		document.body,
+		{
+		  childList: true, 
+		  subtree: true,
+		}
+	  );
+
 	  introProfile.start();
   
 	  isOpen = true
@@ -182,7 +206,7 @@ function closeProcess(params) {
 	clearTimeout(buttonTimer);
 	document.querySelector("#tb-tutorial-btn");
 	// const button = document.getElementById('tb-tutorial-btn');
-	// button.focus();
+	$('button#closeChartMenuBtn').focus();
 	isOpen = false
 }
 

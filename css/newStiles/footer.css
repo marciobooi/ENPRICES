@@ -5,8 +5,6 @@
   flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
-  bottom: 0;
   width: 100vw;
   padding-bottom: 1rem;
 }
@@ -41,9 +39,21 @@
   opacity: 1;
 }
 
+.btn-relative {
+  position:relative;
+}
 
+.form-check-label {
+  font-size:14px;
+}
 
+.ecl-site-footer__list-item a {
+  border-right: 1px solid #0e47cb;
+  padding: 0.3rem 1rem;
+}
 
-
+.ecl-site-footer__list-item:last-child a {
+  border-right: none
+}
 
 

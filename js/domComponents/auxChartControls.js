@@ -16,7 +16,7 @@ class ChartControls {
 				<h6 id="subtitle" class="subtitle">subtitle</h6>
 			  </div>
 			  <div class="menu">
-				<ul id="chartBtns" role="menubar" aria-label="options graph toolbox" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
+				<ul id="chartBtns"  aria-label="options graph toolbox" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
 				  <li class="nav-item button px-1" id="toggleBarChart" role="none"></li>
 				  <li class="nav-item button px-1" id="togglePieChart" role="none"></li>
 				  <li class="nav-item button px-1" id="toggleLineChart" role="none"></li>
@@ -41,7 +41,7 @@ class ChartControls {
 			<span class="iconText" data-i18n="TOOLS"></span>
 			</button>
 			<div class="menu d-none">
-			  <ul id="chartBtns" role="menubar" data-i18n-label="OPTIONS_GRAPH_TOOLBOX" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
+			  <ul id="chartBtns"  data-i18n-label="OPTIONS_GRAPH_TOOLBOX" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
 				<li class="nav-item button px-1" id="toggleBarChart" role="none"></li>
 				<li class="nav-item button px-1" id="togglePieChart" role="none"></li>
 				<li class="nav-item button px-1" id="toggleLineChart" role="none"></li>
@@ -132,7 +132,12 @@ class ChartControls {
 				tableBtn.setAttribute('title', 'Toggle chart');
 
 				const charts = ["barChart", "pieChart", "lineChart"];  
-				charts.forEach(chart => {$("#" + chart).attr("disabled", "disabled")})
+				charts.forEach(chart => {
+					$("#" + chart).attr("disabled", "disabled")
+					$("#" + chart).attr("aria-disabled", "true")
+				})		
+
+				$("#"+REF.chartId).addClass('highlighDisbleBtn');
 
 				$('.ecl-button').not('button#tb-togle-table').not('#toggleTableBtn').prop('disabled', true);		
 				$('#menu').prop('disabled', true);		
@@ -149,6 +154,7 @@ class ChartControls {
 			
 				closeTable();
 
+				$("#"+REF.chartId).removeClass('highlighDisbleBtn');
 				
 				$('.ecl-button').not('button#tb-togle-table').prop('disabled', false);		
 				$('#menu').prop('disabled', false);		
@@ -220,6 +226,10 @@ class ChartControls {
 	}
   }
   
+
+
+
+
   function disableChatOptionsBtn(chart) {
 	REF.chartId = chart;  
 	log('here')
@@ -227,9 +237,10 @@ class ChartControls {
 	charts.forEach(chart => {
 	  if (REF.chartId == chart) {
 		$("#" + chart).attr("disabled", "disabled");
+		$("#" + chart).attr("aria-disabled", "true")
 	  } else {
 		$("#" + chart).removeAttr("disabled");
+		$("#" + chart).attr("aria-disabled")
 	  }
 	});
   }
-  

@@ -8,22 +8,22 @@ class FloatingChartControls {
       
 
     <div id="switchBtn">
+    <div>
+      <label id="hideDetailsLabel" class="form-check-label" for="switchDetails" data-i18n="HIDE_DETAILS"></label>
+      <div class="form-check form-switch d-inline-block">
+        <input class="form-check-input focus-ring" type="checkbox" value="${REF.detail == 1 ? 1 : 0}" role="switch" id="switchDetails" ${REF.detail == 1 ? 'checked' : ''}>
+        <label id="showDetailsLabel" class="form-check-label" for="switchDetails" data-i18n="DETAILS"></label>
+      </div>
+    </div>
 
     <div>
-    <label id="hideDetailsLabel" class="form-check-label" for="switchDetails" data-i18n="HIDE_DETAILS"></label>
-    <div class="form-check form-switch d-inline-block">
-      <input class="form-check-input focus-ring" type="checkbox" value="${REF.detail == 1 ? 1 : 0}" role="switch" id="switchDetails" ${REF.detail == 1 ? 'checked' : ''}>
-      <label id="showDetailsLabel" class="form-check-label" for="switchDetails" data-i18n="DETAILS"></label>
+      <label id="hideComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_HIDE"></label>
+      <div class="form-check form-switch d-inline-block">
+        <input class="form-check-input focus-ring" type="checkbox" value="${REF.components == 1 ? 1 : 0}" role="switch" id="switchComponents" ${REF.components == 1 ? 'checked' : ''}>
+        <label id="showComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_SHOW"></label>
+      </div>
     </div>
-    </div>
-
-    <div>      
-    <label id="hideComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_HIDE"></label>
-    <div class="form-check form-switch d-inline-block">
-      <input class="form-check-input focus-ring" type="checkbox" value="${REF.components == 1 ? 1 : 0}" role="switch" id="switchComponents" ${REF.components == 1 ? 'checked' : ''}>
-      <label id="showComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_SHOW"></label>
-    </div>
-    </div>
+  </div>
 
   </div>      
       <div id="footerBtns">  
@@ -75,6 +75,21 @@ class FloatingChartControls {
     // Add event listeners for keyboard navigation
     switchElements.forEach(switchElement => {
       switchElement.addEventListener('keyup', e => {
+
+
+        const isChecked = switchElement.checked;
+        switchElement.value = isChecked ? '1' : '0';
+
+        const label = switchElement.id === 'switchDetails'
+          ? isChecked
+            ? 'Hide details'
+            : 'Show details'
+          : isChecked
+            ? 'Hide components'
+            : 'Show components';
+
+        switchElement.setAttribute('aria-label', label);
+
         if (e.keyCode === 13 || e.keyCode === 32) {
           // Prevent scrolling when the spacebar or enter key is pressed
           e.preventDefault();
@@ -86,8 +101,11 @@ class FloatingChartControls {
           if (switchElement.id === 'switchDetails') {
             REF.detail = switchElement.value === '1' ? 1 : 0;
             REF.chartInDetails= switchElement.value === '1' ? 1 : 0;
+            REF.detail = isChecked ? 1 : 0;
+            REF.chartInDetails = isChecked ? 1 : 0;
           } else if (switchElement.id === 'switchComponents') {
             REF.component = switchElement.value === '1' ? 1 : 0;
+            REF.component = isChecked ? 1 : 0;
           }
 
           enprices()     
@@ -100,15 +118,34 @@ class FloatingChartControls {
       switchElement.addEventListener('click', () => {        
         // Toggle the switch value between 1 and 0 when clicked
         switchElement.value = switchElement.value === '1' ? '0' : '1';    
+        const isChecked = switchElement.checked;
+        switchElement.value = isChecked ? '1' : '0';
+
+        const label = switchElement.id === 'switchDetails'
+          ? isChecked
+            ? 'Hide details'
+            : 'Show details'
+          : isChecked
+            ? 'Hide components'
+            : 'Show components';
+
+        switchElement.setAttribute('aria-label', label);
+
+
         if (switchElement.id === 'switchDetails') {
           REF.detail = switchElement.value === '1' ? 1 : 0;
           REF.chartInDetails= switchElement.value === '1' ? 1 : 0;
+
+          REF.detail = isChecked ? 1 : 0;
+          REF.chartInDetails = isChecked ? 1 : 0;
+
+
           const hideD = document.getElementById('hideDetailsLabel');
           const showD = document.getElementById('showDetailsLabel');
           hideD.style.fontWeight = switchElement.value == 0 ? 'bold' : 'normal';
           showD.style.fontWeight = switchElement.value == 1 ? 'bold' : 'normal';
         } else if (switchElement.id === 'switchComponents') {
-
+          REF.component = isChecked ? 1 : 0;
           REF.component = switchElement.value === '1' ? 1 : 0;
           const hideC = document.getElementById('hideComponentsLabel');
           const showC = document.getElementById('showComponentsLabel');
@@ -236,7 +273,7 @@ class FloatingChartControls {
     const self = this; 
 
 		const percentageButton = new Button("tb-togle-percentage", ["ecl-button", "ecl-button--primary", "round-btn"], "SHOW_PERCENTAGE", "", "true");
-		const agregatesButton = new Button("toggleAgregates", ["ecl-button", "ecl-button--primary", "round-btn"], "SHOW_AGGREGATES", "", "true");
+		const agregatesButton = new Button("toggleAgregates", ["ecl-button", "ecl-button--primary", "round-btn", "btn-relative"], "SHOW_AGGREGATES", "", "true");
 		const tableButton = new Button("tb-togle-table", ["ecl-button", "ecl-button--primary", "round-btn"], "SHOW_TABLE", "", "true");
 		const orderButton = new Button("tb-togle-order", ["ecl-button", "ecl-button--primary", "round-btn"], "SELECT_ORDER_OF_CHART", "", "true");
 

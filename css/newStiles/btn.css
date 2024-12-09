@@ -192,3 +192,46 @@ ul#floatingMenu {
     border-color: var(--c-d) !important;
     color: var(--c-d) !important;
 }
+
+button#menu:focus, button#menu:active {
+    background-color: #f3f6fc !important;
+    height: 4rem;
+    align-items: center;
+    justify-content: center;
+    border-color: var(--tool-1) !important;
+    box-shadow: 0 0 0 0.15rem #cca30000 !important;
+    color: #0e47cb;
+}
+
+.ecl-button--secondary:active, .ecl-button--secondary:hover, .ecl-button--secondary:focus {
+    background-color: #3e6cd5 !important;
+    border-color: #3e6cd5 !important;
+    color: #fff !important;
+}
+
+.ecl-button--primary:active, .ecl-button--primary:hover, .ecl-button--primary:focus {
+    background-color: #3e6cd5 !important;
+    background-color: #fff !important;
+    border: 2px solid #0e47cb !important;
+    color: #0e47cb !important;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap; /* Prevents text wrapping */
+    border: 0;
+  }
+
+
+  .highlighDisbleBtn {
+    background-color: #fff  !important;
+    border: 2px solid #3e6cd5 !important;
+    color: #3e6cd5 !important;
+    box-shadow: 0 0 0 0.15rem #cca30000 !important;
+}

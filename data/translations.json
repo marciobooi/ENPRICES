@@ -339,6 +339,11 @@
     "DE": "Zurück",
     "FR": "Retour"
   },
+  "SHOW": {
+    "EN": "Show",
+    "DE": "Anzeigen",
+    "FR": "Afficher"
+  },
   "CLOSE": {
     "EN": "Close",
     "DE": "Schließen",

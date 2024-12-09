@@ -4,7 +4,7 @@
     --width-100: 100vw;
     --nav-color: #0E47CB;
     --sub-nav-color: #F3F3F3;
-    --tool-1: #0E47CB;
+    --tool-1: #004494;
     --tool-2: #3E6CD5;
     --tool-3: #8AA7E8;
     --btn-color: #0E47CB;
@@ -106,4 +106,24 @@ header.ecl-modal__header {
 
 tspan#credits {
   fill: #262B38 !important;
+}
+
+
+.tooltip {
+  position: absolute;
+  background: #ffffff9c;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+  border: 4px solid #0e47cb;
+  border-radius: 10px;
+}
+
+.tooltip.visible {
+  opacity: 1;
+  pointer-events: auto;
 }
