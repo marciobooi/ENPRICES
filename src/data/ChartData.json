@@ -1,0 +1,184 @@
+{
+
+  "chart1": {
+    "_comment": "accepted years are last, all or fixed dates",
+    "titleCode": "charts.totalEnergySupply",
+    "category": "climate",
+    "type": "bar",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["GIC_EED", "PEC_EED", "FEC_EED"],
+    "siec": ["TOTAL"],
+    "unit": ["KTOE"],
+    "time": [2000, 2005, 2010, 2015, 2020, "last"]    
+  },
+  "chart2": {
+    "titleCode": "charts.renewableEnergy",
+    "category": "climate",
+    "type": "line",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["AFC"],
+    "siec": ["RA000"],
+    "unit": ["KTOE"],
+    "time": ["all"]
+  },
+  "chart3": {
+    "titleCode": "charts.fossilFuels",
+    "category": "climate",
+    "type": "area",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["AFC"],
+    "siec": ["C0000X0350-0370", "C0110", "C0121", "C0210", "C0220"],
+    "unit": ["KTOE"],
+    "time": ["all"]
+  },
+  "chart4": {
+    "titleCode": "charts.electricity",
+    "category": "climate",
+    "type": "column",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["AFC"],
+    "siec": ["E7000"],
+    "unit": ["KTOE"],
+    "time": [2010, 2015, 2020, "last"]
+  },
+  "chart5": {
+    "titleCode": "charts.naturalGas",
+    "category": "climate",
+    "type": "pie",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["AFC"],
+    "siec": ["G3000"],
+    "unit": ["KTOE"],
+    "time": [2020, 2021, 2022, "last"]
+  },
+  "chart6": {
+    "titleCode": "charts.multiCountryComparison",
+    "category": "climate",
+    "type": "line",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["AFC"],
+    "siec": ["TOTAL"],
+    "unit": ["KTOE"],
+    "time": [2015, 2018, 2020, 2022, "last"]
+  },
+  "chart7": {
+    "titleCode": "charts.regionalRenewableEnergy",
+    "category": "climate",
+    "type": "column",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["AFC"],
+    "siec": ["RA000"],
+    "unit": ["KTOE"],
+    "time": [2010, 2015, 2020, "last"]
+  },
+  "chart8": {
+    "titleCode": "charts.electricityByCountry",
+    "category": "climate",
+    "type": "bar",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["AFC"],
+    "siec": ["E7000"],
+    "unit": ["KTOE"],
+    "time": [2018, 2020, 2022, "last"]
+  },
+  "chart9": {
+    "titleCode": "charts.energyConsumption",
+    "category": "energy",
+    "type": "line",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["FEC2020-2030"],
+    "siec": ["TOTAL"],
+    "unit": ["KTOE"],
+    "time": [2015, 2018, 2020, 2022, "last"]
+  },
+  "chart10": {
+    "titleCode": "charts.energyProduction",
+    "category": "energy",
+    "type": "column",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["PPRD"],
+    "siec": ["TOTAL"],
+    "unit": ["KTOE"],
+    "time": [2010, 2015, 2020, "last"]
+  },
+  "chart11": {
+    "titleCode": "charts.energyIntensity",
+    "category": "energy",
+    "type": "area",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["FEC2020-2030"],
+    "siec": ["TOTAL"],
+    "unit": ["KTOE"],
+    "time": [2010, 2015, 2020, "last"]
+  },
+  "chart12": {
+    "titleCode": "charts.energyBalance",
+    "category": "energy",
+    "type": "bar",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["NRG_E"],
+    "siec": ["TOTAL"],
+    "unit": ["KTOE"],
+    "time": [2015, 2020, "last"]
+  },
+  "chart13": {
+    "titleCode": "charts.transportEnergy",
+    "category": "transport",
+    "type": "line",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["FEC2020-2030"],
+    "siec": ["O4000XBIO"],
+    "unit": ["KTOE"],
+    "time": [2010, 2015, 2020, "last"]
+  },
+  "chart14": {
+    "titleCode": "charts.transportElectrification",
+    "category": "transport",
+    "type": "column",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["FEC2020-2030"],
+    "siec": ["E7000"],
+    "unit": ["KTOE"],
+    "time": [2015, 2018, 2020, 2022, "last"]
+  },
+  "chart15": {
+    "titleCode": "charts.transportFuels",
+    "category": "transport",
+    "type": "pie",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["FEC2020-2030"],
+    "siec": ["O4000"],
+    "unit": ["KTOE"],
+    "time": [2020, 2022, "last"]
+  },
+  "chart16": {
+    "titleCode": "charts.landUseEnergy",
+    "category": "lulucf",
+    "type": "area",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["PPRD"],
+    "siec": ["RA100"],
+    "unit": ["KTOE"],
+    "time": [2010, 2015, 2020, "last"]
+  },
+  "chart17": {
+    "titleCode": "charts.forestryEnergy",
+    "category": "lulucf",
+    "type": "bar",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["PPRD"],
+    "siec": ["RA110"],
+    "unit": ["KTOE"],
+    "time": [2015, 2020, "last"]
+  },
+  "chart18": {
+    "titleCode": "charts.bioenergyProduction",
+    "category": "lulucf",
+    "type": "line",
+    "dataset": "nrg_bal_c",
+    "nrg_bal": ["PPRD"],
+    "siec": ["RA000"],
+    "unit": ["KTOE"],
+    "time": [2005, 2010, 2015, 2020, "last"]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "banner": {
+      "title": "NECPR - Visualisation"     
+    },
+    "logo": {
+      "alt": "Accueil - Eurostat"
+    },
+    "language": {
+      "select_label": "Choisir la langue",
+      "current": "Changer la langue, la langue actuelle est {{lang}}",
+      "official": "Langues officielles de l'UE :",
+      "close": "Fermer",
+      "en": "Anglais",
+      "de": "Allemand",
+      "fr": "Français"
+    }
+  },
+
+  "meta": {
+    "title": "Eurostat - Votre portail vers les statistiques européennes",
+    "description": "Eurostat est l'office statistique de l'Union européenne situé à Luxembourg. Nous fournissons des statistiques et des données de haute qualité sur l'Europe.",
+    "keywords": "eurostat, statistiques, union européenne, données, économie, démographie, office statistique",
+    "siteName": "Eurostat"
+  },
+
+  "footer": {
+    "LEGAL": "Mentions légales",
+    "PRIVACY": "Politique de confidentialité",
+    "COOKIES": "Politique de cookies",
+    "ACCESS": "Accessibilité",
+    "FOOTER_ARIA_LABEL": "Pied de page du site",
+    "FOOTER_NAV_ARIA_LABEL": "Navigation du pied de page",
+    "FOOTER_LINKS_LABEL": "Liens du pied de page",
+    "EXTERNAL_LINK_NOTICE": "(s'ouvre dans un nouvel onglet)",
+    "SKIP_TO_MAIN": "Aller au contenu principal",
+    "KEYBOARD_NAV_HELP": "Utilisez les touches fléchées pour naviguer entre les liens du pied de page, les touches Début et Fin pour aller au premier ou dernier lien",
+    "LEGAL_DESC": "Voir les mentions légales et conditions d'utilisation de ce site web",
+    "PRIVACY_DESC": "Lire comment nous collectons et utilisons vos données personnelles",
+    "COOKIES_DESC": "En savoir plus sur notre utilisation des cookies et technologies de suivi",
+    "ACCESS_DESC": "Informations sur les fonctionnalités d'accessibilité et le support"
+  }
+}

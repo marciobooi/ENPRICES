@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "banner": {
+      "title": "NECPR - Visualisierung"     
+    },
+    "logo": {
+      "alt": "Startseite - Eurostat"
+    },
+    "language": {
+      "select_label": "Sprache auswählen",
+      "current": "Sprache ändern, aktuelle Sprache ist {{lang}}",
+      "official": "Amtssprachen der EU:",
+      "close": "Schließen",
+      "en": "Englisch",
+      "de": "Deutsch",
+      "fr": "Französisch"
+    }
+  },
+
+  "meta": {
+    "title": "Eurostat - Ihr Tor zu europäischen Statistiken",
+    "description": "Eurostat ist das statistische Amt der Europäischen Union mit Sitz in Luxemburg. Wir bieten hochwertige Statistiken und Daten über Europa.",
+    "keywords": "eurostat, statistiken, europäische union, daten, wirtschaft, demografie, statistisches amt",
+    "siteName": "Eurostat"
+  },
+
+  "footer": {
+    "LEGAL": "Rechtliche Hinweise",
+    "PRIVACY": "Datenschutzerklärung",
+    "COOKIES": "Cookie-Richtlinie",
+    "ACCESS": "Barrierefreiheit",
+    "FOOTER_ARIA_LABEL": "Website-Fußzeile",
+    "FOOTER_NAV_ARIA_LABEL": "Fußzeilen-Navigation",
+    "FOOTER_LINKS_LABEL": "Fußzeilen-Links",
+    "EXTERNAL_LINK_NOTICE": "(öffnet in einem neuen Tab)",
+    "SKIP_TO_MAIN": "Zum Hauptinhalt springen",
+    "KEYBOARD_NAV_HELP": "Verwenden Sie die Pfeiltasten, um zwischen den Fußzeilen-Links zu navigieren, Pos1 und Ende-Tasten, um zum ersten oder letzten Link zu springen",
+    "LEGAL_DESC": "Rechtliche Hinweise und Nutzungsbedingungen für diese Website anzeigen",
+    "PRIVACY_DESC": "Erfahren Sie, wie wir Ihre persönlichen Daten sammeln und verwenden",
+    "COOKIES_DESC": "Mehr über unsere Verwendung von Cookies und Tracking-Technologien erfahren",
+    "ACCESS_DESC": "Informationen über Barrierefreiheitsfunktionen und Support"
+  }
+}

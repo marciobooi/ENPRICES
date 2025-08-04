@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "banner": {
+      "title": "name of the tool"     
+    },
+    "logo": {
+      "alt": "Home - Eurostat"
+    },
+    "language": {
+      "select_label": "Select language",
+      "current": "Change language, current language is {{lang}}",
+      "official": "Official EU languages:",
+      "close": "Close",
+      "en": "English",
+      "de": "Deutsch",
+      "fr": "Français"
+    }
+  },
+
+  "meta": {
+    "title": "Eurostat - Your gateway to European statistics",
+    "description": "Eurostat is the statistical office of the European Union situated in Luxembourg. We provide high quality statistics and data on Europe.",
+    "keywords": "eurostat, statistics, european union, data, economy, demographics, statistics office",
+    "siteName": "Eurostat"
+  },
+
+  "footer": {
+    "LEGAL": "Legal notice",
+    "PRIVACY": "Privacy policy", 
+    "COOKIES": "Cookies policy",
+    "ACCESS": "Accessibility",
+    "FOOTER_ARIA_LABEL": "Site footer",
+    "FOOTER_NAV_ARIA_LABEL": "Footer navigation",
+    "FOOTER_LINKS_LABEL": "Footer links",
+    "EXTERNAL_LINK_NOTICE": "(opens in a new tab)",
+    "SKIP_TO_MAIN": "Skip to main content",
+    "KEYBOARD_NAV_HELP": "Use arrow keys to navigate between footer links, Home and End keys to jump to first or last link",
+    "LEGAL_DESC": "View the legal notice and terms of use for this website",
+    "PRIVACY_DESC": "Read about how we collect and use your personal data",
+    "COOKIES_DESC": "Learn about our use of cookies and tracking technologies",
+    "ACCESS_DESC": "Information about accessibility features and support"
+  }
+}

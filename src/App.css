@@ -1,0 +1,429 @@
+/* Custom styles for the NECPR application */
+/* ECL styles take precedence, these are supplementary styles */
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Custom styles that work with ECL */
+.demo-section {
+  margin-bottom: 2rem;
+}
+
+/* Ensure ECL components have proper spacing */
+.ecl-container {
+  flex: 1;
+}
+
+/* Card component enhancements */
+.ecl-card {
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+
+.ecl-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ecl-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.ecl-card__header .ecl-card__title-large {
+  margin: 0;
+  flex: 1;
+}
+
+.ecl-card__expand-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  flex-shrink: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
+  transform: scale(0.9);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.ecl-card:hover .ecl-card__expand-btn,
+.ecl-card:focus-within .ecl-card__expand-btn {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.ecl-card__expand-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Ensure card button wrapper doesn't interfere with expand button */
+.ecl-card-button {
+  background: none;
+  border: none;
+  padding: 0;
+  width: 100%;
+  text-align: left;
+  display: block;
+}
+
+/* Full-screen chart mode */
+.app-fullscreen-mode {
+  min-height: calc(100vh - 200px); /* Account for navigation height */
+  background: white;
+  overflow: auto;
+  padding: 2rem 0;
+}
+
+.app-fullscreen-mode .ecl-container {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-fullscreen-chart {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.app-fullscreen-chart__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+
+.app-fullscreen-chart__title {
+  font-size: 2rem;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+/* Accessibility enhancements for close button */
+.app-fullscreen-chart__header .ecl-button {
+  min-width: 44px; /* Minimum touch target size for accessibility */
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-fullscreen-chart__header .ecl-button:focus {
+  outline: 2px solid #0073e6;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(0, 115, 230, 0.2);
+}
+
+.app-fullscreen-chart__header .ecl-button:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.app-fullscreen-chart__content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+/* Hide elements when in fullscreen mode */
+.app-hidden {
+  display: none !important;
+}
+
+/* ========================================
+   RESPONSIVE ENHANCEMENTS FOR COMPONENTS
+   ======================================== */
+
+/* ===== CARD COMPONENT RESPONSIVE STYLES ===== */
+
+/* Mobile optimizations for cards */
+@media (max-width: 767px) {
+  .ecl-card {
+    margin-bottom: 1rem;
+  }
+  
+  .ecl-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .ecl-card__expand-btn {
+    position: relative;
+    top: auto;
+    right: auto;
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    pointer-events: auto;
+    align-self: flex-end;
+    margin-top: -0.5rem;
+  }
+  
+  .ecl-card__title-large {
+    font-size: 1.25rem !important;
+    line-height: 1.3 !important;
+  }
+}
+
+/* Tablet optimizations for cards */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .ecl-card__header {
+    gap: 1rem;
+  }
+  
+  .ecl-card__title-large {
+    font-size: 1.5rem !important;
+  }
+  
+  .ecl-card__expand-btn {
+    transform: scale(0.95);
+  }
+  
+  .ecl-card:hover .ecl-card__expand-btn {
+    transform: scale(1.05);
+  }
+}
+
+/* Desktop optimizations for cards */
+@media (min-width: 1025px) {
+  .ecl-card__title-large {
+    font-size: 1.75rem !important;
+  }
+}
+
+/* ===== FULLSCREEN CHART RESPONSIVE STYLES ===== */
+
+/* Mobile fullscreen chart */
+@media (max-width: 767px) {
+  .app-fullscreen-mode {
+    min-height: calc(100vh - 120px);
+    padding: 1rem 0;
+  }
+  
+  .app-fullscreen-mode .ecl-container {
+    padding: 1rem;
+  }
+  
+  .app-fullscreen-chart__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+  }
+  
+  .app-fullscreen-chart__title {
+    font-size: 1.5rem;
+    order: 1;
+  }
+  
+  .app-fullscreen-chart__header .ecl-button {
+    order: 2;
+    align-self: flex-end;
+    min-width: 48px;
+    min-height: 48px;
+  }
+}
+
+/* Tablet fullscreen chart */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .app-fullscreen-mode {
+    min-height: calc(100vh - 160px);
+    padding: 1.5rem 0;
+  }
+  
+  .app-fullscreen-chart__title {
+    font-size: 1.75rem;
+  }
+  
+  .app-fullscreen-chart__header .ecl-button {
+    min-width: 46px;
+    min-height: 46px;
+  }
+}
+
+/* Desktop fullscreen chart */
+@media (min-width: 1025px) {
+  .app-fullscreen-chart__title {
+    font-size: 2rem;
+  }
+}
+
+/* ===== ORIENTATION-SPECIFIC COMPONENT STYLES ===== */
+
+/* Portrait orientation adjustments */
+@media (orientation: portrait) {
+  .ecl-card__header {
+    align-items: flex-start;
+  }
+  
+  /* Mobile portrait specific */
+  @media (max-width: 767px) {
+    .app-fullscreen-chart__header {
+      text-align: center;
+    }
+    
+    .app-fullscreen-chart__title {
+      align-self: center;
+    }
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) {
+  /* Mobile landscape specific */
+  @media (max-width: 767px) {
+    .app-fullscreen-mode {
+      min-height: calc(100vh - 80px);
+    }
+    
+    .app-fullscreen-chart__header {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .app-fullscreen-chart__title {
+      font-size: 1.25rem;
+      order: 0;
+    }
+    
+    .app-fullscreen-chart__header .ecl-button {
+      order: 0;
+      align-self: auto;
+    }
+  }
+}
+
+/* ===== TOUCH DEVICE COMPONENT OPTIMIZATIONS ===== */
+@media (hover: none) and (pointer: coarse) {
+  .ecl-card {
+    /* Always show expand button on touch devices */
+    .ecl-card__expand-btn {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+  }
+  
+  .ecl-card-button {
+    /* Ensure card buttons are touch-friendly */
+    min-height: 44px;
+    padding: 0.75rem;
+  }
+  
+  .app-fullscreen-chart__header .ecl-button {
+    /* Larger touch targets for close button */
+    min-width: 48px;
+    min-height: 48px;
+    padding: 0.75rem;
+  }
+}
+
+/* ===== HIGH DENSITY DISPLAY OPTIMIZATIONS ===== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .ecl-card {
+    /* Enhance card borders on high-DPI displays */
+    border-width: 0.5px;
+  }
+  
+  .ecl-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* ===== ACCESSIBILITY COMPONENT ENHANCEMENTS ===== */
+
+/* Reduced motion for components */
+@media (prefers-reduced-motion: reduce) {
+  .ecl-card {
+    transition: none;
+  }
+  
+  .ecl-card:hover {
+    transform: none;
+  }
+  
+  .ecl-card__expand-btn {
+    transition: none;
+  }
+  
+  .app-fullscreen-chart__header .ecl-button {
+    transition: none;
+  }
+  
+  .app-fullscreen-chart__header .ecl-button:hover {
+    transform: none;
+  }
+}
+
+/* High contrast mode for components */
+@media (prefers-contrast: high) {
+  .ecl-card {
+    border: 2px solid;
+  }
+  
+  .ecl-card:hover {
+    box-shadow: none;
+    border-width: 3px;
+  }
+  
+  .app-fullscreen-chart__header {
+    border-bottom: 2px solid;
+  }
+}
+
+/* Print optimizations for components */
+@media print {
+  .ecl-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid black;
+  }
+  
+  .ecl-card__expand-btn {
+    display: none !important;
+  }
+  
+  .app-fullscreen-mode {
+    position: static !important;
+    background: none !important;
+    padding: 0 !important;
+  }
+  
+  .app-fullscreen-chart__header .ecl-button {
+    display: none !important;
+  }
+}
