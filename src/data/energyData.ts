@@ -31,8 +31,16 @@ export const ENLARGEMENT_COUNTRY_CODES = [
 
 // Energy products mapping
 export const energyProducts = {
-  "4100": "", // Natural gas
-  "6000": "", // Electricity
+  "4100": "Natural gas", // Natural gas
+  "6000": "Electricity", // Electricity
+};
+
+// Helper function to get energy product options
+export const getEnergyProductOptions = () => {
+  return Object.entries(energyProducts).map(([value, label]) => ({
+    value,
+    label
+  }));
 };
 
 // Consumer types

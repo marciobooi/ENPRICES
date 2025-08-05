@@ -6,6 +6,8 @@ import Menu from "./Menu";
 interface NavProps {
   selectedCountries?: string[];
   onCountriesChange?: (countries: string[]) => void;
+  selectedProduct?: string;
+  onProductChange?: (product: string) => void;
   selectedCategory?: string;
   onCategoryChange?: (category: string) => void;
   hideCategoryButtons?: boolean;
@@ -13,7 +15,9 @@ interface NavProps {
 
 const Nav: React.FC<NavProps> = ({ 
   selectedCountries = ["EU27_2020"], 
-  onCountriesChange 
+  onCountriesChange,
+  selectedProduct = "6000",
+  onProductChange
 }) => {
   const { t } = useTranslation();
 
@@ -45,6 +49,8 @@ const Nav: React.FC<NavProps> = ({
         <Menu 
           selectedCountries={selectedCountries}
           onCountriesChange={onCountriesChange}
+          selectedProduct={selectedProduct}
+          onProductChange={onProductChange}
         />
       </div>
     </div>

@@ -46,6 +46,19 @@
     }
   },
 
+  "energy": {
+    "products": {
+      "label": "Select Energy Product",
+      "placeholder": "Choose an energy product...",
+      "help": "Select the energy product you want to analyze",
+      "groups": {
+        "energy_products": "Energy Products"
+      },
+      "4100": "Natural gas",
+      "6000": "Electricity"
+    }
+  },
+
   "countries": {
     "groups": {
       "aggregates": "EU Aggregates",

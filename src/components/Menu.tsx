@@ -1,30 +1,39 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PoliteLiveRegion, EclMultiSelect, useFocusTrap } from './ui/index';
-import { AGGREGATES_COUNTRY_CODES, EU_COUNTRY_CODES, EFTA_COUNTRY_CODES, ENLARGEMENT_COUNTRY_CODES } from "../data/energyData";
+import { PoliteLiveRegion, EclMultiSelect, EclSingleSelect, useFocusTrap } from './ui/index';
+import { AGGREGATES_COUNTRY_CODES, EU_COUNTRY_CODES, EFTA_COUNTRY_CODES, ENLARGEMENT_COUNTRY_CODES, getEnergyProductOptions } from "../data/energyData";
 
 interface MenuProps {
   className?: string;
   selectedCountries?: string[];
   onCountriesChange?: (countries: string[]) => void;
+  selectedProduct?: string;
+  onProductChange?: (product: string) => void;
 }
 
 const Menu: React.FC<MenuProps> = ({ 
   className = '',
   selectedCountries = ["EU27_2020"],
-  onCountriesChange
+  onCountriesChange,
+  selectedProduct = "6000",
+  onProductChange
 }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [announcementMessage, setAnnouncementMessage] = useState('');
   const [countries, setCountries] = useState<string[]>(selectedCountries);
+  const [product, setProduct] = useState<string>(selectedProduct);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  // Sync countries state with props
+  // Sync countries and product state with props
   useEffect(() => {
     setCountries(selectedCountries);
   }, [selectedCountries]);
+
+  useEffect(() => {
+    setProduct(selectedProduct);
+  }, [selectedProduct]);
 
   // Focus trap for the menu when open
   const focusTrapRef = useFocusTrap(isOpen, true, () => setIsOpen(false));
@@ -33,6 +42,17 @@ const Menu: React.FC<MenuProps> = ({
     setCountries(selectedValues);
     onCountriesChange?.(selectedValues);
   };
+
+  const handleProductChange = (selectedValue: string) => {
+    setProduct(selectedValue);
+    onProductChange?.(selectedValue);
+  };
+
+  // Get energy product options
+  const energyProductOptions = getEnergyProductOptions().map(option => ({
+    ...option,
+    label: t(`energy.products.${option.value}`, option.label)
+  }));
 
   // Create country option groups
   const countryOptionGroups = [
@@ -175,6 +195,23 @@ const Menu: React.FC<MenuProps> = ({
           aria-orientation="vertical"
         >
           <div className="menu-content">
+            {/* Energy Product Selection Section */}
+            <div className="menu-section">
+              <h3 id="product-heading">{t('energy.products.label', 'Select Energy Product')}</h3>
+              <div className="menu-product">
+                <EclSingleSelect
+                  id="menu-select-product"
+                  label={t("energy.products.label", "Select Energy Product")}
+                  options={energyProductOptions}
+                  value={product}
+                  onChange={handleProductChange}
+                  placeholder={t("energy.products.placeholder", "Choose an energy product...")}
+                  helpText={t("energy.products.help", "Select the energy product you want to analyze")}
+                  required={true}
+                />
+              </div>
+            </div>
+
             {/* Countries Selection Section */}
             <div className="menu-section">
               <h3 id="countries-heading">{t('nav.countries.label', 'Select Countries')}</h3>
