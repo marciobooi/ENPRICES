@@ -17,6 +17,31 @@
     }
   },
 
+  "menu": {
+    "toggle": "Toggle menu",
+    "navigation": "Navigation",
+    "tools": "Tools",
+    "home": "Home",
+    "data": "Data",
+    "charts": "Charts",
+    "export": "Export Data",
+    "share": "Share"
+  },
+
+  "ui": {
+    "select": {
+      "placeholder": "Select an option"
+    },
+    "multiselect": {
+      "placeholder": "Select options",
+      "selected_count": "{{count}} selected",
+      "remove_item": "Remove {{item}}",
+      "more": "more",
+      "select_all": "Select all",
+      "max_selections": "Maximum {{max}} selections"
+    }
+  },
+
   "meta": {
     "title": "Eurostat - Your gateway to European statistics",
     "description": "Eurostat is the statistical office of the European Union situated in Luxembourg. We provide high quality statistics and data on Europe.",

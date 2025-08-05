@@ -172,16 +172,17 @@ html, body {
 }
 
 
-#navigation {
+#menu {
   display: flex;
   width: 100%;
+  position: relative;
 }
 
   .ecl-site-header__language-link {
     width: calc(135px - var(--s-s) * 2) !important;
   }
 
-#navigation .ecl-menu__container {
+#menu .ecl-menu__container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -189,7 +190,7 @@ html, body {
   background-image: linear-gradient(90deg, rgb(8, 43, 122), rgb(14, 71, 203));
 }
 
-#navigation .ecl-menu__inner {
+#menu .ecl-menu__inner {
   display: flex;
   align-items: center;
   width: 100%;
@@ -197,35 +198,35 @@ html, body {
   padding: .4rem 0;
 }
 
-#navigation .ecl-menu__inner-header {
+#menu .ecl-menu__inner-header {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-#navigation .ecl-form-group {
+#menu .ecl-form-group {
   margin-left: 0;
   margin-bottom: 0;
 }
 
 /* Hide hamburger menu on desktop */
-#navigation .ecl-menu__open {
+#menu .ecl-menu__open {
   display: none;
 }
 
 /* Hide mobile menu elements on desktop */
-#navigation .ecl-menu__inner-header {
+#menu .ecl-menu__inner-header {
   display: none;
 }
 
-#navigation .ecl-menu__close,
-#navigation .ecl-menu__back,
-#navigation .ecl-menu__title {
+#menu .ecl-menu__close,
+#menu .ecl-menu__back,
+#menu .ecl-menu__title {
   display: none;
 }
 
 /* Show menu items horizontally on desktop */
-#navigation .ecl-menu__list {
+#menu .ecl-menu__list {
   display: flex;
   align-items: center;
   margin: 0;
@@ -242,28 +243,28 @@ html, body {
 /* Mobile styles */
 @media (max-width: 768px) {
   /* Show hamburger menu on mobile */
-  #navigation .ecl-menu__open {
+  #menu .ecl-menu__open {
     display: block;
   }
   
   /* Show mobile menu elements when menu is open */
-  #navigation .ecl-menu__inner-header {
+  #menu .ecl-menu__inner-header {
     display: block;
   }
   
-  #navigation .ecl-menu__close,
-  #navigation .ecl-menu__back,
-  #navigation .ecl-menu__title {
+  #menu .ecl-menu__close,
+  #menu .ecl-menu__back,
+  #menu .ecl-menu__title {
     display: block;
   }
   
   /* Stack menu items vertically on mobile */
-  #navigation .ecl-menu__list {
+  #menu .ecl-menu__list {
     display: block;
   }
   
   /* Hide countries select on mobile when menu is closed */
-  #navigation .ecl-form-group {
+  #menu .ecl-form-group {
     margin-left: 0;
   }
 }
@@ -519,7 +520,7 @@ html, body {
   box-shadow: 0 0 0 1px #004494;
 }
 
-/* Enhanced focus for keyboard navigation */
+/* Enhanced focus for keyboard menu */
 .ecl-site-footer__link:focus-visible {
   outline: 3px solid #ffffff;
   outline-offset: 2px;
@@ -731,7 +732,7 @@ html, body {
   border-radius: 4px !important;
 }
 
-/* Highcharts keyboard navigation focus styles */
+/* Highcharts keyboard menu focus styles */
 .highcharts-container .highcharts-focus-border {
   stroke: #004494 !important;
   stroke-width: 2 !important;
@@ -751,7 +752,7 @@ html, body {
   border: 0 !important;
 }
 
-/* Ensure keyboard navigation is visible */
+/* Ensure keyboard menu is visible */
 .highcharts-container g[aria-label]:focus {
   outline: 2px solid #004494;
   outline-offset: 2px;
@@ -789,7 +790,7 @@ html, body {
   font-family: inherit !important;
 }
 
-/* Enhanced keyboard navigation for charts */
+/* Enhanced keyboard menu for charts */
 .chart-container [role="application"]:focus {
   outline: 3px solid #004494 !important;
   outline-offset: 2px !important;
@@ -809,7 +810,7 @@ html, body {
   outline-offset: 1px !important;
 }
 
-/* Visual feedback for keyboard navigation */
+/* Visual feedback for keyboard menu */
 .highcharts-container:focus-within .highcharts-point {
   transition: opacity 0.2s ease;
 }
@@ -824,7 +825,7 @@ html, body {
   stroke: #004494 !important;
 }
 
-/* Legend keyboard navigation */
+/* Legend keyboard menu */
 .highcharts-legend-item:focus {
   outline: 2px solid #004494 !important;
   outline-offset: 2px !important;
@@ -1133,8 +1134,8 @@ html, body {
     width: 10rem;
   }
   
-  /* Navigation adjustments for tablet */
-  #navigation .ecl-menu__inner {
+  /* menu adjustments for tablet */
+  #menu .ecl-menu__inner {
     padding: 0.6rem 0;
   }
   
@@ -1229,13 +1230,13 @@ html, body {
     text-align: center;
   }
   
-  /* Navigation menu for portrait mobile */
+  /* menu menu for portrait mobile */
   @media (max-width: 768px) {
-    #navigation .ecl-menu__container {
+    #menu .ecl-menu__container {
       min-height: 60px;
     }
     
-    #navigation .ecl-menu__inner {
+    #menu .ecl-menu__inner {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
@@ -1314,8 +1315,8 @@ html, body {
     padding-right: 0.75rem;
   }
   
-  /* Navigation improvements for mobile portrait */
-  #navigation .ecl-menu__open {
+  /* menu improvements for mobile portrait */
+  #menu .ecl-menu__open {
     padding: 0.75rem;
   }
   
@@ -1398,8 +1399,8 @@ html, body {
         linear-gradient(125deg, #082b7a 35%, #AFDFE9 75%, white 100%);
   }
   
-  /* Tablet portrait navigation */
-  #navigation .ecl-menu__inner {
+  /* Tablet portrait menu */
+  #menu .ecl-menu__inner {
     padding: 0.8rem 0;
   }
   
@@ -1436,7 +1437,7 @@ html, body {
     justify-content: space-between;
   }
   
-  #navigation .ecl-menu__inner {
+  #menu .ecl-menu__inner {
     padding: 0.6rem 0;
   }
 }
@@ -1455,8 +1456,8 @@ html, body {
     min-width: 44px;
   }
   
-  /* Improved touch targets for navigation */
-  #navigation .ecl-menu__open {
+  /* Improved touch targets for menu */
+  #menu .ecl-menu__open {
     min-height: 44px;
     min-width: 44px;
     padding: 0.75rem;
@@ -1517,7 +1518,7 @@ html, body {
     border-bottom: 2px solid;
   }
   
-  #navigation .ecl-menu__container {
+  #menu .ecl-menu__container {
     border-top: 1px solid;
     border-bottom: 1px solid;
   }
@@ -1542,10 +1543,6 @@ html, body {
     color: black !important;
   }
   
-  #navigation {
-    display: none !important;
-  }
-  
   .ecl-site-footer {
     background: none !important;
     color: black !important;
@@ -1564,5 +1561,480 @@ html, body {
   
   .ecl-site-header__language-container {
     display: none !important;
+  }
+}
+
+/* Custom Menu Dropdown Component Styles */
+.menu-container {
+  position: static;
+  display: inline-block;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.menu-toggle:hover {
+  background-color: #ffd617;
+}
+
+.menu-toggle:focus {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px #004494;
+  background-color: #ffd617;
+}
+
+.menu-toggle:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px #004494, 0 0 0 4px rgba(255, 214, 23, 0.3);
+  background-color: #ffd617;
+}
+
+.menu-toggle i {
+  color: #fff;
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.menu-toggle:hover i,
+.menu-toggle:focus i {
+  color: #004494;
+}
+
+.menu-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  z-index: 1000;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-content {
+  padding: 16px;
+}
+
+.menu-section {
+  margin-bottom: 16px;
+}
+
+.menu-section:last-child {
+  margin-bottom: 0;
+}
+
+.menu-section h3 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-list li {
+  margin: 0;
+}
+
+.menu-list a {
+  display: block;
+  padding: 8px 12px;
+  color: #666;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.menu-list a:hover,
+.menu-list a:focus {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.menu-list a:focus {
+  outline: 2px solid #0073e6;
+  outline-offset: -2px;
+}
+
+/* Mobile responsive for menu dropdown */
+@media (max-width: 768px) {
+  .menu-dropdown {
+    position: fixed;
+    top: auto;
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+  
+  .menu-content {
+    padding: 20px 16px;
+  }
+}
+
+/* Screen reader only utility */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Menu accessibility enhancements */
+.menu-dropdown[role="menu"] {
+  outline: none;
+}
+
+.menu-list a[role="menuitem"]:focus {
+  outline: 3px solid #ffd617;
+  outline-offset: 2px;
+  background-color: #e3f2fd;
+}
+
+.menu-section h3 {
+  color: #004494;
+  font-weight: 600;
+}
+
+/* Custom Select Components Styles */
+.ecl-select {
+  position: relative;
+  width: 100%;
+}
+
+.ecl-select__toggle {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #0073e6;
+  border-radius: 4px;
+  background: white;
+  color: #333;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.ecl-select__toggle:hover {
+  border-color: #004494;
+}
+
+.ecl-select__toggle:focus {
+  outline: 3px solid #ffd617;
+  outline-offset: 2px;
+  border-color: #004494;
+}
+
+.ecl-select__toggle:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+.ecl-select--invalid .ecl-select__toggle {
+  border-color: #d32f2f;
+}
+
+.ecl-select__toggle-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.ecl-select__toggle-text {
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ecl-select__toggle:disabled .ecl-select__toggle-text {
+  color: #999;
+}
+
+.ecl-select__icon {
+  margin-left: 8px;
+  color: #666;
+  transition: transform 0.2s ease;
+}
+
+.ecl-select__list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+}
+
+.ecl-select__option {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.ecl-select__option:hover {
+  background-color: #f5f5f5;
+}
+
+.ecl-select__option--focused {
+  background-color: #e3f2fd;
+  outline: 2px solid #0073e6;
+  outline-offset: -2px;
+}
+
+.ecl-select__option--selected {
+  background-color: #0073e6;
+  color: white;
+}
+
+.ecl-select__option--selected.ecl-select__option--focused {
+  background-color: #004494;
+}
+
+.ecl-select__option--disabled {
+  color: #999;
+  cursor: not-allowed;
+  background-color: #f9f9f9;
+}
+
+.ecl-select__option--disabled:hover {
+  background-color: #f9f9f9;
+}
+
+/* Multi-select specific styles */
+.ecl-select--multiple .ecl-select__toggle {
+  min-height: 48px;
+  align-items: flex-start;
+  padding: 8px 16px;
+}
+
+.ecl-select__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.ecl-tag {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e3f2fd;
+  color: #0073e6;
+  padding: 2px 8px;
+  border-radius: 16px;
+  font-size: 14px;
+  border: 1px solid #0073e6;
+}
+
+.ecl-tag--removable {
+  padding-right: 4px;
+}
+
+.ecl-tag__label {
+  margin-right: 4px;
+}
+
+.ecl-tag__remove {
+  background: none;
+  border: none;
+  color: #0073e6;
+  cursor: pointer;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.ecl-tag__remove:hover {
+  background-color: #0073e6;
+  color: white;
+}
+
+.ecl-tag__remove:focus {
+  outline: 2px solid #ffd617;
+  outline-offset: 1px;
+}
+
+/* Checkbox styles for multi-select */
+.ecl-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.ecl-checkbox__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ecl-checkbox__label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.ecl-checkbox__box {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #0073e6;
+  border-radius: 3px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.ecl-checkbox__input:checked + .ecl-checkbox__label .ecl-checkbox__box {
+  background-color: #0073e6;
+  border-color: #0073e6;
+}
+
+.ecl-checkbox__input:disabled + .ecl-checkbox__label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.ecl-checkbox__input:disabled + .ecl-checkbox__label .ecl-checkbox__box {
+  border-color: #ddd;
+  background-color: #f5f5f5;
+}
+
+.ecl-checkbox__icon {
+  color: white;
+  font-size: 12px;
+}
+
+.ecl-checkbox__input:focus + .ecl-checkbox__label .ecl-checkbox__box {
+  outline: 3px solid #ffd617;
+  outline-offset: 2px;
+}
+
+/* Select all option styling */
+.ecl-select__option--select-all {
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+/* Form styling */
+.ecl-form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.ecl-form-label__required {
+  color: #d32f2f;
+}
+
+.ecl-help-block {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #666;
+}
+
+.ecl-feedback-message {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #d32f2f;
+  display: flex;
+  align-items: center;
+}
+
+.ecl-feedback-message::before {
+  content: '⚠';
+  margin-right: 4px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .ecl-select__toggle:focus {
+    outline: 3px solid;
+  }
+  
+  .ecl-select__option--focused {
+    outline: 2px solid;
+  }
+  
+  .menu-list a[role="menuitem"]:focus {
+    outline: 3px solid;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .ecl-select__toggle,
+  .ecl-select__option,
+  .ecl-tag__remove,
+  .ecl-checkbox__box {
+    transition: none;
   }
 }

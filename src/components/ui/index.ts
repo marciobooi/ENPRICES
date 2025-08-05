@@ -1,5 +1,7 @@
 export { default as NavigationBtn } from './NavigationBtn';
 export { default as RoundBtn } from './RoundBtn';
+export { default as SingleSelect } from './SingleSelect';
+export { default as MultiSelect } from './MultiSelect';
 
 // Removed Card and ChartHighcharts exports
 export { default as ScreenReaderOnly } from './ScreenReaderOnly';
@@ -7,6 +9,10 @@ export { default as LiveRegion, AssertiveLiveRegion, PoliteLiveRegion } from './
 
 // Export accessibility types
 export type * from './types/accessibility';
+
+// Export select option types
+export type { SelectOption, SingleSelectProps } from './SingleSelect';
+export type { SelectOption as MultiSelectOption, MultiSelectProps } from './MultiSelect';
 
 // Export hooks
 export { useFocusTrap, useDropdownFocus } from '../../hooks/useFocusTrap';

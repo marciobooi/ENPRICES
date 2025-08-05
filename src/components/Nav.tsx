@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "./LanguageSelector";
+import Menu from "./Menu";
 // ...existing code...
 
 interface NavProps {
@@ -36,9 +37,9 @@ const Nav: React.FC<NavProps> = () => {
       </section>
 
       {/* Navigation Themes Section */}
-      <div id="navigation">
+      <div id="menu">
         {/* ECL Menu Navigation */}
-    
+        <Menu />
       </div>
     </div>
   );
