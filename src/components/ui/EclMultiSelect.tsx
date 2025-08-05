@@ -47,6 +47,8 @@ const EclMultiSelect: React.FC<EclMultiSelectProps> = ({
 }) => {
   const { t } = useTranslation();
   const selectRef = useRef<HTMLSelectElement>(null);
+  const eclInstanceRef = useRef<any>(null);
+  const isInitializedRef = useRef(false);
 
   const helpId = helpText ? `${id}-helper` : undefined;
   const describedBy = [ariaDescribedBy, helpId].filter(Boolean).join(' ') || undefined;
@@ -59,45 +61,102 @@ const EclMultiSelect: React.FC<EclMultiSelectProps> = ({
   // Initialize ECL Select component
   useEffect(() => {
     const initializeECL = () => {
-      // Wait for ECL to be available and select element to be rendered
-      if (typeof window !== 'undefined' && (window as any).ECL && selectRef.current) {
-        const selectElement = selectRef.current;
+      // Prevent duplicate initialization
+      if (isInitializedRef.current || !selectRef.current) {
+        return;
+      }
+
+      const selectElement = selectRef.current;
+      
+      // Check if ECL is available
+      if (typeof window !== 'undefined' && (window as any).ECL) {
         try {
-          // Remove any existing ECL initialization
-          if (selectElement.hasAttribute('data-ecl-auto-initialized')) {
-            selectElement.removeAttribute('data-ecl-auto-initialized');
+          // Clean up any existing ECL elements first
+          const existingMultiple = selectElement.parentElement?.querySelector('.ecl-select__multiple');
+          if (existingMultiple) {
+            existingMultiple.remove();
           }
+
+          // Remove any ECL-generated elements
+          const eclIcon = selectElement.parentElement?.querySelector('.ecl-select__icon');
+          if (eclIcon) {
+            eclIcon.remove();
+          }
+
+          // Reset ECL attributes
+          selectElement.removeAttribute('data-ecl-auto-initialized');
+          selectElement.removeAttribute('data-ecl-select-initialized');
           
-          // Force re-initialization using the ECL Select constructor
+          // Initialize ECL Select
           if ((window as any).ECL.Select) {
-            new (window as any).ECL.Select(selectElement);
+            eclInstanceRef.current = new (window as any).ECL.Select(selectElement);
+            isInitializedRef.current = true;
           } else if ((window as any).ECL.autoInit) {
             (window as any).ECL.autoInit(selectElement);
+            isInitializedRef.current = true;
           }
         } catch (error) {
           console.warn('ECL Select initialization failed:', error);
-          // Fallback to global auto-init
-          if ((window as any).ECL.autoInit) {
-            (window as any).ECL.autoInit();
-          }
+          isInitializedRef.current = false;
         }
       }
     };
 
-    // Initialize after component mount with multiple attempts
-    const timer1 = setTimeout(initializeECL, 50);
-    const timer2 = setTimeout(initializeECL, 200);
-    const timer3 = setTimeout(initializeECL, 500);
+    // Single initialization attempt after a short delay
+    const timer = setTimeout(initializeECL, 100);
 
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
+      clearTimeout(timer);
+      
+      // Cleanup on unmount
+      if (eclInstanceRef.current && typeof eclInstanceRef.current.destroy === 'function') {
+        try {
+          eclInstanceRef.current.destroy();
+        } catch (error) {
+          console.warn('ECL Select cleanup failed:', error);
+        }
+      }
+      
+      // Clean up ECL-generated elements
+      if (selectRef.current && selectRef.current.parentElement) {
+        const existingMultiple = selectRef.current.parentElement.querySelector('.ecl-select__multiple');
+        if (existingMultiple) {
+          existingMultiple.remove();
+        }
+        
+        const eclIcon = selectRef.current.parentElement.querySelector('.ecl-select__icon');
+        if (eclIcon) {
+          eclIcon.remove();
+        }
+      }
+      
+      isInitializedRef.current = false;
+      eclInstanceRef.current = null;
     };
-  }, [optionGroups, options, values]);
+  }, []); // Empty dependency array - initialize only once
+
+  // Handle value updates separately
+  useEffect(() => {
+    if (selectRef.current && isInitializedRef.current) {
+      // Update the select element values
+      const selectElement = selectRef.current;
+      Array.from(selectElement.options).forEach(option => {
+        option.selected = values.includes(option.value);
+      });
+
+      // Trigger ECL update if instance is available
+      if (eclInstanceRef.current && typeof eclInstanceRef.current.update === 'function') {
+        try {
+          eclInstanceRef.current.update();
+        } catch (error) {
+          console.warn('ECL Select update failed:', error);
+        }
+      }
+    }
+  }, [values]);
 
   return (
-    <div className={`ecl-form-group ${className}`} role="application">
+    <div className={`ecl-form-group ${className}`} role="application" key={`ecl-multiselect-${id}`}>
       <label 
         htmlFor={id} 
         id={`${id}-label`} 
