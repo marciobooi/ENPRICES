@@ -16,13 +16,13 @@ function App() {
   useLanguageSync();
   useECLInit();
 
-  // State for selected country (defaults to Austria)
-  const [selectedCountry, setSelectedCountry] = useState<string>('AT');
+  // State for selected countries (defaults to EU27)
+  const [selectedCountries, setSelectedCountries] = useState<string[]>(['EU27_2020']);
   // State for selected category (defaults to climate)
   const [selectedCategory, setSelectedCategory] = useState<string>('climate');
 
-  const handleCountryChange = (country: string) => {
-    setSelectedCountry(country);
+  const handleCountriesChange = (countries: string[]) => {
+    setSelectedCountries(countries);
   };
 
   const handleCategoryChange = (category: string) => {
@@ -33,8 +33,8 @@ function App() {
     <div className="ecl">
       <Meta />
       <Nav 
-        selectedCountry={selectedCountry}
-        onCountryChange={handleCountryChange}
+        selectedCountries={selectedCountries}
+        onCountriesChange={handleCountriesChange}
         selectedCategory={selectedCategory}
         onCategoryChange={handleCategoryChange}
         hideCategoryButtons={false}

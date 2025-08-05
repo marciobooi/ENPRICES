@@ -1,17 +1,70 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PoliteLiveRegion } from './ui/index';
+import { PoliteLiveRegion, EclMultiSelect, useFocusTrap } from './ui/index';
+import { AGGREGATES_COUNTRY_CODES, EU_COUNTRY_CODES, EFTA_COUNTRY_CODES, ENLARGEMENT_COUNTRY_CODES } from "../data/energyData";
 
 interface MenuProps {
   className?: string;
+  selectedCountries?: string[];
+  onCountriesChange?: (countries: string[]) => void;
 }
 
-const Menu: React.FC<MenuProps> = ({ className = '' }) => {
+const Menu: React.FC<MenuProps> = ({ 
+  className = '',
+  selectedCountries = ["EU27_2020"],
+  onCountriesChange
+}) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [announcementMessage, setAnnouncementMessage] = useState('');
+  const [countries, setCountries] = useState<string[]>(selectedCountries);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Sync countries state with props
+  useEffect(() => {
+    setCountries(selectedCountries);
+  }, [selectedCountries]);
+
+  // Focus trap for the menu when open
+  const focusTrapRef = useFocusTrap(isOpen, true, () => setIsOpen(false));
+
+  const handleCountryChange = (selectedValues: string[]) => {
+    setCountries(selectedValues);
+    onCountriesChange?.(selectedValues);
+  };
+
+  // Create country option groups
+  const countryOptionGroups = [
+    {
+      label: t("countries.groups.aggregates", "EU Aggregates"),
+      options: AGGREGATES_COUNTRY_CODES.map(code => ({
+        value: code,
+        label: t(`countries.${code}`, code)
+      }))
+    },
+    {
+      label: t("countries.groups.eu", "EU Member States"),
+      options: EU_COUNTRY_CODES.map(code => ({
+        value: code,
+        label: t(`countries.${code}`, code)
+      }))
+    },
+    {
+      label: t("countries.groups.efta", "EFTA Countries"),
+      options: EFTA_COUNTRY_CODES.map(code => ({
+        value: code,
+        label: t(`countries.${code}`, code)
+      }))
+    },
+    {
+      label: t("countries.groups.enlargement", "Enlargement Countries"),
+      options: ENLARGEMENT_COUNTRY_CODES.map(code => ({
+        value: code,
+        label: t(`countries.${code}`, code)
+      }))
+    }
+  ];
 
   const toggleMenu = () => {
     const newIsOpen = !isOpen;
@@ -109,7 +162,12 @@ const Menu: React.FC<MenuProps> = ({ className = '' }) => {
       {/* Dropdown Menu */}
       {isOpen && (
         <div
-          ref={menuRef}
+          ref={(el) => {
+            menuRef.current = el;
+            if (focusTrapRef.current !== el) {
+              (focusTrapRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+            }
+          }}
           id="dropdown-menu"
           className="menu-dropdown"
           role="menu"
@@ -117,6 +175,23 @@ const Menu: React.FC<MenuProps> = ({ className = '' }) => {
           aria-orientation="vertical"
         >
           <div className="menu-content">
+            {/* Countries Selection Section */}
+            <div className="menu-section">
+              <h3 id="countries-heading">{t('nav.countries.label', 'Select Countries')}</h3>
+              <div className="menu-countries">
+                <EclMultiSelect
+                  id="menu-select-countries"
+                  label={t("nav.countries.label", "Select Countries")}
+                  optionGroups={countryOptionGroups}
+                  values={countries}
+                  onChange={handleCountryChange}
+                  placeholder={t("nav.countries.placeholder", "Choose countries...")}
+                  helpText={t("nav.countries.help", "Select up to 10 countries to compare")}
+                  required={true}
+                />
+              </div>
+            </div>
+
             {/* Menu items will be added here */}
             <div className="menu-section">
               <h3 id="navigation-heading">{t('menu.navigation', 'Navigation')}</h3>

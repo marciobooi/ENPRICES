@@ -2038,3 +2038,28 @@ html, body {
     transition: none;
   }
 }
+
+/* Country selector in navigation */
+.country-selector {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.country-selector .ecl-select {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.country-selector .ecl-form-label {
+  color: #333;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.country-selector .ecl-help-block {
+  color: #666;
+  font-size: 14px;
+}

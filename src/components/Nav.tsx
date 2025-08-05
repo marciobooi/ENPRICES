@@ -4,14 +4,17 @@ import Menu from "./Menu";
 // ...existing code...
 
 interface NavProps {
-  selectedCountry?: string;
-  onCountryChange?: (country: string) => void;
+  selectedCountries?: string[];
+  onCountriesChange?: (countries: string[]) => void;
   selectedCategory?: string;
   onCategoryChange?: (category: string) => void;
   hideCategoryButtons?: boolean;
 }
 
-const Nav: React.FC<NavProps> = () => {
+const Nav: React.FC<NavProps> = ({ 
+  selectedCountries = ["EU27_2020"], 
+  onCountriesChange 
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -38,8 +41,11 @@ const Nav: React.FC<NavProps> = () => {
 
       {/* Navigation Themes Section */}
       <div id="menu">
-        {/* ECL Menu Navigation */}
-        <Menu />
+        {/* ECL Menu Navigation with Countries Selection */}
+        <Menu 
+          selectedCountries={selectedCountries}
+          onCountriesChange={onCountriesChange}
+        />
       </div>
     </div>
   );

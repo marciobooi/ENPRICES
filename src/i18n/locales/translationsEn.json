@@ -14,6 +14,11 @@
       "en": "English",
       "de": "Deutsch",
       "fr": "Français"
+    },
+    "countries": {
+      "label": "Select Countries",
+      "placeholder": "Choose countries...",
+      "help": "Select up to 10 countries to compare"
     }
   },
 
@@ -31,15 +36,58 @@
   "ui": {
     "select": {
       "placeholder": "Select an option"
-    },
-    "multiselect": {
-      "placeholder": "Select options",
-      "selected_count": "{{count}} selected",
-      "remove_item": "Remove {{item}}",
-      "more": "more",
-      "select_all": "Select all",
-      "max_selections": "Maximum {{max}} selections"
     }
+  },
+
+  "countries": {
+    "groups": {
+      "aggregates": "EU Aggregates",
+      "eu": "EU Member States", 
+      "efta": "EFTA Countries",
+      "enlargement": "Enlargement Countries"
+    },
+    "EU27_2020": "European Union (27 countries)",
+    "EA": "Euro area",
+    "BE": "Belgium",
+    "BG": "Bulgaria", 
+    "CZ": "Czechia",
+    "DK": "Denmark",
+    "DE": "Germany",
+    "EE": "Estonia",
+    "IE": "Ireland",
+    "EL": "Greece",
+    "ES": "Spain",
+    "FR": "France",
+    "HR": "Croatia",
+    "IT": "Italy",
+    "CY": "Cyprus",
+    "LV": "Latvia",
+    "LT": "Lithuania",
+    "LU": "Luxembourg",
+    "HU": "Hungary",
+    "MT": "Malta",
+    "NL": "Netherlands",
+    "AT": "Austria",
+    "PL": "Poland",
+    "PT": "Portugal",
+    "RO": "Romania",
+    "SI": "Slovenia",
+    "SK": "Slovakia",
+    "FI": "Finland",
+    "SE": "Sweden",
+    "IS": "Iceland",
+    "LI": "Liechtenstein",
+    "NO": "Norway",
+    "ME": "Montenegro",
+    "MK": "North Macedonia",
+    "AL": "Albania",
+    "RS": "Serbia",
+    "TR": "Türkiye",
+    "BA": "Bosnia and Herzegovina",
+    "XK": "Kosovo",
+    "MD": "Moldova",
+    "UA": "Ukraine",
+    "GE": "Georgia"
   },
 
   "meta": {
