@@ -1,0 +1,246 @@
+/**
+ * Energy data constants and configurations for Eurostat energy prices
+ * Includes countries, products, consumers, units, taxes, currencies, and dataset configurations
+ */
+
+
+
+
+// All available countries for energy data
+export const allCountries = [
+  "EU27_2020", "EA", "BE", "BG", "CZ", "DK", "DE", "EE", "IE", "EL", "ES", "FR", 
+  "HR", "IT", "CY", "LV", "LT", "LU", "HU", "MT", "NL", "AT", "PL", "PT", "RO", 
+  "SI", "SK", "FI", "SE", "IS", "LI", "NO", "ME", "MK", "AL", "RS", "TR", "BA", 
+  "XK", "MD", "UA", "GE"
+];
+
+// Country groupings for organized display and filtering
+export const AGGREGATES_COUNTRY_CODES = ["EU27_2020", "EA"];
+
+export const EU_COUNTRY_CODES = [
+  "BE", "BG", "CZ", "DK", "DE", "EE", "IE", "EL", "ES", "FR", "HR", "IT", 
+  "CY", "LV", "LT", "LU", "HU", "MT", "NL", "AT", "PL", "PT", "RO", "SI", 
+  "SK", "FI", "SE"
+];
+
+export const EFTA_COUNTRY_CODES = ["IS", "LI", "NO"];
+
+export const ENLARGEMENT_COUNTRY_CODES = [
+  "BA", "ME", "MD", "MK", "GE", "AL", "RS", "TR", "UA", "XK"
+];
+
+// Energy products mapping
+export const energyProducts = {
+  "4100": "", // Natural gas
+  "6000": "", // Electricity
+};
+
+// Consumer types
+export const energyConsumers = {
+  "HOUSEHOLD": "",
+  "N_HOUSEHOLD": ""
+};
+
+// Energy units
+export const energyUnits = {
+  "GJ_GCV": "",
+  "KWH": "",
+  "MWH": "",
+};
+
+// Tax components
+export const energyTaxs = {
+  "X_TAX": "",
+  "X_VAT": "",
+  "I_TAX": "",
+  "NRG_SUP": "",
+  "NETC": "",
+  "TAX_FEE_LEV_CHRG": "",
+  "VAT": "",
+  "TAX_RNW": "",
+  "TAX_CAP": "",
+  "TAX_ENV": "",
+  "OTH": "",
+  "TAX_NUC": "",
+  "TAX_LEV_X_VAT": ""
+};
+
+// Currency types
+export const energyCurrencies = {
+  "EUR": "",
+  "NAT": "",
+  "PPS": ""
+};
+
+// Breakdown types
+export const energyBreakdowns = {
+  "DP_ES": "",
+  "DP_NC": "",
+  "DP_TL": ""
+};
+
+
+// Bar colors for specific country groups
+export const barColors = {
+  "EU27_2020": "#14375A",
+  "EA": "#800000",
+  "EU28": "#14375A"
+};
+
+// Chart color schemes
+export const totalColors = ["#388AE2", "#06D7FF", "#19FF99", "#4C99FF"];
+
+export const lineColors = ["#388AE2", "#06D7FF", "#19FF99", "#4C99FF"];
+
+export const detailColors = ["#388AE2", "#06D7FF", "#19FF99"];
+
+// Component-specific colors
+export const colors = {
+  "TOTAL": '#388AE2',
+  "NETC": '#06D7FF',
+  "TAX_LEV_X_VAT": '#19FF99',
+  "VAT": '#4C99FF',
+  "TAX_RNW": '#FFD900',
+  "TAX_CAP": '#C88000',
+  "TAX_ENV": '#33D129',
+  "TAX_NUC": '#FFB800',
+  "OTH": '#E67500',
+  "NRG_SUP": '#05A0FF',
+};
+
+// Extended color palette for components
+export const componentColors = [
+  '#388AE2', '#06D7FF', '#19FF99', '#4C99FF', '#FFD900', '#C88000', '#33D129', '#FFB800',
+  '#E67500', '#05A0FF', '#2CB523', '#8C4000', '#0033FF', '#00A68C', '#FF8C00',
+  '#00D98C', '#2673FF', '#FFB300', '#FF8A00', '#B35900', '#26A31F', '#0573FF',
+];
+
+// Country sorting options
+export const sortCountries = ["PROTO", "ALPHA", "ASC", "DESC"];
+
+// Dataset configurations interface
+export interface DatasetConfig {
+  product: string;
+  consumer: string;
+  consoms: string[];
+  unit: string[];
+  currency: string[];
+  nrg_prc?: string[];
+  defaultConsom: string;
+  defaultUnit: string;
+  defaultCurrency: string;
+}
+
+// Dataset configurations for different energy price datasets
+export const codesDataset: Record<string, DatasetConfig> = {
+  "nrg_pc_202_c": {
+    "product": "4100",
+    "consumer": "HOUSEHOLD",
+    "consoms": ["TOT_GJ", "GJ_LT20", "GJ20-199", "GJ_GE200"],
+    "unit": ["GJ_GCV", "KWH"],
+    "currency": ["EUR", "PPS"],
+    "nrg_prc": ["NETC", "NRG_SUP", "OTH", "TAX_CAP", "TAX_ENV", "TAX_RNW", "VAT"],
+    "defaultConsom": "TOT_GJ",
+    "defaultUnit": "KWH",
+    "defaultCurrency": "EUR"
+  },
+  "nrg_pc_202": {
+    "product": "4100",
+    "consumer": "HOUSEHOLD",
+    "consoms": ["TOT_GJ", "GJ_LT20", "GJ20-199", "GJ_GE200"],
+    "unit": ["GJ_GCV", "KWH", "MWH"],
+    "currency": ["EUR", "PPS"],
+    "defaultConsom": "GJ20-199",
+    "defaultUnit": "KWH",
+    "defaultCurrency": "EUR"
+  },
+  "nrg_pc_203_c": {
+    "product": "4100",
+    "consumer": "N_HOUSEHOLD",
+    "consoms": ["TOT_GJ", "GJ_LT1000", "GJ1000-9999", "GJ10000-99999", "GJ100000-999999", "GJ1000000-3999999", "GJ_GE4000000"],
+    "unit": ["GJ_GCV", "KWH"],
+    "currency": ["EUR", "PPS"],
+    "nrg_prc": ["NETC", "NRG_SUP", "OTH", "TAX_CAP", "TAX_ENV", "TAX_RNW", "VAT"],
+    "defaultConsom": "TOT_GJ",
+    "defaultUnit": "KWH",
+    "defaultCurrency": "EUR"
+  },
+  "nrg_pc_203": {
+    "product": "4100",
+    "consumer": "N_HOUSEHOLD",
+    "consoms": ["TOT_GJ", "GJ_LT1000", "GJ1000-9999", "GJ10000-99999", "GJ100000-999999", "GJ1000000-3999999", "GJ_GE4000000"],
+    "unit": ["GJ_GCV", "KWH", "MWH"],
+    "currency": ["EUR", "PPS"],
+    "defaultConsom": "GJ1000-9999",
+    "defaultUnit": "KWH",
+    "defaultCurrency": "EUR"
+  },
+  "nrg_pc_204_c": {
+    "product": "6000",
+    "consumer": "HOUSEHOLD",
+    "consoms": ["TOT_KWH", "KWH_LT1000", "KWH1000-2499", "KWH2500-4999", "KWH5000-14999", "KWH_LE15000"],
+    "unit": ["KWH", "MWH"],
+    "currency": ["EUR", "PPS"],
+    "nrg_prc": ["NETC", "NRG_SUP", "OTH", "TAX_CAP", "TAX_ENV", "TAX_NUC", "TAX_RNW", "VAT"],
+    "defaultConsom": "TOT_KWH",
+    "defaultUnit": "KWH",
+    "defaultCurrency": "EUR"
+  },
+  "nrg_pc_204": {
+    "product": "6000",
+    "consumer": "HOUSEHOLD",
+    "consoms": ["KWH_LT1000", "KWH_GE15000", "KWH5000-14999", "KWH2500-4999", "KWH1000-2499"],
+    "unit": ["KWH", "MWH"],
+    "currency": ["EUR", "PPS"],
+    "defaultConsom": "KWH_LT1000",
+    "defaultUnit": "KWH",
+    "defaultCurrency": "EUR"
+  },
+  "nrg_pc_205_c": {
+    "product": "6000",
+    "consumer": "N_HOUSEHOLD",
+    "consoms": ["TOT_MWH", "MWH_LT20", "MWH20-499", "MWH500-1999", "MWH2000-19999", "MWH20000-69999", "MWH70000-149999", "MWH_GE150000"],
+    "unit": ["MWH"],
+    "currency": ["EUR", "PPS"],
+    "nrg_prc": ["NRG_SUP", "NETC", "TAX_LEV_X_VAT", "VAT", "TAX_RNW", "TAX_CAP", "TAX_ENV", "TAX_NUC", "OTH"],
+    "defaultConsom": "TOT_MWH",
+    "defaultUnit": "KWH",
+    "defaultCurrency": "EUR"
+  },
+  "nrg_pc_205": {
+    "product": "6000",
+    "consumer": "N_HOUSEHOLD",
+    "consoms": ["TOT_KWH", "MWH_LT20", "MWH20-499", "MWH500-1999", "MWH2000-19999", "MWH20000-69999", "MWH70000-149999", "MWH_GE150000"],
+    "unit": ["KWH", "MWH"],
+    "currency": ["EUR", "PPS"],
+    "defaultConsom": "MWH20-499",
+    "defaultUnit": "KWH",
+    "defaultCurrency": "EUR"
+  },
+};
+
+// Helper function to get dataset configuration
+export const getDatasetConfig = (datasetCode: string): DatasetConfig | undefined => {
+  return codesDataset[datasetCode];
+};
+
+// Helper function to get available datasets
+export const getAvailableDatasets = (): string[] => {
+  return Object.keys(codesDataset);
+};
+
+// Helper function to get color by component
+export const getComponentColor = (component: string, index?: number): string => {
+  if (colors[component as keyof typeof colors]) {
+    return colors[component as keyof typeof colors];
+  }
+  if (index !== undefined && index < componentColors.length) {
+    return componentColors[index];
+  }
+  return componentColors[0]; // Default color
+};
+
+// Helper function to get bar color for country
+export const getCountryBarColor = (countryCode: string): string | undefined => {
+  return barColors[countryCode as keyof typeof barColors];
+};
