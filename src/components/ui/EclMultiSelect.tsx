@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export interface EclSelectOption {
@@ -46,6 +46,7 @@ const EclMultiSelect: React.FC<EclMultiSelectProps> = ({
   'aria-describedby': ariaDescribedBy
 }) => {
   const { t } = useTranslation();
+  const selectRef = useRef<HTMLSelectElement>(null);
 
   const helpId = helpText ? `${id}-helper` : undefined;
   const describedBy = [ariaDescribedBy, helpId].filter(Boolean).join(' ') || undefined;
@@ -58,19 +59,42 @@ const EclMultiSelect: React.FC<EclMultiSelectProps> = ({
   // Initialize ECL Select component
   useEffect(() => {
     const initializeECL = () => {
-      if ((window as any).ECL && (window as any).ECL.autoInit) {
-        (window as any).ECL.autoInit();
+      // Wait for ECL to be available and select element to be rendered
+      if (typeof window !== 'undefined' && (window as any).ECL && selectRef.current) {
+        const selectElement = selectRef.current;
+        try {
+          // Remove any existing ECL initialization
+          if (selectElement.hasAttribute('data-ecl-auto-initialized')) {
+            selectElement.removeAttribute('data-ecl-auto-initialized');
+          }
+          
+          // Force re-initialization using the ECL Select constructor
+          if ((window as any).ECL.Select) {
+            new (window as any).ECL.Select(selectElement);
+          } else if ((window as any).ECL.autoInit) {
+            (window as any).ECL.autoInit(selectElement);
+          }
+        } catch (error) {
+          console.warn('ECL Select initialization failed:', error);
+          // Fallback to global auto-init
+          if ((window as any).ECL.autoInit) {
+            (window as any).ECL.autoInit();
+          }
+        }
       }
     };
 
-    // Initialize immediately if ECL is available
-    initializeECL();
+    // Initialize after component mount with multiple attempts
+    const timer1 = setTimeout(initializeECL, 50);
+    const timer2 = setTimeout(initializeECL, 200);
+    const timer3 = setTimeout(initializeECL, 500);
 
-    // Also try to initialize after a short delay in case ECL loads asynchronously
-    const timer = setTimeout(initializeECL, 100);
-
-    return () => clearTimeout(timer);
-  }, []);
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+    };
+  }, [optionGroups, options, values]);
 
   return (
     <div className={`ecl-form-group ${className}`} role="application">
@@ -93,8 +117,9 @@ const EclMultiSelect: React.FC<EclMultiSelectProps> = ({
         </div>
       )}
       
-      <div className="ecl-select__container ecl-select__container--m ecl-select__container--hidden">
+      <div className="ecl-select__container ecl-select__container--m">
         <select 
+          ref={selectRef}
           className="ecl-select" 
           id={id} 
           name={id} 
@@ -103,7 +128,7 @@ const EclMultiSelect: React.FC<EclMultiSelectProps> = ({
           aria-describedby={describedBy} 
           data-ecl-auto-init="Select" 
           multiple 
-          data-ecl-select-multiple
+          data-ecl-select-multiple=""
           data-ecl-select-default={placeholder}
           data-ecl-select-clear-all={t('ui.multiselect.clear_all', 'Clear all')}
           data-ecl-select-close={t('ui.multiselect.apply', 'Apply')}

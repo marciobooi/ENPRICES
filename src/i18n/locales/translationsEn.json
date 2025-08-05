@@ -36,6 +36,13 @@
   "ui": {
     "select": {
       "placeholder": "Select an option"
+    },
+    "multiselect": {
+      "clear_all": "Clear all",
+      "apply": "Apply", 
+      "select_all": "Select all",
+      "search_placeholder": "Enter filter keyword",
+      "no_results": "No results found"
     }
   },
 
