@@ -209,23 +209,36 @@ const EclMultiSelect: React.FC<EclMultiSelectProps> = ({
   // Handle value updates separately
   useEffect(() => {
     if (selectRef.current && isInitializedRef.current) {
-      // Update the select element values
       const selectElement = selectRef.current;
-      Array.from(selectElement.options).forEach(option => {
-        option.selected = values.includes(option.value);
-      });
-
-      // Trigger ECL update if instance is available
-      if (eclInstanceRef.current && typeof eclInstanceRef.current.update === 'function') {
-        try {
-          // Additional safety check - ensure the element still has options
-          if (selectElement && selectElement.options && selectElement.options.length > 0) {
-            eclInstanceRef.current.update();
-          }
-        } catch (error) {
-          console.warn('ECL Select update failed:', error);
+      
+      // Debounce the update to prevent rapid successive calls
+      const timeoutId = setTimeout(() => {
+        // Double-check that elements still exist
+        if (!selectElement || !selectElement.parentElement || !selectElement.options) {
+          return;
         }
-      }
+
+        // Update native select options
+        Array.from(selectElement.options).forEach(option => {
+          option.selected = values.includes(option.value);
+        });
+
+        // Trigger ECL update if instance is available and valid
+        if (eclInstanceRef.current && 
+            typeof eclInstanceRef.current.update === 'function' &&
+            selectElement.options.length > 0) {
+          try {
+            eclInstanceRef.current.update();
+          } catch (error) {
+            console.warn('ECL Select update failed:', error);
+            // Reset the instance if it's corrupted
+            eclInstanceRef.current = null;
+            isInitializedRef.current = false;
+          }
+        }
+      }, 50); // 50ms debounce
+
+      return () => clearTimeout(timeoutId);
     }
   }, [values]);
 

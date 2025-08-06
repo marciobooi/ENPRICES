@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PoliteLiveRegion, EclMultiSelect, EclSingleSelect, RoundBtn, useFocusTrap } from './ui/index';
 import { useQuery } from '../context/QueryContext';
@@ -141,38 +141,48 @@ const Menu: React.FC<MenuProps> = ({
     onUnitChange?.(selectedValue);
   };
 
-  // Get energy product options
-  const energyProductOptions = getEnergyProductOptions().map(option => ({
-    ...option,
-    label: t(`energy.products.${option.value}`, option.label)
-  }));
+  // Get energy product options - memoized
+  const energyProductOptions = useMemo(() => {
+    return getEnergyProductOptions().map(option => ({
+      ...option,
+      label: t(`energy.products.${option.value}`, option.label)
+    }));
+  }, [t]);
 
-  // Get energy consumer options
-  const energyConsumerOptions = getEnergyConsumerOptions().map(option => ({
-    ...option,
-    label: t(`energy.consumers.${option.value}`, option.label)
-  }));
+  // Get energy consumer options - memoized
+  const energyConsumerOptions = useMemo(() => {
+    return getEnergyConsumerOptions().map(option => ({
+      ...option,
+      label: t(`energy.consumers.${option.value}`, option.label)
+    }));
+  }, [t]);
 
-  // Get energy year options
-  const energyYearOptions = getEnergyYearOptions().map(option => ({
-    ...option,
-    label: t(`energy.years.${option.value}`, option.label)
-  }));
+  // Get energy year options - memoized
+  const energyYearOptions = useMemo(() => {
+    return getEnergyYearOptions().map(option => ({
+      ...option,
+      label: t(`energy.years.${option.value}`, option.label)
+    })).reverse(); // Most recent years first
+  }, [t]);
 
-  // Get energy band options (based on current product and consumer)
-  const energyBandOptions = getConsumptionBandOptionsByContext(product, consumer).map((option: {value: string; label: string}) => ({
-    ...option,
-    label: t(`energy.bands.${option.value}`, option.label)
-  }));
+  // Get energy band options (based on current product and consumer) - memoized
+  const energyBandOptions = useMemo(() => {
+    return getConsumptionBandOptionsByContext(product, consumer).map((option: {value: string; label: string}) => ({
+      ...option,
+      label: t(`energy.bands.${option.value}`, option.label)
+    }));
+  }, [product, consumer, t]);
 
-  // Get energy unit options (based on current product and consumer)
-  const energyUnitOptions = getUnitOptionsByContext(product, consumer).map((option: {value: string; label: string}) => ({
-    ...option,
-    label: t(`energy.units.${option.value}`, option.label)
-  }));
+  // Get energy unit options (based on current product and consumer) - memoized
+  const energyUnitOptions = useMemo(() => {
+    return getUnitOptionsByContext(product, consumer).map((option: {value: string; label: string}) => ({
+      ...option,
+      label: t(`energy.units.${option.value}`, option.label)
+    }));
+  }, [product, consumer, t]);
 
-  // Create country option groups
-  const countryOptionGroups = [
+  // Create country option groups - memoized
+  const countryOptionGroups = useMemo(() => [
     {
       label: t("countries.groups.aggregates", "EU Aggregates"),
       options: AGGREGATES_COUNTRY_CODES.map(code => ({
@@ -201,7 +211,7 @@ const Menu: React.FC<MenuProps> = ({
         label: t(`countries.${code}`, code)
       }))
     }
-  ];
+  ], [t]);
 
   const toggleMenu = () => {
     const newIsOpen = !isOpen;
