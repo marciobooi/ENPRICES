@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useWebtoolsInit } from './hooks/useWebtools'
 import { useLanguageSync } from './hooks/useLanguageSync'
 import { useECLInit } from './hooks/useECL'
+import { QueryProvider } from './context/QueryContext'
 import Nav from './components/Nav'
 import MainContent from './components/MainContent'
 import Footer from './components/Footer'
@@ -30,18 +31,20 @@ function App() {
   };
 
   return (
-    <div className="ecl">
-      <Meta />
-      <Nav 
-        selectedCountries={selectedCountries}
-        onCountriesChange={handleCountriesChange}
-        selectedCategory={selectedCategory}
-        onCategoryChange={handleCategoryChange}
-        hideCategoryButtons={false}
-      />
-        <MainContent />
-        <Footer />
-    </div>
+    <QueryProvider>
+      <div className="ecl">
+        <Meta />
+        <Nav 
+          selectedCountries={selectedCountries}
+          onCountriesChange={handleCountriesChange}
+          selectedCategory={selectedCategory}
+          onCategoryChange={handleCategoryChange}
+          hideCategoryButtons={false}
+        />
+          <MainContent />
+          <Footer />
+      </div>
+    </QueryProvider>
   );
 }
 
