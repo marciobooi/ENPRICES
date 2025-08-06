@@ -291,7 +291,6 @@ const Menu: React.FC<MenuProps> = ({
                 <div className="ecl-col-4">
                   {/* Countries Selection Section */}
                   <div className="menu-section">
-                    <h3 id="countries-heading">{t('nav.countries.label', 'Select Countries')}</h3>
                     <div className="menu-countries">
                       <EclMultiSelect
                         id="menu-select-countries"
@@ -310,7 +309,6 @@ const Menu: React.FC<MenuProps> = ({
                 <div className="ecl-col-4">
                   {/* Energy Product (Fuel) Selection Section */}
                   <div className="menu-section">
-                    <h3 id="product-heading">{t('energy.products.label', 'Select Energy Product')}</h3>
                     <div className="menu-product">
                       <EclSingleSelect
                         id="menu-select-product"
@@ -329,7 +327,6 @@ const Menu: React.FC<MenuProps> = ({
                 <div className="ecl-col-4">
                   {/* Energy Consumer Selection Section */}
                   <div className="menu-section">
-                    <h3 id="consumer-heading">{t('energy.consumers.label', 'Select Consumer Type')}</h3>
                     <div className="menu-consumer">
                       <EclSingleSelect
                         id="menu-select-consumer"
@@ -351,7 +348,6 @@ const Menu: React.FC<MenuProps> = ({
                 <div className="ecl-col-4">
                   {/* Energy Year Selection Section */}
                   <div className="menu-section">
-                    <h3 id="year-heading">{t('energy.years.label', 'Select Year')}</h3>
                     <div className="menu-year">
                       <EclSingleSelect
                         id="menu-select-year"
@@ -370,8 +366,7 @@ const Menu: React.FC<MenuProps> = ({
                 <div className="ecl-col-4">
                   {/* Energy Band (Consumption) Selection Section */}
                   <div className="menu-section">
-                    <h3 id="band-heading">{t('energy.bands.label', 'Select Consumption Band')}</h3>
-                    <div className="menu-band">
+ <div className="menu-band">
                       <EclSingleSelect
                         id="menu-select-band"
                         label={t("energy.bands.label", "Select Consumption Band")}
@@ -389,7 +384,6 @@ const Menu: React.FC<MenuProps> = ({
                 <div className="ecl-col-4">
                   {/* Energy Unit Selection Section */}
                   <div className="menu-section">
-                    <h3 id="unit-heading">{t('energy.units.label', 'Select Unit')}</h3>
                     <div className="menu-unit">
                       <EclSingleSelect
                         id="menu-select-unit"
