@@ -277,7 +277,7 @@ export const codesDataset: Record<string, DatasetConfig> = {
     "product": "6000",
     "consumer": "N_HOUSEHOLD",
     "consoms": ["TOT_MWH", "MWH_LT20", "MWH20-499", "MWH500-1999", "MWH2000-19999", "MWH20000-69999", "MWH70000-149999", "MWH_GE150000"],
-    "unit": ["MWH"],
+    "unit": ["KWH", "MWH"],
     "currency": ["EUR", "PPS"],
     "nrg_prc": ["NRG_SUP", "NETC", "TAX_LEV_X_VAT", "VAT", "TAX_RNW", "TAX_CAP", "TAX_ENV", "TAX_NUC", "OTH"],
     "defaultConsom": "TOT_MWH",
@@ -299,6 +299,48 @@ export const codesDataset: Record<string, DatasetConfig> = {
 // Helper function to get dataset configuration
 export const getDatasetConfig = (datasetCode: string): DatasetConfig | undefined => {
   return codesDataset[datasetCode];
+};
+
+// Helper function to find dataset by product and consumer combination
+export const getDatasetByProductAndConsumer = (product: string, consumer: string): string | undefined => {
+  for (const [datasetCode, config] of Object.entries(codesDataset)) {
+    if (config.product === product && config.consumer === consumer) {
+      return datasetCode;
+    }
+  }
+  return undefined;
+};
+
+// Helper function to get consumption band options based on product and consumer
+export const getConsumptionBandOptionsByContext = (product: string, consumer: string) => {
+  const datasetCode = getDatasetByProductAndConsumer(product, consumer);
+  if (!datasetCode) return [];
+  
+  return getConsumptionBandOptions(datasetCode);
+};
+
+// Helper function to get unit options based on product and consumer
+export const getUnitOptionsByContext = (product: string, consumer: string) => {
+  const datasetCode = getDatasetByProductAndConsumer(product, consumer);
+  if (!datasetCode) return [];
+  
+  return getUnitOptions(datasetCode);
+};
+
+// Helper function to get default consumption band based on product and consumer
+export const getDefaultConsumptionBandByContext = (product: string, consumer: string) => {
+  const datasetCode = getDatasetByProductAndConsumer(product, consumer);
+  if (!datasetCode) return "";
+  
+  return getDefaultConsumptionBand(datasetCode);
+};
+
+// Helper function to get default unit based on product and consumer
+export const getDefaultUnitByContext = (product: string, consumer: string) => {
+  const datasetCode = getDatasetByProductAndConsumer(product, consumer);
+  if (!datasetCode) return "";
+  
+  return getDefaultUnit(datasetCode);
 };
 
 // Helper function to get available datasets

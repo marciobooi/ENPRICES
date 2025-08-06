@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PoliteLiveRegion, EclMultiSelect, EclSingleSelect, RoundBtn, useFocusTrap } from './ui/index';
+import { useQuery } from '../context/QueryContext';
 import { 
   AGGREGATES_COUNTRY_CODES, 
   EU_COUNTRY_CODES, 
@@ -9,10 +10,11 @@ import {
   getEnergyProductOptions,
   getEnergyConsumerOptions,
   getEnergyYearOptions,
-  getConsumptionBandOptions,
-  getUnitOptions,
-  getDefaultConsumptionBand,
-  getDefaultUnit
+  getConsumptionBandOptionsByContext,
+  getUnitOptionsByContext,
+  getDefaultConsumptionBandByContext,
+  getDefaultUnitByContext,
+  getDatasetByProductAndConsumer
 } from "../data/energyData";
 
 interface MenuProps {
@@ -41,9 +43,9 @@ const Menu: React.FC<MenuProps> = ({
   onConsumerChange,
   selectedYear = new Date().getFullYear().toString(),
   onYearChange,
-  selectedBand = getDefaultConsumptionBand("nrg_pc_204"),
+  selectedBand = getDefaultConsumptionBandByContext("6000", "HOUSEHOLD"),
   onBandChange,
-  selectedUnit = getDefaultUnit("nrg_pc_204"),
+  selectedUnit = getDefaultUnitByContext("6000", "HOUSEHOLD"),
   onUnitChange
 }) => {
   const { t } = useTranslation();
@@ -82,6 +84,29 @@ const Menu: React.FC<MenuProps> = ({
   useEffect(() => {
     setUnit(selectedUnit);
   }, [selectedUnit]);
+
+  // Dynamic dataset selection: when product or consumer changes, update band and unit defaults
+  useEffect(() => {
+    const newDefaultBand = getDefaultConsumptionBandByContext(product, consumer);
+    const newDefaultUnit = getDefaultUnitByContext(product, consumer);
+    
+    // Only update if the current values are no longer valid for this dataset
+    const validBandOptions = getConsumptionBandOptionsByContext(product, consumer);
+    const validUnitOptions = getUnitOptionsByContext(product, consumer);
+    
+    const isBandValid = validBandOptions.some(option => option.value === band);
+    const isUnitValid = validUnitOptions.some(option => option.value === unit);
+    
+    if (!isBandValid) {
+      setBand(newDefaultBand);
+      onBandChange?.(newDefaultBand);
+    }
+    
+    if (!isUnitValid) {
+      setUnit(newDefaultUnit);
+      onUnitChange?.(newDefaultUnit);
+    }
+  }, [product, consumer]); // Only trigger when product or consumer changes
 
   // Focus trap for the menu when open
   const focusTrapRef = useFocusTrap(isOpen, true, () => setIsOpen(false));
@@ -134,14 +159,14 @@ const Menu: React.FC<MenuProps> = ({
     label: t(`energy.years.${option.value}`, option.label)
   }));
 
-  // Get energy band options (from dataset config)
-  const energyBandOptions = getConsumptionBandOptions("nrg_pc_204").map((option: {value: string; label: string}) => ({
+  // Get energy band options (based on current product and consumer)
+  const energyBandOptions = getConsumptionBandOptionsByContext(product, consumer).map((option: {value: string; label: string}) => ({
     ...option,
     label: t(`energy.bands.${option.value}`, option.label)
   }));
 
-  // Get energy unit options (from dataset config)
-  const energyUnitOptions = getUnitOptions("nrg_pc_204").map((option: {value: string; label: string}) => ({
+  // Get energy unit options (based on current product and consumer)
+  const energyUnitOptions = getUnitOptionsByContext(product, consumer).map((option: {value: string; label: string}) => ({
     ...option,
     label: t(`energy.units.${option.value}`, option.label)
   }));

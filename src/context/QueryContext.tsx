@@ -1,0 +1,195 @@
+import React, { createContext, useContext, useReducer } from 'react';
+import type { ReactNode } from 'react';
+import { allCountries } from '../data/energyData';
+
+// Define the global query state interface
+export interface QueryState {
+  chartGeo: string;
+  chartId: string;
+  chartInDetails: boolean;
+  component: boolean;
+  consoms: string;
+  consumer: string;
+  currency: string;
+  dataset: string;
+  details: boolean;
+  geos: string[];
+  language: string;
+  nrg_prc: string | undefined;
+  order: string;
+  percentage: boolean;
+  product: string;
+  share: boolean;
+  taxs: string[];
+  time: string;
+  unit: string;
+}
+
+// Define action types for query updates
+export type QueryAction =
+  | { type: 'SET_COUNTRIES'; payload: string[] }
+  | { type: 'SET_PRODUCT'; payload: string }
+  | { type: 'SET_CONSUMER'; payload: string }
+  | { type: 'SET_YEAR'; payload: string }
+  | { type: 'SET_BAND'; payload: string }
+  | { type: 'SET_UNIT'; payload: string }
+  | { type: 'SET_DATASET'; payload: string }
+  | { type: 'SET_LANGUAGE'; payload: string }
+  | { type: 'SET_CURRENCY'; payload: string }
+  | { type: 'SET_ORDER'; payload: string }
+  | { type: 'SET_DETAILS'; payload: boolean }
+  | { type: 'SET_PERCENTAGE'; payload: boolean }
+  | { type: 'SET_SHARE'; payload: boolean }
+  | { type: 'SET_COMPONENT'; payload: boolean }
+  | { type: 'RESET_TO_DEFAULTS' };
+
+// Initial state with all countries selected by default
+const initialState: QueryState = {
+  chartGeo: "CY",
+  chartId: "mainChart",
+  chartInDetails: false,
+  component: false,
+  consoms: "KWH_LT1000",
+  consumer: "HOUSEHOLD",
+  currency: "EUR",
+  dataset: "nrg_pc_204",
+  details: false,
+  geos: [...allCountries], // All countries by default instead of just EU
+  language: "EN",
+  nrg_prc: undefined,
+  order: "DESC",
+  percentage: false,
+  product: "6000",
+  share: false,
+  taxs: ["I_TAX", "X_TAX", "X_VAT"],
+  time: `${new Date().getFullYear()}-S2`, // Current year, second semester
+  unit: "KWH"
+};
+
+// Reducer function to handle state updates
+const queryReducer = (state: QueryState, action: QueryAction): QueryState => {
+  switch (action.type) {
+    case 'SET_COUNTRIES':
+      return {
+        ...state,
+        geos: action.payload
+      };
+    case 'SET_PRODUCT':
+      return {
+        ...state,
+        product: action.payload
+      };
+    case 'SET_CONSUMER':
+      return {
+        ...state,
+        consumer: action.payload
+      };
+    case 'SET_YEAR':
+      return {
+        ...state,
+        time: action.payload
+      };
+    case 'SET_BAND':
+      return {
+        ...state,
+        consoms: action.payload
+      };
+    case 'SET_UNIT':
+      return {
+        ...state,
+        unit: action.payload
+      };
+    case 'SET_DATASET':
+      return {
+        ...state,
+        dataset: action.payload
+      };
+    case 'SET_LANGUAGE':
+      return {
+        ...state,
+        language: action.payload
+      };
+    case 'SET_CURRENCY':
+      return {
+        ...state,
+        currency: action.payload
+      };
+    case 'SET_ORDER':
+      return {
+        ...state,
+        order: action.payload
+      };
+    case 'SET_DETAILS':
+      return {
+        ...state,
+        details: action.payload
+      };
+    case 'SET_PERCENTAGE':
+      return {
+        ...state,
+        percentage: action.payload
+      };
+    case 'SET_SHARE':
+      return {
+        ...state,
+        share: action.payload
+      };
+    case 'SET_COMPONENT':
+      return {
+        ...state,
+        component: action.payload
+      };
+    case 'RESET_TO_DEFAULTS':
+      return initialState;
+    default:
+      return state;
+  }
+};
+
+// Create context
+interface QueryContextType {
+  state: QueryState;
+  dispatch: React.Dispatch<QueryAction>;
+}
+
+const QueryContext = createContext<QueryContextType | undefined>(undefined);
+
+// Context provider component
+export const QueryProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [state, dispatch] = useReducer(queryReducer, initialState);
+
+  return (
+    <QueryContext.Provider value={{ state, dispatch }}>
+      {children}
+    </QueryContext.Provider>
+  );
+};
+
+// Custom hook to use the query context
+export const useQuery = () => {
+  const context = useContext(QueryContext);
+  if (context === undefined) {
+    throw new Error('useQuery must be used within a QueryProvider');
+  }
+  return context;
+};
+
+// Helper function to get current query configuration
+export const getQueryConfig = (state: QueryState) => {
+  return {
+    countries: state.geos,
+    product: state.product,
+    consumer: state.consumer,
+    year: state.time,
+    band: state.consoms,
+    unit: state.unit,
+    dataset: state.dataset,
+    currency: state.currency,
+    language: state.language,
+    details: state.details,
+    percentage: state.percentage,
+    share: state.share,
+    component: state.component,
+    order: state.order
+  };
+};
