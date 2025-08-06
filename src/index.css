@@ -1759,6 +1759,12 @@ html, body {
   transition: transform 0.2s ease;
 }
 
+/* Rotate arrow when select is expanded */
+.ecl-select--expanded .ecl-select__icon .ecl-icon,
+.ecl-select[aria-expanded="true"] .ecl-select__icon .ecl-icon {
+  transform: rotate(180deg);
+}
+
 .ecl-select__list {
   position: absolute;
   top: 100%;
