@@ -166,10 +166,14 @@ const EclSingleSelect: React.FC<EclSingleSelectProps> = ({
       // Cleanup on unmount
       if (eclInstanceRef.current && typeof eclInstanceRef.current.destroy === 'function') {
         try {
-          eclInstanceRef.current.destroy();
+          // Additional safety check - ensure the instance is still valid
+          if (selectRef.current && selectRef.current.parentElement) {
+            eclInstanceRef.current.destroy();
+          }
         } catch (error) {
           console.warn('ECL Select cleanup failed:', error);
         }
+        eclInstanceRef.current = null;
       }
       
       // Clean up ECL-generated elements
@@ -201,7 +205,10 @@ const EclSingleSelect: React.FC<EclSingleSelectProps> = ({
       // Trigger ECL update if instance is available
       if (eclInstanceRef.current && typeof eclInstanceRef.current.update === 'function') {
         try {
-          eclInstanceRef.current.update();
+          // Additional safety check - ensure the element still has options
+          if (selectElement && selectElement.options && selectElement.options.length > 0) {
+            eclInstanceRef.current.update();
+          }
         } catch (error) {
           console.warn('ECL Select update failed:', error);
         }
