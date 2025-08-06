@@ -24,6 +24,107 @@
     "siteName": "Eurostat"
   },
 
+  "energy": {
+    "products": {
+      "label": "Sélectionner le produit énergétique",
+      "placeholder": "Choisir un produit énergétique...",
+      "help": "Sélectionnez le produit énergétique à analyser",
+      "groups": {
+        "energy_products": "Produits énergétiques"
+      },
+      "4100": "Gaz naturel",
+      "6000": "Électricité",
+      "PRICE_4100": "Prix du gaz",
+      "PRICE_6000": "Prix de l'électricité"
+    },
+    "consumers": {
+      "label": "Sélectionner le type de consommateur",
+      "placeholder": "Choisir un type de consommateur...",
+      "help": "Sélectionnez les consommateurs ménages ou non-ménages",
+      "HOUSEHOLD": "Consommateurs ménages",
+      "N_HOUSEHOLD": "Consommateurs non-ménages"
+    },
+    "years": {
+      "label": "Sélectionner l'année",
+      "placeholder": "Choisir une année...",
+      "help": "Sélectionnez l'année pour les données de prix de l'énergie"
+    },
+    "bands": {
+      "label": "Sélectionner la tranche de consommation",
+      "placeholder": "Choisir une tranche de consommation...",
+      "help": "Sélectionnez la tranche de consommation énergétique pour l'analyse",
+      "4141900": "Toutes les tranches : Consommation de GJ",
+      "4141901": "Tranche D1 : Consommation < 20 GJ",
+      "4141902": "Tranche D2 : 20 GJ < Consommation < 200 GJ",
+      "4141903": "Tranche D3 : Consommation > 200 GJ",
+      "GJ_LT20": "Tranche D1 : Consommation < 20 GJ",
+      "GJ20-199": "Tranche D2 : 20 GJ < Consommation < 200 GJ",
+      "GJ_GE200": "Tranche D3 : Consommation > 200 GJ",
+      "4142900": "Tranches I1-I5 : Consommation +< 3 999 999 GJ",
+      "4142901": "Tranche I1 : Consommation < 1 000 GJ",
+      "4142902": "Tranche I2 : 1 000 GJ < Consommation < 10 000 GJ",
+      "4142903": "Tranche I3 : 10 000 GJ < Consommation < 100 000 GJ",
+      "4142904": "Tranche I4 : 100 000 GJ < Consommation < 1 000 000 GJ",
+      "4142905": "Tranche I5 : 1 000 000 GJ < Consommation < 4 000 000 GJ",
+      "4142906": "Tranche I6 : Consommation > 4 000 000 GJ",
+      "GJ_LT1000": "Tranche I1: Consommation < 1000 GJ",
+      "GJ1000-9999": "Tranche I2: 1 000 GJ < Consommation <10 000 GJ",
+      "GJ10000-99999": "Tranche I3: 10 000 GJ < Consommation <100 000 GJ",
+      "GJ100000-999999": "Tranche I4: 100 000 GJ < Consommation <1 000 000 GJ",
+      "GJ1000000-3999999": "Tranche I5: 1 000 000 GJ < Consommation <4 000 000 GJ",
+      "GJ_GE4000000": "Tranche I6: Consommation > 4 000 000 GJ",
+      "4161900": "Toutes les tranches : Consommation de kWh",
+      "4161901": "Tranche DA : Consommation < 1 000 kWh",
+      "4161902": "Tranche DB : 1 000 kWh < Consommation < 2 500 kWh",
+      "4161903": "Tranche DC : 2 500 kWh < Consommation < 5 000 kWh",
+      "4161904": "Tranche DD : 5 000 kWh < Consommation < 15 000 kWh",
+      "4161905": "Tranche DE : Consommation > 15 000 kWh",
+      "4162900": "Tranches IA-IF : Consommation =< 149 999 MWh",
+      "4162901": "Tranche IA : Consommation < 20 MWh",
+      "4162902": "Tranche IB : 20 MWh < Consommation < 500 MWh",
+      "4162903": "Tranche IC : 500 MWh < Consommation < 2 000 MWh",
+      "4162904": "Tranche ID : 2 000 MWh < Consommation < 20 000 MWh",
+      "4162905": "Tranche IE : 20 000 MWh < Consommation < 70 000 MWh",
+      "4162906": "Tranche IF : 70 000 MWh < Consommation < 150 000 MWh",
+      "4162907": "Tranche IG : Consommation > 150 000 MWh",
+      "KWH1000-2499": "Tranche DB : 1 000 kWh < Consommation < 2 500 kWh",
+      "KWH2500-4999": "Tranche DC : 2 500 kWh < Consommation < 5 000 kWh",
+      "KWH5000-14999": "Tranche DD : 5 000 kWh < Consommation < 15 000 kWh",
+      "KWH_LE15000": "Tranche DE : Consommation > 15 000 kWh",
+      "KWH_LT1000": "Tranche DA : Consommation < 1 000 kWh",
+      "KWH_GE15000": "Tranche DE : Consommation > 15 000 kWh",
+      "TOT_KWH": "Toutes les tranches : Consommation de kWh",
+      "TOT_GJ": "Toutes les tranches : Consommation de GJ",
+      "TOT_MWH": "Tranches IA-IF : Consommation =< 149 999 MWh",
+      "MWH_LT20": "Tranche IA : Consommation < 20 MWh",
+      "MWH20-499": "Tranche IB : 20 MWh < Consommation < 500 MWh",
+      "MWH500-1999": "Tranche IC : 500 MWh < Consommation < 2 000 MWh",
+      "MWH2000-19999": "Tranche ID : 2 000 MWh < Consommation < 20 000 MWh",
+      "MWH20000-69999": "Tranche IE : 20 000 MWh < Consommation < 70 000 MWh",
+      "MWH70000-149999": "Tranche IF : 70 000 MWh < Consommation < 150 000 MWh",
+      "MWH_GE150000": "Tranche IG : Consommation > 150 000 MWh"
+    },
+    "units": {
+      "label": "Sélectionner l'unité",
+      "placeholder": "Choisir une unité...",
+      "help": "Sélectionnez l'unité pour l'affichage des prix de l'énergie",
+      "GJ_GCV": "Gigajoules (pouvoir calorifique supérieur = PCS)",
+      "S_GJ_GCV": "GJ PCS",
+      "KWH": "Kilowatt-heure (KWh)",
+      "S_KWH": "kWh",
+      "MWH": "Mégawatt-heure (MWh)",
+      "S_MWH": "MWh"
+    },
+    "currencies": {
+      "EUR": "Euro",
+      "S_EUR": "€",
+      "PPS": "Standard de pouvoir d'achat",
+      "S_PPS": "SPA",
+      "NAT": "Monnaie nationale",
+      "S_NAT": "NAT"
+    }
+  },
+
   "footer": {
     "LEGAL": "Mentions légales",
     "PRIVACY": "Politique de confidentialité",
