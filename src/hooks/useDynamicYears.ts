@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { eurostatService } from '../services/eurostat';
 import { useQuery } from '../context/QueryContext';
-import { getDatasetByProductAndConsumer } from '../data/energyData';
+import { getDatasetByProductAndConsumer, getDatasetConfig } from '../data/energyData';
 
 export const useDynamicYears = () => {
   const { state, dispatch } = useQuery();
@@ -21,18 +21,32 @@ export const useDynamicYears = () => {
         throw new Error(`No dataset found for product: ${product}, consumer: ${consumer}, component: ${state.component}`);
       }
 
+      // Get dataset configuration to determine correct parameters
+      const datasetConfig = getDatasetConfig(dataset);
+      if (!datasetConfig) {
+        throw new Error(`No configuration found for dataset: ${dataset}`);
+      }
+
       // Build the parameters for the API call exactly as Eurostat expects
-      // The API expects multiple tax parameters like: tax=I_TAX&tax=X_TAX&tax=X_VAT
       const params: Record<string, string | string[]> = {
-        unit,
-        product,
         nrg_cons: consoms,
         currency
       };
       
-      // Add tax parameters as an array so axios handles it correctly
-      if (state.taxs.length > 0) {
-        params.tax = state.taxs;
+      // Add the correct price component parameter based on whether we're using components or not
+      if (state.component) {
+        // For datasets with _c suffix, use nrg_prc parameter with values from dataset config
+        // Do NOT include unit or product parameters for component datasets
+        if (datasetConfig.nrg_prc && datasetConfig.nrg_prc.length > 0) {
+          params.nrg_prc = datasetConfig.nrg_prc;
+        }
+      } else {
+        // For datasets without _c suffix, include unit and product, and use tax parameter with default tax values
+        params.unit = unit;
+        params.product = product;
+        if (state.taxs.length > 0) {
+          params.tax = state.taxs;
+        }
       }
 
       console.log('Fetching years for:', { dataset, params });

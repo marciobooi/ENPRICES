@@ -2,6 +2,7 @@ export { default as NavigationBtn } from './NavigationBtn';
 export { default as RoundBtn } from './RoundBtn';
 export { default as EclSingleSelect } from './EclSingleSelect';
 export { default as EclMultiSelect } from './EclMultiSelect';
+export { EclRadio } from './EclRadio';
 
 // Removed Card and ChartHighcharts exports
 export { default as ScreenReaderOnly } from './ScreenReaderOnly';

@@ -218,14 +218,18 @@ const EclMultiSelect: React.FC<EclMultiSelectProps> = ({
           return;
         }
 
-        // Update native select options
-        Array.from(selectElement.options).forEach(option => {
-          option.selected = values.includes(option.value);
-        });
+        // Update native select options safely
+        if (selectElement && selectElement.options) {
+          Array.from(selectElement.options).forEach(option => {
+            option.selected = values.includes(option.value);
+          });
+        }
 
         // Trigger ECL update if instance is available and valid
         if (eclInstanceRef.current && 
             typeof eclInstanceRef.current.update === 'function' &&
+            selectElement && 
+            selectElement.options && 
             selectElement.options.length > 0) {
           try {
             eclInstanceRef.current.update();

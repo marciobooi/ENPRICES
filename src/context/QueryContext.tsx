@@ -15,7 +15,7 @@ export interface QueryState {
   details: boolean;
   geos: string[];
   language: string;
-  nrg_prc: string | undefined;
+  nrg_prc: string[];
   order: string;
   percentage: boolean;
   product: string;
@@ -60,7 +60,7 @@ const initialState: QueryState = {
   details: false,
   geos: [...allCountries], // All countries by default instead of just EU
   language: "EN",
-  nrg_prc: undefined,
+  nrg_prc: [], // Will be populated based on component and dataset selection
   order: "DESC",
   percentage: false,
   product: "6000",

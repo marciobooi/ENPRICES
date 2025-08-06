@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PoliteLiveRegion, EclMultiSelect, EclSingleSelect, RoundBtn, useFocusTrap } from './ui/index';
+import { PoliteLiveRegion, EclMultiSelect, EclSingleSelect, EclRadio, RoundBtn, useFocusTrap } from './ui/index';
 import { useQuery } from '../context/QueryContext';
 import { useDynamicYears } from '../hooks/useDynamicYears';
 import { 
@@ -89,6 +89,14 @@ const Menu: React.FC<MenuProps> = ({
 
   const handleUnitChange = (selectedValue: string) => {
     dispatch({ type: 'SET_UNIT', payload: selectedValue });
+  };
+
+  const handleComponentChange = (value: string) => {
+    dispatch({ type: 'SET_COMPONENT', payload: value === 'true' });
+  };
+
+  const handleDetailsChange = (value: string) => {
+    dispatch({ type: 'SET_DETAILS', payload: value === 'true' });
   };
 
   // Get energy product options - memoized
@@ -378,6 +386,67 @@ const Menu: React.FC<MenuProps> = ({
                         onChange={handleUnitChange}
                         placeholder={t("energy.units.placeholder", "Choose a unit...")}
                         helpText={t("energy.units.help", "Select the unit for energy price display")}
+                        required={true}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="ecl-row ecl-u-mt-m">
+                {/* Third Row: Components and Details Radio Buttons */}
+                <div className="ecl-col-6">
+                  {/* Components Selection Section */}
+                  <div className="menu-section">
+                    <div className="menu-component">
+                      <EclRadio
+                        id="menu-radio-component"
+                        name="component-group"
+                        label={t("energy.component.label", "Include Components")}
+                        helpText={t("energy.component.help", "Choose whether to include detailed price components in the dataset")}
+                        options={[
+                          {
+                            value: "false",
+                            label: t("energy.component.no", "No - Total prices only"),
+                            checked: !state.component
+                          },
+                          {
+                            value: "true", 
+                            label: t("energy.component.yes", "Yes - Include components"),
+                            checked: state.component
+                          }
+                        ]}
+                        value={state.component.toString()}
+                        onChange={handleComponentChange}
+                        required={true}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="ecl-col-6">
+                  {/* Details Selection Section */}
+                  <div className="menu-section">
+                    <div className="menu-details">
+                      <EclRadio
+                        id="menu-radio-details"
+                        name="details-group"
+                        label={t("energy.details.label", "Show Details")}
+                        helpText={t("energy.details.help", "Choose whether to display detailed information in charts")}
+                        options={[
+                          {
+                            value: "false",
+                            label: t("energy.details.no", "No - Summary view"),
+                            checked: !state.details
+                          },
+                          {
+                            value: "true",
+                            label: t("energy.details.yes", "Yes - Detailed view"),
+                            checked: state.details
+                          }
+                        ]}
+                        value={state.details.toString()}
+                        onChange={handleDetailsChange}
                         required={true}
                       />
                     </div>
