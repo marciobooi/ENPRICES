@@ -50,6 +50,7 @@ const EclSingleSelect: React.FC<EclSingleSelectProps> = ({
   const selectRef = useRef<HTMLSelectElement>(null);
   const eclInstanceRef = useRef<any>(null);
   const isInitializedRef = useRef(false);
+  const observerRef = useRef<MutationObserver | null>(null);
 
   const helpId = helpText ? `${id}-helper` : undefined;
   const describedBy = [ariaDescribedBy, helpId].filter(Boolean).join(' ') || undefined;
@@ -107,8 +108,47 @@ const EclSingleSelect: React.FC<EclSingleSelectProps> = ({
                 </button>
               `;
               selectElement.parentElement?.appendChild(iconDiv);
+              
+              // Add click listener to handle icon rotation manually
+              const iconButton = iconDiv.querySelector('button');
+              if (iconButton) {
+                iconButton.addEventListener('click', () => {
+                  const icon = iconDiv.querySelector('.ecl-icon') as HTMLElement;
+                  const isRotated = icon?.style.transform === 'rotate(180deg)';
+                  if (icon) {
+                    icon.style.transform = isRotated ? 'rotate(0deg)' : 'rotate(180deg)';
+                  }
+                });
+              }
             }
           }, 50);
+
+          // Add mutation observer to watch for ECL state changes
+          observerRef.current = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+              if (mutation.type === 'attributes' && 
+                  (mutation.attributeName === 'aria-expanded' || 
+                   mutation.attributeName === 'class')) {
+                const target = mutation.target as HTMLElement;
+                const isExpanded = target.getAttribute('aria-expanded') === 'true' || 
+                                 target.classList.contains('ecl-select--expanded') ||
+                                 target.classList.contains('ecl-select--open');
+                
+                const icon = selectElement.parentElement?.querySelector('.ecl-select__icon .ecl-icon') as HTMLElement;
+                if (icon) {
+                  icon.style.transform = isExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+                }
+              }
+            });
+          });
+
+          // Observe the select element and its parent for changes
+          if (selectElement && observerRef.current) {
+            observerRef.current.observe(selectElement, { attributes: true });
+            if (selectElement.parentElement) {
+              observerRef.current.observe(selectElement.parentElement, { attributes: true, subtree: true });
+            }
+          }
 
         } catch (error) {
           console.warn('ECL Select initialization failed:', error);
@@ -138,6 +178,12 @@ const EclSingleSelect: React.FC<EclSingleSelectProps> = ({
         if (eclIcon) {
           eclIcon.remove();
         }
+      }
+      
+      // Clean up mutation observer
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+        observerRef.current = null;
       }
       
       isInitializedRef.current = false;

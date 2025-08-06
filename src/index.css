@@ -1761,7 +1761,22 @@ html, body {
 
 /* Rotate arrow when select is expanded */
 .ecl-select--expanded .ecl-select__icon .ecl-icon,
-.ecl-select[aria-expanded="true"] .ecl-select__icon .ecl-icon {
+.ecl-select[aria-expanded="true"] .ecl-select__icon .ecl-icon,
+.ecl-select--open .ecl-select__icon .ecl-icon,
+.ecl-select.is-open .ecl-select__icon .ecl-icon,
+.ecl-select__toggle[aria-expanded="true"] + .ecl-select__icon .ecl-icon,
+.ecl-select__toggle[aria-expanded="true"] ~ .ecl-select__icon .ecl-icon {
+  transform: rotate(180deg);
+}
+
+/* Additional rotation rules for nested structures */
+.ecl-select__icon .ecl-icon {
+  transition: transform 0.2s ease;
+}
+
+/* Force rotation when parent has expanded state */
+[data-ecl-select-expanded="true"] .ecl-select__icon .ecl-icon,
+.ecl-form-group--expanded .ecl-select__icon .ecl-icon {
   transform: rotate(180deg);
 }
 
