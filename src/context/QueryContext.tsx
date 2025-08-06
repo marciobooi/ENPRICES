@@ -23,6 +23,8 @@ export interface QueryState {
   taxs: string[];
   time: string;
   unit: string;
+  availableYears: string[]; // Dynamic years from API
+  isLoadingYears: boolean;
 }
 
 // Define action types for query updates
@@ -41,6 +43,8 @@ export type QueryAction =
   | { type: 'SET_PERCENTAGE'; payload: boolean }
   | { type: 'SET_SHARE'; payload: boolean }
   | { type: 'SET_COMPONENT'; payload: boolean }
+  | { type: 'SET_AVAILABLE_YEARS'; payload: string[] }
+  | { type: 'SET_LOADING_YEARS'; payload: boolean }
   | { type: 'RESET_TO_DEFAULTS' };
 
 // Initial state with all countries selected by default
@@ -63,7 +67,9 @@ const initialState: QueryState = {
   share: false,
   taxs: ["I_TAX", "X_TAX", "X_VAT"],
   time: `${new Date().getFullYear()}-S2`, // Current year, second semester
-  unit: "KWH"
+  unit: "KWH",
+  availableYears: [],
+  isLoadingYears: false
 };
 
 // Reducer function to handle state updates
@@ -138,6 +144,16 @@ const queryReducer = (state: QueryState, action: QueryAction): QueryState => {
       return {
         ...state,
         component: action.payload
+      };
+    case 'SET_AVAILABLE_YEARS':
+      return {
+        ...state,
+        availableYears: action.payload
+      };
+    case 'SET_LOADING_YEARS':
+      return {
+        ...state,
+        isLoadingYears: action.payload
       };
     case 'RESET_TO_DEFAULTS':
       return initialState;

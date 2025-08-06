@@ -9,8 +9,19 @@ interface CachedData {
 }
 
 class EurostatService {
-  private getCacheKey(dataset: string, params?: Record<string, string>): string {
-    const paramString = params ? new URLSearchParams(params).toString() : '';
+  private getCacheKey(dataset: string, params?: Record<string, string | string[]>): string {
+    let paramString = '';
+    if (params) {
+      const urlParams = new URLSearchParams();
+      Object.entries(params).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          value.forEach(v => urlParams.append(key, v));
+        } else {
+          urlParams.append(key, value);
+        }
+      });
+      paramString = urlParams.toString();
+    }
     return `eurostat_${dataset}_${paramString}`;
   }
 
@@ -53,7 +64,7 @@ class EurostatService {
     }
   }
 
-  async fetchData(dataset: string, params?: Record<string, string>): Promise<any> {
+  async fetchData(dataset: string, params?: Record<string, string | string[]>): Promise<any> {
     const cacheKey = this.getCacheKey(dataset, params);
     
     // Try to get from cache first
@@ -64,15 +75,30 @@ class EurostatService {
 
     // If not in cache or expired, fetch from API
     try {
-      console.log(`Fetching fresh data for ${dataset}`);
+      console.log(`Fetching fresh data for ${dataset}`, params);
       
       const url = `${EUROSTAT_API_BASE}/${dataset}`;
-      const response = await axios.get(url, {
-        params: {
-          format: 'JSON',
-          lang: 'EN',
-          ...params
-        },
+      
+      // Build query string manually to handle array parameters correctly
+      const queryParams = new URLSearchParams();
+      queryParams.append('format', 'JSON');
+      queryParams.append('lang', 'EN');
+      
+      if (params) {
+        Object.entries(params).forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            // Add each array value as a separate parameter
+            value.forEach(v => queryParams.append(key, v));
+          } else {
+            queryParams.append(key, value);
+          }
+        });
+      }
+      
+      const fullUrl = `${url}?${queryParams.toString()}`;
+      console.log('Final URL:', fullUrl);
+      
+      const response = await axios.get(fullUrl, {
         timeout: 30000 // 30 seconds timeout
       });
 
@@ -85,6 +111,24 @@ class EurostatService {
     } catch (error) {
       console.error('Error fetching Eurostat data:', error);
       throw new Error(`Failed to fetch data for dataset: ${dataset}`);
+    }
+  }
+
+  async fetchAvailableYears(dataset: string, params: Record<string, string | string[]>): Promise<string[]> {
+    try {
+      const data = await this.fetchData(dataset, params);
+      
+      // Extract time dimension from Eurostat response
+      if (data && data.dimension && data.dimension.time && data.dimension.time.category && data.dimension.time.category.index) {
+        const timeCategories = Object.keys(data.dimension.time.category.index);
+        // Sort years in descending order (most recent first)
+        return timeCategories.sort((a, b) => b.localeCompare(a));
+      }
+      
+      return [];
+    } catch (error) {
+      console.error('Error fetching available years:', error);
+      return [];
     }
   }
 

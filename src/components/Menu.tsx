@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PoliteLiveRegion, EclMultiSelect, EclSingleSelect, RoundBtn, useFocusTrap } from './ui/index';
 import { useQuery } from '../context/QueryContext';
+import { useDynamicYears } from '../hooks/useDynamicYears';
 import { 
   AGGREGATES_COUNTRY_CODES, 
   EU_COUNTRY_CODES, 
@@ -9,136 +10,85 @@ import {
   ENLARGEMENT_COUNTRY_CODES, 
   getEnergyProductOptions,
   getEnergyConsumerOptions,
-  getEnergyYearOptions,
   getConsumptionBandOptionsByContext,
   getUnitOptionsByContext,
   getDefaultConsumptionBandByContext,
-  getDefaultUnitByContext,
-  getDatasetByProductAndConsumer
+  getDefaultUnitByContext
 } from "../data/energyData";
 
 interface MenuProps {
   className?: string;
-  selectedCountries?: string[];
-  onCountriesChange?: (countries: string[]) => void;
-  selectedProduct?: string;
-  onProductChange?: (product: string) => void;
-  selectedConsumer?: string;
-  onConsumerChange?: (consumer: string) => void;
-  selectedYear?: string;
-  onYearChange?: (year: string) => void;
-  selectedBand?: string;
-  onBandChange?: (band: string) => void;
-  selectedUnit?: string;
-  onUnitChange?: (unit: string) => void;
 }
 
 const Menu: React.FC<MenuProps> = ({ 
-  className = '',
-  selectedCountries = ["EU27_2020"],
-  onCountriesChange,
-  selectedProduct = "6000",
-  onProductChange,
-  selectedConsumer = "HOUSEHOLD",
-  onConsumerChange,
-  selectedYear = new Date().getFullYear().toString(),
-  onYearChange,
-  selectedBand = getDefaultConsumptionBandByContext("6000", "HOUSEHOLD"),
-  onBandChange,
-  selectedUnit = getDefaultUnitByContext("6000", "HOUSEHOLD"),
-  onUnitChange
+  className = ''
 }) => {
   const { t } = useTranslation();
+  const { state, dispatch } = useQuery();
+  const { availableYears } = useDynamicYears();
+  
   const [isOpen, setIsOpen] = useState(false);
   const [announcementMessage, setAnnouncementMessage] = useState('');
-  const [countries, setCountries] = useState<string[]>(selectedCountries);
-  const [product, setProduct] = useState<string>(selectedProduct);
-  const [consumer, setConsumer] = useState<string>(selectedConsumer);
-  const [year, setYear] = useState<string>(selectedYear);
-  const [band, setBand] = useState<string>(selectedBand);
-  const [unit, setUnit] = useState<string>(selectedUnit);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  // Sync countries and product state with props
-  useEffect(() => {
-    setCountries(selectedCountries);
-  }, [selectedCountries]);
-
-  useEffect(() => {
-    setProduct(selectedProduct);
-  }, [selectedProduct]);
-
-  useEffect(() => {
-    setConsumer(selectedConsumer);
-  }, [selectedConsumer]);
-
-  useEffect(() => {
-    setYear(selectedYear);
-  }, [selectedYear]);
-
-  useEffect(() => {
-    setBand(selectedBand);
-  }, [selectedBand]);
-
-  useEffect(() => {
-    setUnit(selectedUnit);
-  }, [selectedUnit]);
+  // Extract values from global state
+  const {
+    geos: countries,
+    product,
+    consumer,
+    time: year,
+    consoms: band,
+    unit
+  } = state;
 
   // Dynamic dataset selection: when product or consumer changes, update band and unit defaults
   useEffect(() => {
-    const newDefaultBand = getDefaultConsumptionBandByContext(product, consumer);
-    const newDefaultUnit = getDefaultUnitByContext(product, consumer);
+    const newDefaultBand = getDefaultConsumptionBandByContext(product, consumer, state.component);
+    const newDefaultUnit = getDefaultUnitByContext(product, consumer, state.component);
     
     // Only update if the current values are no longer valid for this dataset
-    const validBandOptions = getConsumptionBandOptionsByContext(product, consumer);
-    const validUnitOptions = getUnitOptionsByContext(product, consumer);
+    const validBandOptions = getConsumptionBandOptionsByContext(product, consumer, state.component);
+    const validUnitOptions = getUnitOptionsByContext(product, consumer, state.component);
     
     const isBandValid = validBandOptions.some(option => option.value === band);
     const isUnitValid = validUnitOptions.some(option => option.value === unit);
     
     if (!isBandValid) {
-      setBand(newDefaultBand);
-      onBandChange?.(newDefaultBand);
+      dispatch({ type: 'SET_BAND', payload: newDefaultBand });
     }
     
     if (!isUnitValid) {
-      setUnit(newDefaultUnit);
-      onUnitChange?.(newDefaultUnit);
+      dispatch({ type: 'SET_UNIT', payload: newDefaultUnit });
     }
-  }, [product, consumer]); // Only trigger when product or consumer changes
+  }, [product, consumer, dispatch]); // Only trigger when product or consumer changes
 
   // Focus trap for the menu when open
   const focusTrapRef = useFocusTrap(isOpen, true, () => setIsOpen(false));
 
+  // Global state handlers
   const handleCountryChange = (selectedValues: string[]) => {
-    setCountries(selectedValues);
-    onCountriesChange?.(selectedValues);
+    dispatch({ type: 'SET_COUNTRIES', payload: selectedValues });
   };
 
   const handleProductChange = (selectedValue: string) => {
-    setProduct(selectedValue);
-    onProductChange?.(selectedValue);
+    dispatch({ type: 'SET_PRODUCT', payload: selectedValue });
   };
 
   const handleConsumerChange = (selectedValue: string) => {
-    setConsumer(selectedValue);
-    onConsumerChange?.(selectedValue);
+    dispatch({ type: 'SET_CONSUMER', payload: selectedValue });
   };
 
   const handleYearChange = (selectedValue: string) => {
-    setYear(selectedValue);
-    onYearChange?.(selectedValue);
+    dispatch({ type: 'SET_YEAR', payload: selectedValue });
   };
 
   const handleBandChange = (selectedValue: string) => {
-    setBand(selectedValue);
-    onBandChange?.(selectedValue);
+    dispatch({ type: 'SET_BAND', payload: selectedValue });
   };
 
   const handleUnitChange = (selectedValue: string) => {
-    setUnit(selectedValue);
-    onUnitChange?.(selectedValue);
+    dispatch({ type: 'SET_UNIT', payload: selectedValue });
   };
 
   // Get energy product options - memoized
@@ -157,29 +107,29 @@ const Menu: React.FC<MenuProps> = ({
     }));
   }, [t]);
 
-  // Get energy year options - memoized
+  // Get energy year options - memoized from dynamic API data
   const energyYearOptions = useMemo(() => {
-    return getEnergyYearOptions().map(option => ({
-      ...option,
-      label: t(`energy.years.${option.value}`, option.label)
-    })).reverse(); // Most recent years first
-  }, [t]);
+    return availableYears.map(year => ({
+      value: year,
+      label: t(`energy.years.${year}`, year)
+    }));
+  }, [availableYears, t]);
 
   // Get energy band options (based on current product and consumer) - memoized
   const energyBandOptions = useMemo(() => {
-    return getConsumptionBandOptionsByContext(product, consumer).map((option: {value: string; label: string}) => ({
+    return getConsumptionBandOptionsByContext(product, consumer, state.component).map((option: {value: string; label: string}) => ({
       ...option,
       label: t(`energy.bands.${option.value}`, option.label)
     }));
-  }, [product, consumer, t]);
+  }, [product, consumer, state.component, t]);
 
   // Get energy unit options (based on current product and consumer) - memoized
   const energyUnitOptions = useMemo(() => {
-    return getUnitOptionsByContext(product, consumer).map((option: {value: string; label: string}) => ({
+    return getUnitOptionsByContext(product, consumer, state.component).map((option: {value: string; label: string}) => ({
       ...option,
       label: t(`energy.units.${option.value}`, option.label)
     }));
-  }, [product, consumer, t]);
+  }, [product, consumer, state.component, t]);
 
   // Create country option groups - memoized
   const countryOptionGroups = useMemo(() => [
