@@ -1598,10 +1598,22 @@ html, body {
 
 .menu-content {
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 800px; /* Ensure enough width for 3 columns */
+}
+
+.menu-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* 3 equal columns */
+  gap: 16px;
+  width: 100%;
 }
 
 .menu-section {
-  margin-bottom: 16px;
+  margin-bottom: 0; /* Remove bottom margin since we use gap */
+  min-width: 0; /* Allow grid items to shrink */
 }
 
 .menu-section:last-child {
