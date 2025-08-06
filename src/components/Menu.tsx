@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PoliteLiveRegion, EclMultiSelect, EclSingleSelect, useFocusTrap } from './ui/index';
+import { PoliteLiveRegion, EclMultiSelect, EclSingleSelect, RoundBtn, useFocusTrap } from './ui/index';
 import { AGGREGATES_COUNTRY_CODES, EU_COUNTRY_CODES, EFTA_COUNTRY_CODES, ENLARGEMENT_COUNTRY_CODES, getEnergyProductOptions } from "../data/energyData";
 
 interface MenuProps {
@@ -162,22 +162,19 @@ const Menu: React.FC<MenuProps> = ({
   return (
     <div className={`menu-container ${className}`}>
       {/* Hamburger Menu Button */}
-      <button
+      <RoundBtn
         ref={buttonRef}
         id="menu-toggle-button"
-        className={`menu-toggle ${isOpen ? 'active' : ''}`}
+        className={isOpen ? 'active' : ''}
         onClick={toggleMenu}
-        aria-expanded={isOpen}
-        aria-controls="dropdown-menu"
-        aria-haspopup="menu"
-        aria-label={t('menu.toggle', 'Toggle menu') + (isOpen ? ', menu is open' : ', menu is closed')}
-        type="button"
-      >
-        <i 
-          className={`fa ${isOpen ? 'fa-times' : 'fa-bars'}`} 
-          aria-hidden="true"
-        ></i>
-      </button>
+        ariaExpanded={isOpen}
+        ariaControls="dropdown-menu"
+        ariaLabel={t('menu.toggle', 'Toggle menu') + (isOpen ? ', menu is open' : ', menu is closed')}
+        variant="ghost"
+        size="medium"
+        icon={isOpen ? 'fa-times' : 'fa-bars'}
+        iconOnly={true}
+      />
 
       {/* Dropdown Menu */}
       {isOpen && (
@@ -192,7 +189,7 @@ const Menu: React.FC<MenuProps> = ({
           className="menu-dropdown"
           role="menu"
           aria-labelledby="menu-toggle-button"
-          aria-orientation="vertical"
+          aria-orientation="horizontal"
         >
           <div className="menu-content">
             {/* Energy Product Selection Section */}

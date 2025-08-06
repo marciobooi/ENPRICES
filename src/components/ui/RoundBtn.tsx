@@ -14,9 +14,11 @@ interface RoundBtnProps {
   ariaExpanded?: boolean;
   ariaControls?: string;
   ariaPressed?: boolean;
+  id?: string;
+  iconOnly?: boolean; // For compatibility, doesn't change behavior since it's always icon-only
 }
 
-const RoundBtn: React.FC<RoundBtnProps> = ({
+const RoundBtn = React.forwardRef<HTMLButtonElement, RoundBtnProps>(({
   icon,
   onClick,
   type = 'button',
@@ -29,8 +31,10 @@ const RoundBtn: React.FC<RoundBtnProps> = ({
   ariaDescribedBy,
   ariaExpanded,
   ariaControls,
-  ariaPressed
-}) => {
+  ariaPressed,
+  id,
+  iconOnly = true
+}, ref) => {
   const getButtonClasses = () => {
     let classes = 'ecl-button ecl-button--rounded';
     
@@ -74,6 +78,8 @@ const RoundBtn: React.FC<RoundBtnProps> = ({
 
   return (
     <button
+      ref={ref}
+      id={id}
       className={getButtonClasses()}
       type={type}
       onClick={onClick}
@@ -88,6 +94,8 @@ const RoundBtn: React.FC<RoundBtnProps> = ({
       <i className={getIconClasses()} aria-hidden="true"></i>
     </button>
   );
-};
+});
+
+RoundBtn.displayName = 'RoundBtn';
 
 export default RoundBtn;

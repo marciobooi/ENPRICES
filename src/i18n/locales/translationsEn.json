@@ -35,7 +35,8 @@
 
   "ui": {
     "select": {
-      "placeholder": "Select an option"
+      "placeholder": "Select an option",
+      "toggle_dropdown": "Toggle dropdown"
     },
     "multiselect": {
       "clear_all": "Clear all",
