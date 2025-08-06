@@ -33,7 +33,7 @@ const RoundBtn = React.forwardRef<HTMLButtonElement, RoundBtnProps>(({
   ariaControls,
   ariaPressed,
   id,
-  iconOnly = true
+  iconOnly: _iconOnly = true
 }, ref) => {
   const getButtonClasses = () => {
     let classes = 'ecl-button ecl-button--rounded';

@@ -43,17 +43,86 @@ export const getEnergyProductOptions = () => {
   }));
 };
 
+// Helper function to get energy consumer options
+export const getEnergyConsumerOptions = () => {
+  return Object.entries(energyConsumers).map(([value, label]) => ({
+    value,
+    label
+  }));
+};
+
+// Helper function to get energy year options
+export const getEnergyYearOptions = () => {
+  return Object.entries(energyYears).map(([value, label]) => ({
+    value,
+    label
+  })).reverse(); // Most recent years first
+};
+
+// Helper function to get consumption band options from dataset config
+export const getConsumptionBandOptions = (datasetCode: string = "nrg_pc_204") => {
+  const config = getDatasetConfig(datasetCode);
+  if (!config) return [];
+  
+  return config.consoms.map(value => ({
+    value,
+    label: value // Using the dataset codes as labels for now
+  }));
+};
+
+// Helper function to get unit options from dataset config
+export const getUnitOptions = (datasetCode: string = "nrg_pc_204") => {
+  const config = getDatasetConfig(datasetCode);
+  if (!config) return [];
+  
+  return config.unit.map(value => ({
+    value,
+    label: value // Using the dataset codes as labels for now
+  }));
+};
+
+// Helper function to get default consumption band from dataset config
+export const getDefaultConsumptionBand = (datasetCode: string = "nrg_pc_204") => {
+  const config = getDatasetConfig(datasetCode);
+  return config?.defaultConsom || "";
+};
+
+// Helper function to get default unit from dataset config
+export const getDefaultUnit = (datasetCode: string = "nrg_pc_204") => {
+  const config = getDatasetConfig(datasetCode);
+  return config?.defaultUnit || "";
+};
+
+// Helper function to get default currency from dataset config
+export const getDefaultCurrency = (datasetCode: string = "nrg_pc_204") => {
+  const config = getDatasetConfig(datasetCode);
+  return config?.defaultCurrency || "EUR";
+};
+
 // Consumer types
 export const energyConsumers = {
-  "HOUSEHOLD": "",
-  "N_HOUSEHOLD": ""
+  "HOUSEHOLD": "Household consumers",
+  "N_HOUSEHOLD": "Non-household consumers"
 };
+
+// Available years for energy price data
+export const energyYears = (() => {
+  const currentYear = new Date().getFullYear();
+  const startYear = 2007; // Eurostat energy price data typically starts from 2007
+  const years: Record<string, string> = {};
+  
+  for (let year = startYear; year <= currentYear; year++) {
+    years[year.toString()] = year.toString();
+  }
+  
+  return years;
+})();
 
 // Energy units
 export const energyUnits = {
-  "GJ_GCV": "",
-  "KWH": "",
-  "MWH": "",
+  "GJ_GCV": "Gigajoule (gross calorific value)",
+  "KWH": "Kilowatt-hour",
+  "MWH": "Megawatt-hour",
 };
 
 // Tax components

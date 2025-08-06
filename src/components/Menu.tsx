@@ -1,7 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PoliteLiveRegion, EclMultiSelect, EclSingleSelect, RoundBtn, useFocusTrap } from './ui/index';
-import { AGGREGATES_COUNTRY_CODES, EU_COUNTRY_CODES, EFTA_COUNTRY_CODES, ENLARGEMENT_COUNTRY_CODES, getEnergyProductOptions } from "../data/energyData";
+import { 
+  AGGREGATES_COUNTRY_CODES, 
+  EU_COUNTRY_CODES, 
+  EFTA_COUNTRY_CODES, 
+  ENLARGEMENT_COUNTRY_CODES, 
+  getEnergyProductOptions,
+  getEnergyConsumerOptions,
+  getEnergyYearOptions,
+  getConsumptionBandOptions,
+  getUnitOptions,
+  getDefaultConsumptionBand,
+  getDefaultUnit
+} from "../data/energyData";
 
 interface MenuProps {
   className?: string;
@@ -9,6 +21,14 @@ interface MenuProps {
   onCountriesChange?: (countries: string[]) => void;
   selectedProduct?: string;
   onProductChange?: (product: string) => void;
+  selectedConsumer?: string;
+  onConsumerChange?: (consumer: string) => void;
+  selectedYear?: string;
+  onYearChange?: (year: string) => void;
+  selectedBand?: string;
+  onBandChange?: (band: string) => void;
+  selectedUnit?: string;
+  onUnitChange?: (unit: string) => void;
 }
 
 const Menu: React.FC<MenuProps> = ({ 
@@ -16,13 +36,25 @@ const Menu: React.FC<MenuProps> = ({
   selectedCountries = ["EU27_2020"],
   onCountriesChange,
   selectedProduct = "6000",
-  onProductChange
+  onProductChange,
+  selectedConsumer = "HOUSEHOLD",
+  onConsumerChange,
+  selectedYear = new Date().getFullYear().toString(),
+  onYearChange,
+  selectedBand = getDefaultConsumptionBand("nrg_pc_204"),
+  onBandChange,
+  selectedUnit = getDefaultUnit("nrg_pc_204"),
+  onUnitChange
 }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [announcementMessage, setAnnouncementMessage] = useState('');
   const [countries, setCountries] = useState<string[]>(selectedCountries);
   const [product, setProduct] = useState<string>(selectedProduct);
+  const [consumer, setConsumer] = useState<string>(selectedConsumer);
+  const [year, setYear] = useState<string>(selectedYear);
+  const [band, setBand] = useState<string>(selectedBand);
+  const [unit, setUnit] = useState<string>(selectedUnit);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -34,6 +66,22 @@ const Menu: React.FC<MenuProps> = ({
   useEffect(() => {
     setProduct(selectedProduct);
   }, [selectedProduct]);
+
+  useEffect(() => {
+    setConsumer(selectedConsumer);
+  }, [selectedConsumer]);
+
+  useEffect(() => {
+    setYear(selectedYear);
+  }, [selectedYear]);
+
+  useEffect(() => {
+    setBand(selectedBand);
+  }, [selectedBand]);
+
+  useEffect(() => {
+    setUnit(selectedUnit);
+  }, [selectedUnit]);
 
   // Focus trap for the menu when open
   const focusTrapRef = useFocusTrap(isOpen, true, () => setIsOpen(false));
@@ -48,10 +96,54 @@ const Menu: React.FC<MenuProps> = ({
     onProductChange?.(selectedValue);
   };
 
+  const handleConsumerChange = (selectedValue: string) => {
+    setConsumer(selectedValue);
+    onConsumerChange?.(selectedValue);
+  };
+
+  const handleYearChange = (selectedValue: string) => {
+    setYear(selectedValue);
+    onYearChange?.(selectedValue);
+  };
+
+  const handleBandChange = (selectedValue: string) => {
+    setBand(selectedValue);
+    onBandChange?.(selectedValue);
+  };
+
+  const handleUnitChange = (selectedValue: string) => {
+    setUnit(selectedValue);
+    onUnitChange?.(selectedValue);
+  };
+
   // Get energy product options
   const energyProductOptions = getEnergyProductOptions().map(option => ({
     ...option,
     label: t(`energy.products.${option.value}`, option.label)
+  }));
+
+  // Get energy consumer options
+  const energyConsumerOptions = getEnergyConsumerOptions().map(option => ({
+    ...option,
+    label: t(`energy.consumers.${option.value}`, option.label)
+  }));
+
+  // Get energy year options
+  const energyYearOptions = getEnergyYearOptions().map(option => ({
+    ...option,
+    label: t(`energy.years.${option.value}`, option.label)
+  }));
+
+  // Get energy band options (from dataset config)
+  const energyBandOptions = getConsumptionBandOptions("nrg_pc_204").map((option: {value: string; label: string}) => ({
+    ...option,
+    label: t(`energy.bands.${option.value}`, option.label)
+  }));
+
+  // Get energy unit options (from dataset config)
+  const energyUnitOptions = getUnitOptions("nrg_pc_204").map((option: {value: string; label: string}) => ({
+    ...option,
+    label: t(`energy.units.${option.value}`, option.label)
   }));
 
   // Create country option groups
@@ -221,6 +313,74 @@ const Menu: React.FC<MenuProps> = ({
                   onChange={handleCountryChange}
                   placeholder={t("nav.countries.placeholder", "Choose countries...")}
                   helpText={t("nav.countries.help", "Select up to 10 countries to compare")}
+                  required={true}
+                />
+              </div>
+            </div>
+
+            {/* Energy Consumer Selection Section */}
+            <div className="menu-section">
+              <h3 id="consumer-heading">{t('energy.consumers.label', 'Select Consumer Type')}</h3>
+              <div className="menu-consumer">
+                <EclSingleSelect
+                  id="menu-select-consumer"
+                  label={t("energy.consumers.label", "Select Consumer Type")}
+                  options={energyConsumerOptions}
+                  value={consumer}
+                  onChange={handleConsumerChange}
+                  placeholder={t("energy.consumers.placeholder", "Choose a consumer type...")}
+                  helpText={t("energy.consumers.help", "Select household or non-household consumers")}
+                  required={true}
+                />
+              </div>
+            </div>
+
+            {/* Energy Year Selection Section */}
+            <div className="menu-section">
+              <h3 id="year-heading">{t('energy.years.label', 'Select Year')}</h3>
+              <div className="menu-year">
+                <EclSingleSelect
+                  id="menu-select-year"
+                  label={t("energy.years.label", "Select Year")}
+                  options={energyYearOptions}
+                  value={year}
+                  onChange={handleYearChange}
+                  placeholder={t("energy.years.placeholder", "Choose a year...")}
+                  helpText={t("energy.years.help", "Select the year for energy price data")}
+                  required={true}
+                />
+              </div>
+            </div>
+
+            {/* Energy Band Selection Section */}
+            <div className="menu-section">
+              <h3 id="band-heading">{t('energy.bands.label', 'Select Consumption Band')}</h3>
+              <div className="menu-band">
+                <EclSingleSelect
+                  id="menu-select-band"
+                  label={t("energy.bands.label", "Select Consumption Band")}
+                  options={energyBandOptions}
+                  value={band}
+                  onChange={handleBandChange}
+                  placeholder={t("energy.bands.placeholder", "Choose a consumption band...")}
+                  helpText={t("energy.bands.help", "Select the energy consumption band for analysis")}
+                  required={true}
+                />
+              </div>
+            </div>
+
+            {/* Energy Unit Selection Section */}
+            <div className="menu-section">
+              <h3 id="unit-heading">{t('energy.units.label', 'Select Unit')}</h3>
+              <div className="menu-unit">
+                <EclSingleSelect
+                  id="menu-select-unit"
+                  label={t("energy.units.label", "Select Unit")}
+                  options={energyUnitOptions}
+                  value={unit}
+                  onChange={handleUnitChange}
+                  placeholder={t("energy.units.placeholder", "Choose a unit...")}
+                  helpText={t("energy.units.help", "Select the unit for energy price display")}
                   required={true}
                 />
               </div>

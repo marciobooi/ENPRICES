@@ -8,6 +8,14 @@ interface NavProps {
   onCountriesChange?: (countries: string[]) => void;
   selectedProduct?: string;
   onProductChange?: (product: string) => void;
+  selectedConsumer?: string;
+  onConsumerChange?: (consumer: string) => void;
+  selectedYear?: string;
+  onYearChange?: (year: string) => void;
+  selectedBand?: string;
+  onBandChange?: (band: string) => void;
+  selectedUnit?: string;
+  onUnitChange?: (unit: string) => void;
   selectedCategory?: string;
   onCategoryChange?: (category: string) => void;
   hideCategoryButtons?: boolean;
@@ -17,7 +25,15 @@ const Nav: React.FC<NavProps> = ({
   selectedCountries = ["EU27_2020"], 
   onCountriesChange,
   selectedProduct = "6000",
-  onProductChange
+  onProductChange,
+  selectedConsumer = "HOUSEHOLD",
+  onConsumerChange,
+  selectedYear = new Date().getFullYear().toString(),
+  onYearChange,
+  selectedBand = "TOT_KWH",
+  onBandChange,
+  selectedUnit = "KWH",
+  onUnitChange
 }) => {
   const { t } = useTranslation();
 
@@ -51,6 +67,14 @@ const Nav: React.FC<NavProps> = ({
           onCountriesChange={onCountriesChange}
           selectedProduct={selectedProduct}
           onProductChange={onProductChange}
+          selectedConsumer={selectedConsumer}
+          onConsumerChange={onConsumerChange}
+          selectedYear={selectedYear}
+          onYearChange={onYearChange}
+          selectedBand={selectedBand}
+          onBandChange={onBandChange}
+          selectedUnit={selectedUnit}
+          onUnitChange={onUnitChange}
         />
       </div>
     </div>
