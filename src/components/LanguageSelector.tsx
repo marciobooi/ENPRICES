@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useFocusTrap } from '../hooks/useFocusTrap';
+import { FocusTrap } from 'focus-trap-react';
 import { useTranslation } from 'react-i18next';
 
 const LANGUAGES = [
@@ -15,7 +15,6 @@ const LanguageSelector: React.FC = () => {
     const current = LANGUAGES.find(l => l.code === i18n.language) || LANGUAGES[0];
     return current;
   });
-  const trapRef = useFocusTrap(open, true, () => setOpen(false)) as React.RefObject<HTMLDivElement>;
 
   return (
     <div id="lang-section">
@@ -31,16 +30,26 @@ const LanguageSelector: React.FC = () => {
         <span id="lang-selection-text" className="btn-text">{t(`nav.language.${selected.code}`)}</span>
       </button>
       {open && (
-        <div
-          className="ecl-site-header__language-container visible"
-          id="language-list-overlay"
-          data-ecl-language-list-overlay=""
-          aria-labelledby="ecl-site-header__language-title"
-          role="dialog"
-          aria-modal="true"
-          ref={trapRef}
-          tabIndex={-1}
+        <FocusTrap
+          active={open}
+          focusTrapOptions={{
+            initialFocus: false,
+            allowOutsideClick: true,
+            clickOutsideDeactivates: true,
+            setReturnFocus: '#toggleLanguageBtn',
+            escapeDeactivates: true,
+            onDeactivate: () => setOpen(false)
+          }}
         >
+          <div
+            className="ecl-site-header__language-container visible"
+            id="language-list-overlay"
+            data-ecl-language-list-overlay=""
+            aria-labelledby="ecl-site-header__language-title"
+            role="dialog"
+            aria-modal="true"
+            tabIndex={-1}
+          >
           <div className="ecl-site-header__language-header">
             <div className="ecl-site-header__language-title" id="ecl-site-header__language-title">
               {t('nav.language.select_label')}
@@ -101,7 +110,8 @@ const LanguageSelector: React.FC = () => {
               </ul>
             </div>
           </div>
-        </div>
+          </div>
+        </FocusTrap>
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PoliteLiveRegion, EclMultiSelect, EclSingleSelect, EclRadio, RoundBtn, useFocusTrap } from './ui/index';
+import { FocusTrap } from 'focus-trap-react';
+import { PoliteLiveRegion, EclMultiSelect, EclSingleSelect, EclRadio, RoundBtn } from './ui/index';
 import { useQuery } from '../context/QueryContext';
 import { useDynamicYears } from '../hooks/useDynamicYears';
 import { 
@@ -62,9 +63,6 @@ const Menu: React.FC<MenuProps> = ({
       dispatch({ type: 'SET_UNIT', payload: newDefaultUnit });
     }
   }, [product, consumer, dispatch]); // Only trigger when product or consumer changes
-
-  // Focus trap for the menu when open
-  const focusTrapRef = useFocusTrap(isOpen, true, () => setIsOpen(false));
 
   // Global state handlers
   const handleCountryChange = (selectedValues: string[]) => {
@@ -205,77 +203,46 @@ const Menu: React.FC<MenuProps> = ({
     };
   }, []);
 
-  // Close menu on escape key
-  useEffect(() => {
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && isOpen) {
-        setIsOpen(false);
-        buttonRef.current?.focus();
-        announceToScreenReader('Menu closed');
-      }
-    };
-
-    const handleArrowNavigation = (event: KeyboardEvent) => {
-      if (isOpen && menuRef.current) {
-        const menuItems = menuRef.current.querySelectorAll('[role="menuitem"]') as NodeListOf<HTMLElement>;
-        
-        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-          event.preventDefault();
-          const currentIndex = Array.from(menuItems).findIndex(item => item === document.activeElement);
-          let nextIndex;
-          
-          if (event.key === 'ArrowDown') {
-            nextIndex = currentIndex < menuItems.length - 1 ? currentIndex + 1 : 0;
-          } else {
-            nextIndex = currentIndex > 0 ? currentIndex - 1 : menuItems.length - 1;
-          }
-          
-          menuItems[nextIndex]?.focus();
-        }
-      }
-    };
-
-    document.addEventListener('keydown', handleEscapeKey);
-    document.addEventListener('keydown', handleArrowNavigation);
-    
-    return () => {
-      document.removeEventListener('keydown', handleEscapeKey);
-      document.removeEventListener('keydown', handleArrowNavigation);
-    };
-  }, [isOpen]);
-
   return (
     <div className={`menu-container ${className}`}>
-      {/* Hamburger Menu Button */}
-      <RoundBtn
-        ref={buttonRef}
-        id="menu-toggle-button"
-        className={isOpen ? 'active' : ''}
-        onClick={toggleMenu}
-        ariaExpanded={isOpen}
-        ariaControls="dropdown-menu"
-        ariaLabel={t('menu.toggle', 'Toggle menu') + (isOpen ? ', menu is open' : ', menu is closed')}
-        variant="ghost"
-        size="medium"
-        icon={isOpen ? 'fa-times' : 'fa-bars'}
-        iconOnly={true}
-      />
-
-      {/* Dropdown Menu */}
+      {/* Dropdown Menu with Focus Trap */}
       {isOpen && (
-        <div
-          ref={(el) => {
-            menuRef.current = el;
-            if (focusTrapRef.current !== el) {
-              (focusTrapRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+        <FocusTrap
+          active={isOpen}
+          focusTrapOptions={{
+            initialFocus: '#menu-toggle-button',
+            allowOutsideClick: true,
+            clickOutsideDeactivates: true,
+            setReturnFocus: (nodeFocusedBeforeActivation: HTMLElement | SVGElement) => buttonRef.current || nodeFocusedBeforeActivation,
+            escapeDeactivates: true,
+            onDeactivate: () => {
+              setIsOpen(false);
+              announceToScreenReader('Menu closed');
             }
           }}
-          id="dropdown-menu"
-          className="menu-dropdown"
-          role="menu"
-          aria-labelledby="menu-toggle-button"
-          aria-orientation="horizontal"
         >
+          {/* Hamburger Menu Button */}
+          <RoundBtn
+            ref={buttonRef}
+            id="menu-toggle-button"
+            className={isOpen ? 'active' : ''}
+            onClick={toggleMenu}
+            ariaExpanded={isOpen}
+            ariaControls="dropdown-menu"
+            ariaLabel={t('menu.toggle', 'Toggle menu') + (isOpen ? ', menu is open' : ', menu is closed')}
+            variant="ghost"
+            size="medium"
+            icon={isOpen ? 'fa-times' : 'fa-bars'}
+            iconOnly={true}
+          />
+          <div
+            ref={menuRef}
+            id="dropdown-menu"
+            className="menu-dropdown"
+            role="menu"
+            aria-labelledby="menu-toggle-button"
+            aria-orientation="horizontal"
+          >
           <div className="menu-content">
             {/* ECL Grid Container */}
             <div className="ecl-container">
@@ -455,7 +422,25 @@ const Menu: React.FC<MenuProps> = ({
               </div>
             </div>
           </div>
-        </div>
+          </div>
+        </FocusTrap>
+      )}
+
+      {/* Hamburger Menu Button when closed */}
+      {!isOpen && (
+        <RoundBtn
+          ref={buttonRef}
+          id="menu-toggle-button"
+          className={isOpen ? 'active' : ''}
+          onClick={toggleMenu}
+          ariaExpanded={isOpen}
+          ariaControls="dropdown-menu"
+          ariaLabel={t('menu.toggle', 'Toggle menu') + (isOpen ? ', menu is open' : ', menu is closed')}
+          variant="ghost"
+          size="medium"
+          icon={isOpen ? 'fa-times' : 'fa-bars'}
+          iconOnly={true}
+        />
       )}
 
       {/* Screen reader announcements */}

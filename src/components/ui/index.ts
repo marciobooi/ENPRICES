@@ -17,6 +17,5 @@ export type { EclSelectOption, EclSelectOptionGroup, EclSingleSelectProps } from
 export type { EclSelectOption as EclMultiSelectOption, EclSelectOptionGroup as EclMultiSelectOptionGroup, EclMultiSelectProps } from './EclMultiSelect';
 
 // Export hooks
-export { useFocusTrap, useDropdownFocus } from '../../hooks/useFocusTrap';
 export { useECLInit, useECLComponent } from '../../hooks/useECL';
 
