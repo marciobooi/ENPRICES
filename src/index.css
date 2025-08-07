@@ -529,28 +529,7 @@ html, body {
   box-shadow: 0 0 0 1px #004494, 0 0 0 4px rgba(255, 214, 23, 0.3);
 }
 
-/* Skip link for screen readers */
-.ecl-site-footer__skip-link {
-  position: absolute;
-  top: -40px;
-  left: 6px;
-  background: #004494;
-  color: #fff;
-  padding: 8px;
-  text-decoration: none;
-  border-radius: 4px;
-  z-index: 1000;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-}
 
-.ecl-site-footer__skip-link:focus {
-  top: 6px;
-  opacity: 1;
-  transform: translateY(0);
-  outline: 2px solid #ffd617;
-}
 
 /* Ensure footer sticks to bottom when content is short */
 .ecl {
@@ -600,10 +579,7 @@ html, body {
   .ecl-site-footer__link {
     transition: none;
   }
-  
-  .ecl-site-footer__skip-link {
-    transition: none;
-  }
+
 }
 
 /* Chart Styles */

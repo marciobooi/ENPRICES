@@ -62,15 +62,6 @@ const Footer: React.FC = () => {
     }
   };
 
-  // Handle skip link click
-  const handleSkipLinkClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    const mainContent = document.getElementById('main-content');
-    if (mainContent) {
-      mainContent.focus();
-      mainContent.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <footer 
@@ -80,15 +71,6 @@ const Footer: React.FC = () => {
       tabIndex={-1}
       id="site-footer"
     >
-      {/* Skip link for keyboard users */}
-      <a 
-        href="#main-content" 
-        className="ecl-site-footer__skip-link"
-        aria-label={t('footer.SKIP_TO_MAIN', 'Skip to main content')}
-        onClick={handleSkipLinkClick}
-      >
-        {t('footer.SKIP_TO_MAIN', 'Skip to main content')}
-      </a>
       
       <div className="ecl-site-footer">
         <div className="ecl-container">

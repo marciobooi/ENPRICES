@@ -221,23 +221,24 @@ const Menu: React.FC<MenuProps> = ({
             }
           }}
         >
-          {/* Hamburger Menu Button */}
-          <RoundBtn
-            ref={buttonRef}
-            id="menu-toggle-button"
-            className={isOpen ? 'active' : ''}
-            onClick={toggleMenu}
-            ariaExpanded={isOpen}
-            ariaControls="dropdown-menu"
-            ariaLabel={t('menu.toggle', 'Toggle menu') + (isOpen ? ', menu is open' : ', menu is closed')}
-            variant="ghost"
-            size="medium"
-            icon={isOpen ? 'fa-times' : 'fa-bars'}
-            iconOnly={true}
-          />
-          <div
-            ref={menuRef}
-            id="dropdown-menu"
+          <div>
+            {/* Hamburger Menu Button */}
+            <RoundBtn
+              ref={buttonRef}
+              id="menu-toggle-button"
+              className={isOpen ? 'active' : ''}
+              onClick={toggleMenu}
+              ariaExpanded={isOpen}
+              ariaControls="dropdown-menu"
+              ariaLabel={t('menu.toggle', 'Toggle menu') + (isOpen ? ', menu is open' : ', menu is closed')}
+              variant="ghost"
+              size="medium"
+              icon={isOpen ? 'fa-times' : 'fa-bars'}
+              iconOnly={true}
+            />
+            <div
+              ref={menuRef}
+              id="dropdown-menu"
             className="menu-dropdown"
             role="menu"
             aria-labelledby="menu-toggle-button"
@@ -421,6 +422,7 @@ const Menu: React.FC<MenuProps> = ({
                 </div>
               </div>
             </div>
+          </div>
           </div>
           </div>
         </FocusTrap>
