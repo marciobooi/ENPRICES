@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FocusTrap } from 'focus-trap-react';
+import { Tooltip } from 'react-tooltip';
 import { PoliteLiveRegion, EclMultiSelect, EclSingleSelect, EclRadio, RoundBtn } from './ui/index';
 import { useQuery } from '../context/QueryContext';
 import { useDynamicYears } from '../hooks/useDynamicYears';
@@ -235,6 +236,16 @@ const Menu: React.FC<MenuProps> = ({
               size="medium"
               icon={isOpen ? 'fa-times' : 'fa-bars'}
               iconOnly={true}
+              data-tooltip-id="menu-close-tooltip"
+              data-tooltip-content={t('tooltips.menu.close')}
+              data-tooltip-place="bottom"
+            />
+            <Tooltip
+              id="menu-close-tooltip"
+              place="bottom"
+              variant="dark"
+              delayShow={200}
+              delayHide={100}
             />
             <div
               ref={menuRef}
@@ -430,19 +441,31 @@ const Menu: React.FC<MenuProps> = ({
 
       {/* Hamburger Menu Button when closed */}
       {!isOpen && (
-        <RoundBtn
-          ref={buttonRef}
-          id="menu-toggle-button"
-          className={isOpen ? 'active' : ''}
-          onClick={toggleMenu}
-          ariaExpanded={isOpen}
-          ariaControls="dropdown-menu"
-          ariaLabel={t('menu.toggle', 'Toggle menu') + (isOpen ? ', menu is open' : ', menu is closed')}
-          variant="ghost"
-          size="medium"
-          icon={isOpen ? 'fa-times' : 'fa-bars'}
-          iconOnly={true}
-        />
+        <>
+          <RoundBtn
+            ref={buttonRef}
+            id="menu-toggle-button"
+            className={isOpen ? 'active' : ''}
+            onClick={toggleMenu}
+            ariaExpanded={isOpen}
+            ariaControls="dropdown-menu"
+            ariaLabel={t('menu.toggle', 'Toggle menu') + (isOpen ? ', menu is open' : ', menu is closed')}
+            variant="ghost"
+            size="medium"
+            icon={isOpen ? 'fa-times' : 'fa-bars'}
+            iconOnly={true}
+            data-tooltip-id="menu-toggle-tooltip"
+            data-tooltip-content={t('tooltips.menu.toggle')}
+            data-tooltip-place="bottom"
+          />
+          <Tooltip
+            id="menu-toggle-tooltip"
+            place="bottom"
+            variant="dark"
+            delayShow={200}
+            delayHide={100}
+          />
+        </>
       )}
 
       {/* Screen reader announcements */}

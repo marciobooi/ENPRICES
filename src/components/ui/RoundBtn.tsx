@@ -16,6 +16,7 @@ interface RoundBtnProps {
   ariaPressed?: boolean;
   id?: string;
   iconOnly?: boolean; // For compatibility, doesn't change behavior since it's always icon-only
+  [key: string]: any; // Allow additional props including data attributes
 }
 
 const RoundBtn = React.forwardRef<HTMLButtonElement, RoundBtnProps>(({
@@ -33,7 +34,8 @@ const RoundBtn = React.forwardRef<HTMLButtonElement, RoundBtnProps>(({
   ariaControls,
   ariaPressed,
   id,
-  iconOnly: _iconOnly = true
+  iconOnly: _iconOnly = true,
+  ...restProps
 }, ref) => {
   const getButtonClasses = () => {
     let classes = 'ecl-button ecl-button--rounded';
@@ -89,9 +91,10 @@ const RoundBtn = React.forwardRef<HTMLButtonElement, RoundBtnProps>(({
       aria-expanded={ariaExpanded}
       aria-controls={ariaControls}
       aria-pressed={ariaPressed}
-      title={title || ariaLabel}
+      {...restProps}
     >
       <i className={getIconClasses()} aria-hidden="true"></i>
+      {title && <span className="sr-only">{title}</span>}
     </button>
   );
 });

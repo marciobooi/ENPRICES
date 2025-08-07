@@ -12,6 +12,9 @@
 /* Font Awesome Icons */
 @import '@fortawesome/fontawesome-free/css/all.css';
 
+/* React Tooltip Styles */
+@import 'react-tooltip/dist/react-tooltip.css';
+
 /* Accessibility Styles */
 .sr-only {
   position: absolute !important;
@@ -2062,4 +2065,46 @@ h6.ecl-u-type-heading-1.ecl-u-color-blue.toolTitle {
     padding: 0.5rem 0.75rem;
   }
 }
+/* Accessible Tooltip Styles */
+ .accessible-tooltip {
+   background-color: #333 !important;
+   color: #fff !important;
+   border-radius: 4px !important;
+   padding: 8px 12px !important;
+   font-size: 14px !important;
+   max-width: 250px !important;
+   z-index: 9999 !important;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+   border: 1px solid #666 !important;
+   line-height: 1.4 !important;
+   word-wrap: break-word !important;
+   text-align: center !important;
+ }
 
+ /* High contrast mode support for tooltips */
+ @media (prefers-contrast: high) {
+   .accessible-tooltip {
+     background-color: #000 !important;
+     color: #fff !important;
+     border: 2px solid #fff !important;
+   }
+ }
+
+ /* Reduced motion preference for tooltips */
+ @media (prefers-reduced-motion: reduce) {
+   .accessible-tooltip {
+     transition: none !important;
+   }
+ }
+
+ /* Ensure tooltips are readable on touch devices */
+ @media (hover: none) and (pointer: coarse) {
+   .accessible-tooltip {
+     padding: 12px 16px !important;
+     font-size: 16px !important;
+     min-height: 44px !important;
+     display: flex !important;
+     align-items: center !important;
+     justify-content: center !important;
+   }
+ }

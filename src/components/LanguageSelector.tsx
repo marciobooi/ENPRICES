@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FocusTrap } from 'focus-trap-react';
 import { useTranslation } from 'react-i18next';
+import { Tooltip } from 'react-tooltip';
 
 const LANGUAGES = [
   { code: 'en', label: 'English' },
@@ -25,10 +26,20 @@ const LanguageSelector: React.FC = () => {
         aria-expanded={open}
         aria-label={t('nav.language.current', { lang: t(`nav.language.${selected.code}`) })}
         onClick={() => setOpen(!open)}
+        data-tooltip-id="language-toggle-tooltip"
+        data-tooltip-content={t('tooltips.language.toggle')}
+        data-tooltip-place="right"
       >
         <i className="fas fa-globe" aria-hidden="true"></i>
         <span id="lang-selection-text" className="btn-text">{t(`nav.language.${selected.code}`)}</span>
       </button>
+      <Tooltip
+        id="language-toggle-tooltip"
+        place="bottom"
+        variant="dark"
+        delayShow={200}
+        delayHide={100}
+      />
       {open && (
         <FocusTrap
           active={open}

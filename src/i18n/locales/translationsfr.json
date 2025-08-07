@@ -136,6 +136,17 @@
     "from2007": "à partir de 2007"
   },
 
+  "tooltips": {
+    "menu": {
+      "toggle": "Ouvrir le menu",
+      "close": "Fermer le menu"
+    },
+    "language": {
+      "toggle": "Changer la langue",
+      "close": "Fermer le sélecteur de langue"
+    }
+  },
+
   "footer": {
     "LEGAL": "Mentions légales",
     "PRIVACY": "Politique de confidentialité",
