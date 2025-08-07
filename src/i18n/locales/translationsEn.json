@@ -199,6 +199,17 @@
     "GE": "Georgia"
   },
 
+  "title": {
+    "main": "{{productName}} prices for {{consumerType}} - bi-annual data (from 2007 onwards) ({{currency}}/{{unit}}) {{period}}",
+    "band": "{{bandLabel}} - {{period}}",
+    "electricity": "Electricity",
+    "gas": "Natural gas",
+    "household": "household consumers",
+    "nonHousehold": "non-household consumers",
+    "biannual": "bi-annual data",
+    "from2007": "from 2007 onwards"
+  },
+
   "meta": {
     "title": "Eurostat - Your gateway to European statistics",
     "description": "Eurostat is the statistical office of the European Union situated in Luxembourg. We provide high quality statistics and data on Europe.",

@@ -125,6 +125,17 @@
     }
   },
 
+  "title": {
+    "main": "Prix de {{productName}} pour les {{consumerType}} - données semestrielles (à partir de 2007) ({{currency}}/{{unit}}) {{period}}",
+    "band": "{{bandLabel}} - {{period}}",
+    "electricity": "l'électricité",
+    "gas": "le gaz naturel",
+    "household": "consommateurs ménages",
+    "nonHousehold": "consommateurs non-ménages",
+    "biannual": "données semestrielles",
+    "from2007": "à partir de 2007"
+  },
+
   "footer": {
     "LEGAL": "Mentions légales",
     "PRIVACY": "Politique de confidentialité",

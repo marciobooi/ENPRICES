@@ -125,6 +125,17 @@
     }
   },
 
+  "title": {
+    "main": "{{productName}}-Preise für {{consumerType}} - halbjährliche Daten (ab 2007) ({{currency}}/{{unit}}) {{period}}",
+    "band": "{{bandLabel}} - {{period}}",
+    "electricity": "Strom",
+    "gas": "Erdgas",
+    "household": "Haushaltsverbraucher",
+    "nonHousehold": "Nicht-Haushaltsverbraucher",
+    "biannual": "halbjährliche Daten",
+    "from2007": "ab 2007"
+  },
+
   "footer": {
     "LEGAL": "Rechtliche Hinweise",
     "PRIVACY": "Datenschutzerklärung",

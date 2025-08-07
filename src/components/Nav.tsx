@@ -1,40 +1,14 @@
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "./LanguageSelector";
 import Menu from "./Menu";
+import DynamicTitle from "./DynamicTitle";
 // ...existing code...
 
 interface NavProps {
-  selectedCountries?: string[];
-  onCountriesChange?: (countries: string[]) => void;
-  selectedProduct?: string;
-  onProductChange?: (product: string) => void;
-  selectedConsumer?: string;
-  onConsumerChange?: (consumer: string) => void;
-  selectedYear?: string;
-  onYearChange?: (year: string) => void;
-  selectedBand?: string;
-  onBandChange?: (band: string) => void;
-  selectedUnit?: string;
-  onUnitChange?: (unit: string) => void;
-  selectedCategory?: string;
-  onCategoryChange?: (category: string) => void;
-  hideCategoryButtons?: boolean;
+  // No props needed since Menu uses QueryContext
 }
 
-const Nav: React.FC<NavProps> = ({ 
-  selectedCountries = ["EU27_2020"], 
-  onCountriesChange,
-  selectedProduct = "6000",
-  onProductChange,
-  selectedConsumer = "HOUSEHOLD",
-  onConsumerChange,
-  selectedYear = new Date().getFullYear().toString(),
-  onYearChange,
-  selectedBand = "TOT_KWH",
-  onBandChange,
-  selectedUnit = "KWH",
-  onUnitChange
-}) => {
+const Nav: React.FC<NavProps> = () => {
   const { t } = useTranslation();
 
   return (
@@ -62,21 +36,12 @@ const Nav: React.FC<NavProps> = ({
       {/* Navigation Themes Section */}
       <div id="menu">
         {/* ECL Menu Navigation with Countries Selection */}
-        <Menu 
-          selectedCountries={selectedCountries}
-          onCountriesChange={onCountriesChange}
-          selectedProduct={selectedProduct}
-          onProductChange={onProductChange}
-          selectedConsumer={selectedConsumer}
-          onConsumerChange={onConsumerChange}
-          selectedYear={selectedYear}
-          onYearChange={onYearChange}
-          selectedBand={selectedBand}
-          onBandChange={onBandChange}
-          selectedUnit={selectedUnit}
-          onUnitChange={onUnitChange}
-        />
+        <Menu />
+        {/* Dynamic Title Section */}
+        <DynamicTitle />
       </div>
+
+
     </div>
   );
 };
