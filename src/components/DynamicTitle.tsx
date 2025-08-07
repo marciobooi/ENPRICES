@@ -101,7 +101,6 @@ const DynamicTitle: React.FC<DynamicTitleProps> = ({ className = '' }) => {
     consumerType,
     currency: currencySymbol,
     unit: unitSymbol,
-    period
   });
 
   // Band subtitle (only show if not "all bands")
@@ -123,7 +122,10 @@ const DynamicTitle: React.FC<DynamicTitleProps> = ({ className = '' }) => {
         <div className="ecl-row">
           <div className="ecl-col-12">
             <h6 className="ecl-u-type-heading-1 ecl-u-color-blue toolTitle">
-              {mainTitle} -  {bandSubtitle}
+              {mainTitle} 
+            </h6>
+                        <h6 className="ecl-u-type-heading-1 ecl-u-color-blue toolTitle">
+             {bandSubtitle}
             </h6>
     
           </div>

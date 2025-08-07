@@ -200,7 +200,7 @@
   },
 
   "title": {
-    "main": "{{productName}} prices for {{consumerType}} - bi-annual data (from 2007 onwards) ({{currency}}/{{unit}}) {{period}}",
+    "main": "{{productName}} prices for {{consumerType}} - bi-annual data (from 2007 onwards) ({{currency}}/{{unit}})",
     "band": "{{bandLabel}} - {{period}}",
     "electricity": "Electricity",
     "gas": "Natural gas",
