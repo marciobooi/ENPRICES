@@ -36,9 +36,9 @@ const LanguageSelector: React.FC = () => {
       <Tooltip
         id="language-toggle-tooltip"
         place="bottom"
-        variant="dark"
         delayShow={200}
         delayHide={100}
+        noArrow={true}
       />
       {open && (
         <FocusTrap

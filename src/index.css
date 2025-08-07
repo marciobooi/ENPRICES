@@ -15,6 +15,20 @@
 /* React Tooltip Styles */
 @import 'react-tooltip/dist/react-tooltip.css';
 
+/* Custom Tooltip Styling */
+.react-tooltip {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  color: #000000 !important;
+  border: 2px solid #004494 !important;
+  border-radius: 4px !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  z-index: 9999 !important;
+  max-width: 250px !important;
+}
+
 /* Accessibility Styles */
 .sr-only {
   position: absolute !important;
@@ -117,6 +131,9 @@ html, body {
 
 .main-content {
   flex: 1 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .ecl-site-footer {
@@ -277,42 +294,19 @@ html, body {
 /* MainContent Styles */
 .main-content {
   width: 100%;
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
+  flex: 1 0 auto;
   position: relative;
   background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-content__container {
   width: 100%;
-  min-height: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  padding-bottom: 2rem; /* Add some bottom padding for better spacing */
-}
-
-/* Ensure smooth scrolling */
-.main-content {
-  scroll-behavior: smooth;
-}
-
-/* Custom scrollbar for webkit browsers */
-.main-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.main-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.main-content::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-
-.main-content::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  padding: 1rem 0; /* Minimal padding for better spacing */
 }
 
 /* Content padding and spacing */
@@ -322,13 +316,8 @@ html, body {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .main-content {
-    /* Ensure mobile viewport works correctly */
-    overflow-y: auto;
-  }
-  
   .main-content__container {
-    padding-bottom: 1rem;
+    padding: 0.5rem 0;
   }
 }
 
@@ -537,12 +526,6 @@ html, body {
 /* Ensure footer sticks to bottom when content is short */
 .ecl {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.main-content {
-  flex: 1;
   display: flex;
   flex-direction: column;
 }

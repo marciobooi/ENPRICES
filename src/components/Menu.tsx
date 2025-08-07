@@ -243,9 +243,9 @@ const Menu: React.FC<MenuProps> = ({
             <Tooltip
               id="menu-close-tooltip"
               place="bottom"
-              variant="dark"
               delayShow={200}
               delayHide={100}
+              noArrow={true}
             />
             <div
               ref={menuRef}
@@ -461,9 +461,9 @@ const Menu: React.FC<MenuProps> = ({
           <Tooltip
             id="menu-toggle-tooltip"
             place="bottom"
-            variant="dark"
             delayShow={200}
             delayHide={100}
+            noArrow={true}
           />
         </>
       )}
