@@ -2250,27 +2250,29 @@ h6.ecl-u-type-heading-1.ecl-u-color-blue.toolTitle, h6.ecl-u-type-heading-1.ecl-
 }
 
 .info-dropdown-button {
-  background-color: #004494 !important;
-  border-color: #004494 !important;
-  color: white !important;
+  background-color: #004494;
+  border-color: #004494;
+  color: white;
   transition: all 0.2s ease;
 }
 
 .info-dropdown-button:hover {
-  background-color: #003d7a !important;
-  border-color: #003d7a !important;
+  outline: 3px solid #ffd617;
+  border-color: transparent;
+  background-color: var(--c-p-80);
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 68, 148, 0.3) !important;
+  box-shadow: 0 2px 8px rgba(0, 68, 148, 0.3);
 }
 
 .info-dropdown-button:focus {
-  outline: 3px solid #ffd617 !important;
-  outline-offset: 2px !important;
-  background-color: #003d7a !important;
+  outline: 3px solid #ffd617;
+  outline-offset: 2px;
+  background-color: #ffd617;
+  border-color: #ffd617;
 }
 
 .info-dropdown-button[aria-expanded="true"] {
-  background-color: #003d7a !important;
+  background-color: #003d7a;
   transform: translateY(0);
 }
 
