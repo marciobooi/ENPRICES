@@ -2019,17 +2019,17 @@ html, body {
 }
 
 
-h6.ecl-u-type-heading-1.ecl-u-color-blue.toolTitle {
+h6.ecl-u-type-heading-1.ecl-u-color-blue.toolTitle, h6.ecl-u-type-heading-1.ecl-u-color-blue.subToolTitle {
     margin: 0;
-    font-size: 1.5rem !important;
+    font-size: .8rem !important;
     font-weight: 600 !important;
     line-height: 1.4 !important;
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
-    text-align: center;
+    text-align: start;
     color: #004494 !important;
-    padding: 1rem 0.5rem;
+    padding: .5rem 0.5rem;
 }
 
 /* Title with info button layout */

@@ -128,7 +128,7 @@ const DynamicTitle: React.FC<DynamicTitleProps> = ({ className = '' }) => {
               </h6>
               <InfoDropdown className="title-info-button" />
             </div>
-            <h6 className="ecl-u-type-heading-1 ecl-u-color-blue toolTitle">
+            <h6 className="ecl-u-type-heading-1 ecl-u-color-blue subToolTitle">
              {bandSubtitle}
             </h6>
           </div>
