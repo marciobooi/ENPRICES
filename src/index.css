@@ -2175,7 +2175,7 @@ h6.ecl-u-type-heading-1.ecl-u-color-blue.toolTitle, h6.ecl-u-type-heading-1.ecl-
     hyphens: auto;
     text-align: start;
     color: #004494 !important;
-    padding: .5rem 0.5rem;
+    padding: 0 0.5rem;
 }
 
 /* Title with info button layout */
@@ -2272,6 +2272,17 @@ h6.ecl-u-type-heading-1.ecl-u-color-blue.toolTitle, h6.ecl-u-type-heading-1.ecl-
 .info-dropdown-button[aria-expanded="true"] {
   background-color: #003d7a !important;
   transform: translateY(0);
+}
+
+/* Active/open state styling for action buttons in the right-side tools area */
+.menu-item.menu-info .ecl-button:active,
+.menu-item.menu-info .ecl-button[aria-pressed="true"],
+.menu-item.menu-info .info-dropdown-button[aria-expanded="true"] {
+  background-color: #ffd617 !important; /* EU yellow */
+  color: #004494 !important;           /* EU blue text/icon */
+  border-color: #ffd617 !important;
+  box-shadow: 0 0 0 0 !important;       /* remove hover shadow when active */
+  transform: translateY(0) !important;  /* prevent jump on active */
 }
 
 /* Download Button Styles */
