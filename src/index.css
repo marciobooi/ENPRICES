@@ -105,6 +105,20 @@ display: none !important;
   margin: 0;
 }
 
+/* Menu button active state (when menu is open) - yellow like footer */
+.ecl-button--rounded.active {
+  background-color: #ffd617 !important;
+  color: #004494 !important;
+  border-color: #ffd617 !important;
+}
+
+.ecl-button--rounded.active:hover,
+.ecl-button--rounded.active:focus {
+  background-color: #ffd617 !important;
+  color: #004494 !important;
+  border-color: #ffd617 !important;
+}
+
 /* Custom styles can be added below */
 html, body {
   margin: 0;
