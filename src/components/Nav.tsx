@@ -156,7 +156,7 @@ const Nav: React.FC<NavProps> = () => {
                     <div className="ecl-modal__header-content" id="embed-modal-header">
                       {t('ui.embed.title', 'Embed Chart')}
                     </div>
-                    <button
+          <button
                       id="embed-modal-close"
                       className="ecl-button ecl-button--tertiary ecl-modal__close ecl-button--icon-only"
                       type="button"
@@ -165,9 +165,7 @@ const Nav: React.FC<NavProps> = () => {
                     >
                       <span className="ecl-button__container">
                         <span className="ecl-button__label">{t('ui.embed.close', 'Close')}</span>
-                        <svg className="ecl-icon ecl-icon--m ecl-button__icon" focusable="false" aria-hidden="true">
-                          <use xlinkHref="/icons.svg#close"></use>
-                        </svg>
+            <i className="fa fa-times" aria-hidden="true"></i>
                       </span>
                     </button>
                   </header>
@@ -195,9 +193,7 @@ const Nav: React.FC<NavProps> = () => {
                       </div>
                       {copyMessage && (
                         <div className="ecl-message ecl-message--success" role="status" aria-live="polite">
-                          <svg className="ecl-icon ecl-icon--l ecl-message__icon" focusable="false" aria-hidden="true">
-                            <use xlinkHref="/icons.svg#check"></use>
-                          </svg>
+                          <i className="fa fa-check ecl-message__icon" aria-hidden="true"></i>
                           <div className="ecl-message__content">
                             <div className="ecl-message__title">{copyMessage}</div>
                           </div>
@@ -214,7 +210,7 @@ const Nav: React.FC<NavProps> = () => {
                       >
                         {t('ui.embed.close', 'Close')}
                       </button>
-                      <button
+            <button
                         className="ecl-button ecl-button--primary ecl-modal__button"
                         type="button"
                         onClick={handleCopyEmbedCode}
@@ -222,9 +218,7 @@ const Nav: React.FC<NavProps> = () => {
                       >
                         <span className="ecl-button__container">
                           <span className="ecl-button__label">{t('ui.embed.copy', 'Copy Code')}</span>
-                          <svg className="ecl-icon ecl-icon--xs ecl-button__icon" focusable="false" aria-hidden="true">
-                            <use xlinkHref="/icons.svg#copy"></use>
-                          </svg>
+              <i className="fa fa-copy ecl-button__icon" aria-hidden="true"></i>
                         </span>
                       </button>
                       <div id="embed-copy-help" className="sr-only">
