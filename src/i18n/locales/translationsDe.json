@@ -213,6 +213,7 @@
       "button": "Zugang zu Tutorial, Metadaten und Feedback-Optionen"
     },
     "download": "Daten herunterladen",
+    "embed": "Dieses Diagramm einbetten",
     "language": {
       "toggle": "Sprache ändern",
       "close": "Sprachauswahl schließen"
@@ -261,6 +262,18 @@
     },
     "download": {
       "button": "Daten herunterladen"
+    },
+    "embed": {
+      "button": "Diagramm einbetten",
+      "title": "Diagramm einbetten",
+      "description": "Kopieren Sie den Code unten, um dieses Diagramm in Ihre Website einzubetten:",
+      "code_label": "Einbettungscode",
+      "code_help": "Klicken Sie auf das Textfeld oder die Kopieren-Schaltfläche, um den Einbettungscode in die Zwischenablage zu kopieren",
+      "copy": "Code kopieren",
+      "copy_help": "Kopiert den Einbettungscode in die Zwischenablage",
+      "close": "Schließen",
+      "copied": "Kopiert!",
+      "copy_error": "Kopieren fehlgeschlagen"
     }
   },
 

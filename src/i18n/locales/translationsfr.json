@@ -213,6 +213,7 @@
       "button": "Accéder au tutoriel, aux métadonnées et aux options de commentaires"
     },
     "download": "Télécharger les données",
+    "embed": "Intégrer ce graphique",
     "language": {
       "toggle": "Changer la langue",
       "close": "Fermer le sélecteur de langue"
@@ -261,6 +262,18 @@
     },
     "download": {
       "button": "Télécharger les données"
+    },
+    "embed": {
+      "button": "Intégrer le graphique",
+      "title": "Intégrer le graphique",
+      "description": "Copiez le code ci-dessous pour intégrer ce graphique sur votre site web :",
+      "code_label": "Code d'intégration",
+      "code_help": "Cliquez sur la zone de texte ou le bouton copier pour copier le code d'intégration dans le presse-papiers",
+      "copy": "Copier le code",
+      "copy_help": "Copie le code d'intégration dans le presse-papiers",
+      "close": "Fermer",
+      "copied": "Copié !",
+      "copy_error": "Échec de la copie"
     }
   },
 

@@ -2306,6 +2306,33 @@ h6.ecl-u-type-heading-1.ecl-u-color-blue.toolTitle, h6.ecl-u-type-heading-1.ecl-
   transform: translateY(0);
 }
 
+/* Embed Button Styles */
+.embed-button {
+  background-color: #28a745 !important; /* Green color */
+  border-color: #28a745 !important;
+  color: white !important;
+  transition: all 0.2s ease;
+  margin-left: 0.5rem;
+}
+
+.embed-button:hover {
+  background-color: #218838 !important; /* Darker green on hover */
+  border-color: #218838 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.4) !important;
+}
+
+.embed-button:focus {
+  outline: 3px solid #ffd617 !important; /* Yellow outline for contrast */
+  outline-offset: 2px !important;
+  background-color: #218838 !important;
+}
+
+.embed-button:active {
+  background-color: #1e7e34 !important;
+  transform: translateY(0);
+}
+
 .info-dropdown-menu {
   position: absolute;
   top: calc(100% + 8px);

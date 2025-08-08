@@ -75,6 +75,18 @@
     },
     "download": {
       "button": "Download data"
+    },
+    "embed": {
+      "button": "Embed chart",
+      "title": "Embed Chart",
+      "description": "Copy the code below to embed this chart on your website:",
+      "code_label": "Embed Code",
+      "code_help": "Click the textarea or copy button to copy the embed code to your clipboard",
+      "copy": "Copy Code",
+      "copy_help": "Copies the embed code to your clipboard",
+      "close": "Close",
+      "copied": "Copied!",
+      "copy_error": "Copy failed"
     }
   },
 
@@ -254,7 +266,8 @@
     "info": {
       "button": "Access tutorial, metadata and feedback options"
     },
-    "download": "Download data"
+    "download": "Download data",
+    "embed": "Embed this chart"
   },
 
   "title": {
