@@ -142,12 +142,14 @@ const InfoDropdown: React.FC<InfoDropdownProps> = ({ className = '' }) => {
         size="medium"
         className="info-dropdown-button"
         data-tooltip-id="info-button-tooltip"
-        data-tooltip-content={t('info.button.tooltip')}
+        data-tooltip-content={t('tooltips.info.button')}
       />
       
       <Tooltip
         id="info-button-tooltip"
         place="bottom"
+        delayShow={200}
+        delayHide={100}
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.95)',
           color: '#000000',

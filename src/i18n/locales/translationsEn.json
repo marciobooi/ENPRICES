@@ -35,8 +35,7 @@
 
   "info": {
     "button": {
-      "label": "Information and resources",
-      "tooltip": "Access tutorial, metadata and feedback options"
+      "label": "Information and resources"
     },
     "menu": {
       "tutorial": "Tutorial",
@@ -225,6 +224,9 @@
     "language": {
       "toggle": "Change language",
       "close": "Close language selector"
+    },
+    "info": {
+      "button": "Access tutorial, metadata and feedback options"
     }
   },
 
