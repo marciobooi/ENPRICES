@@ -1598,17 +1598,18 @@ html, body {
 }
 
 .menu-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%);
-  background: white;
-  border-bottom: 1px solid #ddd;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  width: min(95vw, 1200px);
-  z-index: 1000;
-  animation: menuFadeIn 0.15s ease; /* simple fade to avoid layout jumps */
+    position: absolute;
+    top: 79%;
+    /* left: 48%; */
+    /* right: auto; */
+    /* transform: translateX(-50%); */
+    background: white;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: min(95vw, 1200px);
+    z-index: 1000;
+    animation: menuFadeIn 0.15s ease;
+    margin: 10px;
 }
 
 @keyframes menuFadeIn {
@@ -2246,7 +2247,6 @@ h6.ecl-u-type-heading-1.ecl-u-color-blue.toolTitle, h6.ecl-u-type-heading-1.ecl-
 .info-dropdown {
   position: relative;
   display: inline-block;
-  margin-left: 1rem;
 }
 
 .info-dropdown-button {

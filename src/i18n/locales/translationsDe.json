@@ -281,16 +281,16 @@
       "dropdown": {
         "title": "Diagramm teilen",
         "facebook": {
-          "button": "Auf Facebook teilen",
-          "label": "Dieses Diagramm auf Facebook teilen"
+          "button": "Facebook",
+          "label": "Facebook"
         },
         "twitter": {
-          "button": "Auf X (Twitter) teilen",
-          "label": "Dieses Diagramm auf X (ehemals Twitter) teilen"
+          "button": "X (Twitter)",
+          "label": "X (Twitter)"
         },
         "linkedin": {
-          "button": "Auf LinkedIn teilen",
-          "label": "Dieses Diagramm auf LinkedIn teilen"
+          "button": "LinkedIn",
+          "label": "LinkedIn"
         }
       }
     }

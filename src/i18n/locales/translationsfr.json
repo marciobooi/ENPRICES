@@ -281,16 +281,16 @@
       "dropdown": {
         "title": "Partager le graphique",
         "facebook": {
-          "button": "Partager sur Facebook",
-          "label": "Partager ce graphique sur Facebook"
+          "button": "Facebook",
+          "label": "Facebook"
         },
         "twitter": {
-          "button": "Partager sur X (Twitter)",
-          "label": "Partager ce graphique sur X (anciennement Twitter)"
+          "button": "X (Twitter)",
+          "label": "X (Twitter)"
         },
         "linkedin": {
-          "button": "Partager sur LinkedIn",
-          "label": "Partager ce graphique sur LinkedIn"
+          "button": "LinkedIn",
+          "label": "LinkedIn"
         }
       }
     }

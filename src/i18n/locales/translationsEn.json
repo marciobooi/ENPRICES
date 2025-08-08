@@ -93,16 +93,16 @@
       "dropdown": {
         "title": "Share Chart",
         "facebook": {
-          "button": "Share on Facebook",
-          "label": "Share this chart on Facebook"
+          "button": "Facebook",
+          "label": "Facebook"
         },
         "twitter": {
-          "button": "Share on X (Twitter)",
-          "label": "Share this chart on X (formerly Twitter)"
+          "button": "X (Twitter)",
+          "label": "X (Twitter)"
         },
         "linkedin": {
-          "button": "Share on LinkedIn",
-          "label": "Share this chart on LinkedIn"
+          "button": "LinkedIn",
+          "label": "LinkedIn"
         }
       }
     }
