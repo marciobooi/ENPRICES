@@ -141,6 +141,23 @@
       "toggle": "Menü öffnen",
       "close": "Menü schließen"
     },
+    "info": {
+      "button": {
+        "label": "Informationen und Ressourcen",
+        "tooltip": "Zugang zu Tutorial, Metadaten und Feedback-Optionen"
+      },
+      "menu": {
+        "tutorial": "Tutorial",
+        "metadata": "Metadaten",
+        "feedback": "Feedback"
+      },
+      "accessibility": {
+        "menuOpened": "Informationsmenü geöffnet. Verwenden Sie die Pfeiltasten zur Navigation, Escape zum Schließen.",
+        "tutorialDescription": "Öffnet das Tutorial für diese Anwendung",
+        "metadataDescription": "Öffnet die Metadaten-Dokumentation in einem neuen Fenster",
+        "feedbackDescription": "Öffnet den E-Mail-Client zum Senden von Feedback über diese Anwendung"
+      }
+    },
     "language": {
       "toggle": "Sprache ändern",
       "close": "Sprachauswahl schließen"

@@ -141,6 +141,23 @@
       "toggle": "Ouvrir le menu",
       "close": "Fermer le menu"
     },
+    "info": {
+      "button": {
+        "label": "Informations et ressources",
+        "tooltip": "Accéder au tutoriel, aux métadonnées et aux options de commentaires"
+      },
+      "menu": {
+        "tutorial": "Tutoriel",
+        "metadata": "Métadonnées",
+        "feedback": "Commentaires"
+      },
+      "accessibility": {
+        "menuOpened": "Menu d'informations ouvert. Utilisez les touches fléchées pour naviguer, Échap pour fermer.",
+        "tutorialDescription": "Ouvre le tutoriel pour cette application",
+        "metadataDescription": "Ouvre la documentation des métadonnées dans une nouvelle fenêtre",
+        "feedbackDescription": "Ouvre le client de messagerie pour envoyer des commentaires sur cette application"
+      }
+    },
     "language": {
       "toggle": "Changer la langue",
       "close": "Fermer le sélecteur de langue"

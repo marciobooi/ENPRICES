@@ -33,6 +33,24 @@
     "share": "Share"
   },
 
+  "info": {
+    "button": {
+      "label": "Information and resources",
+      "tooltip": "Access tutorial, metadata and feedback options"
+    },
+    "menu": {
+      "tutorial": "Tutorial",
+      "metadata": "Metadata",
+      "feedback": "Feedback"
+    },
+    "accessibility": {
+      "menuOpened": "Information menu opened. Use arrow keys to navigate, Escape to close.",
+      "tutorialDescription": "Opens tutorial for this application",
+      "metadataDescription": "Opens metadata documentation in a new window",
+      "feedbackDescription": "Opens email client to send feedback about this application"
+    }
+  },
+
   "ui": {
     "select": {
       "placeholder": "Select an option",
