@@ -1,7 +1,7 @@
 {
   "nav": {
     "banner": {
-      "title": "NECPR - Visualisierung"     
+      "title": "Energiepreise"     
     },
     "logo": {
       "alt": "Startseite - Eurostat"
@@ -14,6 +14,11 @@
       "en": "Englisch",
       "de": "Deutsch",
       "fr": "Französisch"
+    },
+    "countries": {
+      "label": "Länder auswählen",
+      "placeholder": "Länder wählen...",
+      "help": "Wählen Sie bis zu 10 Länder zum Vergleichen aus"
     }
   },
 
@@ -125,6 +130,57 @@
     }
   },
 
+  "countries": {
+    "groups": {
+      "aggregates": "EU-Aggregate",
+      "eu": "EU-Mitgliedstaaten", 
+      "efta": "EFTA-Länder",
+      "enlargement": "Erweiterungsländer"
+    },
+    "EU27_2020": "Europäische Union (27 Länder)",
+    "EA": "Euroraum",
+    "BE": "Belgien",
+    "BG": "Bulgarien", 
+    "CZ": "Tschechien",
+    "DK": "Dänemark",
+    "DE": "Deutschland",
+    "EE": "Estland",
+    "IE": "Irland",
+    "EL": "Griechenland",
+    "ES": "Spanien",
+    "FR": "Frankreich",
+    "HR": "Kroatien",
+    "IT": "Italien",
+    "CY": "Zypern",
+    "LV": "Lettland",
+    "LT": "Litauen",
+    "LU": "Luxemburg",
+    "HU": "Ungarn",
+    "MT": "Malta",
+    "NL": "Niederlande",
+    "AT": "Österreich",
+    "PL": "Polen",
+    "PT": "Portugal",
+    "RO": "Rumänien",
+    "SI": "Slowenien",
+    "SK": "Slowakei",
+    "FI": "Finnland",
+    "SE": "Schweden",
+    "IS": "Island",
+    "LI": "Liechtenstein",
+    "NO": "Norwegen",
+    "ME": "Montenegro",
+    "MK": "Nordmazedonien",
+    "AL": "Albanien",
+    "RS": "Serbien",
+    "TR": "Türkei",
+    "BA": "Bosnien und Herzegowina",
+    "XK": "Kosovo",
+    "MD": "Moldau",
+    "UA": "Ukraine",
+    "GE": "Georgien"
+  },
+
   "title": {
     "main": "{{productName}}-Preise für {{consumerType}} - halbjährliche Daten (ab 2007) ({{currency}}/{{unit}}) {{period}}",
     "band": "{{bandLabel}} - {{period}}",
@@ -164,6 +220,30 @@
       "tutorialDescription": "Öffnet das Tutorial für diese Anwendung",
       "metadataDescription": "Öffnet die Metadaten-Dokumentation in einem neuen Fenster",
       "feedbackDescription": "Öffnet den E-Mail-Client zum Senden von Feedback über diese Anwendung"
+    }
+  },
+
+  "ui": {
+    "select": {
+      "placeholder": "Eine Option auswählen",
+      "toggle_dropdown": "Dropdown umschalten"
+    },
+    "multiselect": {
+      "clear_all": "Alle löschen",
+      "apply": "Anwenden",
+      "select_all": "Alle auswählen",
+      "search_placeholder": "Filter-Stichwort eingeben",
+      "no_results": "Keine Ergebnisse gefunden"
+    },
+    "form": {
+      "required": "erforderlich",
+      "optional": "(optional)"
+    },
+    "menu": {
+      "opened": "Menü geöffnet",
+      "closed": "Menü geschlossen",
+      "is_open": ", Menü ist geöffnet",
+      "is_closed": ", Menü ist geschlossen"
     }
   },
 

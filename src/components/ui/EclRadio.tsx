@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Extend window type for ECL
 declare global {
@@ -40,6 +41,7 @@ export const EclRadio: React.FC<EclRadioProps> = ({
   className = '',
   labelHidden = false
 }) => {
+  const { t } = useTranslation();
   const fieldsetRef = useRef<HTMLFieldSetElement>(null);
   const helperId = helpText ? `${id}-helper` : undefined;
   const labelId = `${id}-label`;
@@ -76,7 +78,7 @@ export const EclRadio: React.FC<EclRadioProps> = ({
         className={`ecl-form-label ${labelHidden ? 'ecl-form-label--hidden' : ''}`}
       >
         {label}
-        {!required && <span className="ecl-form-label__optional">(optional)</span>}
+        {!required && <span className="ecl-form-label__optional">{t('ui.form.optional', '(optional)')}</span>}
       </legend>
       
       {helpText && (

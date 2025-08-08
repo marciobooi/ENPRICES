@@ -71,7 +71,7 @@ const LanguageSelector: React.FC = () => {
               type="button"
               data-ecl-language-list-close=""
               tabIndex={0}
-              aria-label="Close"
+              aria-label={t('nav.language.close', 'Close')}
               onClick={() => setOpen(false)}
             >
               <span className="ecl-button__container">

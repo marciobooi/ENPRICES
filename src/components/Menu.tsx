@@ -175,7 +175,7 @@ const Menu: React.FC<MenuProps> = ({
     setIsOpen(newIsOpen);
     
     // Announce state change to screen readers
-    const announcement = newIsOpen ? 'Menu opened' : 'Menu closed';
+    const announcement = newIsOpen ? t('ui.menu.opened', 'Menu opened') : t('ui.menu.closed', 'Menu closed');
     announceToScreenReader(announcement);
   };
 
@@ -218,7 +218,7 @@ const Menu: React.FC<MenuProps> = ({
             escapeDeactivates: true,
             onDeactivate: () => {
               setIsOpen(false);
-              announceToScreenReader('Menu closed');
+              announceToScreenReader(t('ui.menu.closed', 'Menu closed'));
             }
           }}
         >
@@ -231,7 +231,7 @@ const Menu: React.FC<MenuProps> = ({
               onClick={toggleMenu}
               ariaExpanded={isOpen}
               ariaControls="dropdown-menu"
-              ariaLabel={t('menu.toggle', 'Toggle menu') + (isOpen ? ', menu is open' : ', menu is closed')}
+              ariaLabel={t('menu.toggle', 'Toggle menu') + (isOpen ? t('ui.menu.is_open', ', menu is open') : t('ui.menu.is_closed', ', menu is closed'))}
               variant="ghost"
               size="medium"
               icon={isOpen ? 'fa-times' : 'fa-bars'}
@@ -449,7 +449,7 @@ const Menu: React.FC<MenuProps> = ({
             onClick={toggleMenu}
             ariaExpanded={isOpen}
             ariaControls="dropdown-menu"
-            ariaLabel={t('menu.toggle', 'Toggle menu') + (isOpen ? ', menu is open' : ', menu is closed')}
+            ariaLabel={t('menu.toggle', 'Toggle menu') + (isOpen ? t('ui.menu.is_open', ', menu is open') : t('ui.menu.is_closed', ', menu is closed'))}
             variant="ghost"
             size="medium"
             icon={isOpen ? 'fa-times' : 'fa-bars'}

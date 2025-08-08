@@ -1,7 +1,7 @@
 {
   "nav": {
     "banner": {
-      "title": "NECPR - Visualisation"     
+      "title": "Prix de l'énergie"     
     },
     "logo": {
       "alt": "Accueil - Eurostat"
@@ -14,6 +14,11 @@
       "en": "Anglais",
       "de": "Allemand",
       "fr": "Français"
+    },
+    "countries": {
+      "label": "Sélectionner les pays",
+      "placeholder": "Choisir des pays...",
+      "help": "Sélectionnez jusqu'à 10 pays à comparer"
     }
   },
 
@@ -125,6 +130,57 @@
     }
   },
 
+  "countries": {
+    "groups": {
+      "aggregates": "Agrégats UE",
+      "eu": "États membres de l'UE", 
+      "efta": "Pays de l'AELE",
+      "enlargement": "Pays d'élargissement"
+    },
+    "EU27_2020": "Union européenne (27 pays)",
+    "EA": "Zone euro",
+    "BE": "Belgique",
+    "BG": "Bulgarie", 
+    "CZ": "Tchéquie",
+    "DK": "Danemark",
+    "DE": "Allemagne",
+    "EE": "Estonie",
+    "IE": "Irlande",
+    "EL": "Grèce",
+    "ES": "Espagne",
+    "FR": "France",
+    "HR": "Croatie",
+    "IT": "Italie",
+    "CY": "Chypre",
+    "LV": "Lettonie",
+    "LT": "Lituanie",
+    "LU": "Luxembourg",
+    "HU": "Hongrie",
+    "MT": "Malte",
+    "NL": "Pays-Bas",
+    "AT": "Autriche",
+    "PL": "Pologne",
+    "PT": "Portugal",
+    "RO": "Roumanie",
+    "SI": "Slovénie",
+    "SK": "Slovaquie",
+    "FI": "Finlande",
+    "SE": "Suède",
+    "IS": "Islande",
+    "LI": "Liechtenstein",
+    "NO": "Norvège",
+    "ME": "Monténégro",
+    "MK": "Macédoine du Nord",
+    "AL": "Albanie",
+    "RS": "Serbie",
+    "TR": "Turquie",
+    "BA": "Bosnie-Herzégovine",
+    "XK": "Kosovo",
+    "MD": "Moldavie",
+    "UA": "Ukraine",
+    "GE": "Géorgie"
+  },
+
   "title": {
     "main": "Prix de {{productName}} pour les {{consumerType}} - données semestrielles (à partir de 2007) ({{currency}}/{{unit}}) {{period}}",
     "band": "{{bandLabel}} - {{period}}",
@@ -164,6 +220,30 @@
       "tutorialDescription": "Ouvre le tutoriel pour cette application",
       "metadataDescription": "Ouvre la documentation des métadonnées dans une nouvelle fenêtre",
       "feedbackDescription": "Ouvre le client de messagerie pour envoyer des commentaires sur cette application"
+    }
+  },
+
+  "ui": {
+    "select": {
+      "placeholder": "Sélectionner une option",
+      "toggle_dropdown": "Basculer la liste déroulante"
+    },
+    "multiselect": {
+      "clear_all": "Tout effacer",
+      "apply": "Appliquer",
+      "select_all": "Tout sélectionner",
+      "search_placeholder": "Entrer un mot-clé de filtre",
+      "no_results": "Aucun résultat trouvé"
+    },
+    "form": {
+      "required": "requis",
+      "optional": "(optionnel)"
+    },
+    "menu": {
+      "opened": "Menu ouvert",
+      "closed": "Menu fermé",
+      "is_open": ", menu est ouvert",
+      "is_closed": ", menu est fermé"
     }
   },
 

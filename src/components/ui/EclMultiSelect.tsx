@@ -255,7 +255,7 @@ const EclMultiSelect: React.FC<EclMultiSelectProps> = ({
       >
         {label}
         {required && (
-          <span className="ecl-form-label__required" role="note" aria-label="required">
+          <span className="ecl-form-label__required" role="note" aria-label={t('ui.form.required', 'required')}>
             *
           </span>
         )}

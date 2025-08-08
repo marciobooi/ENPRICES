@@ -1,7 +1,7 @@
 {
   "nav": {
     "banner": {
-      "title": "name of the tool"     
+      "title": "Energy prices"     
     },
     "logo": {
       "alt": "Home - Eurostat"
@@ -61,6 +61,16 @@
       "select_all": "Select all",
       "search_placeholder": "Enter filter keyword",
       "no_results": "No results found"
+    },
+    "form": {
+      "required": "required",
+      "optional": "(optional)"
+    },
+    "menu": {
+      "opened": "Menu opened",
+      "closed": "Menu closed",
+      "is_open": ", menu is open",
+      "is_closed": ", menu is closed"
     }
   },
 
