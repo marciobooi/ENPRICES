@@ -127,6 +127,18 @@
       "S_PPS": "SPA",
       "NAT": "Monnaie nationale",
       "S_NAT": "NAT"
+    },
+    "component": {
+      "label": "Inclure les composants",
+      "help": "Choisissez d'inclure ou non les composants détaillés des prix dans le jeu de données",
+      "no": "Non - Prix totaux uniquement",
+      "yes": "Oui - Inclure les composants"
+    },
+    "details": {
+      "label": "Afficher les détails",
+      "help": "Choisissez d'afficher ou non des informations détaillées dans les graphiques",
+      "no": "Non - Vue résumée",
+      "yes": "Oui - Vue détaillée"
     }
   },
 
@@ -182,7 +194,7 @@
   },
 
   "title": {
-    "main": "Prix de {{productName}} pour les {{consumerType}} - données semestrielles (à partir de 2007) ({{currency}}/{{unit}}) {{period}}",
+    "main": "Prix de {{productName}} pour les {{consumerType}} - données semestrielles (à partir de 2007) ({{currency}}/{{unit}})",
     "band": "{{bandLabel}} - {{period}}",
     "electricity": "l'électricité",
     "gas": "le gaz naturel",
@@ -237,7 +249,8 @@
     },
     "form": {
       "required": "requis",
-      "optional": "(optionnel)"
+      "optional": "(optionnel)",
+      "fieldset_help": "Utilisez les touches fléchées pour naviguer entre les options, espace pour sélectionner"
     },
     "menu": {
       "opened": "Menu ouvert",

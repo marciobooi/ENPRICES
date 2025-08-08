@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '../context/QueryContext';
-import InfoDropdown from './InfoDropdown';
+
 
 interface DynamicTitleProps {
   className?: string;
@@ -119,22 +119,14 @@ const DynamicTitle: React.FC<DynamicTitleProps> = ({ className = '' }) => {
 
   return (
     <div className={`dynamic-title ${className}`}>
-      <div className="ecl-container">
-        <div className="ecl-row">
-          <div className="ecl-col-12">
+  
             <div className="title-with-info">
-              <h6 className="ecl-u-type-heading-1 ecl-u-color-blue toolTitle">
-                {mainTitle} 
-              </h6>
-              <InfoDropdown className="title-info-button" />
+              <h6 className="ecl-u-type-heading-1 ecl-u-color-blue toolTitle">{mainTitle}</h6>
+              <h6 className="ecl-u-type-heading-1 ecl-u-color-blue subToolTitle">{bandSubtitle}</h6> 
             </div>
-            <h6 className="ecl-u-type-heading-1 ecl-u-color-blue subToolTitle">
-             {bandSubtitle}
-            </h6>
+            
           </div>
-        </div>
-      </div>
-    </div>
+
   );
 };
 

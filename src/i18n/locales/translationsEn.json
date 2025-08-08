@@ -64,7 +64,8 @@
     },
     "form": {
       "required": "required",
-      "optional": "(optional)"
+      "optional": "(optional)",
+      "fieldset_help": "Use arrow keys to navigate between options, space to select"
     },
     "menu": {
       "opened": "Menu opened",
@@ -172,6 +173,18 @@
       "S_PPS": "PPS",
       "NAT": "National currency",
       "S_NAT": "NAT"
+    },
+    "component": {
+      "label": "Include Components",
+      "help": "Choose whether to include detailed price components in the dataset",
+      "no": "No - Total prices only",
+      "yes": "Yes - Include components"
+    },
+    "details": {
+      "label": "Show Details",
+      "help": "Choose whether to display detailed information in charts",
+      "no": "No - Summary view", 
+      "yes": "Yes - Detailed view"
     }
   },
 

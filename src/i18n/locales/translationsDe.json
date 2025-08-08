@@ -127,6 +127,18 @@
       "S_PPS": "KKS",
       "NAT": "Nationale Währung",
       "S_NAT": "NAT"
+    },
+    "component": {
+      "label": "Komponenten einbeziehen",
+      "help": "Wählen Sie, ob detaillierte Preiskomponenten in den Datensatz aufgenommen werden sollen",
+      "no": "Nein - Nur Gesamtpreise",
+      "yes": "Ja - Komponenten einbeziehen"
+    },
+    "details": {
+      "label": "Details anzeigen",
+      "help": "Wählen Sie, ob detaillierte Informationen in Diagrammen angezeigt werden sollen",
+      "no": "Nein - Zusammenfassungsansicht",
+      "yes": "Ja - Detailansicht"
     }
   },
 
@@ -182,7 +194,7 @@
   },
 
   "title": {
-    "main": "{{productName}}-Preise für {{consumerType}} - halbjährliche Daten (ab 2007) ({{currency}}/{{unit}}) {{period}}",
+    "main": "{{productName}}-Preise für {{consumerType}} - halbjährliche Daten (ab 2007) ({{currency}}/{{unit}})",
     "band": "{{bandLabel}} - {{period}}",
     "electricity": "Strom",
     "gas": "Erdgas",
@@ -237,7 +249,8 @@
     },
     "form": {
       "required": "erforderlich",
-      "optional": "(optional)"
+      "optional": "(optional)",
+      "fieldset_help": "Verwenden Sie die Pfeiltasten zur Navigation zwischen den Optionen, Leertaste zum Auswählen"
     },
     "menu": {
       "opened": "Menü geöffnet",

@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import LanguageSelector from "./LanguageSelector";
 import Menu from "./Menu";
 import DynamicTitle from "./DynamicTitle";
-// ...existing code...
+import InfoDropdown from "./InfoDropdown";
 
 interface NavProps {
   // No props needed since Menu uses QueryContext
@@ -21,7 +21,7 @@ const Nav: React.FC<NavProps> = () => {
               <h1>{t("nav.banner.title")}</h1>
             </div>
           </div>
-            <LanguageSelector />
+          <LanguageSelector />
           <div id="banner-logo">
             <a href="https://www.ec.europa.eu/eurostat" target="_self">
               <img
@@ -35,13 +35,18 @@ const Nav: React.FC<NavProps> = () => {
 
       {/* Navigation Themes Section */}
       <div id="menu">
-        {/* ECL Menu Navigation with Countries Selection */}
-        <Menu />
-        {/* Dynamic Title Section */}
-        <DynamicTitle />
+        <div className="menu-layout">
+          <div className="menu-item menu-button">
+            <Menu />
+          </div>
+          <div className="menu-item menu-title">
+            <DynamicTitle />
+          </div>
+          <div className="menu-item menu-info">
+            <InfoDropdown className="title-info-button" />
+          </div>
+        </div>
       </div>
-
-
     </div>
   );
 };
