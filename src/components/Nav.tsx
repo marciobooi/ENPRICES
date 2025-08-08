@@ -3,6 +3,8 @@ import LanguageSelector from "./LanguageSelector";
 import Menu from "./Menu";
 import DynamicTitle from "./DynamicTitle";
 import InfoDropdown from "./InfoDropdown";
+import { Tooltip } from 'react-tooltip';
+import { RoundBtn } from './ui/index';
 
 interface NavProps {
   // No props needed since Menu uses QueryContext
@@ -10,6 +12,11 @@ interface NavProps {
 
 const Nav: React.FC<NavProps> = () => {
   const { t } = useTranslation();
+
+  const handleDownload = () => {
+    // TODO: Implement download functionality
+    console.log('Download button clicked');
+  };
 
   return (
     <div id="topPanel" className="main-panel main-layout">
@@ -44,6 +51,26 @@ const Nav: React.FC<NavProps> = () => {
           </div>
           <div className="menu-item menu-info">
             <InfoDropdown className="title-info-button" />
+            <RoundBtn
+              id="download-button"
+              className="ecl-button ecl-button--rounded ecl-button--secondary info-dropdown-button"
+              onClick={handleDownload}
+              ariaLabel={t('ui.download.button', 'Download data')}
+              variant="ghost"
+              size="medium"
+              icon="fa-download"
+              iconOnly={true}
+              data-tooltip-id="download-tooltip"
+              data-tooltip-content={t('tooltips.download', 'Download data')}
+              data-tooltip-place="bottom"
+            />
+            <Tooltip
+              id="download-tooltip"
+              place="bottom"
+              delayShow={200}
+              delayHide={100}
+              noArrow={true}
+            />
           </div>
         </div>
       </div>

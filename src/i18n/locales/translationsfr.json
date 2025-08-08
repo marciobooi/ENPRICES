@@ -212,6 +212,7 @@
     "info": {
       "button": "Accéder au tutoriel, aux métadonnées et aux options de commentaires"
     },
+    "download": "Télécharger les données",
     "language": {
       "toggle": "Changer la langue",
       "close": "Fermer le sélecteur de langue"
@@ -257,6 +258,9 @@
       "closed": "Menu fermé",
       "is_open": ", menu est ouvert",
       "is_closed": ", menu est fermé"
+    },
+    "download": {
+      "button": "Télécharger les données"
     }
   },
 

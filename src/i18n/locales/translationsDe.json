@@ -212,6 +212,7 @@
     "info": {
       "button": "Zugang zu Tutorial, Metadaten und Feedback-Optionen"
     },
+    "download": "Daten herunterladen",
     "language": {
       "toggle": "Sprache ändern",
       "close": "Sprachauswahl schließen"
@@ -257,6 +258,9 @@
       "closed": "Menü geschlossen",
       "is_open": ", Menü ist geöffnet",
       "is_closed": ", Menü ist geschlossen"
+    },
+    "download": {
+      "button": "Daten herunterladen"
     }
   },
 

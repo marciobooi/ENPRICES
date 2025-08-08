@@ -72,6 +72,9 @@
       "closed": "Menu closed",
       "is_open": ", menu is open",
       "is_closed": ", menu is closed"
+    },
+    "download": {
+      "button": "Download data"
     }
   },
 
@@ -250,7 +253,8 @@
     },
     "info": {
       "button": "Access tutorial, metadata and feedback options"
-    }
+    },
+    "download": "Download data"
   },
 
   "title": {

@@ -247,6 +247,9 @@ html, body {
 .menu-info {
     flex: 0 0 auto;
     min-width: 226px;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between info and download buttons */
 }
 
 /* Full width row for menu section */
@@ -2273,6 +2276,33 @@ h6.ecl-u-type-heading-1.ecl-u-color-blue.toolTitle, h6.ecl-u-type-heading-1.ecl-
 
 .info-dropdown-button[aria-expanded="true"] {
   background-color: #003d7a !important;
+  transform: translateY(0);
+}
+
+/* Download Button Styles */
+.download-button {
+  background-color: #ffd617 !important; /* EU yellow color */
+  border-color: #ffd617 !important;
+  color: #000000 !important; /* Black text for contrast on yellow */
+  transition: all 0.2s ease;
+  margin-left: 0.5rem;
+}
+
+.download-button:hover {
+  background-color: #ffcd00 !important; /* Darker yellow on hover */
+  border-color: #ffcd00 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 214, 23, 0.4) !important;
+}
+
+.download-button:focus {
+  outline: 3px solid #004494 !important; /* Blue outline for contrast */
+  outline-offset: 2px !important;
+  background-color: #ffcd00 !important;
+}
+
+.download-button:active {
+  background-color: #e6b800 !important;
   transform: translateY(0);
 }
 
