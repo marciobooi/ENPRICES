@@ -3,6 +3,7 @@ import LanguageSelector from "./LanguageSelector";
 import Menu from "./Menu";
 import DynamicTitle from "./DynamicTitle";
 import InfoDropdown from "./InfoDropdown";
+import ShareDropdown from "./ShareDropdown";
 import { Tooltip } from 'react-tooltip';
 import { RoundBtn } from './ui/index';
 import { useState } from 'react';
@@ -119,6 +120,7 @@ const Nav: React.FC<NavProps> = () => {
               delayHide={100}
               noArrow={true}
             />
+            <ShareDropdown className="title-share-button" />
           </div>
         </div>
       </div>

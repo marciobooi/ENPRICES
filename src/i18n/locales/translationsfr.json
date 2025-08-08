@@ -213,7 +213,8 @@
       "button": "Accéder au tutoriel, aux métadonnées et aux options de commentaires"
     },
     "download": "Télécharger les données",
-    "embed": "Intégrer ce graphique",
+  "embed": "Intégrer ce graphique",
+  "share": "Partager ce graphique",
     "language": {
       "toggle": "Changer la langue",
       "close": "Fermer le sélecteur de langue"
@@ -274,6 +275,24 @@
       "close": "Fermer",
       "copied": "Copié !",
       "copy_error": "Échec de la copie"
+    },
+    "share": {
+      "button": "Partager le graphique",
+      "dropdown": {
+        "title": "Partager le graphique",
+        "facebook": {
+          "button": "Partager sur Facebook",
+          "label": "Partager ce graphique sur Facebook"
+        },
+        "twitter": {
+          "button": "Partager sur X (Twitter)",
+          "label": "Partager ce graphique sur X (anciennement Twitter)"
+        },
+        "linkedin": {
+          "button": "Partager sur LinkedIn",
+          "label": "Partager ce graphique sur LinkedIn"
+        }
+      }
     }
   },
 

@@ -213,7 +213,8 @@
       "button": "Zugang zu Tutorial, Metadaten und Feedback-Optionen"
     },
     "download": "Daten herunterladen",
-    "embed": "Dieses Diagramm einbetten",
+  "embed": "Dieses Diagramm einbetten",
+  "share": "Dieses Diagramm teilen",
     "language": {
       "toggle": "Sprache ändern",
       "close": "Sprachauswahl schließen"
@@ -254,7 +255,7 @@
       "optional": "(optional)",
       "fieldset_help": "Verwenden Sie die Pfeiltasten zur Navigation zwischen den Optionen, Leertaste zum Auswählen"
     },
-    "menu": {
+  "menu": {
       "opened": "Menü geöffnet",
       "closed": "Menü geschlossen",
       "is_open": ", Menü ist geöffnet",
@@ -274,6 +275,24 @@
       "close": "Schließen",
       "copied": "Kopiert!",
       "copy_error": "Kopieren fehlgeschlagen"
+    },
+    "share": {
+      "button": "Diagramm teilen",
+      "dropdown": {
+        "title": "Diagramm teilen",
+        "facebook": {
+          "button": "Auf Facebook teilen",
+          "label": "Dieses Diagramm auf Facebook teilen"
+        },
+        "twitter": {
+          "button": "Auf X (Twitter) teilen",
+          "label": "Dieses Diagramm auf X (ehemals Twitter) teilen"
+        },
+        "linkedin": {
+          "button": "Auf LinkedIn teilen",
+          "label": "Dieses Diagramm auf LinkedIn teilen"
+        }
+      }
     }
   },
 

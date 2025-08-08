@@ -87,6 +87,24 @@
       "close": "Close",
       "copied": "Copied!",
       "copy_error": "Copy failed"
+    },
+    "share": {
+      "button": "Share chart",
+      "dropdown": {
+        "title": "Share Chart",
+        "facebook": {
+          "button": "Share on Facebook",
+          "label": "Share this chart on Facebook"
+        },
+        "twitter": {
+          "button": "Share on X (Twitter)",
+          "label": "Share this chart on X (formerly Twitter)"
+        },
+        "linkedin": {
+          "button": "Share on LinkedIn",
+          "label": "Share this chart on LinkedIn"
+        }
+      }
     }
   },
 
@@ -267,7 +285,8 @@
       "button": "Access tutorial, metadata and feedback options"
     },
     "download": "Download data",
-    "embed": "Embed this chart"
+  "embed": "Embed this chart",
+  "share": "Share this chart"
   },
 
   "title": {
