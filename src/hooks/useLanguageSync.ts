@@ -14,9 +14,9 @@ export const useLanguageSync = () => {
       
       // Update HTML title based on language
       const titles = {
-        en: 'NECPR - European Union',
-        fr: 'NECPR - Union Européenne',
-        de: 'NECPR - Europäische Union'
+        en: 'Enprices - Eurostat',
+        fr: 'Enprices - Eurostat',
+        de: 'Enprices - Eurostat'
       };
       document.title = titles[lng as keyof typeof titles] || titles.en;
       
