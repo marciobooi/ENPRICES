@@ -1606,7 +1606,7 @@ html, body {
     background: white;
     border-bottom: 1px solid #ddd;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    width: min(95vw, 1200px);
+    width: min(95vw, 100vw);
     z-index: 1000;
     animation: menuFadeIn 0.15s ease;
     margin: 10px;
