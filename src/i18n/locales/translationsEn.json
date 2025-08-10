@@ -74,7 +74,12 @@
       "is_closed": ", menu is closed"
     },
     "download": {
-      "button": "Download data"
+      "button": "Download data",
+      "dropdown": {
+        "png": { "button": "Downlod PNG image", "label": "Download PNG image" },
+        "jpeg": { "button": "Download JPEG image", "label": "Download JPEG image" },
+        "excel": { "button": "Download Excel file", "label": "Download Excel file" }
+      }
     },
     "embed": {
       "button": "Embed chart",

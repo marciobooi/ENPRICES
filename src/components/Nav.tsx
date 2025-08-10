@@ -6,6 +6,7 @@ import InfoDropdown from "./InfoDropdown";
 import ShareDropdown from "./ShareDropdown";
 import { Tooltip } from 'react-tooltip';
 import { RoundBtn } from './ui/index';
+import DownloadDropdown from './DownloadDropdown';
 import { useState } from 'react';
 import { FocusTrap } from 'focus-trap-react';
 
@@ -17,11 +18,6 @@ const Nav: React.FC<NavProps> = () => {
   const { t } = useTranslation();
   const [isEmbedDialogOpen, setIsEmbedDialogOpen] = useState(false);
   const [copyMessage, setCopyMessage] = useState('');
-
-  const handleDownload = () => {
-    // TODO: Implement download functionality
-    console.log('Download button clicked');
-  };
 
   const handleEmbed = () => {
     setIsEmbedDialogOpen(true);
@@ -78,26 +74,7 @@ const Nav: React.FC<NavProps> = () => {
           </div>
           <div className="menu-item menu-info">
             <InfoDropdown className="title-info-button" />
-            <RoundBtn
-              id="download-button"
-              className="ecl-button ecl-button--rounded ecl-button--secondary info-dropdown-button"
-              onClick={handleDownload}
-              ariaLabel={t('ui.download.button', 'Download data')}
-              variant="ghost"
-              size="medium"
-              icon="fa-download"
-              iconOnly={true}
-              data-tooltip-id="download-tooltip"
-              data-tooltip-content={t('tooltips.download', 'Download data')}
-              data-tooltip-place="bottom"
-            />
-            <Tooltip
-              id="download-tooltip"
-              place="bottom"
-              delayShow={200}
-              delayHide={100}
-              noArrow={true}
-            />
+            <DownloadDropdown className="title-download-button" />
             <RoundBtn
               id="embed-button"
               className="ecl-button ecl-button--rounded ecl-button--secondary info-dropdown-button"

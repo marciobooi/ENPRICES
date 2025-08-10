@@ -262,7 +262,12 @@
       "is_closed": ", menu est fermé"
     },
     "download": {
-      "button": "Télécharger les données"
+      "button": "Télécharger les données",
+      "dropdown": {
+        "png": { "button": "Télécharger l'image PNG", "label": "Télécharger l'image PNG" },
+        "jpeg": { "button": "Télécharger l'image JPEG", "label": "Télécharger l'image JPEG" },
+        "excel": { "button": "Télécharger le fichier Excel", "label": "Télécharger le fichier Excel" }
+      }
     },
     "embed": {
       "button": "Intégrer le graphique",

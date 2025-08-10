@@ -262,7 +262,12 @@
       "is_closed": ", Menü ist geschlossen"
     },
     "download": {
-      "button": "Daten herunterladen"
+      "button": "Daten herunterladen",
+      "dropdown": {
+        "png": { "button": "PNG-Bild herunterladen", "label": "PNG-Bild herunterladen" },
+        "jpeg": { "button": "JPEG-Bild herunterladen", "label": "JPEG-Bild herunterladen" },
+        "excel": { "button": "Excel-Datei herunterladen", "label": "Excel-Datei herunterladen" }
+      }
     },
     "embed": {
       "button": "Diagramm einbetten",
