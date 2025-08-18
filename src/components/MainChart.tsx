@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { subscribeToDataUpdates, getCurrentData } from '../services/handleData';
+import { transformToCountryComparison } from './chartData';
+import { createCountryComparisonConfig } from './chartConfig';
 
 interface MainChartProps {
   className?: string;
@@ -27,89 +29,26 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     return unsubscribe;
   }, []);
 
-  // Transform Eurostat data to Highcharts series format
-  const transformToSeries = (eurostatData: any) => {
-    if (!eurostatData?.dimension?.time?.category?.index || !eurostatData?.dimension?.geo?.category?.index) {
-      return { categories: [], series: [] };
-    }
-
-    const timeCategories = eurostatData.dimension.time.category.index;
-    const timeLabels = Object.keys(timeCategories).sort((a, b) => timeCategories[a] - timeCategories[b]);
-    
-    const geoCategories = eurostatData.dimension.geo.category.index;
-    const geoLabels = Object.keys(geoCategories);
-    
-    const series = geoLabels.slice(0, 5).map(geoCode => {
-      const seriesData = timeLabels.map(timeLabel => {
-        const timeIndex = timeCategories[timeLabel];
-        const geoIndex = geoCategories[geoCode];
-        const valueIndex = geoIndex * timeLabels.length + timeIndex;
-        const value = eurostatData.value[valueIndex];
-        return (value !== undefined && value !== null) ? parseFloat(value) : null;
-      });
-
-      return {
-        name: eurostatData.dimension.geo.category.label[geoCode] || geoCode,
-        data: seriesData
-      };
-    });
-
-    return { categories: timeLabels, series };
-  };
-
   useEffect(() => {
     if (!chartContainerRef.current || !data) return;
 
     // Clear container
     chartContainerRef.current.innerHTML = '';
 
-    // Transform data
-    const { categories, series } = transformToSeries(data);
+    // Transform data using the external function
+    const { categories, series, selectedYear } = transformToCountryComparison(data);
+
+    // Create chart configuration using the external function
+    const chartConfig = createCountryComparisonConfig({
+      categories,
+      series,
+      selectedYear
+    });
 
     // Create the UEC script element with our data
     const scriptElement = document.createElement('script');
     scriptElement.type = 'application/json';
-    scriptElement.textContent = JSON.stringify({
-      "service": "charts",
-      "version": "2.0",
-      "data": {
-        "chart": {
-          "type": "column",
-          "height": 500
-        },
-        "colors": [
-          "#003399", "#0066cc", "#3399ff", "#66b3ff", "#99ccff"
-        ],
-        "xAxis": {
-          "categories": categories,
-          "title": {
-            "text": "Time Period"
-          }
-        },
-        "yAxis": {
-          "title": {
-            "text": "Price (EUR/kWh)"
-          }
-        },
-        "title": {
-          "text": "Energy Prices Over Time"
-        },
-        "subtitle": {
-          "text": "Electricity prices for household consumers"
-        },
-        "plotOptions": {
-          "series": {
-            "dataLabels": {
-              "enabled": false
-            }
-          }
-        },
-        "legend": {
-          "enabled": true
-        },
-        "series": series
-      }
-    });
+    scriptElement.textContent = JSON.stringify(chartConfig);
 
     // Add script to container
     chartContainerRef.current.appendChild(scriptElement);
