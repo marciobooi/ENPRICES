@@ -15,6 +15,11 @@
 /* React Tooltip Styles */
 @import 'react-tooltip/dist/react-tooltip.css';
 
+/* Override ECL's hiding of buttons with aria-haspopup */
+button[aria-haspopup] {
+  display: inline-flex !important;
+}
+
 /* Custom Tooltip Styling */
 .react-tooltip {
   background-color: rgba(255, 255, 255, 0.95) !important;

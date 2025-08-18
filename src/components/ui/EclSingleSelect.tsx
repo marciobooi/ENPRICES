@@ -151,7 +151,6 @@ const EclSingleSelect: React.FC<EclSingleSelectProps> = ({
           }
 
         } catch (error) {
-          console.warn('ECL Select initialization failed:', error);
           isInitializedRef.current = false;
         }
       }
@@ -171,7 +170,7 @@ const EclSingleSelect: React.FC<EclSingleSelectProps> = ({
             eclInstanceRef.current.destroy();
           }
         } catch (error) {
-          console.warn('ECL Select cleanup failed:', error);
+          eclInstanceRef.current = null;
         }
         eclInstanceRef.current = null;
       }
@@ -223,7 +222,6 @@ const EclSingleSelect: React.FC<EclSingleSelectProps> = ({
               eclInstanceRef.current.update();
             }
           } catch (error) {
-            console.warn('ECL Select update failed:', error);
             // Reset the instance if it's corrupted
             eclInstanceRef.current = null;
             isInitializedRef.current = false;

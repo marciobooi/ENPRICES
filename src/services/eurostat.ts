@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { handleData } from './handleData';
 
 const EUROSTAT_API_BASE = 'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data';
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
@@ -44,12 +45,10 @@ class EurostatService {
       const parsedData: CachedData = JSON.parse(cached);
       
       if (this.isDataFresh(parsedData.timestamp)) {
-        console.log(`✅ Cache hit for ${key}`);
         return parsedData.data;
       } else {
         // Remove expired data
         localStorage.removeItem(key);
-        console.log(`⏰ Cache expired for ${key}`);
         return null;
       }
     } catch (error) {
@@ -65,7 +64,6 @@ class EurostatService {
         timestamp: Date.now()
       };
       localStorage.setItem(key, JSON.stringify(cacheData));
-      console.log(`💾 Data cached for ${key}`);
     } catch (error) {
       console.error('Error saving to cache:', error);
     }
@@ -77,14 +75,28 @@ class EurostatService {
     // Try to get from cache first
     const cachedData = this.getFromCache(cacheKey);
     if (cachedData) {
+      // Handle cached data
+      handleData(cachedData, { 
+        dataset, 
+        params, 
+        source: 'cache',
+        requestKey: cacheKey 
+      });
       return cachedData;
     }
 
     // Check if this request is already pending
     const pendingRequest = this.pendingRequests.get(cacheKey);
     if (pendingRequest) {
-      console.log(`⏳ Request already pending for ${cacheKey}, waiting for existing request...`);
-      return pendingRequest;
+      const result = await pendingRequest;
+      // Handle data from pending request
+      handleData(result, { 
+        dataset, 
+        params, 
+        source: 'pending',
+        requestKey: cacheKey 
+      });
+      return result;
     }
 
     // If not in cache or expired, fetch from API
@@ -95,6 +107,13 @@ class EurostatService {
     
     try {
       const result = await fetchPromise;
+      // Handle fresh API data
+      handleData(result, { 
+        dataset, 
+        params, 
+        source: 'api',
+        requestKey: cacheKey 
+      });
       return result;
     } finally {
       // Remove the pending request when done
@@ -104,8 +123,6 @@ class EurostatService {
 
   private async performFetch(dataset: string, params: Record<string, string | string[]> | undefined, cacheKey: string): Promise<any> {
     try {
-      console.log(`🚀 Fetching fresh data for ${dataset}`, params);
-      
       const url = `${EUROSTAT_API_BASE}/${dataset}`;
       
       // Build query string manually to handle array parameters correctly
@@ -125,7 +142,6 @@ class EurostatService {
       }
       
       const fullUrl = `${url}?${queryParams.toString()}`;
-      console.log('Final URL:', fullUrl);
       
       const response = await axios.get(fullUrl, {
         timeout: 30000 // 30 seconds timeout
@@ -173,7 +189,6 @@ class EurostatService {
       // Also clear pending requests
       this.pendingRequests.clear();
       
-      console.log(`Cleared ${eurostatKeys.length} cached items and pending requests`);
     } catch (error) {
       console.error('Error clearing cache:', error);
     }

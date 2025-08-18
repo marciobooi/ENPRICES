@@ -81,7 +81,7 @@ const Nav: React.FC<NavProps> = () => {
               onClick={handleEmbed}
               ariaLabel={t('ui.embed.button', 'Embed chart')}
               ariaControls="embed-modal"
-              ariaHaspopup="dialog"
+              aria-haspopup="dialog"
               variant="ghost"
               size="medium"
               icon="fa-code"

@@ -137,7 +137,7 @@ const InfoDropdown: React.FC<InfoDropdownProps> = ({ className = '' }) => {
         ariaLabel={t('info.button.label')}
         ariaExpanded={isOpen}
         ariaControls={dropdownId}
-        ariaHaspopup="menu"
+        aria-haspopup="menu"
         variant="secondary"
         size="medium"
         className="info-dropdown-button"
@@ -150,10 +150,10 @@ const InfoDropdown: React.FC<InfoDropdownProps> = ({ className = '' }) => {
         place="bottom"
         delayShow={200}
         delayHide={100}
+        border="2px solid #004494"
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.95)',
           color: '#000000',
-          border: '2px solid #004494',
           borderRadius: '4px',
           padding: '8px 12px',
           fontSize: '14px',

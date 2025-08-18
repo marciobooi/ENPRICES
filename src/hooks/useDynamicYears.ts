@@ -78,14 +78,12 @@ export const useDynamicYears = () => {
 
     // Skip if this is the same request as the last one
     if (lastRequestKeyRef.current === requestKey) {
-      console.log('🔄 Skipping duplicate request for:', requestKey);
       return;
     }
 
     // Check if this request is already in progress globally
     const existingRequest = globalPendingRequests.get(requestKey);
     if (existingRequest) {
-      console.log('⏳ Request already in progress globally, waiting for result:', requestKey);
       try {
         const years = await existingRequest;
         dispatch({ type: 'SET_AVAILABLE_YEARS', payload: years });
@@ -109,8 +107,6 @@ export const useDynamicYears = () => {
       lastRequestKeyRef.current = requestKey;
 
       const { dataset, params } = memoizedParams;
-
-      console.log('🔍 Fetching years for:', { dataset, params });
 
       // Create the promise and store it globally
       const fetchPromise = eurostatService.fetchAvailableYears(dataset, params);

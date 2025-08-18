@@ -63,7 +63,7 @@ const DownloadDropdown: React.FC<DownloadDropdownProps> = ({ className = '' }) =
         ariaLabel={t('ui.download.button', 'Download data')}
         ariaExpanded={open}
         ariaControls={menuId}
-        ariaHaspopup="menu"
+        aria-haspopup="menu"
         variant="ghost"
         size="medium"
         className="info-dropdown-button"

@@ -74,7 +74,7 @@ const ShareDropdown: React.FC<ShareDropdownProps> = ({ className = '' }) => {
         ariaLabel={t('ui.share.button', 'Share chart')}
         ariaExpanded={open}
         ariaControls={menuId}
-        ariaHaspopup="menu"
+        aria-haspopup="menu"
         variant="secondary"
         size="medium"
         className="info-dropdown-button"
@@ -82,8 +82,14 @@ const ShareDropdown: React.FC<ShareDropdownProps> = ({ className = '' }) => {
         data-tooltip-content={t('tooltips.share', 'Share this chart')}
       />
 
-      <Tooltip id="share-button-tooltip" place="bottom" delayShow={200} delayHide={100} noArrow={true}
-        style={{ backgroundColor: 'rgba(255,255,255,0.95)', color: '#000', border: '2px solid #004494', borderRadius: 4, padding: '8px 12px', fontSize: 14, fontWeight: 500, boxShadow: '0 2px 8px rgba(0,0,0,0.15)', zIndex: 9999, maxWidth: 250 }}
+      <Tooltip 
+        id="share-button-tooltip" 
+        place="bottom" 
+        delayShow={200} 
+        delayHide={100} 
+        noArrow={true}
+        border="2px solid #004494"
+        style={{ backgroundColor: 'rgba(255,255,255,0.95)', color: '#000', borderRadius: 4, padding: '8px 12px', fontSize: 14, fontWeight: 500, boxShadow: '0 2px 8px rgba(0,0,0,0.15)', zIndex: 9999, maxWidth: 250 }}
       />
 
       {/* SR live region */}

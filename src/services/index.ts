@@ -1,6 +1,9 @@
 // Eurostat service exports
 export { eurostatService } from './eurostat';
 
+// Data handler exports
+export { handleData, formatParams, extractYearsFromData } from './handleData';
+
 // i18n service exports
 export { 
   translate, 

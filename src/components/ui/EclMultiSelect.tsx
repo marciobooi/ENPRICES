@@ -157,7 +157,6 @@ const EclMultiSelect: React.FC<EclMultiSelectProps> = ({
           }
 
         } catch (error) {
-          console.warn('ECL Select initialization failed:', error);
           isInitializedRef.current = false;
         }
       }
@@ -177,7 +176,7 @@ const EclMultiSelect: React.FC<EclMultiSelectProps> = ({
             eclInstanceRef.current.destroy();
           }
         } catch (error) {
-          console.warn('ECL Select cleanup failed:', error);
+          eclInstanceRef.current = null;
         }
         eclInstanceRef.current = null;
       }
@@ -238,7 +237,6 @@ const EclMultiSelect: React.FC<EclMultiSelectProps> = ({
               eclInstanceRef.current.update();
             }
           } catch (error) {
-            console.warn('ECL Select update failed:', error);
             // Reset the instance if it's corrupted
             eclInstanceRef.current = null;
             isInitializedRef.current = false;
