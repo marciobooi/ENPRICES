@@ -1,6 +1,7 @@
 
 import React from 'react';
 import type { ReactNode } from 'react';
+import MainChart from './MainChart';
 
 interface MainContentProps {
   children?: ReactNode;
@@ -14,7 +15,7 @@ const MainContent: React.FC<MainContentProps> = ({ children, className }) => {
         <div className="ecl-container">
           <div className="ecl-row">
             <div className="ecl-col-12">
-              {/* Content removed */}
+              <MainChart />
             </div>
           </div>
         </div>

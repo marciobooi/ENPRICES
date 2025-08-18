@@ -69,7 +69,7 @@ const initialState: QueryState = {
   time: `${new Date().getFullYear()}-S2`, // Current year, second semester
   unit: "KWH",
   availableYears: [],
-  isLoadingYears: false
+  isLoadingYears: false,
 };
 
 // Reducer function to handle state updates

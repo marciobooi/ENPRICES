@@ -20,6 +20,14 @@ declare global {
         }) => void;
         reset: () => void;
       };
+      charts: {
+        render: (container: string | HTMLElement, config: any) => {
+          ready: (callback: (chart: any) => void) => any;
+        };
+      };
+      render: (container: string | HTMLElement, config: any) => {
+        ready: (callback: (chart: any) => void) => any;
+      };
     };
   }
 }
@@ -37,15 +45,24 @@ declare const globan: {
 declare const $wt: {
   globan: {
     regenerate: (params?: { lang?: string; theme?: string; zindex?: number }) => void;
-  };      cck: {
-        regenerate: (params?: { 
-          lang?: string; 
-          url?: string | Record<string, string>;
-          appendix?: string | Record<string, string>;
-          target?: boolean;
-        }) => void;
-        reset: () => void;
-      };
+  };
+  cck: {
+    regenerate: (params?: { 
+      lang?: string; 
+      url?: string | Record<string, string>;
+      appendix?: string | Record<string, string>;
+      target?: boolean;
+    }) => void;
+    reset: () => void;
+  };
+  charts: {
+    render: (container: string | HTMLElement, config: any) => {
+      ready: (callback: (chart: any) => void) => any;
+    };
+  };
+  render: (container: string | HTMLElement, config: any) => {
+    ready: (callback: (chart: any) => void) => any;
+  };
 };
 
 export {};

@@ -316,5 +316,22 @@
     "PRIVACY_DESC": "Lire comment nous collectons et utilisons vos données personnelles",
     "COOKIES_DESC": "En savoir plus sur notre utilisation des cookies et technologies de suivi",
     "ACCESS_DESC": "Informations sur les fonctionnalités d'accessibilité et le support"
+  },
+
+  "chart": {
+    "title": "Prix de l'énergie",
+    "subtitle": "Données d'Eurostat",
+    "loading": "Chargement des données du graphique...",
+    "initializing": "Initialisation du graphique...",
+    "error": "Échec du chargement des données du graphique",
+    "xAxis": {
+      "title": "Temps"
+    },
+    "yAxis": {
+      "title": "Prix"
+    },
+    "aria": {
+      "label": "Graphique des prix de l'énergie montrant les données dans le temps pour les pays et paramètres sélectionnés"
+    }
   }
 }

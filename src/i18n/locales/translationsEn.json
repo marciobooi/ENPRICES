@@ -327,5 +327,22 @@
     "PRIVACY_DESC": "Read about how we collect and use your personal data",
     "COOKIES_DESC": "Learn about our use of cookies and tracking technologies",
     "ACCESS_DESC": "Information about accessibility features and support"
+  },
+
+  "chart": {
+    "title": "Energy Prices",
+    "subtitle": "Data from Eurostat",
+    "loading": "Loading chart data...",
+    "initializing": "Initializing chart...",
+    "error": "Failed to load chart data",
+    "xAxis": {
+      "title": "Time"
+    },
+    "yAxis": {
+      "title": "Price"
+    },
+    "aria": {
+      "label": "Energy prices chart showing data over time for selected countries and parameters"
+    }
   }
 }

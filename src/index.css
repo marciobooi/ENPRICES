@@ -2685,6 +2685,63 @@ h6.ecl-u-type-heading-1.ecl-u-color-blue.toolTitle, h6.ecl-u-type-heading-1.ecl-
         font-size: 22px;
 }
 
+/* Main Chart Styles */
+.main-chart {
+  margin: 2rem 0;
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container {
+  min-height: 400px;
+  width: 100%;
+  position: relative;
+}
+
+.chart-loading,
+.chart-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 400px;
+  color: #666;
+  font-size: 16px;
+}
+
+.chart-loading i,
+.chart-error i {
+  font-size: 32px;
+  margin-bottom: 1rem;
+}
+
+.chart-loading i {
+  color: #004494;
+}
+
+.chart-error i {
+  color: #d32f2f;
+}
+
+.chart-loading span,
+.chart-error span {
+  margin-left: 0.5rem;
+}
+
+/* Responsive chart adjustments */
+@media (max-width: 768px) {
+  .main-chart {
+    margin: 1rem 0;
+    padding: 0.5rem;
+  }
+  
+  .chart-container {
+    min-height: 300px;
+  }
+}
+
 
 
 
