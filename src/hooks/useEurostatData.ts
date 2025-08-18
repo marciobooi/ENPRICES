@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { eurostatService } from '../services/eurostat';
 
 interface UseEurostatDataProps {
@@ -24,12 +24,29 @@ export const useEurostatData = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Create stable params dependency using useMemo
+  const stableParams = useMemo(() => {
+    if (!params) return null;
+    // Sort keys to ensure consistent ordering
+    const sortedKeys = Object.keys(params).sort();
+    const sortedParams: Record<string, string> = {};
+    sortedKeys.forEach(key => {
+      sortedParams[key] = params[key];
+    });
+    return sortedParams;
+  }, [params]);
+
+  // Create stable string representation for dependency array
+  const paramsDep = useMemo(() => {
+    return stableParams ? JSON.stringify(stableParams) : null;
+  }, [stableParams]);
+
   const fetchData = async () => {
     setLoading(true);
     setError(null);
     
     try {
-      const result = await eurostatService.fetchData(dataset, params);
+      const result = await eurostatService.fetchData(dataset, stableParams || undefined);
       setData(result);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -48,7 +65,7 @@ export const useEurostatData = ({
     if (autoFetch && dataset) {
       fetchData();
     }
-  }, [dataset, JSON.stringify(params), autoFetch]);
+  }, [dataset, paramsDep, autoFetch]);
 
   return {
     data,

@@ -37,6 +37,7 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
   const [announcementMessage, setAnnouncementMessage] = useState("");
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const isInitialMountRef = useRef(true);
 
   // Extract values from global state
   const {
@@ -50,6 +51,12 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
 
   // Dynamic dataset selection: when product or consumer changes, update band and unit defaults
   useEffect(() => {
+    // Skip updates on initial mount to prevent unnecessary API calls
+    if (isInitialMountRef.current) {
+      isInitialMountRef.current = false;
+      return;
+    }
+
     const newDefaultBand = getDefaultConsumptionBandByContext(
       product,
       consumer,
@@ -80,14 +87,22 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
       (option) => option.value === unit
     );
 
+    // Batch updates to prevent multiple re-renders
+    const updates: Array<() => void> = [];
+    
     if (!isBandValid) {
-      dispatch({ type: "SET_BAND", payload: newDefaultBand });
+      updates.push(() => dispatch({ type: "SET_BAND", payload: newDefaultBand }));
     }
 
     if (!isUnitValid) {
-      dispatch({ type: "SET_UNIT", payload: newDefaultUnit });
+      updates.push(() => dispatch({ type: "SET_UNIT", payload: newDefaultUnit }));
     }
-  }, [product, consumer, dispatch]); // Only trigger when product or consumer changes
+
+    // Execute all updates in sequence to batch them
+    if (updates.length > 0) {
+      updates.forEach(update => update());
+    }
+  }, [product, consumer, state.component, dispatch, band, unit]); // Added band and unit as dependencies
 
   // Global state handlers
   const handleCountryChange = (selectedValues: string[]) => {

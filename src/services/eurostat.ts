@@ -9,13 +9,20 @@ interface CachedData {
 }
 
 class EurostatService {
+  private pendingRequests = new Map<string, Promise<any>>();
   private getCacheKey(dataset: string, params?: Record<string, string | string[]>): string {
     let paramString = '';
     if (params) {
+      // Sort the parameters by key to ensure consistent cache keys
+      const sortedKeys = Object.keys(params).sort();
       const urlParams = new URLSearchParams();
-      Object.entries(params).forEach(([key, value]) => {
+      
+      sortedKeys.forEach(key => {
+        const value = params[key];
         if (Array.isArray(value)) {
-          value.forEach(v => urlParams.append(key, v));
+          // Sort array values to ensure consistent ordering
+          const sortedValues = [...value].sort();
+          sortedValues.forEach(v => urlParams.append(key, v));
         } else {
           urlParams.append(key, value);
         }
@@ -37,12 +44,12 @@ class EurostatService {
       const parsedData: CachedData = JSON.parse(cached);
       
       if (this.isDataFresh(parsedData.timestamp)) {
-        console.log(`Cache hit for ${key}`);
+        console.log(`✅ Cache hit for ${key}`);
         return parsedData.data;
       } else {
         // Remove expired data
         localStorage.removeItem(key);
-        console.log(`Cache expired for ${key}`);
+        console.log(`⏰ Cache expired for ${key}`);
         return null;
       }
     } catch (error) {
@@ -58,7 +65,7 @@ class EurostatService {
         timestamp: Date.now()
       };
       localStorage.setItem(key, JSON.stringify(cacheData));
-      console.log(`Data cached for ${key}`);
+      console.log(`💾 Data cached for ${key}`);
     } catch (error) {
       console.error('Error saving to cache:', error);
     }
@@ -73,9 +80,31 @@ class EurostatService {
       return cachedData;
     }
 
+    // Check if this request is already pending
+    const pendingRequest = this.pendingRequests.get(cacheKey);
+    if (pendingRequest) {
+      console.log(`⏳ Request already pending for ${cacheKey}, waiting for existing request...`);
+      return pendingRequest;
+    }
+
     // If not in cache or expired, fetch from API
+    const fetchPromise = this.performFetch(dataset, params, cacheKey);
+    
+    // Store the pending request
+    this.pendingRequests.set(cacheKey, fetchPromise);
+    
     try {
-      console.log(`Fetching fresh data for ${dataset}`, params);
+      const result = await fetchPromise;
+      return result;
+    } finally {
+      // Remove the pending request when done
+      this.pendingRequests.delete(cacheKey);
+    }
+  }
+
+  private async performFetch(dataset: string, params: Record<string, string | string[]> | undefined, cacheKey: string): Promise<any> {
+    try {
+      console.log(`🚀 Fetching fresh data for ${dataset}`, params);
       
       const url = `${EUROSTAT_API_BASE}/${dataset}`;
       
@@ -141,7 +170,10 @@ class EurostatService {
         localStorage.removeItem(key);
       });
       
-      console.log(`Cleared ${eurostatKeys.length} cached items`);
+      // Also clear pending requests
+      this.pendingRequests.clear();
+      
+      console.log(`Cleared ${eurostatKeys.length} cached items and pending requests`);
     } catch (error) {
       console.error('Error clearing cache:', error);
     }

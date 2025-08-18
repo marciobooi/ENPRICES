@@ -213,9 +213,15 @@ const EclSingleSelect: React.FC<EclSingleSelectProps> = ({
         // Trigger ECL update if instance is available and valid
         if (eclInstanceRef.current && 
             typeof eclInstanceRef.current.update === 'function' &&
+            selectElement &&
+            selectElement.parentElement &&
+            selectElement.options &&
             selectElement.options.length > 0) {
           try {
-            eclInstanceRef.current.update();
+            // Double check the element is still connected to the DOM
+            if (selectElement.isConnected) {
+              eclInstanceRef.current.update();
+            }
           } catch (error) {
             console.warn('ECL Select update failed:', error);
             // Reset the instance if it's corrupted
