@@ -47,7 +47,6 @@ export const transformToCountryComparison = (eurostatData: any): ChartDataResult
     };
   }).filter(item => item.value !== null) // Remove null values
     .sort((a, b) => (b.value || 0) - (a.value || 0)) // Sort by value descending
-    .slice(0, 15); // Show top 15 countries
 
   // Extract categories (country names) and data values
   const categories = countriesData.map(item => item.name);
