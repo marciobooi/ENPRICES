@@ -106,6 +106,37 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       "legend": {
         "enabled": finalShowLegend
       },
+      "exporting": {
+        "enabled": true,
+        "buttons": {
+          "contextButton": {
+            "menuItems": [
+              "viewFullscreen",
+              "separator",
+              "downloadPNG",
+              "downloadJPEG",
+              "downloadPDF",
+              "downloadSVG",
+              "separator",
+              "downloadCSV",
+              "downloadXLS"
+            ]
+          }
+        },
+        "filename": `energy-prices-${selectedYear || 'data'}`,
+        "chartOptions": {
+          "title": {
+            "style": {
+              "fontSize": "16px"
+            }
+          }
+        }
+      },
+      "credits": {
+        "enabled": true,
+        "text": "Source: Eurostat",
+        "href": "https://ec.europa.eu/eurostat"
+      },
       "series": series
     }
   };

@@ -266,6 +266,8 @@
       "dropdown": {
         "png": { "button": "PNG-Bild herunterladen", "label": "PNG-Bild herunterladen" },
         "jpeg": { "button": "JPEG-Bild herunterladen", "label": "JPEG-Bild herunterladen" },
+        "pdf": { "button": "PDF-Dokument herunterladen", "label": "PDF-Dokument herunterladen" },
+        "csv": { "button": "CSV-Daten herunterladen", "label": "CSV-Daten herunterladen" },
         "excel": { "button": "Excel-Datei herunterladen", "label": "Excel-Datei herunterladen" }
       }
     },

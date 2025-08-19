@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RoundBtn } from './ui';
 import { Tooltip } from 'react-tooltip';
+import { exportChart, type ChartExportOptions } from '../services/chartExport';
 
 interface DownloadDropdownProps { className?: string }
 
@@ -45,10 +46,36 @@ const DownloadDropdown: React.FC<DownloadDropdownProps> = ({ className = '' }) =
     }, 100);
   };
 
-  // Placeholder handlers; wire to export logic later
-  const onPng = (e?: React.MouseEvent) => { e?.preventDefault(); setOpen(false); console.log('Download PNG'); };
-  const onJpeg = (e?: React.MouseEvent) => { e?.preventDefault(); setOpen(false); console.log('Download JPEG'); };
-  const onExcel = (e?: React.MouseEvent) => { e?.preventDefault(); setOpen(false); console.log('Download Excel'); };
+  // Export handlers using chart export functionality
+  const handleExport = (format: 'png' | 'jpeg' | 'xls') => {
+    const exportOptions: ChartExportOptions = {
+      format,
+      filename: `energy-prices-${format}-${new Date().toISOString().split('T')[0]}`
+    };
+
+    try {
+      exportChart(exportOptions);
+      console.log(`Chart exported as ${format.toUpperCase()}`);
+    } catch (error) {
+      console.error('Export failed:', error);
+    }
+    setOpen(false);
+  };
+
+  const onPng = (e?: React.MouseEvent) => { 
+    e?.preventDefault(); 
+    handleExport('png');
+  };
+  
+  const onJpeg = (e?: React.MouseEvent) => { 
+    e?.preventDefault(); 
+    handleExport('jpeg');
+  };
+  
+  const onExcel = (e?: React.MouseEvent) => { 
+    e?.preventDefault(); 
+    handleExport('xls');
+  };
 
   const buttonId = 'download-dropdown-button';
   const menuId = 'download-dropdown-menu';
