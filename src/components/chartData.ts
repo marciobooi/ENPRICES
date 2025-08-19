@@ -50,20 +50,17 @@ const transformToTaxBreakdown = (eurostatData: any): ChartDataResult => {
     };
   });
   
-  // For now, let's use the same logic as the working version but return stacked data
-  // We'll create fake tax breakdown data based on the total value
+  // Use actual tax breakdown values from the API
   const series = taxLabels.map((taxCode, taxIdx) => {
     const data = countriesData.map(country => {
-      // Use the working formula to get total value
-      const valueIndex = country.geoIndex * timeLabels.length + selectedTimeIndex;
-      const totalValue = eurostatData.value[valueIndex];
+      // Calculate the correct index for this specific country, tax, and time combination
+      const valueIndex = country.geoIndex * timeLabels.length * taxLabels.length + 
+                        taxIdx * timeLabels.length + 
+                        selectedTimeIndex;
+      const value = eurostatData.value[valueIndex];
       
-      if (totalValue === undefined || totalValue === null) return null;
-      
-      // For now, split total into 3 parts based on tax type
-      // This is a temporary solution to get the chart working
-      const percentage = taxIdx === 0 ? 0.6 : (taxIdx === 1 ? 0.3 : 0.1);
-      return parseFloat(totalValue) * percentage;
+      if (value === undefined || value === null) return null;
+      return parseFloat(value);
     });
     
     return {

@@ -21,7 +21,7 @@ export interface ChartConfigOptions {
   showDataLabels?: boolean;
   showLegend?: boolean;
   isDetailed?: boolean;
-  decimals?: number; // Number of decimal places (0-3)
+  decimals?: number; // Number of decimal places (1-4)
   order?: 'proto' | 'alfa' | 'asc' | 'desc'; // Chart ordering
   percentage?: boolean; // Show as percentage
   countryCodes?: string[]; // Country codes for color mapping
@@ -45,7 +45,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     showDataLabels = false,
     showLegend = false,
     isDetailed = false,
-    decimals = 2,
+    decimals = 4,
     order = 'proto',
     percentage = false,
     countryCodes = [],
@@ -183,12 +183,12 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
   const finalSeriesWithColors = generateSeriesWithColors();
   
   // Debug: Log color generation
-  console.log('Color generation debug:', {
-    isDetailed,
-    countryCodes: finalCountryCodes,
-    finalSeriesWithColors,
-    categories: finalCategories
-  });
+  // console.log('Color generation debug:', {
+  //   isDetailed,
+  //   countryCodes: finalCountryCodes,
+  //   finalSeriesWithColors,
+  //   categories: finalCategories
+  // });
 
   // Configure plot options based on percentage and detailed view
   const getPlotOptions = () => {

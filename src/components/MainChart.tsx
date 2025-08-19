@@ -42,8 +42,8 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     const { categories, series, selectedYear, isDetailed, countryCodes } = transformedData;
 
     // Debug: Log the transformed data
-    console.log('Chart data:', { categories, series, selectedYear, isDetailed, countryCodes });
-    console.log('Country codes for colors:', countryCodes);
+    // console.log('Chart data:', { categories, series, selectedYear, isDetailed, countryCodes });
+    // console.log('Country codes for colors:', countryCodes);
 
     // Create chart configuration using the external function
     const chartConfig = createCountryComparisonConfig({
@@ -59,7 +59,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     });
 
     // Debug: Log the chart config
-    console.log('Chart config:', chartConfig);
+    // console.log('Chart config:', chartConfig);
 
     // Create the UEC script element with our data
     const scriptElement = document.createElement('script');

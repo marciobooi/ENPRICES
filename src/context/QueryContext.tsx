@@ -12,7 +12,7 @@ export interface QueryState {
   consumer: string;
   currency: string;
   dataset: string;
-  decimals: number; // 0-3 decimal places for number formatting
+  decimals: number; // 1-4 decimal places for number formatting
   details: boolean;
   geos: string[];
   hideAggregates: boolean; // Toggle to hide EU aggregates
@@ -61,7 +61,7 @@ const initialState: QueryState = {
   consumer: "HOUSEHOLD",
   currency: "EUR",
   dataset: "nrg_pc_204",
-  decimals: 2, // Default 2 decimal places
+  decimals: 4, // Default 4 decimal places
   details: false,
   geos: [...allCountries], // All countries by default instead of just EU
   hideAggregates: false, // Show aggregates by default

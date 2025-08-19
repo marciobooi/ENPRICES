@@ -110,9 +110,9 @@ const FloatingMenu: React.FC = () => {
     }
   };
 
-  // Toggle decimals (0-3)
+  // Toggle decimals (1-4)
   const toggleDecimals = () => {
-    const nextDecimals = (state.decimals + 1) % 4;
+    const nextDecimals = state.decimals >= 4 ? 1 : state.decimals + 1;
     dispatch({ type: 'SET_DECIMALS', payload: nextDecimals });
   };
 

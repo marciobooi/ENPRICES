@@ -100,23 +100,50 @@ export const handleData = (data: any, options: DataHandlerOptions): any => {
   
   // Log data structure info
   if (data) {
-    if (data.dimension) {
-      console.log(`🔹 Available Dimensions:`, Object.keys(data.dimension));
-    }
+    // if (data.dimension) {
+    //   console.log(`🔹 Available Dimensions:`, Object.keys(data.dimension));
+    // }
     
-    if (data.dimension?.time?.category?.index) {
-      const timeKeys = Object.keys(data.dimension.time.category.index);
-      console.log(`🔹 Available Years: ${timeKeys.length} periods (${timeKeys[timeKeys.length - 1]} - ${timeKeys[0]})`);
-    }
+    // if (data.dimension?.time?.category?.index) {
+    //   const timeKeys = Object.keys(data.dimension.time.category.index);
+    //   console.log(`🔹 Available Years: ${timeKeys.length} periods (${timeKeys[timeKeys.length - 1]} - ${timeKeys[0]})`);
+    // }
     
-    if (data.value) {
-      const valueCount = Object.keys(data.value).length;
-      console.log(`🔹 Data Points: ${valueCount} values`);
-    }
+    // if (data.value) {
+    //   const valueCount = Object.keys(data.value).length;
+    //   console.log(`🔹 Data Points: ${valueCount} values`);
+    // }
     
     if (data.dimension?.geo?.category?.index) {
       const geoKeys = Object.keys(data.dimension.geo.category.index);
       console.log(`🔹 Countries: ${geoKeys.length} (${geoKeys.slice(0, 3).join(', ')}${geoKeys.length > 3 ? '...' : ''})`);
+      
+      // Debug: Show country data with tax breakdown values
+      if (data.dimension?.tax?.category?.index) {
+        console.log(`🔹 Tax Breakdown Debug:`);
+        const timeKeys = Object.keys(data.dimension.time.category.index);
+        const latestTime = timeKeys[timeKeys.length - 1];
+        const latestTimeIndex = data.dimension.time.category.index[latestTime];
+        const taxKeys = Object.keys(data.dimension.tax.category.index);
+        
+        geoKeys.slice(0, 5).forEach(geoCode => { // Show first 5 countries
+          const geoIndex = data.dimension.geo.category.index[geoCode];
+          const countryName = data.dimension.geo.category.label[geoCode] || geoCode;
+          const taxValues: string[] = [];
+          
+          taxKeys.forEach((taxCode, taxIndex) => {
+            const taxName = data.dimension.tax.category.label[taxCode] || taxCode;
+            // Calculate the index for this specific combination
+            const valueIndex = geoIndex * timeKeys.length * taxKeys.length + 
+                              taxIndex * timeKeys.length + 
+                              latestTimeIndex;
+            const value = data.value[valueIndex];
+            taxValues.push(`${taxName}: ${value !== null && value !== undefined ? parseFloat(value).toFixed(4) : 'null'}`);
+          });
+          
+          console.log(`   ${countryName}: [${taxValues.join(', ')}]`);
+        });
+      }
     }
   }
   
