@@ -40,6 +40,9 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     // Transform data using the external function
     const { categories, series, selectedYear, isDetailed } = transformToCountryComparison(data, state.details);
 
+    // Debug: Log the transformed data
+    console.log('Chart data:', { categories, series, selectedYear, isDetailed });
+
     // Create chart configuration using the external function
     const chartConfig = createCountryComparisonConfig({
       categories,
@@ -47,6 +50,9 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       selectedYear,
       isDetailed
     });
+
+    // Debug: Log the chart config
+    console.log('Chart config:', chartConfig);
 
     // Create the UEC script element with our data
     const scriptElement = document.createElement('script');
@@ -56,8 +62,21 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     // Add script to container
     chartContainerRef.current.appendChild(scriptElement);
 
-    // Improved Webtools processing with retry logic using the utility function
-
+    // Force immediate rescan with layout recalculation
+    setTimeout(() => {
+      if ((window as any).$wt && typeof (window as any).$wt === 'function') {
+        (window as any).$wt();
+        
+        // Force layout recalculation to ensure proper rendering
+        requestAnimationFrame(() => {
+          // Trigger resize event to force chart libraries to recalculate dimensions
+          window.dispatchEvent(new Event('resize'));
+          
+          // Also force a scroll event (since that's what makes it work)
+          window.dispatchEvent(new Event('scroll'));
+        });
+      }
+    }, 50);
 
   }, [data, state.details]);
 

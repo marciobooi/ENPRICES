@@ -49,7 +49,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
   const finalTitle = isDetailed ? 'Energy Prices by Tax Component' : title;
 
   return {
-    "service": "charts",
+    "service": "chart",
     "version": "2.0",
     "data": {
       "chart": {
@@ -98,120 +98,6 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
   };
 };
 
-/**
- * Generate Webtools UEC configuration for time series chart
- */
-export const createTimeSeriesConfig = (options: ChartConfigOptions) => {
-  const {
-    categories,
-    series,
-    chartType = 'line',
-    height = 500,
-    title = 'Energy Prices Over Time',
-    subtitle = 'Electricity prices for household consumers',
-    xAxisTitle = 'Time Period',
-    yAxisTitle = 'Price (EUR/kWh)',
-    showDataLabels = false,
-    showLegend = true,
-    colors = ['#003399', '#0066cc', '#3399ff', '#66b3ff', '#99ccff']
-  } = options;
 
-  return {
-    "service": "charts",
-    "version": "2.0",
-    "data": {
-      "chart": {
-        "type": chartType,
-        "height": height
-      },
-      "colors": colors,
-      "xAxis": {
-        "categories": categories,
-        "title": {
-          "text": xAxisTitle
-        }
-      },
-      "yAxis": {
-        "title": {
-          "text": yAxisTitle
-        }
-      },
-      "title": {
-        "text": title
-      },
-      "subtitle": {
-        "text": subtitle
-      },
-      "plotOptions": {
-        "series": {
-          "dataLabels": {
-            "enabled": showDataLabels
-          }
-        }
-      },
-      "legend": {
-        "enabled": showLegend
-      },
-      "series": series
-    }
-  };
-};
 
-/**
- * Generate generic Webtools UEC configuration
- */
-export const createGenericConfig = (options: ChartConfigOptions) => {
-  const {
-    categories,
-    series,
-    chartType = 'column',
-    height = 500,
-    title = 'Chart Title',
-    subtitle = 'Chart Subtitle',
-    xAxisTitle = 'X Axis',
-    yAxisTitle = 'Y Axis',
-    showDataLabels = false,
-    showLegend = true,
-    colors = ['#003399', '#0066cc', '#3399ff', '#66b3ff', '#99ccff']
-  } = options;
 
-  return {
-    "service": "charts",
-    "version": "2.0",
-    "data": {
-      "chart": {
-        "type": chartType,
-        "height": height
-      },
-      "colors": colors,
-      "xAxis": {
-        "categories": categories,
-        "title": {
-          "text": xAxisTitle
-        }
-      },
-      "yAxis": {
-        "title": {
-          "text": yAxisTitle
-        }
-      },
-      "title": {
-        "text": title
-      },
-      "subtitle": {
-        "text": subtitle
-      },
-      "plotOptions": {
-        "series": {
-          "dataLabels": {
-            "enabled": showDataLabels
-          }
-        }
-      },
-      "legend": {
-        "enabled": showLegend
-      },
-      "series": series
-    }
-  };
-};
