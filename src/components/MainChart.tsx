@@ -10,7 +10,7 @@ interface MainChartProps {
 }
 
 const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { state } = useQuery();
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<any>(null);
@@ -85,7 +85,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       }
     }, 50);
 
-  }, [data, state.details, state.decimals, state.order, state.percentage, state.hideAggregates]);
+  }, [data, state.details, state.decimals, state.order, state.percentage, state.hideAggregates, i18n.language, t]);
 
   return (
     <div className={`main-chart ${className}`}>

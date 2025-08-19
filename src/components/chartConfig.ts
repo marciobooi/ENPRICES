@@ -97,6 +97,15 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
 
   const { categories: finalCategories, series: finalSeries, countryCodes: finalCountryCodes } = applyOrdering(categories, series, countryCodes);
 
+  // Translate categories (country names) if translation function is available
+  const translatedCategories = finalCategories.map((category, index) => {
+    const countryCode = finalCountryCodes[index];
+    if (t && countryCode) {
+      return t(`countries.${countryCode}`, category);
+    }
+    return category;
+  });
+
   // Format data labels based on decimals and percentage
   const formatDataLabels = percentage 
     ? `{y:.${decimals}f}%`
@@ -179,7 +188,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
         ...(isDetailed && { "plotOptions": { "column": { "stacking": "normal" } } })
       },
       "xAxis": {
-        "categories": finalCategories,
+        "categories": translatedCategories,
         "title": {
           "text": finalXAxisTitle
         },
@@ -208,7 +217,11 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       "tooltip": {
         "pointFormat": percentage 
           ? `<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.${decimals}f}%</b><br/>`
-          : `<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.${decimals}f}</b><br/>`
+          : `<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.${decimals}f}</b><br/>`,
+        "headerFormat": `<span style="font-size:10px">{point.key}</span><table>`,
+        "footerFormat": "</table>",
+        "shared": true,
+        "useHTML": true
       },
       "legend": {
         "enabled": finalShowLegend

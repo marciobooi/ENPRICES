@@ -9,7 +9,7 @@ import {
   faSortNumericUp,
   faPercent,
   faGrip,
-  faEyeSlash
+  faLayerGroup
 } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '../context/QueryContext';
 import { Tooltip } from 'react-tooltip';
@@ -22,11 +22,47 @@ interface Position {
 const FloatingMenu: React.FC = () => {
   const { t } = useTranslation();
   const { state, dispatch } = useQuery();
-  const [position, setPosition] = useState<Position>({ x: 20, y: 100 });
+  const [position, setPosition] = useState<Position>({ x: 20, y: 220 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
   const menuRef = useRef<HTMLDivElement>(null);
   const dragHandleRef = useRef<HTMLButtonElement>(null);
+
+  // Add hover styles
+  const hoverStyles = `
+    .floating-menu .ecl-button:hover:not(:disabled) {
+      outline: 3px solid #ffd617 !important;
+      border-color: transparent !important;
+      background-color: var(--c-p-80) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 2px 8px rgba(0, 68, 148, 0.3) !important;
+      transition: all 0.2s ease !important;
+    }
+    
+    .floating-menu .ecl-button.ecl-button--primary,
+    .floating-menu .ecl-button[aria-pressed="true"] {
+      background-color: #ffd617 !important;
+      color: #004494 !important;
+      border-color: #ffd617 !important;
+      box-shadow: 0 0 0 0 !important;
+      transform: translateY(0) !important;
+    }
+    
+    .floating-menu .ecl-button {
+      transition: all 0.2s ease !important;
+    }
+  `;
+
+  // Insert styles into head
+  React.useEffect(() => {
+    const styleElement = document.createElement('style');
+    styleElement.textContent = hoverStyles;
+    document.head.appendChild(styleElement);
+    
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
 
   // Handle mouse drag
   useEffect(() => {
@@ -127,7 +163,7 @@ const FloatingMenu: React.FC = () => {
         className="floating-menu"
         style={{
           position: 'fixed',
-          left: `${position.x}px`,
+          right: `${position.x}px`,
           top: `${position.y}px`,
           zIndex: 1000,
           backgroundColor: 'white',
@@ -144,22 +180,16 @@ const FloatingMenu: React.FC = () => {
         {/* Drag Handle */}
         <button
           ref={dragHandleRef}
-          className="drag-handle"
+          className="ecl-button ecl-button--secondary"
           onMouseDown={handleMouseDown}
           onKeyDown={handleKeyDown}
           aria-label={t('floatingMenu.drag', 'Drag to move menu')}
           data-tooltip-id="drag-tooltip"
           data-tooltip-content={t('floatingMenu.drag', 'Drag to move menu')}
           style={{
-            background: 'none',
-            border: 'none',
             cursor: isDragging ? 'grabbing' : 'grab',
             padding: '8px',
-            color: '#666',
-            borderRadius: '4px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
+            borderRadius: '4px'
           }}
         >
           <FontAwesomeIcon icon={faGripVertical} />
@@ -167,21 +197,14 @@ const FloatingMenu: React.FC = () => {
 
         {/* Decimals Button */}
         <button
-          className="floating-menu-btn"
+          className={`ecl-button ecl-button--secondary floating-menu-btn`}
           onClick={toggleDecimals}
           aria-label={t('floatingMenu.decimals.label', { count: state.decimals })}
           data-tooltip-id="decimals-tooltip"
           data-tooltip-content={t('floatingMenu.decimals.tooltip', { count: state.decimals })}
           style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
             padding: '8px',
-            color: '#333',
             borderRadius: '4px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
             position: 'relative'
           }}
         >
@@ -206,21 +229,14 @@ const FloatingMenu: React.FC = () => {
 
         {/* Order Button */}
         <button
-          className="floating-menu-btn"
+          className="ecl-button ecl-button--secondary floating-menu-btn"
           onClick={toggleOrder}
           aria-label={getOrderLabel()}
           data-tooltip-id="order-tooltip"
           data-tooltip-content={getOrderLabel()}
           style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
             padding: '8px',
-            color: '#333',
-            borderRadius: '4px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
+            borderRadius: '4px'
           }}
         >
           <FontAwesomeIcon icon={getOrderIcon()} />
@@ -229,21 +245,15 @@ const FloatingMenu: React.FC = () => {
         {/* Percentage Button - Only show in details mode */}
         {state.details && (
           <button
-            className="floating-menu-btn"
+            className={`ecl-button ${state.percentage ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
             onClick={togglePercentage}
             aria-label={t('floatingMenu.percentage.label', 'Toggle percentage view')}
             data-tooltip-id="percentage-tooltip"
             data-tooltip-content={t('floatingMenu.percentage.tooltip', { status: state.percentage ? 'on' : 'off' })}
+            aria-pressed={state.percentage}
             style={{
-              background: state.percentage ? '#007bff' : 'none',
-              border: 'none',
-              cursor: 'pointer',
               padding: '8px',
-              color: state.percentage ? 'white' : '#333',
-              borderRadius: '4px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
+              borderRadius: '4px'
             }}
           >
             <FontAwesomeIcon icon={faPercent} />
@@ -252,24 +262,36 @@ const FloatingMenu: React.FC = () => {
 
         {/* Hide Aggregates Button */}
         <button
-          className="floating-menu-btn"
+          className={`ecl-button ${state.hideAggregates ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
           onClick={toggleAggregates}
           aria-label={t('floatingMenu.aggregates.label', 'Toggle aggregates visibility')}
           data-tooltip-id="aggregates-tooltip"
           data-tooltip-content={t('floatingMenu.aggregates.tooltip', { status: state.hideAggregates ? 'hidden' : 'visible' })}
+          aria-pressed={state.hideAggregates}
           style={{
-            background: state.hideAggregates ? '#007bff' : 'none',
-            border: 'none',
-            cursor: 'pointer',
             padding: '8px',
-            color: state.hideAggregates ? 'white' : '#333',
-            borderRadius: '4px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
+            borderRadius: '4px'
           }}
         >
-          <FontAwesomeIcon icon={faEyeSlash} />
+          <div style={{ position: 'relative', display: 'inline-block' }}>
+            <FontAwesomeIcon icon={faLayerGroup} />
+            {state.hideAggregates && (
+              <span 
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  fontSize: '18px',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  textShadow: '0 0 2px rgba(0,0,0,0.8)'
+                }}
+              >
+                /
+              </span>
+            )}
+          </div>
         </button>
       </div>
 
