@@ -1,5 +1,4 @@
 import './App.css'
-import { useWebtoolsInit } from './hooks/useWebtools'
 import { useLanguageSync } from './hooks/useLanguageSync'
 import { useECLInit } from './hooks/useECL'
 import { QueryProvider } from './context/QueryContext'
@@ -10,7 +9,6 @@ import Meta from './components/Meta'
 
 
 function App() {
-  useWebtoolsInit();
   useLanguageSync();
   useECLInit();
 

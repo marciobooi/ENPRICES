@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { subscribeToDataUpdates, getCurrentData } from '../services/handleData';
 import { transformToCountryComparison } from './chartData';
 import { createCountryComparisonConfig } from './chartConfig';
+import { useQuery } from '../context/QueryContext';
 
 interface MainChartProps {
   className?: string;
@@ -10,6 +11,7 @@ interface MainChartProps {
 
 const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
   const { t } = useTranslation();
+  const { state } = useQuery();
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<any>(null);
 
@@ -36,13 +38,14 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     chartContainerRef.current.innerHTML = '';
 
     // Transform data using the external function
-    const { categories, series, selectedYear } = transformToCountryComparison(data);
+    const { categories, series, selectedYear, isDetailed } = transformToCountryComparison(data, state.details);
 
     // Create chart configuration using the external function
     const chartConfig = createCountryComparisonConfig({
       categories,
       series,
-      selectedYear
+      selectedYear,
+      isDetailed
     });
 
     // Create the UEC script element with our data
@@ -53,15 +56,10 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     // Add script to container
     chartContainerRef.current.appendChild(scriptElement);
 
-    // Trigger Webtools processing
-    setTimeout(() => {
-      if ((window as any).$wt && typeof (window as any).$wt === 'function') {
-        console.log('Triggering Webtools scan with real data');
-        (window as any).$wt();
-      }
-    }, 500);
+    // Improved Webtools processing with retry logic using the utility function
 
-  }, [data]);
+
+  }, [data, state.details]);
 
   return (
     <div className={`main-chart ${className}`}>

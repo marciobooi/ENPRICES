@@ -19,6 +19,7 @@ export interface ChartConfigOptions {
   showDataLabels?: boolean;
   showLegend?: boolean;
   colors?: string[];
+  isDetailed?: boolean;
 }
 
 /**
@@ -37,18 +38,26 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     yAxisTitle = 'Price (EUR/kWh)',
     showDataLabels = true,
     showLegend = false,
-    colors = ['#003399']
+    colors = ['#003399'],
+    isDetailed = false
   } = options;
+
+  // Adjust configuration for detailed/stacked view
+  const finalChartType = isDetailed ? 'column' : chartType;
+  const finalShowLegend = isDetailed ? true : showLegend;
+  const finalColors = isDetailed ? ['#FF6B6B', '#4ECDC4', '#45B7D1'] : colors;
+  const finalTitle = isDetailed ? 'Energy Prices by Tax Component' : title;
 
   return {
     "service": "charts",
     "version": "2.0",
     "data": {
       "chart": {
-        "type": chartType,
-        "height": height
+        "type": finalChartType,
+        "height": height,
+        ...(isDetailed && { "plotOptions": { "column": { "stacking": "normal" } } })
       },
-      "colors": colors,
+      "colors": finalColors,
       "xAxis": {
         "categories": categories,
         "title": {
@@ -67,12 +76,13 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
         }
       },
       "title": {
-        "text": title
+        "text": finalTitle
       },
       "subtitle": {
         "text": subtitle
       },
       "plotOptions": {
+        ...(isDetailed && { "column": { "stacking": "normal" } }),
         "series": {
           "dataLabels": {
             "enabled": showDataLabels,
@@ -81,7 +91,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
         }
       },
       "legend": {
-        "enabled": showLegend
+        "enabled": finalShowLegend
       },
       "series": series
     }
