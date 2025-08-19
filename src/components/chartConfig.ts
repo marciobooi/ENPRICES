@@ -36,7 +36,6 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     subtitle = `Electricity prices for household consumers - ${selectedYear}`,
     xAxisTitle = 'Countries',
     yAxisTitle = 'Price (EUR/kWh)',
-    showDataLabels = true,
     showLegend = false,
     colors = ['#003399'],
     isDetailed = false
@@ -83,12 +82,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       },
       "plotOptions": {
         ...(isDetailed && { "column": { "stacking": "normal" } }),
-        "series": {
-          "dataLabels": {
-            "enabled": showDataLabels,
-            "format": "{y:.3f}"
-          }
-        }
+     
       },
       "legend": {
         "enabled": finalShowLegend
