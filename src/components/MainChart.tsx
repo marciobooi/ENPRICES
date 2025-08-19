@@ -38,10 +38,12 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     chartContainerRef.current.innerHTML = '';
 
     // Transform data using the external function
-    const { categories, series, selectedYear, isDetailed } = transformToCountryComparison(data, state.details, state.hideAggregates);
+    const transformedData = transformToCountryComparison(data, state.details, state.hideAggregates);
+    const { categories, series, selectedYear, isDetailed, countryCodes } = transformedData;
 
     // Debug: Log the transformed data
-    console.log('Chart data:', { categories, series, selectedYear, isDetailed });
+    console.log('Chart data:', { categories, series, selectedYear, isDetailed, countryCodes });
+    console.log('Country codes for colors:', countryCodes);
 
     // Create chart configuration using the external function
     const chartConfig = createCountryComparisonConfig({
@@ -52,6 +54,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       decimals: state.decimals,
       order: state.order,
       percentage: state.percentage,
+      countryCodes: countryCodes || [],
       t
     });
 

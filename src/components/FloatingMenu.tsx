@@ -226,27 +226,29 @@ const FloatingMenu: React.FC = () => {
           <FontAwesomeIcon icon={getOrderIcon()} />
         </button>
 
-        {/* Percentage Button */}
-        <button
-          className="floating-menu-btn"
-          onClick={togglePercentage}
-          aria-label={t('floatingMenu.percentage.label', 'Toggle percentage view')}
-          data-tooltip-id="percentage-tooltip"
-          data-tooltip-content={t('floatingMenu.percentage.tooltip', { status: state.percentage ? 'on' : 'off' })}
-          style={{
-            background: state.percentage ? '#007bff' : 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: '8px',
-            color: state.percentage ? 'white' : '#333',
-            borderRadius: '4px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <FontAwesomeIcon icon={faPercent} />
-        </button>
+        {/* Percentage Button - Only show in details mode */}
+        {state.details && (
+          <button
+            className="floating-menu-btn"
+            onClick={togglePercentage}
+            aria-label={t('floatingMenu.percentage.label', 'Toggle percentage view')}
+            data-tooltip-id="percentage-tooltip"
+            data-tooltip-content={t('floatingMenu.percentage.tooltip', { status: state.percentage ? 'on' : 'off' })}
+            style={{
+              background: state.percentage ? '#007bff' : 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '8px',
+              color: state.percentage ? 'white' : '#333',
+              borderRadius: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <FontAwesomeIcon icon={faPercent} />
+          </button>
+        )}
 
         {/* Hide Aggregates Button */}
         <button

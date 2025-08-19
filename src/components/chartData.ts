@@ -7,6 +7,7 @@ export interface CountryData {
   name: string;
   value: number | null;
   geoIndex?: number; // Original API index for protocol ordering
+  geoCode?: string; // Country code for color mapping
 }
 
 export interface ChartDataResult {
@@ -17,6 +18,7 @@ export interface ChartDataResult {
   }>;
   selectedYear: string;
   isDetailed?: boolean;
+  countryCodes?: string[]; // Add country codes for color mapping
 }
 
 /**
@@ -117,14 +119,16 @@ export const transformToCountryComparison = (eurostatData: any, details: boolean
     return {
       name: eurostatData.dimension.geo.category.label[geoCode] || geoCode,
       value: (value !== undefined && value !== null) ? parseFloat(value) : null,
-      geoIndex: geoIndex // Keep original index for protocol ordering
+      geoIndex: geoIndex, // Keep original index for protocol ordering
+      geoCode: geoCode // Keep the country code for color mapping
     };
   }).filter(item => item.value !== null) // Remove null values
     .sort((a, b) => a.geoIndex - b.geoIndex); // Sort by original API index (protocol order)
 
-  // Extract categories (country names) and data values
+  // Extract categories (country names), data values, and country codes
   const categories = countriesData.map(item => item.name);
   const values = countriesData.map(item => item.value);
+  const countryCodes = countriesData.map(item => item.geoCode).filter((code): code is string => code !== undefined);
 
   // Create single series for the selected year
   const series = [{
@@ -136,7 +140,8 @@ export const transformToCountryComparison = (eurostatData: any, details: boolean
     categories, 
     series, 
     selectedYear,
-    isDetailed: false 
+    isDetailed: false,
+    countryCodes
   };
 };
 

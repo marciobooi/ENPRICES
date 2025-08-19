@@ -3,6 +3,8 @@
  * Handles Webtools UEC configuration for different chart types
  */
 
+import { barChartColors, detailsBarChartColors } from '../data/energyData';
+
 export interface ChartConfigOptions {
   categories: string[];
   series: Array<{
@@ -18,11 +20,11 @@ export interface ChartConfigOptions {
   yAxisTitle?: string;
   showDataLabels?: boolean;
   showLegend?: boolean;
-  colors?: string[];
   isDetailed?: boolean;
   decimals?: number; // Number of decimal places (0-3)
   order?: 'proto' | 'alfa' | 'asc' | 'desc'; // Chart ordering
   percentage?: boolean; // Show as percentage
+  countryCodes?: string[]; // Country codes for color mapping
   t?: any; // i18next translation function
 }
 
@@ -42,11 +44,11 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     yAxisTitle,
     showDataLabels = false,
     showLegend = false,
-    colors = ['#003399'],
     isDetailed = false,
     decimals = 2,
     order = 'proto',
     percentage = false,
+    countryCodes = [],
     t
   } = options;
 
@@ -63,8 +65,8 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
   const finalYAxisTitle = yAxisTitle || (t ? t('chart.yAxis.title') : percentage ? 'Percentage (%)' : 'Price (EUR/kWh)');
 
   // Apply ordering to categories and data
-  const applyOrdering = (cats: string[], ser: Array<{name: string; data: (number | null)[]}>) => {
-    if (order === 'proto') return { categories: cats, series: ser }; // Original order
+  const applyOrdering = (cats: string[], ser: Array<{name: string; data: (number | null)[]}>, codes: string[] = []) => {
+    if (order === 'proto') return { categories: cats, series: ser, countryCodes: codes }; // Original order
     
     // Create indices for sorting
     const indices = cats.map((_, i) => i);
@@ -82,17 +84,18 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       });
     }
     
-    // Apply sorting to categories and all series data
+    // Apply sorting to categories, series data, and country codes
     const sortedCategories = indices.map(i => cats[i]);
     const sortedSeries = ser.map(s => ({
       ...s,
       data: indices.map(i => s.data[i])
     }));
+    const sortedCountryCodes = indices.map(i => codes[i] || '');
     
-    return { categories: sortedCategories, series: sortedSeries };
+    return { categories: sortedCategories, series: sortedSeries, countryCodes: sortedCountryCodes };
   };
 
-  const { categories: finalCategories, series: finalSeries } = applyOrdering(categories, series);
+  const { categories: finalCategories, series: finalSeries, countryCodes: finalCountryCodes } = applyOrdering(categories, series, countryCodes);
 
   // Format data labels based on decimals and percentage
   const formatDataLabels = percentage 
@@ -102,7 +105,48 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
   // Adjust configuration for detailed/stacked view
   const finalChartType = isDetailed ? 'column' : chartType;
   const finalShowLegend = isDetailed ? true : showLegend;
-  const finalColors = isDetailed ? ['#FF6B6B', '#4ECDC4', '#45B7D1'] : colors;
+  
+  // Generate series with individual colors
+  const generateSeriesWithColors = () => {
+    if (isDetailed) {
+      // For detailed view, use the original series but with detailsBarChartColors
+      const detailColors = Object.values(detailsBarChartColors);
+      return finalSeries.map((series, index) => ({
+        ...series,
+        color: detailColors[index] || detailColors[0]
+      }));
+    } else {
+      // For country comparison, create series with individual data point colors
+      return finalSeries.map(series => ({
+        ...series,
+        data: series.data.map((value, index) => {
+          const countryCode = finalCountryCodes[index];
+          let color = barChartColors.default;
+          
+          if (countryCode === 'EU27_2020') {
+            color = barChartColors.EU27_2020;
+          } else if (countryCode === 'EA') {
+            color = barChartColors.EA;
+          }
+          
+          return {
+            y: value,
+            color: color
+          };
+        })
+      }));
+    }
+  };
+  
+  const finalSeriesWithColors = generateSeriesWithColors();
+  
+  // Debug: Log color generation
+  console.log('Color generation debug:', {
+    isDetailed,
+    countryCodes: finalCountryCodes,
+    finalSeriesWithColors,
+    categories: finalCategories
+  });
 
   // Configure plot options based on percentage and detailed view
   const getPlotOptions = () => {
@@ -134,7 +178,6 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
         "height": height,
         ...(isDetailed && { "plotOptions": { "column": { "stacking": "normal" } } })
       },
-      "colors": finalColors,
       "xAxis": {
         "categories": finalCategories,
         "title": {
@@ -175,7 +218,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
         "text": "Source: Eurostat",
         "href": "https://ec.europa.eu/eurostat"
       },
-      "series": finalSeries
+      "series": finalSeriesWithColors
     }
   };
 };

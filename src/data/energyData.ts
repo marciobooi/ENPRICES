@@ -157,43 +157,31 @@ export const energyBreakdowns = {
 };
 
 
-// Bar colors for specific country groups
-export const barColors = {
-  "EU27_2020": "#14375A",
-  "EA": "#800000",
-  "EU28": "#14375A"
+export const barChartColors = {
+  "EU27_2020": "#cca300ff",
+  "EA": "#208486ff",
+  "default": "#0e47cbff"
 };
 
-// Chart color schemes
-export const totalColors = ["#388AE2", "#06D7FF", "#19FF99", "#4C99FF"];
 
-export const lineColors = ["#388AE2", "#06D7FF", "#19FF99", "#4C99FF"];
+export const detailsBarChartColors = {
+  "TOTAL":'#0e47cbff',
+	"NETC":'#06D7FF',
+	"TAX_LEV_X_VAT":'#19FF99',
+	"VAT":'#4C99FF',
+	"TAX_RNW":'#FFD900',
+	"TAX_CAP":'#C88000',
+	"TAX_ENV":'#33D129',
+	"TAX_NUC":'#FFB800',	
+	"OTH":'#E67500',
+	"NRG_SUP":'#05A0FF',
+  "X_TAX": "#cca300ff",
+  "X_VAT": "#208486ff",
+  "I_TAX": "#0e47cbff"
+}
 
-export const detailColors = ["#388AE2", "#06D7FF", "#19FF99"];
 
-// Component-specific colors
-export const colors = {
-  "TOTAL": '#388AE2',
-  "NETC": '#06D7FF',
-  "TAX_LEV_X_VAT": '#19FF99',
-  "VAT": '#4C99FF',
-  "TAX_RNW": '#FFD900',
-  "TAX_CAP": '#C88000',
-  "TAX_ENV": '#33D129',
-  "TAX_NUC": '#FFB800',
-  "OTH": '#E67500',
-  "NRG_SUP": '#05A0FF',
-};
 
-// Extended color palette for components
-export const componentColors = [
-  '#388AE2', '#06D7FF', '#19FF99', '#4C99FF', '#FFD900', '#C88000', '#33D129', '#FFB800',
-  '#E67500', '#05A0FF', '#2CB523', '#8C4000', '#0033FF', '#00A68C', '#FF8C00',
-  '#00D98C', '#2673FF', '#FFB300', '#FF8A00', '#B35900', '#26A31F', '#0573FF',
-];
-
-// Country sorting options
-export const sortCountries = ["PROTO", "ALPHA", "ASC", "DESC"];
 
 // Dataset configurations interface
 export interface DatasetConfig {
@@ -353,18 +341,3 @@ export const getAvailableDatasets = (): string[] => {
   return Object.keys(codesDataset);
 };
 
-// Helper function to get color by component
-export const getComponentColor = (component: string, index?: number): string => {
-  if (colors[component as keyof typeof colors]) {
-    return colors[component as keyof typeof colors];
-  }
-  if (index !== undefined && index < componentColors.length) {
-    return componentColors[index];
-  }
-  return componentColors[0]; // Default color
-};
-
-// Helper function to get bar color for country
-export const getCountryBarColor = (countryCode: string): string | undefined => {
-  return barColors[countryCode as keyof typeof barColors];
-};
