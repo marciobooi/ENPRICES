@@ -48,7 +48,8 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       categories,
       series,
       selectedYear,
-      isDetailed
+      isDetailed,
+      t
     });
 
     // Debug: Log the chart config

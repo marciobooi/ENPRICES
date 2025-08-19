@@ -330,16 +330,26 @@
   },
 
   "chart": {
-    "title": "Energy Prices",
-    "subtitle": "Data from Eurostat",
+    "title": "Energy Prices by Country",
+    "subtitle": "Electricity prices for household consumers",
+    "detailedTitle": "Energy Prices by Tax Component",
     "loading": "Loading chart data...",
     "initializing": "Initializing chart...",
     "error": "Failed to load chart data",
     "xAxis": {
-      "title": "Time"
+      "title": "Countries",
+      "timeTitle": "Time"
     },
     "yAxis": {
-      "title": "Price"
+      "title": "Price (EUR/kWh)"
+    },
+    "series": {
+      "energyPrices": "Energy Prices",
+      "taxBreakdown": {
+        "X_TAX": "Excluding taxes",
+        "X_VAT": "Excluding VAT", 
+        "I_TAX": "Including all taxes"
+      }
     },
     "aria": {
       "label": "Energy prices chart showing data over time for selected countries and parameters"

@@ -20,6 +20,7 @@ export interface ChartConfigOptions {
   showLegend?: boolean;
   colors?: string[];
   isDetailed?: boolean;
+  t?: any; // i18next translation function
 }
 
 /**
@@ -32,20 +33,33 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     selectedYear = '',
     chartType = 'column',
     height = 500,
-    title = 'Energy Prices by Country',
-    subtitle = `Electricity prices for household consumers - ${selectedYear}`,
-    xAxisTitle = 'Countries',
-    yAxisTitle = 'Price (EUR/kWh)',
+    title,
+    subtitle,
+    xAxisTitle,
+    yAxisTitle,
+    showDataLabels = false,
     showLegend = false,
     colors = ['#003399'],
-    isDetailed = false
+    isDetailed = false,
+    t
   } = options;
+
+  // Use translations or fallback to defaults
+  const finalTitle = title || (isDetailed 
+    ? (t ? t('chart.detailedTitle') : 'Energy Prices by Tax Component')
+    : (t ? t('chart.title') : 'Energy Prices by Country'));
+  
+  const finalSubtitle = subtitle || (t 
+    ? t('chart.subtitle') + (selectedYear ? ` - ${selectedYear}` : '')
+    : `Electricity prices for household consumers${selectedYear ? ` - ${selectedYear}` : ''}`);
+  
+  const finalXAxisTitle = xAxisTitle || (t ? t('chart.xAxis.title') : 'Countries');
+  const finalYAxisTitle = yAxisTitle || (t ? t('chart.yAxis.title') : 'Price (EUR/kWh)');
 
   // Adjust configuration for detailed/stacked view
   const finalChartType = isDetailed ? 'column' : chartType;
   const finalShowLegend = isDetailed ? true : showLegend;
   const finalColors = isDetailed ? ['#FF6B6B', '#4ECDC4', '#45B7D1'] : colors;
-  const finalTitle = isDetailed ? 'Energy Prices by Tax Component' : title;
 
   return {
     "service": "chart",
@@ -60,7 +74,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       "xAxis": {
         "categories": categories,
         "title": {
-          "text": xAxisTitle
+          "text": finalXAxisTitle
         },
         "labels": {
           "rotation": -45,
@@ -71,18 +85,23 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       },
       "yAxis": {
         "title": {
-          "text": yAxisTitle
+          "text": finalYAxisTitle
         }
       },
       "title": {
         "text": finalTitle
       },
       "subtitle": {
-        "text": subtitle
+        "text": finalSubtitle
       },
       "plotOptions": {
         ...(isDetailed && { "column": { "stacking": "normal" } }),
-     
+        "series": {
+          "dataLabels": {
+            "enabled": showDataLabels,
+            "format": "{y:.3f}"
+          }
+        }
       },
       "legend": {
         "enabled": finalShowLegend

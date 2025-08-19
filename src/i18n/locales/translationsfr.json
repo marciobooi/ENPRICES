@@ -319,16 +319,26 @@
   },
 
   "chart": {
-    "title": "Prix de l'énergie",
-    "subtitle": "Données d'Eurostat",
+    "title": "Prix de l'énergie par pays",
+    "subtitle": "Prix de l'électricité pour les consommateurs domestiques",
+    "detailedTitle": "Prix de l'énergie par composante fiscale",
     "loading": "Chargement des données du graphique...",
     "initializing": "Initialisation du graphique...",
     "error": "Échec du chargement des données du graphique",
     "xAxis": {
-      "title": "Temps"
+      "title": "Pays",
+      "timeTitle": "Temps"
     },
     "yAxis": {
-      "title": "Prix"
+      "title": "Prix (EUR/kWh)"
+    },
+    "series": {
+      "energyPrices": "Prix de l'énergie",
+      "taxBreakdown": {
+        "X_TAX": "Hors taxes",
+        "X_VAT": "Hors TVA",
+        "I_TAX": "Toutes taxes comprises"
+      }
     },
     "aria": {
       "label": "Graphique des prix de l'énergie montrant les données dans le temps pour les pays et paramètres sélectionnés"
