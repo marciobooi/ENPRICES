@@ -165,7 +165,7 @@ const FloatingMenu: React.FC = () => {
           position: 'fixed',
           right: `${position.x}px`,
           top: `${position.y}px`,
-          zIndex: 1000,
+          zIndex: 100,
           backgroundColor: 'white',
           borderRadius: '8px',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',

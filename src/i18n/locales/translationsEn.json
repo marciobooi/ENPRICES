@@ -346,9 +346,9 @@
     "series": {
       "energyPrices": "Energy Prices",
       "taxBreakdown": {
-        "X_TAX": "Excluding taxes",
-        "X_VAT": "Excluding VAT", 
-        "I_TAX": "Including all taxes"
+          "X_TAX": "Price excluding taxes and levies",
+          "X_VAT": "VAT and other recoverable taxes and levies",
+          "I_TAX": "Rest of taxes and levies"
       }
     },
     "aria": {

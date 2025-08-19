@@ -118,12 +118,45 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
   // Generate series with individual colors
   const generateSeriesWithColors = () => {
     if (isDetailed) {
-      // For detailed view, use the original series but with detailsBarChartColors
+      // For detailed view, use the original series but with detailsBarChartColors and translated names
       const detailColors = Object.values(detailsBarChartColors);
-      return finalSeries.map((series, index) => ({
-        ...series,
-        color: detailColors[index] || detailColors[0]
-      }));
+      return finalSeries.map((series, index) => {
+        // Translate series name if it's a tax breakdown key and translation function is available
+        let translatedName = series.name;
+        if (t) {
+          // Map API series names to translation keys
+          let translationKey = null;
+          
+          // Check if it's a direct tax code
+          if (['X_TAX', 'X_VAT', 'I_TAX'].includes(series.name)) {
+            translationKey = `chart.series.taxBreakdown.${series.name}`;
+          } else {
+            // Map common API descriptions to our translation keys
+            const seriesNameLower = series.name.toLowerCase();
+            if (seriesNameLower.includes('excluding taxes') || seriesNameLower.includes('ohne steuern') || seriesNameLower.includes('hors taxes')) {
+              translationKey = 'chart.series.taxBreakdown.X_TAX';
+            } else if (seriesNameLower.includes('vat') || seriesNameLower.includes('mehrwertsteuer') || seriesNameLower.includes('tva')) {
+              translationKey = 'chart.series.taxBreakdown.X_VAT';
+            } else if (seriesNameLower.includes('all taxes') || seriesNameLower.includes('alle steuern') || seriesNameLower.includes('toutes taxes') || 
+                      seriesNameLower.includes('rest of taxes') || seriesNameLower.includes('taxes and levies included')) {
+              translationKey = 'chart.series.taxBreakdown.I_TAX';
+            }
+          }
+          
+          if (translationKey) {
+            const translation = t(translationKey, null);
+            if (translation !== null) {
+              translatedName = translation;
+            }
+          }
+        }
+        
+        return {
+          ...series,
+          name: translatedName,
+          color: detailColors[index] || detailColors[0]
+        };
+      });
     } else {
       // For country comparison, create series with individual data point colors
       return finalSeries.map(series => ({
@@ -215,11 +248,13 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       },
       "plotOptions": getPlotOptions(),
       "tooltip": {
+        "headerFormat": `<span style="font-size:12px; font-weight: bold">{point.key}</span><br/>`,
         "pointFormat": percentage 
-          ? `<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.${decimals}f}%</b><br/>`
-          : `<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.${decimals}f}</b><br/>`,
-        "headerFormat": `<span style="font-size:10px">{point.key}</span><table>`,
-        "footerFormat": "</table>",
+          ? `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.${decimals}f}%</b><br/>`
+          : `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.${decimals}f}</b><br/>`,
+        "footerFormat": isDetailed && !percentage 
+          ? `<span style="font-weight: bold">Total: <b>{point.total:.${decimals}f}</b></span>`
+          : "",
         "shared": true,
         "useHTML": true
       },
