@@ -343,5 +343,31 @@
     "aria": {
       "label": "Graphique des prix de l'énergie montrant les données dans le temps pour les pays et paramètres sélectionnés"
     }
+  },
+
+  "floatingMenu": {
+    "label": "Contrôles du graphique",
+    "drag": "Glisser pour déplacer le menu",
+    "decimals": {
+      "label": "Décimales : {{count}}",
+      "tooltip": "Afficher {{count}} décimales"
+    },
+    "order": {
+      "proto": "Ordre de protocole",
+      "alfabetical": "Ordre alphabétique",
+      "ascending": "Ordre croissant",
+      "descending": "Ordre décroissant"
+    },
+    "percentage": {
+      "label": "Basculer la vue en pourcentage",
+      "tooltip": "Vue en pourcentage : {{status}}"
+    },
+    "aggregates": {
+      "label": "Basculer la visibilité des agrégats",
+      "tooltip": "Agrégats UE : {{status}}"
+    },
+    "screenReader": {
+      "dragging": "Déplacement du menu de contrôle du graphique"
+    }
   }
 }

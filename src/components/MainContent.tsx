@@ -2,6 +2,7 @@
 import React from 'react';
 import type { ReactNode } from 'react';
 import MainChart from './MainChart';
+import FloatingMenu from './FloatingMenu';
 
 interface MainContentProps {
   children?: ReactNode;
@@ -21,6 +22,7 @@ const MainContent: React.FC<MainContentProps> = ({ children, className }) => {
 
         {children}
       </div>
+      <FloatingMenu />
     </main>
   );
 };

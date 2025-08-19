@@ -6,6 +6,7 @@
 export interface CountryData {
   name: string;
   value: number | null;
+  geoIndex?: number; // Original API index for protocol ordering
 }
 
 export interface ChartDataResult {
@@ -80,7 +81,7 @@ const transformToTaxBreakdown = (eurostatData: any): ChartDataResult => {
 /**
  * Transform Eurostat data to show countries on x-axis for selected year
  */
-export const transformToCountryComparison = (eurostatData: any, details: boolean = false): ChartDataResult => {
+export const transformToCountryComparison = (eurostatData: any, details: boolean = false, hideAggregates: boolean = false): ChartDataResult => {
   if (!eurostatData?.dimension?.time?.category?.index || !eurostatData?.dimension?.geo?.category?.index) {
     return { categories: [], series: [], selectedYear: '', isDetailed: details };
   }
@@ -99,7 +100,13 @@ export const transformToCountryComparison = (eurostatData: any, details: boolean
   const selectedTimeIndex = timeCategories[selectedYear];
   
   const geoCategories = eurostatData.dimension.geo.category.index;
-  const geoLabels = Object.keys(geoCategories);
+  let geoLabels = Object.keys(geoCategories);
+  
+  // Filter out aggregates (EU entities) if hideAggregates is true
+  if (hideAggregates) {
+    const aggregateCodes = ['EU27_2020', 'EA']; // EU27 and Euro Area
+    geoLabels = geoLabels.filter(geoCode => !aggregateCodes.includes(geoCode));
+  }
   
   // Create array of countries with their values for the selected year
   const countriesData: CountryData[] = geoLabels.map(geoCode => {
@@ -109,10 +116,11 @@ export const transformToCountryComparison = (eurostatData: any, details: boolean
     
     return {
       name: eurostatData.dimension.geo.category.label[geoCode] || geoCode,
-      value: (value !== undefined && value !== null) ? parseFloat(value) : null
+      value: (value !== undefined && value !== null) ? parseFloat(value) : null,
+      geoIndex: geoIndex // Keep original index for protocol ordering
     };
   }).filter(item => item.value !== null) // Remove null values
-    .sort((a, b) => (b.value || 0) - (a.value || 0)) // Sort by value descending
+    .sort((a, b) => a.geoIndex - b.geoIndex); // Sort by original API index (protocol order)
 
   // Extract categories (country names) and data values
   const categories = countriesData.map(item => item.name);

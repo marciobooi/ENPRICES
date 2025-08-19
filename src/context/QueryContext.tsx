@@ -12,11 +12,13 @@ export interface QueryState {
   consumer: string;
   currency: string;
   dataset: string;
+  decimals: number; // 0-3 decimal places for number formatting
   details: boolean;
   geos: string[];
+  hideAggregates: boolean; // Toggle to hide EU aggregates
   language: string;
   nrg_prc: string[];
-  order: string;
+  order: 'proto' | 'alfa' | 'asc' | 'desc'; // Chart ordering options
   percentage: boolean;
   product: string;
   share: boolean;
@@ -38,9 +40,11 @@ export type QueryAction =
   | { type: 'SET_DATASET'; payload: string }
   | { type: 'SET_LANGUAGE'; payload: string }
   | { type: 'SET_CURRENCY'; payload: string }
-  | { type: 'SET_ORDER'; payload: string }
+  | { type: 'SET_ORDER'; payload: 'proto' | 'alfa' | 'asc' | 'desc' }
+  | { type: 'SET_DECIMALS'; payload: number }
   | { type: 'SET_DETAILS'; payload: boolean }
   | { type: 'SET_PERCENTAGE'; payload: boolean }
+  | { type: 'SET_HIDE_AGGREGATES'; payload: boolean }
   | { type: 'SET_SHARE'; payload: boolean }
   | { type: 'SET_COMPONENT'; payload: boolean }
   | { type: 'SET_AVAILABLE_YEARS'; payload: string[] }
@@ -57,11 +61,13 @@ const initialState: QueryState = {
   consumer: "HOUSEHOLD",
   currency: "EUR",
   dataset: "nrg_pc_204",
+  decimals: 2, // Default 2 decimal places
   details: false,
   geos: [...allCountries], // All countries by default instead of just EU
+  hideAggregates: false, // Show aggregates by default
   language: "EN",
   nrg_prc: [], // Will be populated based on component and dataset selection
-  order: "DESC",
+  order: "desc", // Fixed to match type
   percentage: false,
   product: "6000",
   share: false,
@@ -125,6 +131,11 @@ const queryReducer = (state: QueryState, action: QueryAction): QueryState => {
         ...state,
         order: action.payload
       };
+    case 'SET_DECIMALS':
+      return {
+        ...state,
+        decimals: action.payload
+      };
     case 'SET_DETAILS':
       return {
         ...state,
@@ -134,6 +145,11 @@ const queryReducer = (state: QueryState, action: QueryAction): QueryState => {
       return {
         ...state,
         percentage: action.payload
+      };
+    case 'SET_HIDE_AGGREGATES':
+      return {
+        ...state,
+        hideAggregates: action.payload
       };
     case 'SET_SHARE':
       return {

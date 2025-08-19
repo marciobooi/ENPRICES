@@ -38,7 +38,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     chartContainerRef.current.innerHTML = '';
 
     // Transform data using the external function
-    const { categories, series, selectedYear, isDetailed } = transformToCountryComparison(data, state.details);
+    const { categories, series, selectedYear, isDetailed } = transformToCountryComparison(data, state.details, state.hideAggregates);
 
     // Debug: Log the transformed data
     console.log('Chart data:', { categories, series, selectedYear, isDetailed });
@@ -49,6 +49,9 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       series,
       selectedYear,
       isDetailed,
+      decimals: state.decimals,
+      order: state.order,
+      percentage: state.percentage,
       t
     });
 
@@ -79,7 +82,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       }
     }, 50);
 
-  }, [data, state.details]);
+  }, [data, state.details, state.decimals, state.order, state.percentage, state.hideAggregates]);
 
   return (
     <div className={`main-chart ${className}`}>

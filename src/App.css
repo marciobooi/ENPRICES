@@ -1,0 +1,74 @@
+/* Floating Menu Styles */
+.floating-menu {
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.floating-menu button {
+  transition: all 0.2s ease;
+}
+
+.floating-menu button:hover {
+  background-color: #f0f0f0 !important;
+  transform: scale(1.05);
+}
+
+.floating-menu button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.floating-menu button:active {
+  transform: scale(0.95);
+}
+
+.drag-handle:hover {
+  background-color: #f0f0f0 !important;
+}
+
+.floating-menu-btn:hover {
+  background-color: #f0f0f0 !important;
+}
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  .floating-menu {
+    border: 2px solid #000 !important;
+  }
+  
+  .floating-menu button {
+    border: 1px solid #000 !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .floating-menu button {
+    transition: none;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .floating-menu {
+    padding: 6px !important;
+    gap: 2px !important;
+  }
+  
+  .floating-menu button {
+    padding: 6px !important;
+  }
+}

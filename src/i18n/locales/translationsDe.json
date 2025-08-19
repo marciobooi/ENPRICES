@@ -345,5 +345,31 @@
     "aria": {
       "label": "Energiepreise-Diagramm zeigt Daten über die Zeit für ausgewählte Länder und Parameter"
     }
+  },
+
+  "floatingMenu": {
+    "label": "Diagramm-Steuerung",
+    "drag": "Zum Verschieben des Menüs ziehen",
+    "decimals": {
+      "label": "Dezimalstellen: {{count}}",
+      "tooltip": "{{count}} Dezimalstellen anzeigen"
+    },
+    "order": {
+      "proto": "Protokollreihenfolge",
+      "alfabetical": "Alphabetische Reihenfolge",
+      "ascending": "Aufsteigende Reihenfolge", 
+      "descending": "Absteigende Reihenfolge"
+    },
+    "percentage": {
+      "label": "Prozentansicht umschalten",
+      "tooltip": "Prozentansicht: {{status}}"
+    },
+    "aggregates": {
+      "label": "Aggregate-Sichtbarkeit umschalten",
+      "tooltip": "EU-Aggregate: {{status}}"
+    },
+    "screenReader": {
+      "dragging": "Diagramm-Steuerungsmenü wird verschoben"
+    }
   }
 }

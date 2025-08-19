@@ -354,5 +354,31 @@
     "aria": {
       "label": "Energy prices chart showing data over time for selected countries and parameters"
     }
+  },
+
+  "floatingMenu": {
+    "label": "Chart controls",
+    "drag": "Drag to move menu",
+    "decimals": {
+      "label": "Decimal places: {{count}}",
+      "tooltip": "Show {{count}} decimal places"
+    },
+    "order": {
+      "proto": "Protocol order",
+      "alfabetical": "Alphabetical order", 
+      "ascending": "Ascending order",
+      "descending": "Descending order"
+    },
+    "percentage": {
+      "label": "Toggle percentage view",
+      "tooltip": "Percentage view: {{status}}"
+    },
+    "aggregates": {
+      "label": "Toggle aggregates visibility",
+      "tooltip": "EU aggregates: {{status}}"
+    },
+    "screenReader": {
+      "dragging": "Moving chart controls menu"
+    }
   }
 }

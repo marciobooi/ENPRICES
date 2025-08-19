@@ -20,6 +20,9 @@ export interface ChartConfigOptions {
   showLegend?: boolean;
   colors?: string[];
   isDetailed?: boolean;
+  decimals?: number; // Number of decimal places (0-3)
+  order?: 'proto' | 'alfa' | 'asc' | 'desc'; // Chart ordering
+  percentage?: boolean; // Show as percentage
   t?: any; // i18next translation function
 }
 
@@ -41,6 +44,9 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     showLegend = false,
     colors = ['#003399'],
     isDetailed = false,
+    decimals = 2,
+    order = 'proto',
+    percentage = false,
     t
   } = options;
 
@@ -54,16 +60,74 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     : `Electricity prices for household consumers${selectedYear ? ` - ${selectedYear}` : ''}`);
   
   const finalXAxisTitle = xAxisTitle || (t ? t('chart.xAxis.title') : 'Countries');
-  const finalYAxisTitle = yAxisTitle || (t ? t('chart.yAxis.title') : 'Price (EUR/kWh)');
+  const finalYAxisTitle = yAxisTitle || (t ? t('chart.yAxis.title') : percentage ? 'Percentage (%)' : 'Price (EUR/kWh)');
+
+  // Apply ordering to categories and data
+  const applyOrdering = (cats: string[], ser: Array<{name: string; data: (number | null)[]}>) => {
+    if (order === 'proto') return { categories: cats, series: ser }; // Original order
+    
+    // Create indices for sorting
+    const indices = cats.map((_, i) => i);
+    
+    if (order === 'alfa') {
+      // Alphabetical order by category name
+      indices.sort((a, b) => cats[a].localeCompare(cats[b]));
+    } else if (order === 'asc' || order === 'desc') {
+      // Sort by first series values
+      const firstSeries = ser[0]?.data || [];
+      indices.sort((a, b) => {
+        const valA = firstSeries[a] || 0;
+        const valB = firstSeries[b] || 0;
+        return order === 'asc' ? valA - valB : valB - valA;
+      });
+    }
+    
+    // Apply sorting to categories and all series data
+    const sortedCategories = indices.map(i => cats[i]);
+    const sortedSeries = ser.map(s => ({
+      ...s,
+      data: indices.map(i => s.data[i])
+    }));
+    
+    return { categories: sortedCategories, series: sortedSeries };
+  };
+
+  const { categories: finalCategories, series: finalSeries } = applyOrdering(categories, series);
+
+  // Format data labels based on decimals and percentage
+  const formatDataLabels = percentage 
+    ? `{y:.${decimals}f}%`
+    : `{y:.${decimals}f}`;
 
   // Adjust configuration for detailed/stacked view
   const finalChartType = isDetailed ? 'column' : chartType;
   const finalShowLegend = isDetailed ? true : showLegend;
   const finalColors = isDetailed ? ['#FF6B6B', '#4ECDC4', '#45B7D1'] : colors;
 
+  // Configure plot options based on percentage and detailed view
+  const getPlotOptions = () => {
+    const baseOptions: any = {};
+    
+    if (isDetailed) {
+      baseOptions.column = {
+        stacking: percentage ? 'percent' : 'normal'
+      };
+    }
+    
+    baseOptions.series = {
+      dataLabels: {
+        enabled: showDataLabels,
+        format: formatDataLabels
+      }
+    };
+    
+    return baseOptions;
+  };
+
   return {
     "service": "chart",
     "version": "2.0",
+    "menu": false,
     "data": {
       "chart": {
         "type": finalChartType,
@@ -72,7 +136,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       },
       "colors": finalColors,
       "xAxis": {
-        "categories": categories,
+        "categories": finalCategories,
         "title": {
           "text": finalXAxisTitle
         },
@@ -86,6 +150,9 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       "yAxis": {
         "title": {
           "text": finalYAxisTitle
+        },
+        "labels": {
+          "format": percentage ? `{value:.${decimals}f}%` : `{value:.${decimals}f}`
         }
       },
       "title": {
@@ -94,50 +161,21 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       "subtitle": {
         "text": finalSubtitle
       },
-      "plotOptions": {
-        ...(isDetailed && { "column": { "stacking": "normal" } }),
-        "series": {
-          "dataLabels": {
-            "enabled": showDataLabels,
-            "format": "{y:.3f}"
-          }
-        }
+      "plotOptions": getPlotOptions(),
+      "tooltip": {
+        "pointFormat": percentage 
+          ? `<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.${decimals}f}%</b><br/>`
+          : `<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.${decimals}f}</b><br/>`
       },
       "legend": {
         "enabled": finalShowLegend
-      },
-      "exporting": {
-        "enabled": true,
-        "buttons": {
-          "contextButton": {
-            "menuItems": [
-              "viewFullscreen",
-              "separator",
-              "downloadPNG",
-              "downloadJPEG",
-              "downloadPDF",
-              "downloadSVG",
-              "separator",
-              "downloadCSV",
-              "downloadXLS"
-            ]
-          }
-        },
-        "filename": `energy-prices-${selectedYear || 'data'}`,
-        "chartOptions": {
-          "title": {
-            "style": {
-              "fontSize": "16px"
-            }
-          }
-        }
       },
       "credits": {
         "enabled": true,
         "text": "Source: Eurostat",
         "href": "https://ec.europa.eu/eurostat"
       },
-      "series": series
+      "series": finalSeries
     }
   };
 };
