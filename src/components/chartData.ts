@@ -46,34 +46,81 @@ const transformToTaxBreakdown = (eurostatData: any): ChartDataResult => {
     const geoIndex = geoCategories[geoCode];
     return {
       name: eurostatData.dimension.geo.category.label[geoCode] || geoCode,
-      geoIndex: geoIndex
+      geoIndex: geoIndex,
+      geoCode: geoCode
     };
   });
   
-  // Use actual tax breakdown values from the API
-  const series = taxLabels.map((taxCode, taxIdx) => {
-    const data = countriesData.map(country => {
-      // Calculate the correct index for this specific country, tax, and time combination
-      const valueIndex = country.geoIndex * timeLabels.length * taxLabels.length + 
-                        taxIdx * timeLabels.length + 
-                        selectedTimeIndex;
-      const value = eurostatData.value[valueIndex];
+  // Get the raw tax values from API (X_TAX, X_VAT, I_TAX)
+  const rawTaxData = countriesData.map(country => {
+    const values: Record<string, number> = {};
+    taxLabels.forEach((taxCode, taxIdx) => {
+      // Use the correct index calculation (method 2 from debug)
+      const sizes = eurostatData.size || [1, 1, 1, 1, 3, 3, 5, 1]; // Updated tax size to 3
+      const currencyIndex = 0; // EUR
+      const valueIndex = taxIdx * sizes[5] * sizes[6] * sizes[7] + // tax dimension
+                        currencyIndex * sizes[6] * sizes[7] + // currency dimension  
+                        country.geoIndex * sizes[7] + // geo dimension
+                        selectedTimeIndex; // time dimension
       
-      if (value === undefined || value === null) return null;
-      return parseFloat(value);
+      const value = eurostatData.value[valueIndex];
+      values[taxCode] = parseFloat(value) || 0;
     });
-    
     return {
-      name: eurostatData.dimension.tax.category.label[taxCode] || taxCode,
-      data: data
+      country: country,
+      values: values
     };
   });
+
+  // Calculate the 3 tax components using the correct logic
+  // Based on tooltip: Price excluding taxes = X_VAT, Rest of taxes = ?, VAT = ?
+  const calculatedData = rawTaxData.map(item => {
+    const xTax = item.values['X_TAX'] || 0; // Excluding taxes (total)
+    const xVat = item.values['X_VAT'] || 0; // Excluding VAT 
+    const iTax = item.values['I_TAX'] || 0; // Including all taxes
+    
+    // Calculate the correct tax breakdown:
+    // From tooltip: Price(0.4488) + Rest(0.0270) + VAT(-0.1112) = Total(0.3646)
+    // We have: X_VAT=0.4488, X_TAX=0.3646, I_TAX=0.4758
+    
+    const priceExcludingTaxes = xVat; // 0.4488
+    
+    // VAT = -(I_TAX - X_TAX) = -(0.4758 - 0.3646) = -0.1112
+    const vatAndOtherTaxes = -(iTax - xTax);
+    
+    // Rest = Total - Price - VAT = 0.3646 - 0.4488 - (-0.1112) = 0.0270
+    const restOfTaxes = xTax - priceExcludingTaxes - vatAndOtherTaxes;
+    
+    return {
+      country: item.country,
+      priceExcludingTaxes: priceExcludingTaxes,
+      restOfTaxes: restOfTaxes,
+      vatAndOtherTaxes: vatAndOtherTaxes
+    };
+  });
+
+  // Create series for the 3 tax components
+  const series = [
+    {
+      name: 'Price excluding taxes and levies',
+      data: calculatedData.map(item => item.priceExcludingTaxes)
+    },
+    {
+      name: 'Rest of taxes and levies',
+      data: calculatedData.map(item => item.restOfTaxes)
+    },
+    {
+      name: 'VAT and other recoverable taxes and levies',
+      data: calculatedData.map(item => item.vatAndOtherTaxes)
+    }
+  ];
   
   return {
     categories: countriesData.map(c => c.name),
     series: series,
     selectedYear: selectedYear,
-    isDetailed: true
+    isDetailed: true,
+    countryCodes: countriesData.map(c => c.geoCode)
   };
 };
 

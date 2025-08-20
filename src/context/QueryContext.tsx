@@ -71,7 +71,7 @@ const initialState: QueryState = {
   percentage: false,
   product: "6000",
   share: false,
-  taxs: ["I_TAX", "X_TAX", "X_VAT"],
+  taxs: ["X_TAX", "X_VAT", "I_TAX"],
   time: `${new Date().getFullYear()}-S2`, // Current year, second semester
   unit: "KWH",
   availableYears: [],

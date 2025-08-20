@@ -133,10 +133,14 @@ export const handleData = (data: any, options: DataHandlerOptions): any => {
           
           taxKeys.forEach((taxCode, taxIndex) => {
             const taxName = data.dimension.tax.category.label[taxCode] || taxCode;
-            // Calculate the index for this specific combination
-            const valueIndex = geoIndex * timeKeys.length * taxKeys.length + 
-                              taxIndex * timeKeys.length + 
-                              latestTimeIndex;
+            // Use method 2 as it gives correct values
+            const sizes = data.size || [1, 1, 1, 1, 2, 3, 5, 1]; // [freq, product, nrg_cons, unit, tax, currency, geo, time]
+            const currencyIndex = 0; // EUR
+            const valueIndex = taxIndex * sizes[5] * sizes[6] * sizes[7] + // tax dimension
+                              currencyIndex * sizes[6] * sizes[7] + // currency dimension  
+                              geoIndex * sizes[7] + // geo dimension
+                              latestTimeIndex; // time dimension
+            
             const value = data.value[valueIndex];
             taxValues.push(`${taxName}: ${value !== null && value !== undefined ? parseFloat(value).toFixed(4) : 'null'}`);
           });
