@@ -324,6 +324,7 @@
     "title": "Energiepreise nach Ländern",
     "subtitle": "Strompreise für Haushaltsverbraucher",
     "detailedTitle": "Energiepreise nach Steuerkomponenten",
+    "componentTitle": "Energiepreise nach Komponente",
     "loading": "Lade Diagrammdaten...",
     "initializing": "Initialisiere Diagramm...",
     "error": "Fehler beim Laden der Diagrammdaten",
@@ -340,6 +341,16 @@
         "X_TAX": "Ohne Steuern",
         "X_VAT": "Ohne Mehrwertsteuer",
         "I_TAX": "Alle Steuern inbegriffen"
+      },
+      "components": {
+        "NETC": "Netzkosten",
+        "NRG_SUP": "Energieversorgung",
+        "OTH": "Sonstige Kosten",
+        "TAX_CAP": "Kapazitätssteuer",
+        "TAX_ENV": "Umweltsteuer",
+        "TAX_NUC": "Kernenergie-Steuer",
+        "TAX_RNW": "Erneuerbare Energien-Steuer",
+        "VAT": "Mehrwertsteuer"
       }
     },
     "aria": {

@@ -333,6 +333,7 @@
     "title": "Energy Prices by Country",
     "subtitle": "Electricity prices for household consumers",
     "detailedTitle": "Energy Prices by Tax Component",
+    "componentTitle": "Energy Prices by Component",
     "loading": "Loading chart data...",
     "initializing": "Initializing chart...",
     "error": "Failed to load chart data",
@@ -349,6 +350,16 @@
           "X_TAX": "Price excluding taxes and levies",
           "X_VAT": "VAT and other recoverable taxes and levies",
           "I_TAX": "Rest of taxes and levies"
+      },
+      "components": {
+          "NETC": "Network costs",
+          "NRG_SUP": "Energy supply",
+          "OTH": "Other costs",
+          "TAX_CAP": "Capacity tax",
+          "TAX_ENV": "Environmental tax",
+          "TAX_NUC": "Nuclear tax",
+          "TAX_RNW": "Renewable energy tax",
+          "VAT": "Value Added Tax"
       }
     },
     "aria": {

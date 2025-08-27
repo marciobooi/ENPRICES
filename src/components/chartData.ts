@@ -27,7 +27,7 @@ export interface ChartDataResult {
 const transformToTaxBreakdown = (eurostatData: any, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
   if (!eurostatData?.dimension?.tax?.category?.index) {
     // Fallback to regular display if no tax dimension
-    return transformToCountryComparison(eurostatData, false);
+    return transformToCountryComparison(eurostatData, false, false, false, t);
   }
 
   const timeCategories = eurostatData.dimension.time.category.index;
@@ -121,16 +121,105 @@ const transformToTaxBreakdown = (eurostatData: any, t?: (key: string, defaultVal
 };
 
 /**
- * Transform Eurostat data to show countries on x-axis for selected year
+ * Transform Eurostat data to show price components breakdown
  */
-export const transformToCountryComparison = (eurostatData: any, details: boolean = false, hideAggregates: boolean = false, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
-  if (!eurostatData?.dimension?.time?.category?.index || !eurostatData?.dimension?.geo?.category?.index) {
-    return { categories: [], series: [], selectedYear: '', isDetailed: details };
+const transformToComponentBreakdown = (eurostatData: any, hideAggregates: boolean = false, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
+  if (!eurostatData?.dimension?.nrg_prc?.category?.index) {
+    // Fallback to regular display if no nrg_prc dimension
+    return transformToCountryComparison(eurostatData, false, hideAggregates, false, t);
   }
 
-  // If details is true, show tax breakdown
-  if (details) {
-  return transformToTaxBreakdown(eurostatData, t);
+  const timeCategories = eurostatData.dimension.time.category.index;
+  const timeLabels = Object.keys(timeCategories).sort((a, b) => timeCategories[a] - timeCategories[b]);
+  const selectedYear = timeLabels[timeLabels.length - 1];
+  const selectedTimeIndex = timeCategories[selectedYear];
+
+  const geoCategories = eurostatData.dimension.geo.category.index;
+  let geoLabels = Object.keys(geoCategories);
+
+  // Filter out aggregates (EU entities) if hideAggregates is true
+  if (hideAggregates) {
+    const aggregateCodes = ['EU27_2020', 'EA']; // EU27 and Euro Area
+    geoLabels = geoLabels.filter(geoCode => !aggregateCodes.includes(geoCode));
+  }
+
+  const nrgPrcCategories = eurostatData.dimension.nrg_prc.category.index;
+  const nrgPrcLabels = Object.keys(nrgPrcCategories);
+
+  // Create countries data
+  const countriesData = geoLabels.map(geoCode => {
+    return {
+      name: eurostatData.dimension.geo.category.label[geoCode] || geoCode,
+      geoCode: geoCode,
+      geoIndex: geoCategories[geoCode]
+    };
+  });
+
+  // Extract real component data from Eurostat API
+  const series = nrgPrcLabels.map((componentCode) => {
+    const componentLabel = eurostatData.dimension.nrg_prc.category.label[componentCode] || componentCode;
+
+    return {
+      name: t ? t(`chart.series.components.${componentCode}`, componentLabel) : componentLabel,
+      data: countriesData.map((country) => {
+        // Calculate the correct index for the 6D array [freq, nrg_cons, nrg_prc, currency, geo, time]
+        // Since freq=0, nrg_cons=0, currency=0, the formula simplifies to:
+        // index = nrg_prc_index * (geo_size * time_size) + geo_index * time_size + time_index
+        const nrgPrcIndex = nrgPrcCategories[componentCode];
+        const geoSize = Object.keys(geoCategories).length; // 43
+        const timeSize = Object.keys(timeCategories).length; // 8
+
+        const valueIndex = nrgPrcIndex * (geoSize * timeSize) +
+                          country.geoIndex * timeSize +
+                          selectedTimeIndex;
+
+        const value = eurostatData.value[valueIndex];
+        const numericValue = (value !== undefined && value !== null) ? parseFloat(value) : 0;
+
+        // Calculate total for this country (sum of all components)
+        let totalValue = 0;
+        nrgPrcLabels.forEach((otherComponentCode) => {
+          const otherNrgPrcIndex = nrgPrcCategories[otherComponentCode];
+          const otherValueIndex = otherNrgPrcIndex * (geoSize * timeSize) +
+                                 country.geoIndex * timeSize +
+                                 selectedTimeIndex;
+          const otherValue = eurostatData.value[otherValueIndex];
+          const otherNumericValue = (otherValue !== undefined && otherValue !== null) ? parseFloat(otherValue) : 0;
+          totalValue += otherNumericValue;
+        });
+
+        return {
+          y: Math.round(numericValue * 10000) / 10000, // Round to 4 decimal places
+          customTotal: Math.round(totalValue * 10000) / 10000
+        };
+      })
+    };
+  });
+
+  return {
+    categories: countriesData.map(c => c.name),
+    series: series,
+    selectedYear: selectedYear,
+    isDetailed: true,
+    countryCodes: countriesData.map(c => c.geoCode)
+  };
+};
+
+/**
+ * Transform Eurostat data to show countries on x-axis for selected year
+ */
+export const transformToCountryComparison = (eurostatData: any, isDetailedView: boolean = false, hideAggregates: boolean = false, isComponentView: boolean = false, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
+  if (!eurostatData?.dimension?.time?.category?.index || !eurostatData?.dimension?.geo?.category?.index) {
+    return { categories: [], series: [], selectedYear: '', isDetailed: isDetailedView };
+  }
+
+  // If detailed view is requested, show breakdown based on isComponentView flag
+  if (isDetailedView) {
+    if (isComponentView && eurostatData?.dimension?.nrg_prc?.category?.index) {
+      return transformToComponentBreakdown(eurostatData, hideAggregates, t);
+    } else if (eurostatData?.dimension?.tax?.category?.index) {
+      return transformToTaxBreakdown(eurostatData, t);
+    }
   }
 
   // Original working logic - unchanged
@@ -153,15 +242,46 @@ export const transformToCountryComparison = (eurostatData: any, details: boolean
   // Create array of countries with their values for the selected year
   const countriesData: CountryData[] = geoLabels.map(geoCode => {
     const geoIndex = geoCategories[geoCode];
-    const valueIndex = geoIndex * timeLabels.length + selectedTimeIndex;
-    const value = eurostatData.value[valueIndex];
     
-    return {
-      name: eurostatData.dimension.geo.category.label[geoCode] || geoCode,
-      value: (value !== undefined && value !== null) ? parseFloat(value) : null,
-      geoIndex: geoIndex, // Keep original index for protocol ordering
-      geoCode: geoCode // Keep the country code for color mapping
-    };
+    // Check if this is component data (has nrg_prc dimension)
+    if (eurostatData.dimension.nrg_prc?.category?.index) {
+      // For component data in total view, sum all components for each country
+      const nrgPrcCategories = eurostatData.dimension.nrg_prc.category.index;
+      const nrgPrcLabels = Object.keys(nrgPrcCategories);
+      
+      let totalValue = 0;
+      nrgPrcLabels.forEach((componentCode) => {
+        const nrgPrcIndex = nrgPrcCategories[componentCode];
+        const geoSize = Object.keys(geoCategories).length;
+        const timeSize = Object.keys(timeCategories).length;
+        
+        const valueIndex = nrgPrcIndex * (geoSize * timeSize) +
+                          geoIndex * timeSize +
+                          selectedTimeIndex;
+        
+        const componentValue = eurostatData.value[valueIndex];
+        const numericValue = (componentValue !== undefined && componentValue !== null) ? parseFloat(componentValue) : 0;
+        totalValue += numericValue;
+      });
+      
+      return {
+        name: eurostatData.dimension.geo.category.label[geoCode] || geoCode,
+        value: Math.round(totalValue * 10000) / 10000, // Round to 4 decimal places
+        geoIndex: geoIndex,
+        geoCode: geoCode
+      };
+    } else {
+      // Regular data - use the standard index calculation
+      const valueIndex = geoIndex * timeLabels.length + selectedTimeIndex;
+      const value = eurostatData.value[valueIndex];
+      
+      return {
+        name: eurostatData.dimension.geo.category.label[geoCode] || geoCode,
+        value: (value !== undefined && value !== null) ? parseFloat(value) : null,
+        geoIndex: geoIndex,
+        geoCode: geoCode
+      };
+    }
   }).filter(item => item.value !== null) // Remove null values
     .sort((a, b) => a.geoIndex - b.geoIndex); // Sort by original API index (protocol order)
 

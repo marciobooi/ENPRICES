@@ -89,12 +89,24 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
     // Batch updates to prevent multiple re-renders
     const updates: Array<() => void> = [];
     
-    if (!isBandValid) {
-      updates.push(() => dispatch({ type: "SET_BAND", payload: newDefaultBand }));
-    }
-
-    if (!isUnitValid) {
-      updates.push(() => dispatch({ type: "SET_UNIT", payload: newDefaultUnit }));
+    // Always update to the default values when component state changes
+    // This ensures we use the appropriate defaults for each dataset type
+    if (state.component) {
+      // When switching to component view, always use component dataset defaults
+      if (band !== newDefaultBand) {
+        updates.push(() => dispatch({ type: "SET_BAND", payload: newDefaultBand }));
+      }
+      if (unit !== newDefaultUnit) {
+        updates.push(() => dispatch({ type: "SET_UNIT", payload: newDefaultUnit }));
+      }
+    } else {
+      // When switching to regular view, update only if current values are not valid
+      if (!isBandValid) {
+        updates.push(() => dispatch({ type: "SET_BAND", payload: newDefaultBand }));
+      }
+      if (!isUnitValid) {
+        updates.push(() => dispatch({ type: "SET_UNIT", payload: newDefaultUnit }));
+      }
     }
 
     // Execute all updates in sequence to batch them

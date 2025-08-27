@@ -38,11 +38,11 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     chartContainerRef.current.innerHTML = '';
 
     // Transform data using the external function
-    const transformedData = transformToCountryComparison(data, state.details, state.hideAggregates);
-    const { categories, series, selectedYear, isDetailed, countryCodes } = transformedData;
+    const transformedData = transformToCountryComparison(data, state.details, state.hideAggregates, state.component);
+    const { categories, series, selectedYear, countryCodes } = transformedData;
 
     // Debug: Log the transformed data
-    // console.log('Chart data:', { categories, series, selectedYear, isDetailed, countryCodes });
+    // console.log('Chart data:', { categories, series, selectedYear, countryCodes });
     // console.log('Country codes for colors:', countryCodes);
 
     // Create chart configuration using the external function
@@ -50,7 +50,8 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       categories,
       series,
       selectedYear,
-      isDetailed,
+      isDetailed: state.details, // Use state.details to control detailed view
+      isComponent: state.component, // Use state.component to control component vs tax breakdown
       decimals: state.decimals,
       order: state.order,
       percentage: state.percentage,
@@ -85,7 +86,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       }
     }, 50);
 
-  }, [data, state.details, state.decimals, state.order, state.percentage, state.hideAggregates, i18n.language, t]);
+  }, [data, state.details, state.decimals, state.order, state.percentage, state.hideAggregates, state.component, i18n.language, t]);
 
   return (
     <div className={`main-chart ${className}`}>

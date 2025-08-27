@@ -322,6 +322,7 @@
     "title": "Prix de l'énergie par pays",
     "subtitle": "Prix de l'électricité pour les consommateurs domestiques",
     "detailedTitle": "Prix de l'énergie par composante fiscale",
+    "componentTitle": "Prix de l'énergie par composante",
     "loading": "Chargement des données du graphique...",
     "initializing": "Initialisation du graphique...",
     "error": "Échec du chargement des données du graphique",
@@ -338,6 +339,16 @@
         "X_TAX": "Hors taxes",
         "X_VAT": "Hors TVA",
         "I_TAX": "Toutes taxes comprises"
+      },
+      "components": {
+        "NETC": "Coûts réseau",
+        "NRG_SUP": "Approvisionnement énergétique",
+        "OTH": "Autres coûts",
+        "TAX_CAP": "Taxe capacité",
+        "TAX_ENV": "Taxe environnementale",
+        "TAX_NUC": "Taxe nucléaire",
+        "TAX_RNW": "Taxe énergies renouvelables",
+        "VAT": "TVA"
       }
     },
     "aria": {

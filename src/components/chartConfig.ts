@@ -20,6 +20,7 @@ export interface ChartConfigOptions {
   yAxisTitle?: string;
   showDataLabels?: boolean;
   isDetailed?: boolean;
+  isComponent?: boolean;
   decimals?: number; // Number of decimal places (1-4)
   order?: 'proto' | 'alfa' | 'asc' | 'desc'; // Chart ordering
   percentage?: boolean; // Show as percentage
@@ -43,6 +44,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     yAxisTitle,
     showDataLabels = false,
     isDetailed = false,
+    isComponent = false,
     decimals = 4,
     order = 'proto',
     percentage = false,
@@ -51,7 +53,9 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
   } = options;
 
   // Use translations or fallback to defaults
-  const finalTitle = title || (isDetailed 
+  const finalTitle = title || (isComponent 
+    ? (t ? t('chart.componentTitle', 'Energy Prices by Component') : 'Energy Prices by Component')
+    : isDetailed 
     ? (t ? t('chart.detailedTitle') : 'Energy Prices by Tax Component')
     : (t ? t('chart.title') : 'Energy Prices by Country'));
   
@@ -103,7 +107,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     return { categories: sortedCategories, series: sortedSeries, countryCodes: sortedCountryCodes };
   };
 
-  const { categories: finalCategories, series: finalSeries, countryCodes: finalCountryCodes } = applyOrdering(categories, series, countryCodes, isDetailed);
+  const { categories: finalCategories, series: finalSeries, countryCodes: finalCountryCodes } = applyOrdering(categories, series, countryCodes, isDetailed || isComponent);
 
   // Translate categories (country names) if translation function is available
   const translatedCategories = finalCategories.map((category, index) => {
@@ -155,19 +159,24 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
           // Map API series names to translation keys
           let translationKey = null;
           
-          // Check if it's a direct tax code
-          if (['X_TAX', 'X_VAT', 'I_TAX'].includes(series.name)) {
-            translationKey = `chart.series.taxBreakdown.${series.name}`;
+          if (isComponent) {
+            // For component view, use component translation keys
+            translationKey = `chart.series.components.${series.name}`;
           } else {
-            // Map common API descriptions to our translation keys
-            const seriesNameLower = series.name.toLowerCase();
-            if (seriesNameLower.includes('excluding taxes') || seriesNameLower.includes('ohne steuern') || seriesNameLower.includes('hors taxes')) {
-              translationKey = 'chart.series.taxBreakdown.X_TAX';
-            } else if (seriesNameLower.includes('vat') || seriesNameLower.includes('mehrwertsteuer') || seriesNameLower.includes('tva')) {
-              translationKey = 'chart.series.taxBreakdown.X_VAT';
-            } else if (seriesNameLower.includes('all taxes') || seriesNameLower.includes('alle steuern') || seriesNameLower.includes('toutes taxes') || 
-                      seriesNameLower.includes('rest of taxes') || seriesNameLower.includes('taxes and levies included')) {
-              translationKey = 'chart.series.taxBreakdown.I_TAX';
+            // For tax view, use tax translation keys
+            if (['X_TAX', 'X_VAT', 'I_TAX'].includes(series.name)) {
+              translationKey = `chart.series.taxBreakdown.${series.name}`;
+            } else {
+              // Map common API descriptions to our translation keys
+              const seriesNameLower = series.name.toLowerCase();
+              if (seriesNameLower.includes('excluding taxes') || seriesNameLower.includes('ohne steuern') || seriesNameLower.includes('hors taxes')) {
+                translationKey = 'chart.series.taxBreakdown.X_TAX';
+              } else if (seriesNameLower.includes('vat') || seriesNameLower.includes('mehrwertsteuer') || seriesNameLower.includes('tva')) {
+                translationKey = 'chart.series.taxBreakdown.X_VAT';
+              } else if (seriesNameLower.includes('all taxes') || seriesNameLower.includes('alle steuern') || seriesNameLower.includes('toutes taxes') || 
+                        seriesNameLower.includes('rest of taxes') || seriesNameLower.includes('taxes and levies included')) {
+                translationKey = 'chart.series.taxBreakdown.I_TAX';
+              }
             }
           }
           
@@ -220,15 +229,13 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
             color = barChartColors.EA;
           }
           
-          if (value !== null && typeof value === 'object') {
-            return {
-              ...value,
-              color: color
-            };
-          }
+          // In non-detailed view, only keep the y value and color, remove any customTotal or other properties
+          const yValue = (value !== null && typeof value === 'object' && value.y !== undefined) 
+            ? value.y 
+            : (value !== null && value !== undefined ? Number(value) : null);
           
           return {
-            y: value,
+            y: yValue,
             color: color
           };
         })
@@ -274,7 +281,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       "chart": {
         "type": finalChartType,
         "height": height,
-        ...(isDetailed && { "plotOptions": { "column": { "stacking": "normal" } } })
+        ...((isDetailed) && { "plotOptions": { "column": { "stacking": "normal" } } })
       },
       "xAxis": {
         "categories": translatedCategories,
@@ -305,7 +312,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
         "pointFormat": percentage 
           ? `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.${decimals}f}%</b><br/>`
           : `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.${decimals}f}</b><br/>`,
-        "footerFormat": isDetailed && !percentage 
+        "footerFormat": (isDetailed && !percentage) 
           ? `<span style="font-weight: bold">Total: <b>{point.customTotal:.${decimals}f}</b></span>`
           : "",
         "shared": true,
