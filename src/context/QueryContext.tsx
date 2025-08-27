@@ -27,6 +27,7 @@ export interface QueryState {
   unit: string;
   availableYears: string[]; // Dynamic years from API
   isLoadingYears: boolean;
+  drillDownCountry: string | null; // Country selected for drill-down to bands view
 }
 
 // Define action types for query updates
@@ -49,6 +50,7 @@ export type QueryAction =
   | { type: 'SET_COMPONENT'; payload: boolean }
   | { type: 'SET_AVAILABLE_YEARS'; payload: string[] }
   | { type: 'SET_LOADING_YEARS'; payload: boolean }
+  | { type: 'SET_DRILL_DOWN_COUNTRY'; payload: string | null }
   | { type: 'RESET_TO_DEFAULTS' };
 
 // Initial state with all countries selected by default
@@ -76,6 +78,7 @@ const initialState: QueryState = {
   unit: "KWH",
   availableYears: [],
   isLoadingYears: false,
+  drillDownCountry: null, // No country selected for drill-down initially
 };
 
 // Reducer function to handle state updates
@@ -170,6 +173,11 @@ const queryReducer = (state: QueryState, action: QueryAction): QueryState => {
       return {
         ...state,
         isLoadingYears: action.payload
+      };
+    case 'SET_DRILL_DOWN_COUNTRY':
+      return {
+        ...state,
+        drillDownCountry: action.payload
       };
     case 'RESET_TO_DEFAULTS':
       return initialState;

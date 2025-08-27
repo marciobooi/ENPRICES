@@ -24,7 +24,7 @@ interface Position {
 const FloatingMenu: React.FC = () => {
   const { t } = useTranslation();
   const { state, dispatch } = useQuery();
-  const [position, setPosition] = useState<Position>({ x: window.innerWidth - 320, y: 220 });
+  const [position, setPosition] = useState<Position>({ x: 20, y: 220 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
   const menuRef = useRef<HTMLDivElement>(null);

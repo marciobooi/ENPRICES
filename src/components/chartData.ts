@@ -349,3 +349,75 @@ export const transformToTimeSeries = (eurostatData: any, maxCountries: number = 
     isDetailed: false 
   };
 };
+
+/**
+ * Transform Eurostat data to show consumption bands for a specific country
+ * Used for drill-down functionality when clicking on a country bar
+ */
+export const transformToCountryBands = (eurostatData: any, countryCode: string, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
+  if (!eurostatData?.dimension?.time?.category?.index || 
+      !eurostatData?.dimension?.consom?.category?.index ||
+      !eurostatData?.dimension?.geo?.category?.index) {
+    return { categories: [], series: [], selectedYear: '', isDetailed: false };
+  }
+
+  const timeCategories = eurostatData.dimension.time.category.index;
+  const timeLabels = Object.keys(timeCategories).sort((a, b) => timeCategories[a] - timeCategories[b]);
+  const selectedYear = timeLabels[timeLabels.length - 1];
+  const selectedTimeIndex = timeCategories[selectedYear];
+
+  const consomCategories = eurostatData.dimension.consom.category.index;
+  const consomLabels = Object.keys(consomCategories);
+
+  const geoCategories = eurostatData.dimension.geo.category.index;
+  const countryIndex = geoCategories[countryCode];
+
+  if (countryIndex === undefined) {
+    return { categories: [], series: [], selectedYear: '', isDetailed: false };
+  }
+
+  // Get country name for the title
+  const countryName = eurostatData.dimension.geo.category.label[countryCode] || countryCode;
+
+  // Create consumption band data for this country
+  const bandData = consomLabels.map(consomCode => {
+    const consomIndex = consomCategories[consomCode];
+    const consomLabel = eurostatData.dimension.consom.category.label[consomCode] || consomCode;
+
+    // Calculate the correct index for the data array
+    // For 4D array [freq, consom, geo, time], with freq=0:
+    // index = consom_index * (geo_size * time_size) + geo_index * time_size + time_index
+    const geoSize = Object.keys(geoCategories).length;
+    const timeSize = Object.keys(timeCategories).length;
+
+    const valueIndex = consomIndex * (geoSize * timeSize) +
+                      countryIndex * timeSize +
+                      selectedTimeIndex;
+
+    const value = eurostatData.value[valueIndex];
+    const numericValue = (value !== undefined && value !== null) ? parseFloat(value) : null;
+
+    return {
+      name: t ? t(`consumptionBands.${consomCode}`, consomLabel) : consomLabel,
+      value: numericValue !== null ? Math.round(numericValue * 10000) / 10000 : null, // Round to 4 decimal places
+      consomCode: consomCode
+    };
+  }).filter(item => item.value !== null); // Remove null values
+
+  // Extract categories (consumption band names) and values
+  const categories = bandData.map(item => item.name);
+  const values = bandData.map(item => item.value);
+
+  // Create single series for the selected country and year
+  const series = [{
+    name: `${countryName} - ${selectedYear}`,
+    data: values
+  }];
+
+  return { 
+    categories, 
+    series, 
+    selectedYear,
+    isDetailed: false 
+  };
+};

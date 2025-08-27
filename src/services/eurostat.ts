@@ -219,6 +219,81 @@ class EurostatService {
       return [];
     }
   }
+
+  /**
+   * Fetch all consumption bands for a specific country and time period
+   * Used for drill-down functionality when clicking on a country bar
+   */
+  async fetchCountryBands(dataset: string, countryCode: string, timePeriod: string, params?: Record<string, string | string[]>): Promise<any> {
+    try {
+      // Get dataset configuration to know available consumption bands
+      const { getDatasetConfig } = await import('../data/energyData');
+      const config = getDatasetConfig(dataset);
+      
+      if (!config || !config.consoms || config.consoms.length === 0) {
+        throw new Error(`No consumption bands available for dataset ${dataset}`);
+      }
+
+      // Create parameters for fetching all bands for this country
+      const bandParams: Record<string, string | string[]> = {
+        geo: countryCode,
+        time: timePeriod,
+        consom: config.consoms, // Fetch all available consumption bands
+        ...params
+      };
+
+      // Remove any existing consom parameter to avoid conflicts
+      delete bandParams.consom;
+
+      const cacheKey = this.getCacheKey(dataset, bandParams);
+      
+      // Try to get from cache first
+      const cachedData = this.getFromCache(cacheKey);
+      if (cachedData) {
+        handleData(cachedData, { 
+          dataset, 
+          params: bandParams, 
+          source: 'cache',
+          requestKey: cacheKey 
+        });
+        return cachedData;
+      }
+
+      // Check if this request is already pending
+      const pendingRequest = this.pendingRequests.get(cacheKey);
+      if (pendingRequest) {
+        const result = await pendingRequest;
+        handleData(result, { 
+          dataset, 
+          params: bandParams, 
+          source: 'pending',
+          requestKey: cacheKey 
+        });
+        return result;
+      }
+
+      // Fetch from API
+      const fetchPromise = this.performFetch(dataset, bandParams, cacheKey);
+      
+      this.pendingRequests.set(cacheKey, fetchPromise);
+      
+      try {
+        const result = await fetchPromise;
+        handleData(result, { 
+          dataset, 
+          params: bandParams, 
+          source: 'api',
+          requestKey: cacheKey 
+        });
+        return result;
+      } finally {
+        this.pendingRequests.delete(cacheKey);
+      }
+    } catch (error) {
+      console.error('Error fetching country bands:', error);
+      throw new Error(`Failed to fetch bands for country ${countryCode}: ${error}`);
+    }
+  }
 }
 
 export const eurostatService = new EurostatService();
