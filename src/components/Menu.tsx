@@ -6,7 +6,6 @@ import {
   PoliteLiveRegion,
   EclMultiSelect,
   EclSingleSelect,
-  EclRadio,
   RoundBtn,
 } from "./ui/index";
 import { useQuery } from "../context/QueryContext";
@@ -129,13 +128,7 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
     dispatch({ type: "SET_UNIT", payload: selectedValue });
   };
 
-  const handleComponentChange = (value: string) => {
-    dispatch({ type: "SET_COMPONENT", payload: value === "true" });
-  };
 
-  const handleDetailsChange = (value: string) => {
-    dispatch({ type: "SET_DETAILS", payload: value === "true" });
-  };
 
   // Get energy product options - memoized
   const energyProductOptions = useMemo(() => {
@@ -464,89 +457,7 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
                     </div>
                   </div>
 
-                  <div className="menuRow">
-                    {/* Third Row: Components and Details Radio Buttons */}
 
-                    {/* Components Selection Section */}
-                    <div className="menu-section">
-                      <div className="menu-component">
-                        <EclRadio
-                          id="menu-radio-component"
-                          name="component-group"
-                          label={t(
-                            "energy.component.label",
-                            "Include Components"
-                          )}
-                          helpText={t(
-                            "energy.component.help",
-                            "Choose whether to include detailed price components in the dataset"
-                          )}
-                          options={[
-                            {
-                              value: "false",
-                              label: t(
-                                "energy.component.no",
-                                "No - Total prices only"
-                              ),
-                              checked: !state.component,
-                            },
-                            {
-                              value: "true",
-                              label: t(
-                                "energy.component.yes",
-                                "Yes - Include components"
-                              ),
-                              checked: state.component,
-                            },
-                          ]}
-                          value={state.component.toString()}
-                          onChange={handleComponentChange}
-                          required={true}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Details Selection Section */}
-                    <div className="menu-section">
-                      <div className="menu-details">
-                        <EclRadio
-                          id="menu-radio-details"
-                          name="details-group"
-                          label={t("energy.details.label", "Show Details")}
-                          helpText={t(
-                            "energy.details.help",
-                            "Choose whether to display detailed information in charts"
-                          )}
-                          options={[
-                            {
-                              value: "false",
-                              label: t(
-                                "energy.details.no",
-                                "No - Summary view"
-                              ),
-                              checked: !state.details,
-                            },
-                            {
-                              value: "true",
-                              label: t(
-                                "energy.details.yes",
-                                "Yes - Detailed view"
-                              ),
-                              checked: state.details,
-                            },
-                          ]}
-                          value={state.details.toString()}
-                          onChange={handleDetailsChange}
-                          required={true}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Empty third column to maintain 3-column layout */}
-                    <div className="menu-section">
-                      {/* Intentionally empty to maintain consistent 3-column grid */}
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

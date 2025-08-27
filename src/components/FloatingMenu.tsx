@@ -9,7 +9,9 @@ import {
   faSortNumericUp,
   faPercent,
   faGrip,
-  faLayerGroup
+  faLayerGroup,
+  faCogs,
+  faEye
 } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '../context/QueryContext';
 import { Tooltip } from 'react-tooltip';
@@ -132,6 +134,16 @@ const FloatingMenu: React.FC = () => {
   // Toggle aggregates (hide EU entities)
   const toggleAggregates = () => {
     dispatch({ type: 'SET_HIDE_AGGREGATES', payload: !state.hideAggregates });
+  };
+
+  // Toggle component (include price components)
+  const toggleComponent = () => {
+    dispatch({ type: 'SET_COMPONENT', payload: !state.component });
+  };
+
+  // Toggle details (detailed vs summary view)
+  const toggleDetails = () => {
+    dispatch({ type: 'SET_DETAILS', payload: !state.details });
   };
 
   // Get order icon based on current state
@@ -293,6 +305,38 @@ const FloatingMenu: React.FC = () => {
             )}
           </div>
         </button>
+
+        {/* Component Button */}
+        <button
+          className={`ecl-button ${state.component ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+          onClick={toggleComponent}
+          aria-label={t('floatingMenu.component.label', 'Toggle price components')}
+          data-tooltip-id="component-tooltip"
+          data-tooltip-content={t('floatingMenu.component.tooltip', { status: state.component ? 'included' : 'excluded' })}
+          aria-pressed={state.component}
+          style={{
+            padding: '8px',
+            borderRadius: '4px'
+          }}
+        >
+          <FontAwesomeIcon icon={faCogs} />
+        </button>
+
+        {/* Details Button */}
+        <button
+          className={`ecl-button ${state.details ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+          onClick={toggleDetails}
+          aria-label={t('floatingMenu.details.label', 'Toggle detailed view')}
+          data-tooltip-id="details-tooltip"
+          data-tooltip-content={t('floatingMenu.details.tooltip', { status: state.details ? 'detailed' : 'summary' })}
+          aria-pressed={state.details}
+          style={{
+            padding: '8px',
+            borderRadius: '4px'
+          }}
+        >
+          <FontAwesomeIcon icon={faEye} />
+        </button>
       </div>
 
       {/* Tooltips */}
@@ -301,6 +345,8 @@ const FloatingMenu: React.FC = () => {
       <Tooltip id="order-tooltip" place="bottom" delayShow={500} />
       <Tooltip id="percentage-tooltip" place="bottom" delayShow={500} />
       <Tooltip id="aggregates-tooltip" place="bottom" delayShow={500} />
+      <Tooltip id="component-tooltip" place="bottom" delayShow={500} />
+      <Tooltip id="details-tooltip" place="bottom" delayShow={500} />
 
       {/* Screen Reader Announcements */}
       <div aria-live="polite" aria-atomic="true" className="sr-only">

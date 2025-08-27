@@ -377,6 +377,14 @@
       "label": "Toggle aggregates visibility",
       "tooltip": "EU aggregates: {{status}}"
     },
+    "component": {
+      "label": "Toggle price components",
+      "tooltip": "Price components: {{status}}"
+    },
+    "details": {
+      "label": "Toggle detailed view",
+      "tooltip": "View mode: {{status}}"
+    },
     "screenReader": {
       "dragging": "Moving chart controls menu"
     }

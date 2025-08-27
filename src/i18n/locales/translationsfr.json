@@ -366,6 +366,14 @@
       "label": "Basculer la visibilité des agrégats",
       "tooltip": "Agrégats UE : {{status}}"
     },
+    "component": {
+      "label": "Basculer les composants de prix",
+      "tooltip": "Composants de prix : {{status}}"
+    },
+    "details": {
+      "label": "Basculer la vue détaillée",
+      "tooltip": "Mode d'affichage : {{status}}"
+    },
     "screenReader": {
       "dragging": "Déplacement du menu de contrôle du graphique"
     }

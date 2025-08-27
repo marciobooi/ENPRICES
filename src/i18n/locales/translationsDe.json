@@ -368,6 +368,14 @@
       "label": "Aggregate-Sichtbarkeit umschalten",
       "tooltip": "EU-Aggregate: {{status}}"
     },
+    "component": {
+      "label": "Preiskomponenten umschalten",
+      "tooltip": "Preiskomponenten: {{status}}"
+    },
+    "details": {
+      "label": "Detailansicht umschalten",
+      "tooltip": "Ansichtsmodus: {{status}}"
+    },
     "screenReader": {
       "dragging": "Diagramm-Steuerungsmenü wird verschoben"
     }
