@@ -40,7 +40,6 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     height = 500,
     title,
     subtitle,
-    xAxisTitle,
     yAxisTitle,
     showDataLabels = false,
     isDetailed = false,

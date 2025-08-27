@@ -24,7 +24,7 @@ interface Position {
 const FloatingMenu: React.FC = () => {
   const { t } = useTranslation();
   const { state, dispatch } = useQuery();
-  const [position, setPosition] = useState<Position>({ x: 20, y: 220 });
+  const [position, setPosition] = useState<Position>({ x: window.innerWidth - 320, y: 220 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
   const menuRef = useRef<HTMLDivElement>(null);
@@ -64,6 +64,23 @@ const FloatingMenu: React.FC = () => {
     return () => {
       document.head.removeChild(styleElement);
     };
+  }, [hoverStyles]);
+
+  // Set initial position based on window size
+  useEffect(() => {
+    const updateInitialPosition = () => {
+      if (menuRef.current) {
+        const menuWidth = menuRef.current.offsetWidth || 300;
+        setPosition(prev => ({
+          ...prev,
+          x: window.innerWidth - menuWidth - 20
+        }));
+      }
+    };
+
+    updateInitialPosition();
+    window.addEventListener('resize', updateInitialPosition);
+    return () => window.removeEventListener('resize', updateInitialPosition);
   }, []);
 
   // Handle mouse drag
@@ -71,9 +88,18 @@ const FloatingMenu: React.FC = () => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return;
       
+      const newX = e.clientX - dragOffset.x;
+      const newY = e.clientY - dragOffset.y;
+      
+      // Constrain to viewport
+      const menuWidth = menuRef.current?.offsetWidth || 300;
+      const menuHeight = menuRef.current?.offsetHeight || 100;
+      const constrainedX = Math.max(0, Math.min(window.innerWidth - menuWidth, newX));
+      const constrainedY = Math.max(0, Math.min(window.innerHeight - menuHeight, newY));
+      
       setPosition({
-        x: e.clientX - dragOffset.x,
-        y: e.clientY - dragOffset.y
+        x: constrainedX,
+        y: constrainedY
       });
     };
 
@@ -108,7 +134,9 @@ const FloatingMenu: React.FC = () => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      handleMouseDown(e as any);
+      // For keyboard, start dragging from current position
+      setDragOffset({ x: 0, y: 0 });
+      setIsDragging(true);
     }
   };
 
@@ -175,9 +203,9 @@ const FloatingMenu: React.FC = () => {
         className="floating-menu"
         style={{
           position: 'fixed',
-          right: `${position.x}px`,
+          left: `${position.x}px`,
           top: `${position.y}px`,
-          zIndex: 1,
+          zIndex: 0,
           backgroundColor: 'white',
           borderRadius: '8px',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
