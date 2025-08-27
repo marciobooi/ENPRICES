@@ -54,16 +54,17 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
 
   // Use translations or fallback to defaults
   const finalTitle = title || (isComponent 
-    ? (t ? t('chart.componentTitle', 'Energy Prices by Component') : 'Energy Prices by Component')
+    ? `Electricity components for prices for household consumers - annual data (from 2007 onwards) (€/kWh) ${selectedYear}`
     : isDetailed 
     ? (t ? t('chart.detailedTitle') : 'Energy Prices by Tax Component')
     : (t ? t('chart.title') : 'Energy Prices by Country'));
   
-  const finalSubtitle = subtitle || (t 
-    ? t('chart.subtitle') + (selectedYear ? ` - ${selectedYear}` : '')
-    : `Electricity prices for household consumers${selectedYear ? ` - ${selectedYear}` : ''}`);
+  const finalSubtitle = subtitle || (isComponent
+    ? `All bands: Consumption of kWh - ${selectedYear}`
+    : (t 
+      ? t('chart.subtitle') + (selectedYear ? ` - ${selectedYear}` : '')
+      : `Electricity prices for household consumers${selectedYear ? ` - ${selectedYear}` : ''}`));
   
-  const finalXAxisTitle = xAxisTitle || (t ? t('chart.xAxis.title') : 'Countries');
   const finalYAxisTitle = yAxisTitle || (t ? t('chart.yAxis.title') : percentage ? 'Percentage (%)' : 'Price (EUR/kWh)');
 
   // Apply ordering to categories and data

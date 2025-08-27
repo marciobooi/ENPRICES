@@ -96,26 +96,31 @@ const DynamicTitle: React.FC<DynamicTitleProps> = ({ className = '' }) => {
   const period = formatPeriod(state.time);
   const bandLabel = getBandLabel(state.consoms);
 
-  // Main title
-  const mainTitle = t('title.main', {
-    productName,
-    consumerType,
-    currency: currencySymbol,
-    unit: unitSymbol,
-  });
-
-  // Band subtitle (only show if not "all bands")
-  const showBandSubtitle = state.consoms && 
+  // Band subtitle logic (only show if not "all bands" and not in component view)
+  const showBandSubtitle = !state.component && state.consoms && 
     !state.consoms.includes('TOT_') && 
     !state.consoms.includes('4161900') && 
     !state.consoms.includes('4141900') && 
     !state.consoms.includes('4162900') &&
     !state.consoms.includes('4142900');
 
-  const bandSubtitle = showBandSubtitle ? t('title.band', {
-    bandLabel,
-    period
-  }) : '';
+  // Main title - different for component view
+  const mainTitle = state.component 
+    ? `Electricity components for prices for household consumers - annual data (from 2007 onwards) (€/kWh) ${state.time.split('-')[0]}`
+    : t('title.main', {
+        productName,
+        consumerType,
+        currency: currencySymbol,
+        unit: unitSymbol,
+      });
+
+  // Band subtitle - different for component view
+  const bandSubtitle = state.component
+    ? `All bands: Consumption of kWh - ${state.time.split('-')[0]}`
+    : (showBandSubtitle ? t('title.band', {
+        bandLabel,
+        period
+      }) : '');
 
   return (
     <div className={`dynamic-title ${className}`}>
