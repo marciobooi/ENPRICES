@@ -64,23 +64,6 @@ const FloatingMenu: React.FC = () => {
     return () => {
       document.head.removeChild(styleElement);
     };
-  }, [hoverStyles]);
-
-  // Set initial position based on window size
-  useEffect(() => {
-    const updateInitialPosition = () => {
-      if (menuRef.current) {
-        const menuWidth = menuRef.current.offsetWidth || 300;
-        setPosition(prev => ({
-          ...prev,
-          x: window.innerWidth - menuWidth - 20
-        }));
-      }
-    };
-
-    updateInitialPosition();
-    window.addEventListener('resize', updateInitialPosition);
-    return () => window.removeEventListener('resize', updateInitialPosition);
   }, []);
 
   // Handle mouse drag
@@ -88,18 +71,9 @@ const FloatingMenu: React.FC = () => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return;
       
-      const newX = e.clientX - dragOffset.x;
-      const newY = e.clientY - dragOffset.y;
-      
-      // Constrain to viewport
-      const menuWidth = menuRef.current?.offsetWidth || 300;
-      const menuHeight = menuRef.current?.offsetHeight || 100;
-      const constrainedX = Math.max(0, Math.min(window.innerWidth - menuWidth, newX));
-      const constrainedY = Math.max(0, Math.min(window.innerHeight - menuHeight, newY));
-      
       setPosition({
-        x: constrainedX,
-        y: constrainedY
+        x: window.innerWidth - e.clientX - dragOffset.x,
+        y: e.clientY - dragOffset.y
       });
     };
 
@@ -124,7 +98,7 @@ const FloatingMenu: React.FC = () => {
     
     const rect = menuRef.current.getBoundingClientRect();
     setDragOffset({
-      x: e.clientX - rect.left,
+      x: rect.right - e.clientX,
       y: e.clientY - rect.top
     });
     setIsDragging(true);
@@ -203,7 +177,7 @@ const FloatingMenu: React.FC = () => {
         className="floating-menu"
         style={{
           position: 'fixed',
-          left: `${position.x}px`,
+          right: `${position.x}px`,
           top: `${position.y}px`,
           zIndex: 0,
           backgroundColor: 'white',
