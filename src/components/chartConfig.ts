@@ -282,6 +282,9 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       "chart": {
         "type": finalChartType,
         "height": height,
+        "style": {
+          "fontFamily": "Arial, sans-serif"
+        },
         ...((isDetailed) && { "plotOptions": { "column": { "stacking": "normal" } } })
       },
       "xAxis": {
@@ -289,7 +292,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
         "labels": {
           "rotation": -45,
           "style": {
-            "fontSize": "11px"
+            "fontSize": "14px"
           }
         }
       },
@@ -298,18 +301,27 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
           "text": finalYAxisTitle
         },
         "labels": {
-          "format": percentage ? `{value:.${decimals}f}%` : `{value:.${decimals}f}`
+          "format": percentage ? `{value:.${decimals}f}%` : `{value:.${decimals}f}`,
+          "style": {
+            "fontSize": "14px"
+          }
         }
       },
       "title": {
-        "text": finalTitle
+        "text": finalTitle,
+        "style": {
+          "fontSize": "16px"
+        }
       },
       "subtitle": {
-        "text": finalSubtitle
+        "text": finalSubtitle,
+        "style": {
+          "fontSize": "14px"
+        }
       },
       "plotOptions": getPlotOptions(),
       "tooltip": {
-        "headerFormat": `<span style="font-size:12px; font-weight: bold">{point.key}</span><br/>`,
+        "headerFormat": `<span style="font-size:16px; font-weight: bold">{point.key}</span><br/>`,
         "pointFormat": percentage 
           ? `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.${decimals}f}%</b><br/>`
           : `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.${decimals}f}</b><br/>`,
@@ -317,14 +329,21 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
           ? `<span style="font-weight: bold">Total: <b>{point.customTotal:.${decimals}f}</b></span>`
           : "",
         "shared": true,
-        "useHTML": true
+        "useHTML": true,
+        "style": {
+          "zIndex": 9999
+        }
+        
       },
       "legend": {
         "enabled": finalShowLegend,
         "floating": false,
         "align": "center",
         "verticalAlign": "bottom",
-        "layout": "horizontal"
+        "layout": "horizontal",
+        "itemStyle": {
+          "fontSize": "14px"
+        }
       },
       "credits": {
         "enabled": true,
@@ -332,14 +351,14 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
         "href": "https://ec.europa.eu/eurostat",
         "style": {
           "color": "#004494",
-          "fontSize": "11px",
+          "fontSize": "14px",
           "fontWeight": "normal",
           "textDecoration": "underline",
           "cursor": "pointer"
         },
         "itemStyle": {
           "color": "#004494",
-          "fontSize": "11px",
+          "fontSize": "14px",
           "fontWeight": "normal",
           "textDecoration": "underline"
         },

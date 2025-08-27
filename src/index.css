@@ -805,11 +805,7 @@ html, body {
   }
 }
 
-/* Enhanced tooltip accessibility */
-.highcharts-tooltip {
-  border: 1px solid #004494 !important;
-  box-shadow: 0 2px 8px rgba(0, 68, 148, 0.2) !important;
-}
+
 
 .highcharts-tooltip div[role="tooltip"] {
   color: #333 !important;
@@ -2752,4 +2748,20 @@ h6.ecl-u-type-heading-1.ecl-u-color-blue.toolTitle, h6.ecl-u-type-heading-1.ecl-
     font-size: 16px;
     background-color: initial;
     position: relative;
+}
+
+.highcharts-container {
+  position: inherit !important;
+}
+.highcharts-tooltip {
+    all: unset;
+}
+
+.highcharts-tooltip > span {
+  z-index: 9998;
+    border: 1px solid #004494 !important;
+    box-shadow: 0 2px 8px rgba(0, 68, 148, 0.2) !important;
+    background: white;
+    padding: 12px;
+    border-radius: 8px;
 }
