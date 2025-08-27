@@ -19,7 +19,6 @@ export interface ChartConfigOptions {
   xAxisTitle?: string;
   yAxisTitle?: string;
   showDataLabels?: boolean;
-  showLegend?: boolean;
   isDetailed?: boolean;
   decimals?: number; // Number of decimal places (1-4)
   order?: 'proto' | 'alfa' | 'asc' | 'desc'; // Chart ordering
@@ -43,7 +42,6 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     xAxisTitle,
     yAxisTitle,
     showDataLabels = false,
-    showLegend = false,
     isDetailed = false,
     decimals = 4,
     order = 'proto',
@@ -123,7 +121,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
 
   // Adjust configuration for detailed/stacked view
   const finalChartType = isDetailed ? 'column' : chartType;
-  const finalShowLegend = isDetailed ? true : showLegend;
+  const finalShowLegend = isDetailed;
   
   // Generate series with individual colors
   const generateSeriesWithColors = () => {
@@ -280,9 +278,6 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       },
       "xAxis": {
         "categories": translatedCategories,
-        "title": {
-          "text": finalXAxisTitle
-        },
         "labels": {
           "rotation": -45,
           "style": {
@@ -317,12 +312,33 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
         "useHTML": true
       },
       "legend": {
-        "enabled": finalShowLegend
+        "enabled": finalShowLegend,
+        "floating": false,
+        "align": "center",
+        "verticalAlign": "bottom",
+        "layout": "horizontal"
       },
       "credits": {
         "enabled": true,
         "text": "Source: Eurostat",
-        "href": "https://ec.europa.eu/eurostat"
+        "href": "https://ec.europa.eu/eurostat",
+        "style": {
+          "color": "#004494",
+          "fontSize": "11px",
+          "fontWeight": "normal",
+          "textDecoration": "underline",
+          "cursor": "pointer"
+        },
+        "itemStyle": {
+          "color": "#004494",
+          "fontSize": "11px",
+          "fontWeight": "normal",
+          "textDecoration": "underline"
+        },
+        "itemHoverStyle": {
+          "color": "#ffd617",
+          "textDecoration": "underline"
+        }
       },
       "series": finalSeriesWithColors
     }
