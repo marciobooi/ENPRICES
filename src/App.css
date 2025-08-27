@@ -2,6 +2,7 @@
 .floating-menu {
   user-select: none;
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'arial', sans-serif; */
+  z-index: 1;
 }
 
 .floating-menu button {
