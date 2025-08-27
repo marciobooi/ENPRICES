@@ -160,8 +160,9 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
           let translationKey = null;
           
           if (isComponent) {
-            // For component view, use component translation keys
-            translationKey = `chart.series.components.${series.name}`;
+            // For component view, the series.name is already translated in chartData.ts
+            // No need to translate again, just use the series.name directly
+            translatedName = series.name;
           } else {
             // For tax view, use tax translation keys
             if (['X_TAX', 'X_VAT', 'I_TAX'].includes(series.name)) {
