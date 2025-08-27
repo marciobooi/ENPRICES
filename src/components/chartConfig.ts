@@ -9,7 +9,7 @@ export interface ChartConfigOptions {
   categories: string[];
   series: Array<{
     name: string;
-    data: (number | null)[];
+    data: (number | null | { y: number; customTotal: number })[];
   }>;
   selectedYear?: string;
   chartType?: 'column' | 'line' | 'area' | 'bar';
@@ -65,7 +65,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
   const finalYAxisTitle = yAxisTitle || (t ? t('chart.yAxis.title') : percentage ? 'Percentage (%)' : 'Price (EUR/kWh)');
 
   // Apply ordering to categories and data
-  const applyOrdering = (cats: string[], ser: Array<{name: string; data: (number | null)[]}>, codes: string[] = []) => {
+  const applyOrdering = (cats: string[], ser: Array<{name: string; data: (number | null | { y: number; customTotal: number })[]}>, codes: string[] = [], isDetailedFlag: boolean = false) => {
     if (order === 'proto') return { categories: cats, series: ser, countryCodes: codes }; // Original order
     
     // Create indices for sorting
@@ -75,11 +75,21 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       // Alphabetical order by category name
       indices.sort((a, b) => cats[a].localeCompare(cats[b]));
     } else if (order === 'asc' || order === 'desc') {
-      // Sort by first series values
+      // Sort by first series values (or customTotal for detailed view)
       const firstSeries = ser[0]?.data || [];
       indices.sort((a, b) => {
-        const valA = firstSeries[a] || 0;
-        const valB = firstSeries[b] || 0;
+        const rawA = firstSeries[a] || 0;
+        const rawB = firstSeries[b] || 0;
+        
+        let valA: number, valB: number;
+        if (isDetailedFlag && rawA !== null && typeof rawA === 'object' && (rawA as any).customTotal !== undefined) {
+          valA = (rawA as any).customTotal;
+          valB = (rawB !== null && typeof rawB === 'object') ? (rawB as any).customTotal : 0;
+        } else {
+          valA = (rawA !== null && typeof rawA === 'object') ? (rawA as any).y : (rawA as number);
+          valB = (rawB !== null && typeof rawB === 'object') ? (rawB as any).y : (rawB as number);
+        }
+        
         return order === 'asc' ? valA - valB : valB - valA;
       });
     }
@@ -95,7 +105,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     return { categories: sortedCategories, series: sortedSeries, countryCodes: sortedCountryCodes };
   };
 
-  const { categories: finalCategories, series: finalSeries, countryCodes: finalCountryCodes } = applyOrdering(categories, series, countryCodes);
+  const { categories: finalCategories, series: finalSeries, countryCodes: finalCountryCodes } = applyOrdering(categories, series, countryCodes, isDetailed);
 
   // Translate categories (country names) if translation function is available
   const translatedCategories = finalCategories.map((category, index) => {
@@ -119,7 +129,27 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
   const generateSeriesWithColors = () => {
     if (isDetailed) {
       // For detailed view, use the original series but with detailsBarChartColors and translated names
+      // Also compute per-category totals and attach them to each data point so footerFormat {point.total} works
       const detailColors = Object.values(detailsBarChartColors);
+
+      // Compute totals per category (index) across all series.
+      // Support both numeric arrays and arrays of point objects ({ y, ... }).
+      const totals: number[] = [];
+      if (finalSeries.length > 0) {
+        const len = finalSeries[0].data.length;
+        for (let i = 0; i < len; i++) {
+          let sum = 0;
+          for (const s of finalSeries) {
+            const raw = s.data[i];
+            const val = (raw !== null && raw !== undefined)
+              ? (typeof raw === 'object' ? Number((raw as any).y) : Number(raw))
+              : 0;
+            sum += isFinite(val) ? val : 0;
+          }
+          totals.push(sum);
+        }
+      }
+
       return finalSeries.map((series, index) => {
         // Translate series name if it's a tax breakdown key and translation function is available
         let translatedName = series.name;
@@ -151,17 +181,38 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
           }
         }
         
+        // Map data to point objects that include y and total.
+        // Preserve existing point properties when present.
+        const dataWithTotals = series.data.map((rawPoint: any, idx: number) => {
+          if (rawPoint !== null && typeof rawPoint === 'object') {
+            // Preserve existing object (may already include y or color)
+            const rp = rawPoint as any;
+            return {
+              ...(rp as any),
+              y: rp.y !== undefined ? rp.y : (rp.value !== undefined ? rp.value : 0),
+              customTotal: totals[idx] || 0
+            };
+          }
+
+          // Numeric value
+          return {
+            y: rawPoint,
+            customTotal: totals[idx] || 0
+          };
+        });
+
         return {
           ...series,
           name: translatedName,
-          color: detailColors[index] || detailColors[0]
+          color: detailColors[index] || detailColors[0],
+          data: dataWithTotals
         };
       });
     } else {
       // For country comparison, create series with individual data point colors
       return finalSeries.map(series => ({
         ...series,
-        data: series.data.map((value, index) => {
+        data: series.data.map((value: any, index: number) => {
           const countryCode = finalCountryCodes[index];
           let color = barChartColors.default;
           
@@ -169,6 +220,13 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
             color = barChartColors.EU27_2020;
           } else if (countryCode === 'EA') {
             color = barChartColors.EA;
+          }
+          
+          if (value !== null && typeof value === 'object') {
+            return {
+              ...value,
+              color: color
+            };
           }
           
           return {
@@ -253,7 +311,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
           ? `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.${decimals}f}%</b><br/>`
           : `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.${decimals}f}</b><br/>`,
         "footerFormat": isDetailed && !percentage 
-          ? `<span style="font-weight: bold">Total: <b>{point.total:.${decimals}f}</b></span>`
+          ? `<span style="font-weight: bold">Total: <b>{point.customTotal:.${decimals}f}</b></span>`
           : "",
         "shared": true,
         "useHTML": true

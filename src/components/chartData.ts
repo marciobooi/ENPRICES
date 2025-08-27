@@ -14,7 +14,7 @@ export interface ChartDataResult {
   categories: string[];
   series: Array<{
     name: string;
-    data: (number | null)[];
+    data: (number | null | { y: number; customTotal: number })[];
   }>;
   selectedYear: string;
   isDetailed?: boolean;
@@ -83,6 +83,8 @@ const transformToTaxBreakdown = (eurostatData: any, t?: (key: string, defaultVal
       const vatAndOtherTaxes = -(iTax - xTax);
       const restOfTaxes = xTax - priceExcludingTaxes - vatAndOtherTaxes;
 
+      console.log("country: ", item.country, "values: ", item.values,"total: ", xTax)
+
       // Tooltip 'Total' should be xTax
       return {
         country: item.country,
@@ -97,15 +99,15 @@ const transformToTaxBreakdown = (eurostatData: any, t?: (key: string, defaultVal
   const series = [
     {
       name: t ? t('chart.series.taxBreakdown.X_VAT', 'Price excluding taxes and levies') : 'Price excluding taxes and levies',
-      data: calculatedData.map(item => item.priceExcludingTaxes)
+      data: calculatedData.map(item => ({ y: item.priceExcludingTaxes, customTotal: item.total }))
     },
     {
       name: t ? t('chart.series.taxBreakdown.REST', 'Rest of taxes and levies') : 'Rest of taxes and levies',
-      data: calculatedData.map(item => item.restOfTaxes)
+      data: calculatedData.map(item => ({ y: item.restOfTaxes, customTotal: item.total }))
     },
     {
       name: t ? t('chart.series.taxBreakdown.X_VAT_OTHER', 'VAT and other recoverable taxes and levies') : 'VAT and other recoverable taxes and levies',
-      data: calculatedData.map(item => item.vatAndOtherTaxes)
+      data: calculatedData.map(item => ({ y: item.vatAndOtherTaxes, customTotal: item.total }))
     },
   ];
 
