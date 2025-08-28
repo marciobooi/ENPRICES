@@ -24,6 +24,7 @@ export interface ChartConfigOptions {
   order?: 'proto' | 'alfa' | 'asc' | 'desc'; // Chart ordering
   percentage?: boolean; // Show as percentage
   countryCodes?: string[]; // Country codes for color mapping
+  decimals?: number; // Number of decimal places for formatting
   t?: any; // i18next translation function
 }
 
@@ -46,6 +47,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
     order = 'proto',
     percentage = false,
     countryCodes = [],
+    decimals = 2, // Default to 2 decimal places if not provided
     t
   } = options;
 
@@ -118,8 +120,8 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
 
   // Format data labels based on decimals and percentage
   const formatDataLabels = percentage 
-    ? `{y:.2f}%`
-    : `{y:.2f}`;
+    ? `{y:.${decimals}f}%`
+    : `{y:.${decimals}f}`;
 
   // Adjust configuration for detailed/stacked view
   const finalChartType = isDetailed ? 'column' : chartType;
@@ -299,7 +301,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
           "text": finalYAxisTitle
         },
         "labels": {
-          "format": percentage ? `{value:.2f}%` : `{value:.2f}`,
+          "format": percentage ? `{value:.0f}%` : `{value:.2f}`,
           "style": {
             "fontSize": "14px"
           }
@@ -321,10 +323,10 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
       "tooltip": {
         "headerFormat": `<span style="font-size:16px; font-weight: bold">{point.key}</span><br/>`,
         "pointFormat": percentage 
-          ? `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.2f}%</b><br/>`
-          : `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.2f}</b><br/>`,
+          ? `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.${decimals}f}%</b><br/>`
+          : `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.${decimals}f}</b><br/>`,
         "footerFormat": (isDetailed && !percentage) 
-          ? `<span style="font-weight: bold">Total: <b>{point.customTotal:.2f}</b></span>`
+          ? `<span style="font-weight: bold">Total: <b>{point.customTotal:.${decimals}f}</b></span>`
           : "",
         "shared": true,
         "useHTML": true,

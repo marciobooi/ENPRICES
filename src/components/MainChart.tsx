@@ -82,6 +82,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           order: state.order,
           percentage: false,
           countryCodes: [],
+          decimals: state.decimals,
           t
         });
 
@@ -133,6 +134,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         order: state.order,
         percentage: state.percentage,
         countryCodes: countryCodes || [],
+        decimals: state.decimals,
         t
       });
 
@@ -189,7 +191,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         }
       }, 50);
     }
-  }, [data, state.details, state.order, state.percentage, state.hideAggregates, state.component, state.drillDownCountry, i18n.language, t]);
+  }, [data, state.details, state.order, state.percentage, state.hideAggregates, state.component, state.drillDownCountry, state.decimals, i18n.language, t]);
 
   return (
     <div className={`main-chart ${className}`}>
