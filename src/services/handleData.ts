@@ -84,19 +84,19 @@ export const handleData = (data: any, options: DataHandlerOptions): any => {
   notifyListeners(data);
   
   // Log the data object with context
-  console.group(`📊 Data Handler - ${dataset}`);
-  console.log(`🔹 Source: ${source}`);
-  console.log(`🔹 Dataset: ${dataset}`);
+  // console.group(`📊 Data Handler - ${dataset}`);
+  // console.log(`🔹 Source: ${source}`);
+  // console.log(`🔹 Dataset: ${dataset}`);
   
-  if (params) {
-    console.log(`🔹 Parameters:`, params);
-  }
+  // if (params) {
+  //   console.log(`🔹 Parameters:`, params);
+  // }
   
-  if (requestKey) {
-    console.log(`🔹 Request Key: ${requestKey}`);
-  }
+  // if (requestKey) {
+  //   console.log(`🔹 Request Key: ${requestKey}`);
+  // }
   
-  console.log(`🔹 Data Object:`, data);
+  // console.log(`🔹 Data Object:`, data);
   
   // Log data structure info
   if (data) {
@@ -116,11 +116,11 @@ export const handleData = (data: any, options: DataHandlerOptions): any => {
     
     if (data.dimension?.geo?.category?.index) {
       const geoKeys = Object.keys(data.dimension.geo.category.index);
-      console.log(`🔹 Countries: ${geoKeys.length} (${geoKeys.slice(0, 3).join(', ')}${geoKeys.length > 3 ? '...' : ''})`);
+      // console.log(`🔹 Countries: ${geoKeys.length} (${geoKeys.slice(0, 3).join(', ')}${geoKeys.length > 3 ? '...' : ''})`);
       
       // Debug: Show country data with tax breakdown values
       if (data.dimension?.tax?.category?.index) {
-        console.log(`🔹 Tax Breakdown Debug:`);
+        // console.log(`🔹 Tax Breakdown Debug:`);
         const timeKeys = Object.keys(data.dimension.time.category.index);
         const latestTime = timeKeys[timeKeys.length - 1];
         const latestTimeIndex = data.dimension.time.category.index[latestTime];
@@ -145,7 +145,7 @@ export const handleData = (data: any, options: DataHandlerOptions): any => {
             taxValues.push(`${taxName}: ${value !== null && value !== undefined ? parseFloat(value).toFixed(4) : 'null'}`);
           });
           
-          console.log(`   ${countryName}: [${taxValues.join(', ')}]`);
+          // console.log(`   ${countryName}: [${taxValues.join(', ')}]`);
         });
       }
     }

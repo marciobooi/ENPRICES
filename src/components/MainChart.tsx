@@ -5,6 +5,7 @@ import { transformToCountryComparison, transformToCountryBands } from './chartDa
 import { createCountryComparisonConfig } from './chartConfig';
 import { useQuery } from '../context/QueryContext';
 import { eurostatService } from '../services/eurostat';
+import { allCountries } from '../data/energyData';
 
 interface MainChartProps {
   className?: string;
@@ -140,15 +141,21 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
 
       // Add click handler for drill-down functionality
       if (chartConfig.data && chartConfig.data.plotOptions) {
+        const existingClickHandler = chartConfig.data.plotOptions.series?.point?.events?.click;
+        
         chartConfig.data.plotOptions.series = {
           ...chartConfig.data.plotOptions.series,
           point: {
             events: {
-              click: function() {
-                // Access the country code from the point's custom property
-                const countryCode = (this as any).countryCode;
+              click: function(this: any) {
+                const countryCode = this.countryCode;
                 if (countryCode) {
                   dispatch({ type: 'SET_DRILL_DOWN_COUNTRY', payload: countryCode });
+                }
+                
+                // Call any existing click handler if present
+                if (existingClickHandler) {
+                  existingClickHandler.call(this);
                 }
               }
             }
@@ -175,21 +182,63 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       // Add script to container
       chartContainerRef.current.appendChild(scriptElement);
 
-      // Force immediate rescan with layout recalculation
-      setTimeout(() => {
-        if ((window as any).$wt && typeof (window as any).$wt === 'function') {
-          (window as any).$wt();
-          
-          // Force layout recalculation to ensure proper rendering
-          requestAnimationFrame(() => {
-            // Trigger resize event to force chart libraries to recalculate dimensions
-            window.dispatchEvent(new Event('resize'));
-            
-            // Also force a scroll event (since that's what makes it work)
-            window.dispatchEvent(new Event('scroll'));
-          });
+      // Extract click handler logic into a separate function
+      const handleChartClick = (e: Event) => {
+        const target = e.target as SVGElement;
+
+        if (target.classList.contains('highcharts-point')) {
+          const ariaLabel = target.getAttribute('aria-label');
+          if (ariaLabel) {
+            const countryName = ariaLabel.split(',')[0].trim();
+            let countryCode = null;
+
+            // Create reverse mapping from translated names to country codes
+            if (t) {
+              const countryMappings = allCountries.map(code => ({
+                code,
+                translation: t(`countries.${code}`)
+              }));
+
+              const matchingCountry = countryMappings.find(mapping => mapping.translation === countryName);
+              if (matchingCountry) {
+                countryCode = matchingCountry.code;
+              }
+            }
+
+            // Fallback: use categories and countryCodes arrays
+            if (!countryCode) {
+              const countryIndex = categories.indexOf(countryName);
+              countryCode = countryCodes && countryCodes[countryIndex];
+            }
+
+            console.log('Country code:', countryCode || 'Not found');
+          }
         }
-      }, 50);
+      };
+
+      // Function to initialize chart rendering and events
+      const initializeChart = () => {
+        if (!(window as any).$wt || typeof (window as any).$wt !== 'function') return;
+
+        (window as any).$wt();
+
+        // Force layout recalculation
+        requestAnimationFrame(() => {
+          window.dispatchEvent(new Event('resize'));
+          window.dispatchEvent(new Event('scroll'));
+
+          // Add click event listener after chart renders
+          setTimeout(() => {
+            const chartContainer = chartContainerRef.current;
+            if (chartContainer) {
+              chartContainer.addEventListener('click', handleChartClick);
+            }
+          }, 1000);
+        });
+      };
+
+      // Initialize chart rendering and events
+      setTimeout(initializeChart, 50);
     }
   }, [data, state.details, state.order, state.percentage, state.hideAggregates, state.component, state.drillDownCountry, state.decimals, i18n.language, t]);
 
