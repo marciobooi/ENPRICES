@@ -355,9 +355,21 @@ export const transformToTimeSeries = (eurostatData: any, maxCountries: number = 
  * Used for drill-down functionality when clicking on a country bar
  */
 export const transformToCountryBands = (eurostatData: any, countryCode: string, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
-  if (!eurostatData?.dimension?.time?.category?.index || 
-      !eurostatData?.dimension?.consom?.category?.index ||
+  if (!eurostatData?.dimension?.time?.category?.index ||
       !eurostatData?.dimension?.geo?.category?.index) {
+    return { categories: [], series: [], selectedYear: '', isDetailed: false };
+  }
+
+  console.log('[transformToCountryBands] Input data structure:');
+  console.log('[transformToCountryBands] Available dimensions:', Object.keys(eurostatData.dimension));
+  console.log('[transformToCountryBands] nrg_cons dimension:', eurostatData.dimension.nrg_cons);
+  console.log('[transformToCountryBands] Country code:', countryCode);
+  
+  // Eurostat uses nrg_cons for consumption bands; some legacy code used consom
+  const bandDim = eurostatData.dimension.nrg_cons || eurostatData.dimension.consom;
+  if (!bandDim?.category?.index) {
+    console.log('[transformToCountryBands] Missing nrg_cons/consom dimension');
+    console.log('[transformToCountryBands] Available dimensions:', Object.keys(eurostatData.dimension));
     return { categories: [], series: [], selectedYear: '', isDetailed: false };
   }
 
@@ -366,43 +378,114 @@ export const transformToCountryBands = (eurostatData: any, countryCode: string, 
   const selectedYear = timeLabels[timeLabels.length - 1];
   const selectedTimeIndex = timeCategories[selectedYear];
 
-  const consomCategories = eurostatData.dimension.consom.category.index;
+  const consomCategories = bandDim.category.index;
   const consomLabels = Object.keys(consomCategories);
+  
+  console.log('[transformToCountryBands] Band categories:', consomCategories);
+  console.log('[transformToCountryBands] Band labels:', consomLabels);
+  console.log('[transformToCountryBands] Band label mappings:', bandDim.category.label);
 
   const geoCategories = eurostatData.dimension.geo.category.index;
   const countryIndex = geoCategories[countryCode];
 
   if (countryIndex === undefined) {
+    console.log('[transformToCountryBands] Country not found:', countryCode);
     return { categories: [], series: [], selectedYear: '', isDetailed: false };
   }
 
   // Get country name for the title
   const countryName = eurostatData.dimension.geo.category.label[countryCode] || countryCode;
 
+  // Determine if we have tax or nrg_prc dimensions (detailed views)
+  const taxDim = eurostatData.dimension.tax?.category?.index ? eurostatData.dimension.tax.category.index : null;
+  const prcDim = eurostatData.dimension.nrg_prc?.category?.index ? eurostatData.dimension.nrg_prc.category.index : null;
+
+  // Helpers to compute flattened index robustly using JSON-stat id/size
+  const dimIds: string[] = eurostatData.id || Object.keys(eurostatData.dimension);
+  const sizes: number[] = eurostatData.size || dimIds.map((k: string) => {
+    const idx = eurostatData.dimension[k]?.category?.index;
+    return idx ? Object.keys(idx).length : 1;
+  });
+
+  const getDimIndex = (dim: string, code?: string): number => {
+    const catIdx = eurostatData.dimension[dim]?.category?.index;
+    if (!catIdx) return 0;
+    if (code && catIdx[code] !== undefined) return catIdx[code];
+    // pick the first by numeric order of indices
+    const entries = Object.entries(catIdx) as Array<[string, number]>;
+    entries.sort((a, b) => a[1] - b[1]);
+    return entries.length ? entries[0][1] : 0;
+  };
+
+  const computeIndex = (coords: Record<string, number>): number => {
+    let idxAcc = 0;
+    for (let i = 0; i < dimIds.length; i++) {
+      const dim = dimIds[i];
+      const coord = coords.hasOwnProperty(dim) ? coords[dim] : getDimIndex(dim);
+      let stride = 1;
+      for (let j = i + 1; j < sizes.length; j++) stride *= sizes[j];
+      idxAcc += coord * stride;
+    }
+    return idxAcc;
+  };
+
   // Create consumption band data for this country
   const bandData = consomLabels.map(consomCode => {
     const consomIndex = consomCategories[consomCode];
-    const consomLabel = eurostatData.dimension.consom.category.label[consomCode] || consomCode;
+    const consomLabel = bandDim.category.label[consomCode] || consomCode;
 
-    // Calculate the correct index for the data array
-    // For 4D array [freq, consom, geo, time], with freq=0:
-    // index = consom_index * (geo_size * time_size) + geo_index * time_size + time_index
-    const geoSize = Object.keys(geoCategories).length;
-    const timeSize = Object.keys(timeCategories).length;
+    let numericValue: number | null = null;
 
-    const valueIndex = consomIndex * (geoSize * timeSize) +
-                      countryIndex * timeSize +
-                      selectedTimeIndex;
-
-    const value = eurostatData.value[valueIndex];
-    const numericValue = (value !== undefined && value !== null) ? parseFloat(value) : null;
+    if (!taxDim && !prcDim) {
+      // Use generic index computation
+      const valueIndex = computeIndex({
+        time: selectedTimeIndex,
+        geo: countryIndex,
+        nrg_cons: consomIndex,
+        consom: consomIndex // fallback if API used legacy name
+      });
+      const value = eurostatData.value[valueIndex];
+      numericValue = (value !== undefined && value !== null) ? parseFloat(value) : null;
+    } else if (taxDim) {
+      // Prefer X_TAX if present, else I_TAX, else X_VAT
+      const taxPreference = ['X_TAX', 'I_TAX', 'X_VAT'];
+      const availableTax = Object.keys(taxDim);
+      const chosenTax = taxPreference.find(c => availableTax.includes(c)) || availableTax[0];
+      const valueIndex = computeIndex({
+        time: selectedTimeIndex,
+        geo: countryIndex,
+        nrg_cons: consomIndex,
+        consom: consomIndex,
+        tax: getDimIndex('tax', chosenTax),
+        currency: getDimIndex('currency', 'EUR')
+      });
+      const value = eurostatData.value[valueIndex];
+      numericValue = (value !== undefined && value !== null) ? parseFloat(value) : null;
+    } else if (prcDim) {
+      // Sum all components for total per band
+      const prcKeys = Object.keys(prcDim);
+      let sum = 0;
+      prcKeys.forEach((code) => {
+        const valueIndex = computeIndex({
+          time: selectedTimeIndex,
+          geo: countryIndex,
+          nrg_cons: consomIndex,
+          consom: consomIndex,
+          nrg_prc: getDimIndex('nrg_prc', code),
+          currency: getDimIndex('currency', 'EUR')
+        });
+        const value = eurostatData.value[valueIndex];
+        sum += (value !== undefined && value !== null) ? parseFloat(value) : 0;
+      });
+      numericValue = sum;
+    }
 
     return {
       name: t ? t(`consumptionBands.${consomCode}`, consomLabel) : consomLabel,
-      value: numericValue !== null ? Math.round(numericValue * 10000) / 10000 : null, // Round to 4 decimal places
-      consomCode: consomCode
+      value: numericValue !== null ? Math.round(numericValue * 10000) / 10000 : null,
+      consomCode
     };
-  }).filter(item => item.value !== null); // Remove null values
+  }).filter(item => item.value !== null);
 
   // Extract categories (consumption band names) and values
   const categories = bandData.map(item => item.name);
