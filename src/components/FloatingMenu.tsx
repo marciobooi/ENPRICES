@@ -11,7 +11,8 @@ import {
   faGrip,
   faLayerGroup,
   faCogs,
-  faEye
+  faEye,
+  faTimes
 } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '../context/QueryContext';
 import { Tooltip } from 'react-tooltip';
@@ -209,6 +210,8 @@ const FloatingMenu: React.FC = () => {
           <FontAwesomeIcon icon={faGripVertical} />
         </button>
 
+
+
         {/* Decimals Button */}
         <button
           className={`ecl-button ecl-button--secondary floating-menu-btn`}
@@ -339,10 +342,36 @@ const FloatingMenu: React.FC = () => {
         >
           <FontAwesomeIcon icon={faEye} />
         </button>
+
+
+        {/* Close/Return Button - Only show when in drill-down mode */}
+        {state.drillDownCountry && (
+          <button
+            className="ecl-button ecl-button--secondary floating-menu-btn"
+            onClick={() => {
+              // Clear drill-down state which should trigger fresh data fetch in MainContent
+              dispatch({ type: 'SET_DRILL_DOWN_COUNTRY', payload: null });
+            }}
+            aria-label={t('floatingMenu.close', 'Return to countries view')}
+            data-tooltip-id="close-tooltip"
+            data-tooltip-content={t('floatingMenu.close', 'Return to countries view')}
+            style={{
+              padding: '8px',
+              borderRadius: '4px',
+              backgroundColor: '#e74c3c',
+              color: 'white'
+            }}
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        )}
+
+
       </div>
 
       {/* Tooltips */}
       <Tooltip id="drag-tooltip" place="bottom" delayShow={500} />
+      <Tooltip id="close-tooltip" place="bottom" delayShow={500} />
       <Tooltip id="decimals-tooltip" place="bottom" delayShow={500} />
       <Tooltip id="order-tooltip" place="bottom" delayShow={500} />
       <Tooltip id="percentage-tooltip" place="bottom" delayShow={500} />

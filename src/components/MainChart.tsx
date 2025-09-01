@@ -16,6 +16,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
   const { state, dispatch } = useQuery();
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<any>(null);
+  const [originalData, setOriginalData] = useState<any>(null); // Store original country data
   const [lastFetchKey, setLastFetchKey] = useState<string>('');
 
   // Subscribe to data updates from handleData
@@ -28,6 +29,17 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     const unsubscribe = subscribeToDataUpdates((newData) => {
       if (newData && newData.value) {
         setData(newData);
+        // If this is country comparison data (not bands data), store it as original
+        // Check if it has multiple countries (more than 5 geo entities suggests country comparison)
+        const geoCount = newData?.dimension?.geo?.category?.index ? 
+          Object.keys(newData.dimension.geo.category.index).length : 0;
+        const isBandsData = newData?.dimension?.nrg_cons?.category?.index && 
+                           Object.keys(newData.dimension.nrg_cons.category.index).length > 1;
+        
+        // Store as original if it's country comparison data (multiple countries, not bands)
+        if (geoCount > 5 && !isBandsData) {
+          setOriginalData(newData);
+        }
       }
     });
 
@@ -50,9 +62,6 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
   useEffect(() => {
     if (!chartContainerRef.current || !data) return;
 
-    console.log('[MainChart] Rendering with data. DrillDown country:', state.drillDownCountry);
-    console.log('[MainChart] Data dimensions:', Object.keys(data.dimension || {}));
-
     // Clear container
     chartContainerRef.current.innerHTML = '';
 
@@ -67,6 +76,37 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     const hasMultipleBands = data?.dimension?.nrg_cons?.category?.index && Object.keys(data.dimension.nrg_cons.category.index).length > 1;
     const needsBandsFetch = state.drillDownCountry && !hasMultipleBands;
     
+    // Check if we have bands data but no drill-down country (returning from bands view)
+    const isBandsDataWithoutDrillDown = !state.drillDownCountry && hasMultipleBands;
+    
+    if (isBandsDataWithoutDrillDown) {
+      // We're returning from bands view but still have bands data
+      // We need to get fresh country comparison data since bands data only has one country
+      
+      // Use the stored original country data if available
+      if (originalData && originalData !== data) {
+        setData(originalData);
+        return; // Re-render with original country data
+      }
+      
+      // If no original data available, we need to trigger a refresh
+      // Clear the current data to force a refresh from the data service
+      const currentServiceData = getCurrentData();
+      if (currentServiceData.data && currentServiceData.data !== data) {
+        setData(currentServiceData.data);
+        return; // Re-render with fresh data
+      }
+      
+      // If we still have bands data and no way to get country data,
+      // dispatch an action to force data refresh (this will trigger a new API call)
+      console.warn('[MainChart] No country data available, forcing refresh');
+      // Force refresh by temporarily changing a query parameter
+      const currentTime = Date.now();
+      setLastFetchKey(`refresh-${currentTime}`);
+      // This will be handled by the parent component's data fetching logic
+      return;
+    }
+    
     if (needsBandsFetch && state.drillDownCountry) {
       // Create a unique key for this fetch to prevent infinite loops
       const fetchKey = `${state.dataset}-${state.drillDownCountry}-${state.time}-${JSON.stringify([state.currency, state.product, state.unit, state.taxs, state.component])}`;
@@ -76,8 +116,10 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         return;
       }
       
-      console.log('[MainChart] Drill-down country:', state.drillDownCountry, 'year:', state.time, 'dataset:', state.dataset);
-      console.log('[MainChart] About to fetch bands data...');
+      // Store current data as original before fetching bands
+      if (data && !hasMultipleBands) {
+        setOriginalData(data);
+      }
       
       // Fetch band data for the selected country
       // Build params based on dataset/component flags
@@ -112,14 +154,6 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         chartContainerRef.current.appendChild(loading);
       }
 
-      console.log('[MainChart] Bands params:', extraParams);
-      console.log('[MainChart] Calling eurostatService.fetchCountryBands with:', {
-        dataset: state.dataset,
-        country: state.drillDownCountry,
-        time: state.time,
-        params: extraParams
-      });
-
       // Set the fetch key to prevent re-fetching
       setLastFetchKey(fetchKey);
 
@@ -131,12 +165,10 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           extraParams
         )
       .then(bandData => {
-        console.log('[MainChart] Bands data received, setting as main data');
         // Set the bands data as the main data and let the regular rendering handle it
         setData(bandData);
       }).catch(error => {
         console.error('[MainChart] Error fetching band data:', error);
-        console.error('[MainChart] Error details:', error.message, error.stack);
         // Fallback to regular view if band data fetch fails
         dispatch({ type: 'SET_DRILL_DOWN_COUNTRY', payload: null });
       });
@@ -147,24 +179,15 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       // Regular country comparison view OR bands view (if drillDownCountry is set)
       if (state.drillDownCountry && data?.dimension?.nrg_cons) {
         // This is bands data - transform it to show consumption bands
-        console.log('[MainChart] Processing bands data for country:', state.drillDownCountry);
-        console.log('[MainChart] Bands data structure:', data);
-        console.log('[MainChart] Available nrg_cons dimension:', data.dimension.nrg_cons);
-        
-        transformedData = transformToCountryBands(data, state.drillDownCountry, undefined);
-        
-        console.log('[MainChart] Transformed bands data:', transformedData);
-        console.log('[MainChart] Number of categories (bands):', transformedData.categories?.length);
-        console.log('[MainChart] Categories:', transformedData.categories);
-        console.log('[MainChart] Series data:', transformedData.series);
+        transformedData = transformToCountryBands(data, state.drillDownCountry, state.details, (key, defaultValue) => t(key, defaultValue || key));
         
         // Modify the chart title to show it's a bands view
-        const { categories, series, selectedYear } = transformedData;
+        const { categories, series, selectedYear, isDetailed } = transformedData;
         chartConfig = createCountryComparisonConfig({
           categories,
           series,
           selectedYear,
-          isDetailed: false,
+          isDetailed: isDetailed || false, // Use the isDetailed flag from transformedData
           isComponent: false,
           order: state.order,
           percentage: false,
@@ -262,17 +285,13 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           return; // Don't handle clicks in bands view
         }
         
-        console.log('[MainChart] Click detected on:', e.target);
         const targetEl = (e.target as Element) || null;
         const pointEl = targetEl ? targetEl.closest('.highcharts-point') as SVGElement | null : null;
 
         if (pointEl) {
-          console.log('[MainChart] Found highcharts point element');
           const ariaLabel = pointEl.getAttribute('aria-label');
-          console.log('[MainChart] Aria label:', ariaLabel);
           if (ariaLabel) {
             const countryName = ariaLabel.split(',')[0].trim();
-            console.log('[MainChart] Extracted country name:', countryName);
             let countryCode = null;
 
             // Create reverse mapping from translated names to country codes
@@ -294,17 +313,11 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
               countryCode = countryCodes && countryCodes[countryIndex];
             }
 
-            console.log('[MainChart] Resolved country code:', countryCode);
             if (countryCode) {
-              console.log('[MainChart] Dispatching drill-down for:', countryCode);
               // Trigger drill-down so bands are fetched for the selected year
               dispatch({ type: 'SET_DRILL_DOWN_COUNTRY', payload: countryCode });
-            } else {
-              console.log('[MainChart] Could not resolve country from click');
             }
           }
-        } else {
-          console.log('[MainChart] No highcharts point found');
         }
       };
 

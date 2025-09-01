@@ -354,22 +354,15 @@ export const transformToTimeSeries = (eurostatData: any, maxCountries: number = 
  * Transform Eurostat data to show consumption bands for a specific country
  * Used for drill-down functionality when clicking on a country bar
  */
-export const transformToCountryBands = (eurostatData: any, countryCode: string, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
+export const transformToCountryBands = (eurostatData: any, countryCode: string, isDetailed: boolean = false, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
   if (!eurostatData?.dimension?.time?.category?.index ||
       !eurostatData?.dimension?.geo?.category?.index) {
     return { categories: [], series: [], selectedYear: '', isDetailed: false };
   }
 
-  console.log('[transformToCountryBands] Input data structure:');
-  console.log('[transformToCountryBands] Available dimensions:', Object.keys(eurostatData.dimension));
-  console.log('[transformToCountryBands] nrg_cons dimension:', eurostatData.dimension.nrg_cons);
-  console.log('[transformToCountryBands] Country code:', countryCode);
-  
   // Eurostat uses nrg_cons for consumption bands; some legacy code used consom
   const bandDim = eurostatData.dimension.nrg_cons || eurostatData.dimension.consom;
   if (!bandDim?.category?.index) {
-    console.log('[transformToCountryBands] Missing nrg_cons/consom dimension');
-    console.log('[transformToCountryBands] Available dimensions:', Object.keys(eurostatData.dimension));
     return { categories: [], series: [], selectedYear: '', isDetailed: false };
   }
 
@@ -380,16 +373,11 @@ export const transformToCountryBands = (eurostatData: any, countryCode: string, 
 
   const consomCategories = bandDim.category.index;
   const consomLabels = Object.keys(consomCategories);
-  
-  console.log('[transformToCountryBands] Band categories:', consomCategories);
-  console.log('[transformToCountryBands] Band labels:', consomLabels);
-  console.log('[transformToCountryBands] Band label mappings:', bandDim.category.label);
 
   const geoCategories = eurostatData.dimension.geo.category.index;
   const countryIndex = geoCategories[countryCode];
 
   if (countryIndex === undefined) {
-    console.log('[transformToCountryBands] Country not found:', countryCode);
     return { categories: [], series: [], selectedYear: '', isDetailed: false };
   }
 
@@ -489,18 +477,84 @@ export const transformToCountryBands = (eurostatData: any, countryCode: string, 
 
   // Extract categories (consumption band names) and values
   const categories = bandData.map(item => item.name);
-  const values = bandData.map(item => item.value);
+  
+  // Handle detailed vs total view
+  if (isDetailed && taxDim) {
+    // For detailed view with tax breakdown, create tax component series for each band
+    const taxLabels = Object.keys(taxDim);
+    
+    // Calculate tax breakdown for each band (same logic as country tax breakdown)
+    const bandsWithTaxData = bandData.map(band => {
+      const consomIndex = consomCategories[band.consomCode];
+      const values: Record<string, number> = {};
+      
+      taxLabels.forEach((taxCode) => {
+        const valueIndex = computeIndex({
+          time: selectedTimeIndex,
+          geo: countryIndex,
+          nrg_cons: consomIndex,
+          tax: getDimIndex('tax', taxCode),
+          currency: getDimIndex('currency', 'EUR')
+        });
+        const value = eurostatData.value[valueIndex];
+        values[taxCode] = parseFloat(value) || 0;
+      });
+      
+      // Calculate the 3 tax components using the same logic as transformToTaxBreakdown
+      const xTax = values['X_TAX'] || 0; // Excluding taxes (total)
+      const xVat = values['X_VAT'] || 0; // Excluding VAT 
+      const iTax = values['I_TAX'] || 0; // Including all taxes
 
-  // Create single series for the selected country and year
-  const series = [{
-    name: `${countryName} - ${selectedYear}`,
-    data: values
-  }];
+      const priceExcludingTaxes = xVat;
+      const vatAndOtherTaxes = -(iTax - xTax);
+      const restOfTaxes = xTax - priceExcludingTaxes - vatAndOtherTaxes;
+      
+      return {
+        band: band,
+        priceExcludingTaxes: priceExcludingTaxes,
+        restOfTaxes: restOfTaxes,
+        vatAndOtherTaxes: vatAndOtherTaxes,
+        total: xTax
+      };
+    });
+    
+    // Create series for the 3 tax components across all bands
+    const series = [
+      {
+        name: t ? t('chart.series.taxBreakdown.X_VAT', 'Price excluding taxes and levies') : 'Price excluding taxes and levies',
+        data: bandsWithTaxData.map(item => ({ y: item.priceExcludingTaxes, customTotal: item.total }))
+      },
+      {
+        name: t ? t('chart.series.taxBreakdown.REST', 'Rest of taxes and levies') : 'Rest of taxes and levies',
+        data: bandsWithTaxData.map(item => ({ y: item.restOfTaxes, customTotal: item.total }))
+      },
+      {
+        name: t ? t('chart.series.taxBreakdown.X_VAT_OTHER', 'VAT and other recoverable taxes and levies') : 'VAT and other recoverable taxes and levies',
+        data: bandsWithTaxData.map(item => ({ y: item.vatAndOtherTaxes, customTotal: item.total }))
+      },
+    ];
 
-  return { 
-    categories, 
-    series, 
-    selectedYear,
-    isDetailed: false 
-  };
+    return { 
+      categories, 
+      series, 
+      selectedYear,
+      isDetailed: true 
+    };
+  } else {
+    // Total view - single series with total values
+    const values = bandData.map(item => item.value);
+
+    // Create single series for the selected country and year
+    const series = [{
+      name: `${countryName} - ${selectedYear}`,
+      data: values
+    }];
+
+    return { 
+      categories, 
+      series, 
+      selectedYear,
+      isDetailed: false 
+    };
+  }
 };

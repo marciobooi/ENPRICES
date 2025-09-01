@@ -143,16 +143,7 @@ class EurostatService {
       
       const fullUrl = `${url}?${queryParams.toString()}`;
       
-      // Debug: log URL for diagnostics
-      console.log('='.repeat(80));
-      console.log('[Eurostat API REQUEST]');
-      console.log('Dataset:', dataset);
-      console.log('Full URL:', fullUrl);
-      console.log('Query Parameters:');
-      for (const [key, value] of queryParams.entries()) {
-        console.log(`  ${key}: ${value}`);
-      }
-      console.log('='.repeat(80));      const response = await axios.get(fullUrl, {
+      const response = await axios.get(fullUrl, {
         timeout: 30000 // 30 seconds timeout
       });
 
@@ -251,11 +242,6 @@ class EurostatService {
         // Use correct Eurostat parameter name for consumption bands - this must come last to override any single band selection
         nrg_cons: config.consoms
       };
-
-      console.log('[fetchCountryBands] Dataset config consoms:', config.consoms);
-      console.log('[fetchCountryBands] Band params nrg_cons:', bandParams.nrg_cons);
-      console.log('[fetchCountryBands] Full band params:', bandParams);
-      console.log('[fetchCountryBands] Original params passed in:', params);
 
       // Ensure currency is always set (default EUR) if not provided
       if (!bandParams.currency) {
