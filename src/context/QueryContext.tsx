@@ -117,7 +117,8 @@ const queryReducer = (state: QueryState, action: QueryAction): QueryState => {
     case 'SET_BAND':
       return {
         ...state,
-        consoms: action.payload
+        consoms: action.payload,
+        drillDownCountry: null // Exit bands view when band changes
       };
     case 'SET_UNIT':
       return {
