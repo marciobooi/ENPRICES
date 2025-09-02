@@ -306,23 +306,29 @@ class EurostatService {
     dataset: string,
     countryCode: string,
     bandCode: string,
-    extraParams: Record<string, string | string[]> = {}
+    extraParams: Record<string, string | string[]> = {},
+    timeParam?: string
   ): Promise<any> {
     try {
       console.log('[EurostatService] Fetching time series data:', {
         dataset,
         countryCode,
         bandCode,
-        extraParams
+        extraParams,
+        timeParam
       });
 
       // Build parameters for time series request
       const timeSeriesParams: Record<string, string | string[]> = {
         geo: countryCode,
         nrg_cons: bandCode,
-        time: 'LAST_10', // Get last 10 time periods
         ...extraParams
       };
+
+      // Only add time parameter if provided, otherwise get all available years
+      if (timeParam) {
+        timeSeriesParams.time = timeParam;
+      }
 
       const cacheKey = this.getCacheKey(dataset, timeSeriesParams);
       

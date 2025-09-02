@@ -390,11 +390,20 @@ export const createPieChartConfig = (options: ChartConfigOptions) => {
 
   // Convert series data to pie chart format
   const pieData = series[0]?.data.map((point: any, index: number) => {
-    const value = typeof point === 'object' ? point.y : point;
-    return {
-      name: categories[index] || `Category ${index + 1}`,
-      y: value || 0
-    };
+    if (typeof point === 'object' && point.name && point.y !== undefined) {
+      // Point already has name and y properties (pie chart format)
+      return {
+        name: point.name,
+        y: point.y || 0
+      };
+    } else {
+      // Convert from other formats
+      const value = typeof point === 'object' ? point.y : point;
+      return {
+        name: categories[index] || `Category ${index + 1}`,
+        y: value || 0
+      };
+    }
   }) || [];
 
   return {

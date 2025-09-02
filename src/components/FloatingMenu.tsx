@@ -446,21 +446,23 @@ const FloatingMenu: React.FC = () => {
           </div>
         )}
 
-        {/* Details Button */}
-        <button
-          className={`ecl-button ${state.details ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-          onClick={toggleDetails}
-          aria-label={t('floatingMenu.details.label', 'Toggle detailed view')}
-          data-tooltip-id="details-tooltip"
-          data-tooltip-content={t('floatingMenu.details.tooltip', { status: state.details ? 'detailed' : 'summary' })}
-          aria-pressed={state.details}
-          style={{
-            padding: '8px',
-            borderRadius: '4px'
-          }}
-        >
-          <FontAwesomeIcon icon={faEye} />
-        </button>
+        {/* Details Button - Hide for pie chart since pie always shows details */}
+        {state.chartType !== 'pie' && (
+          <button
+            className={`ecl-button ${state.details ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+            onClick={toggleDetails}
+            aria-label={t('floatingMenu.details.label', 'Toggle detailed view')}
+            data-tooltip-id="details-tooltip"
+            data-tooltip-content={t('floatingMenu.details.tooltip', { status: state.details ? 'detailed' : 'summary' })}
+            aria-pressed={state.details}
+            style={{
+              padding: '8px',
+              borderRadius: '4px'
+            }}
+          >
+            <FontAwesomeIcon icon={faEye} />
+          </button>
+        )}
 
 
         {/* Close/Return Button - Only show when in drill-down mode */}

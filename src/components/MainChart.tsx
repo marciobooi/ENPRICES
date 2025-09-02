@@ -323,9 +323,15 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         const { categories, series, selectedYear, isDetailed } = transformedData;
         
         if (state.chartType === 'pie') {
-          chartConfig = createPieChartConfig({
+          console.log('[MainChart] Creating pie chart config with data:', {
             categories,
             series,
+            selectedYear,
+            seriesData: series[0]?.data
+          });
+          chartConfig = createPieChartConfig({
+            categories,
+            series: series as any, // Type assertion for pie chart data
             selectedYear,
             title: `${state.selectedBand} Components - ${state.drillDownCountry} (${selectedYear})`,
             isDetailed: isDetailed || false,
@@ -333,6 +339,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
             decimals: state.decimals,
             t
           });
+          console.log('[MainChart] Pie chart config created:', chartConfig);
         } else if (state.chartType === 'timeline') {
           chartConfig = createTimelineChartConfig({
             categories,
@@ -467,12 +474,51 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       }
 
       // Create the UEC script element with our data
+      console.log('[MainChart] Creating script element for chart type:', state.chartType, {
+        hasConfig: !!chartConfig,
+        configKeys: chartConfig ? Object.keys(chartConfig) : null,
+        chartData: (chartConfig as any)?.data,
+        container: chartContainerRef.current
+      });
+
       const scriptElement = document.createElement('script');
       scriptElement.type = 'application/json';
       scriptElement.textContent = JSON.stringify(chartConfig);
 
       // Add script to container
       chartContainerRef.current.appendChild(scriptElement);
+      
+      console.log('[MainChart] Script element added, container now has:', {
+        childElementCount: chartContainerRef.current.childElementCount,
+        innerHTML: chartContainerRef.current.innerHTML.substring(0, 100) + '...'
+      });
+
+      // Try to trigger UEC processing manually if available
+      if (typeof (window as any).UEC !== 'undefined') {
+        console.log('[MainChart] UEC found, attempting to process charts');
+        try {
+          (window as any).UEC.charts();
+        } catch (error) {
+          console.warn('[MainChart] Error calling UEC.charts():', error);
+        }
+      } else {
+        console.warn('[MainChart] UEC not found on window object - chart may not render');
+        
+        // Check if ecl-eu.js is loaded
+        const eclScripts = document.querySelectorAll('script[src*="ecl-eu"]');
+        console.log('[MainChart] ECL scripts found:', eclScripts.length);
+        
+        // If no UEC, try to create a basic Highcharts chart as fallback
+        if (typeof (window as any).Highcharts !== 'undefined') {
+          console.log('[MainChart] Attempting Highcharts fallback');
+          try {
+            const chartConfigData = (chartConfig as any).data;
+            (window as any).Highcharts.chart(chartContainerRef.current, chartConfigData);
+          } catch (error) {
+            console.warn('[MainChart] Highcharts fallback failed:', error);
+          }
+        }
+      }
 
       // Extract click handler logic into a separate function
       const handleChartClick = (e: Event) => {

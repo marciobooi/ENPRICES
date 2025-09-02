@@ -14,7 +14,7 @@ export interface ChartDataResult {
   categories: string[];
   series: Array<{
     name: string;
-    data: (number | null | { y: number; customTotal: number })[];
+    data: (number | null | { y: number; customTotal: number } | { name: string; y: number })[];
   }>;
   selectedYear: string;
   isDetailed?: boolean;
@@ -628,55 +628,180 @@ export const transformToBandsPieChart = (
   isComponent: boolean = false, 
   t?: (key: string, defaultValue?: string) => string
 ): ChartDataResult => {
-  // Find the specific band data
-  const bandsData = transformToCountryBands(eurostatData, selectedCountry, isDetailed, isComponent, t);
-  
-  // Find the index of the selected band
-  const bandIndex = bandsData.categories.findIndex(cat => cat.includes(selectedBand));
-  
-  if (bandIndex === -1) {
-    // Band not found, return empty result
-    return {
-      categories: [],
-      series: [],
-      selectedYear: bandsData.selectedYear,
-      isDetailed: isDetailed
-    };
+  console.log('[transformToBandsPieChart] Starting transformation with:', {
+    eurostatData: !!eurostatData,
+    selectedCountry,
+    selectedBand,
+    isDetailed,
+    isComponent,
+    hasValue: !!eurostatData?.value
+  });
+
+  // Get band data directly from eurostat structure instead of transformed data
+  if (!eurostatData?.dimension?.geo?.category?.index ||
+      !eurostatData?.dimension?.nrg_cons?.category?.index) {
+    console.log('[transformToBandsPieChart] Missing required dimensions');
+    return { categories: [], series: [], selectedYear: '', isDetailed: false };
   }
 
-  if (isDetailed && bandsData.series.length > 1) {
-    // Detailed view - create pie slices from different tax/component categories
-    const pieData = bandsData.series.map(series => {
-      const value = Array.isArray(series.data[bandIndex]) ? 
-          (series.data[bandIndex] as any)?.y || 0 : 
-          (series.data[bandIndex] as number) || 0;
-      return {
-        y: value,
-        customTotal: value // For pie charts, y and customTotal are the same
-      };
-    }).filter(item => item.y > 0);
+  const geoCategories = eurostatData.dimension.geo.category.index;
+  const geoIndex = geoCategories[selectedCountry];
+  
+  if (geoIndex === undefined) {
+    console.log('[transformToBandsPieChart] Country not found:', selectedCountry);
+    return { categories: [], series: [], selectedYear: '', isDetailed: false };
+  }
+
+  const bandCategories = eurostatData.dimension.nrg_cons.category.index;
+  const bandIndex = bandCategories[selectedBand];
+  
+  if (bandIndex === undefined) {
+    console.log('[transformToBandsPieChart] Band not found:', {
+      selectedBand,
+      availableBands: Object.keys(bandCategories)
+    });
+    return { categories: [], series: [], selectedYear: '', isDetailed: false };
+  }
+
+  console.log('[transformToBandsPieChart] Found band at index:', {
+    selectedBand,
+    bandIndex,
+    geoIndex
+  });
+
+  // Get time information
+  const timeCategories = eurostatData.dimension.time.category.index;
+  const timeLabels = Object.keys(timeCategories).sort((a, b) => timeCategories[a] - timeCategories[b]);
+  const selectedYear = timeLabels[timeLabels.length - 1];
+  const timeIndex = timeCategories[selectedYear];
+
+  // For pie chart, we need breakdown data (always detailed)
+  if (isDetailed || true) { // Force detailed for pie charts
+    // Check what type of breakdown we have
+    const nrgPrcCategories = eurostatData.dimension.nrg_prc?.category?.index; // Components
+    const taxCategories = eurostatData.dimension.tax?.category?.index; // Taxes
+    
+    console.log('[transformToBandsPieChart] Available breakdowns:', {
+      hasComponents: !!nrgPrcCategories,
+      hasTaxes: !!taxCategories,
+      isComponent,
+      componentCodes: nrgPrcCategories ? Object.keys(nrgPrcCategories) : null,
+      taxCodes: taxCategories ? Object.keys(taxCategories) : null
+    });
+
+    let pieData: { name: string; y: number }[] = [];
+
+    if (isComponent && nrgPrcCategories) {
+      // Component breakdown
+      Object.keys(nrgPrcCategories).forEach(componentCode => {
+        const componentIndex = nrgPrcCategories[componentCode];
+        
+        // Calculate the index in the flat value array
+        const dimensions = eurostatData.dimension;
+        const valueIndex = 
+          timeIndex * Object.keys(dimensions.geo.category.index).length * 
+          Object.keys(dimensions.nrg_cons.category.index).length * 
+          Object.keys(dimensions.nrg_prc.category.index).length +
+          geoIndex * Object.keys(dimensions.nrg_cons.category.index).length * 
+          Object.keys(dimensions.nrg_prc.category.index).length +
+          bandIndex * Object.keys(dimensions.nrg_prc.category.index).length +
+          componentIndex;
+
+        const value = eurostatData.value[valueIndex];
+        
+        if (value !== null && value > 0) {
+          // Get component name from translations or use code
+          const componentName = t ? t(`component.${componentCode}`, componentCode) : componentCode;
+          pieData.push({
+            name: componentName,
+            y: value
+          });
+        }
+      });
+    } else if (!isComponent && taxCategories) {
+      // Tax breakdown
+      console.log('[transformToBandsPieChart] Processing tax breakdown:', {
+        taxCategories,
+        taxCodes: Object.keys(taxCategories),
+        timeIndex,
+        geoIndex,
+        bandIndex
+      });
+
+      Object.keys(taxCategories).forEach(taxCode => {
+        const taxIndex = taxCategories[taxCode];
+        
+        // Calculate the index in the flat value array
+        const dimensions = eurostatData.dimension;
+        const valueIndex = 
+          timeIndex * Object.keys(dimensions.geo.category.index).length * 
+          Object.keys(dimensions.nrg_cons.category.index).length * 
+          Object.keys(dimensions.tax.category.index).length +
+          geoIndex * Object.keys(dimensions.nrg_cons.category.index).length * 
+          Object.keys(dimensions.tax.category.index).length +
+          bandIndex * Object.keys(dimensions.tax.category.index).length +
+          taxIndex;
+
+        const value = eurostatData.value[valueIndex];
+        
+        console.log('[transformToBandsPieChart] Tax processing:', {
+          taxCode,
+          taxIndex,
+          valueIndex,
+          value,
+          dimensionSizes: {
+            time: Object.keys(dimensions.time.category.index).length,
+            geo: Object.keys(dimensions.geo.category.index).length,
+            nrg_cons: Object.keys(dimensions.nrg_cons.category.index).length,
+            tax: Object.keys(dimensions.tax.category.index).length
+          }
+        });
+        
+        if (value !== null && value !== 0) { // Include negative values for tax breakdown
+          // Get tax name from translations or use code
+          const taxName = t ? t(`tax.${taxCode}`, taxCode) : taxCode;
+          pieData.push({
+            name: taxName,
+            y: Math.abs(value) // Use absolute value for pie chart display
+          });
+        }
+      });
+    }
+
+    if (pieData.length === 0) {
+      console.log('[transformToBandsPieChart] No breakdown data available for pie chart');
+      return { categories: [], series: [], selectedYear, isDetailed: false };
+    }
+
+    console.log('[transformToBandsPieChart] Created pie data:', pieData);
 
     return {
-      categories: bandsData.series.map(s => s.name), // Use series names as categories for pie
+      categories: pieData.map(item => item.name),
       series: [{
         name: selectedBand,
         data: pieData
       }],
-      selectedYear: bandsData.selectedYear,
+      selectedYear,
       isDetailed: true
     };
   } else {
-    // Simple view - single value (can't really make a pie chart)
-    const value = bandsData.series[0]?.data[bandIndex] || 0;
-    const numericValue = typeof value === 'object' ? (value as any).y : value;
-    
+    // Simple view - just the total value
+    const dimensions = eurostatData.dimension;
+    const valueIndex = 
+      timeIndex * Object.keys(dimensions.geo.category.index).length * 
+      Object.keys(dimensions.nrg_cons.category.index).length +
+      geoIndex * Object.keys(dimensions.nrg_cons.category.index).length +
+      bandIndex;
+
+    const value = eurostatData.value[valueIndex] || 0;
+
     return {
       categories: [selectedBand],
       series: [{
         name: selectedBand,
-        data: [{ y: numericValue, customTotal: numericValue }]
+        data: [{ name: selectedBand, y: value }]
       }],
-      selectedYear: bandsData.selectedYear,
+      selectedYear,
       isDetailed: false
     };
   }
