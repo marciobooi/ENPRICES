@@ -364,6 +364,19 @@
     },
     "aria": {
       "label": "Energy prices chart showing data over time for selected countries and parameters"
+    },
+    "timeline": {
+      "title": "Timeline Chart",
+      "loading": "Loading Timeline Data...",
+      "fetchingData": "Fetching time series data for",
+      "country": "Country",
+      "band": "Band",
+      "error": "Error Loading Timeline",
+      "errorMessage": "Unable to fetch time series data. Please try again.",
+      "implementation": "Timeline functionality requires fetching multi-year data from Eurostat API.",
+      "details": "This will show price evolution over time with component breakdown when details are enabled.",
+      "xAxis": "Time Period",
+      "yAxis": "Price (EUR)"
     }
   },
 
@@ -395,6 +408,15 @@
     "details": {
       "label": "Toggle detailed view",
       "tooltip": "View mode: {{status}}"
+    },
+    "chartType": {
+      "bar": "Bar chart",
+      "pie": "Pie chart", 
+      "timeline": "Timeline chart",
+      "table": "Table view"
+    },
+    "bands": {
+      "placeholder": "Select band..."
     },
     "screenReader": {
       "dragging": "Moving chart controls menu"

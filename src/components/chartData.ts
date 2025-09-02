@@ -616,3 +616,261 @@ export const transformToCountryBands = (eurostatData: any, countryCode: string, 
     };
   }
 };
+
+/**
+ * Transform bands data to pie chart format for a specific band
+ */
+export const transformToBandsPieChart = (
+  eurostatData: any, 
+  selectedCountry: string, 
+  selectedBand: string, 
+  isDetailed: boolean = false, 
+  isComponent: boolean = false, 
+  t?: (key: string, defaultValue?: string) => string
+): ChartDataResult => {
+  // Find the specific band data
+  const bandsData = transformToCountryBands(eurostatData, selectedCountry, isDetailed, isComponent, t);
+  
+  // Find the index of the selected band
+  const bandIndex = bandsData.categories.findIndex(cat => cat.includes(selectedBand));
+  
+  if (bandIndex === -1) {
+    // Band not found, return empty result
+    return {
+      categories: [],
+      series: [],
+      selectedYear: bandsData.selectedYear,
+      isDetailed: isDetailed
+    };
+  }
+
+  if (isDetailed && bandsData.series.length > 1) {
+    // Detailed view - create pie slices from different tax/component categories
+    const pieData = bandsData.series.map(series => {
+      const value = Array.isArray(series.data[bandIndex]) ? 
+          (series.data[bandIndex] as any)?.y || 0 : 
+          (series.data[bandIndex] as number) || 0;
+      return {
+        y: value,
+        customTotal: value // For pie charts, y and customTotal are the same
+      };
+    }).filter(item => item.y > 0);
+
+    return {
+      categories: bandsData.series.map(s => s.name), // Use series names as categories for pie
+      series: [{
+        name: selectedBand,
+        data: pieData
+      }],
+      selectedYear: bandsData.selectedYear,
+      isDetailed: true
+    };
+  } else {
+    // Simple view - single value (can't really make a pie chart)
+    const value = bandsData.series[0]?.data[bandIndex] || 0;
+    const numericValue = typeof value === 'object' ? (value as any).y : value;
+    
+    return {
+      categories: [selectedBand],
+      series: [{
+        name: selectedBand,
+        data: [{ y: numericValue, customTotal: numericValue }]
+      }],
+      selectedYear: bandsData.selectedYear,
+      isDetailed: false
+    };
+  }
+};
+
+/**
+ * Create HTML table for bands data
+ */
+export const createBandsTable = (
+  eurostatData: any, 
+  selectedCountry: string, 
+  isDetailed: boolean = false, 
+  isComponent: boolean = false, 
+  t?: (key: string, defaultValue?: string) => string
+): string => {
+  const bandsData = transformToCountryBands(eurostatData, selectedCountry, isDetailed, isComponent, t);
+  
+  let tableHtml = `
+    <div style="padding: 1rem;">
+      <h3>Consumption Bands - ${selectedCountry} (${bandsData.selectedYear})</h3>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+          <tr style="background-color: #f5f5f5;">
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Band</th>
+  `;
+
+  // Add column headers for each series
+  bandsData.series.forEach(series => {
+    tableHtml += `<th style="border: 1px solid #ddd; padding: 8px; text-align: right;">${series.name}</th>`;
+  });
+  
+  if (isDetailed && bandsData.series.length > 1) {
+    tableHtml += `<th style="border: 1px solid #ddd; padding: 8px; text-align: right;">Total</th>`;
+  }
+  
+  tableHtml += `
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+  // Add data rows
+  bandsData.categories.forEach((category, index) => {
+    tableHtml += `<tr>`;
+    tableHtml += `<td style="border: 1px solid #ddd; padding: 8px;">${category}</td>`;
+    
+    let total = 0;
+    bandsData.series.forEach(series => {
+      const value = series.data[index];
+      const numericValue = typeof value === 'object' ? (value as any)?.y || 0 : value || 0;
+      total += numericValue;
+      tableHtml += `<td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${numericValue.toFixed(4)}</td>`;
+    });
+    
+    if (isDetailed && bandsData.series.length > 1) {
+      tableHtml += `<td style="border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;">${total.toFixed(4)}</td>`;
+    }
+    
+    tableHtml += `</tr>`;
+  });
+
+  tableHtml += `
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  return tableHtml;
+};
+
+/**
+ * Transform Eurostat data to show timeline for a specific band
+ * Used when chart type is 'timeline' in bands view
+ */
+export const transformToBandsTimeline = (
+  eurostatData: any, 
+  countryCode: string, 
+  selectedBand: string,
+  isDetailed: boolean = false, 
+  isComponent: boolean = false, 
+  t?: (key: string, defaultValue?: string) => string
+): ChartDataResult => {
+  if (!eurostatData?.dimension?.time?.category?.index ||
+      !eurostatData?.dimension?.geo?.category?.index) {
+    return { categories: [], series: [], selectedYear: '', isDetailed: false };
+  }
+
+  const timeCategories = eurostatData.dimension.time.category.index;
+  const timeLabels = Object.keys(timeCategories).sort((a, b) => timeCategories[a] - timeCategories[b]);
+  const selectedYear = timeLabels[timeLabels.length - 1];
+
+  const geoCategories = eurostatData.dimension.geo.category.index;
+  const geoIndex = geoCategories[countryCode];
+  
+  if (geoIndex === undefined) {
+    return { categories: [], series: [], selectedYear, isDetailed: false };
+  }
+
+  const bandDim = eurostatData.dimension.nrg_cons || eurostatData.dimension.consom;
+  const consomCategories = bandDim?.category?.index || {};
+  const bandIndex = consomCategories[selectedBand];
+  
+  if (bandIndex === undefined) {
+    return { categories: [], series: [], selectedYear, isDetailed: false };
+  }
+
+  // Categories are time periods
+  const categories = timeLabels.map(timeLabel => {
+    // Format time labels for display (e.g., "2023-S2" -> "2023 H2")
+    if (timeLabel.includes('-S')) {
+      const [year, semester] = timeLabel.split('-S');
+      return `${year} H${semester}`;
+    }
+    return timeLabel;
+  });
+
+  let series: any[] = [];
+
+  if (isDetailed && (isComponent || eurostatData.dimension.nrg_prc)) {
+    // Component breakdown over time
+    const nrgPrcCategories = eurostatData.dimension.nrg_prc?.category?.index || {};
+    const nrgPrcLabels = Object.keys(nrgPrcCategories);
+    
+    series = nrgPrcLabels.map(nrgCode => {
+      const nrgIndex = nrgPrcCategories[nrgCode];
+      const label = eurostatData.dimension.nrg_prc.category.label[nrgCode];
+      const translatedLabel = t ? t(`energy.nrgPrc.${nrgCode}`, label) : label;
+      
+      const data = timeLabels.map(timeLabel => {
+        const timeIndex = timeCategories[timeLabel];
+        const valueIndex = geoIndex * Object.keys(consomCategories).length * nrgPrcLabels.length * timeLabels.length +
+                          bandIndex * nrgPrcLabels.length * timeLabels.length +
+                          nrgIndex * timeLabels.length +
+                          timeIndex;
+        const value = eurostatData.value[valueIndex];
+        return (value !== undefined && value !== null) ? parseFloat(value) : null;
+      });
+
+      return {
+        name: translatedLabel,
+        data: data
+      };
+    });
+  } else if (isDetailed && eurostatData.dimension.tax) {
+    // Tax breakdown over time
+    const taxCategories = eurostatData.dimension.tax.category.index;
+    const taxLabels = Object.keys(taxCategories);
+    
+    series = taxLabels.map(taxCode => {
+      const taxIndex = taxCategories[taxCode];
+      const label = eurostatData.dimension.tax.category.label[taxCode];
+      const translatedLabel = t ? t(`energy.tax.${taxCode}`, label) : label;
+      
+      const data = timeLabels.map(timeLabel => {
+        const timeIndex = timeCategories[timeLabel];
+        const valueIndex = geoIndex * Object.keys(consomCategories).length * taxLabels.length * timeLabels.length +
+                          bandIndex * taxLabels.length * timeLabels.length +
+                          taxIndex * timeLabels.length +
+                          timeIndex;
+        const value = eurostatData.value[valueIndex];
+        return (value !== undefined && value !== null) ? parseFloat(value) : null;
+      });
+
+      return {
+        name: translatedLabel,
+        data: data
+      };
+    });
+  } else {
+    // Total values over time (non-detailed view)
+    const data = timeLabels.map(timeLabel => {
+      const timeIndex = timeCategories[timeLabel];
+      const valueIndex = geoIndex * Object.keys(consomCategories).length * timeLabels.length +
+                        bandIndex * timeLabels.length +
+                        timeIndex;
+      const value = eurostatData.value[valueIndex];
+      return (value !== undefined && value !== null) ? parseFloat(value) : null;
+    });
+
+    const bandLabel = eurostatData.dimension.nrg_cons?.category?.label[selectedBand] || 
+                     eurostatData.dimension.consom?.category?.label[selectedBand] || 
+                     selectedBand;
+    const translatedBandLabel = t ? t(`energy.bands.${selectedBand}`, bandLabel) : bandLabel;
+
+    series = [{
+      name: translatedBandLabel,
+      data: data
+    }];
+  }
+
+  return {
+    categories,
+    series,
+    selectedYear,
+    isDetailed
+  };
+};

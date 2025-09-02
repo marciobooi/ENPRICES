@@ -29,6 +29,8 @@ export interface QueryState {
   availableYears: string[]; // Dynamic years from API
   isLoadingYears: boolean;
   drillDownCountry: string | null; // Country selected for drill-down to bands view
+  chartType: 'bar' | 'pie' | 'timeline' | 'table'; // Chart type for bands view
+  selectedBand: string; // Selected band for pie/timeline charts in bands view
 }
 
 // Define action types for query updates
@@ -53,6 +55,8 @@ export type QueryAction =
   | { type: 'SET_AVAILABLE_YEARS'; payload: string[] }
   | { type: 'SET_LOADING_YEARS'; payload: boolean }
   | { type: 'SET_DRILL_DOWN_COUNTRY'; payload: string | null }
+  | { type: 'SET_CHART_TYPE'; payload: 'bar' | 'pie' | 'timeline' | 'table' }
+  | { type: 'SET_SELECTED_BAND'; payload: string }
   | { type: 'RESET_TO_DEFAULTS' };
 
 // Initial state with all countries selected by default
@@ -82,6 +86,8 @@ const initialState: QueryState = {
   availableYears: [],
   isLoadingYears: false,
   drillDownCountry: null, // No country selected for drill-down initially
+  chartType: 'bar', // Default to bar chart in bands view
+  selectedBand: 'KWH_LT1000', // Default band for pie/timeline charts
 };
 
 // Reducer function to handle state updates
@@ -189,6 +195,16 @@ const queryReducer = (state: QueryState, action: QueryAction): QueryState => {
       return {
         ...state,
         drillDownCountry: action.payload
+      };
+    case 'SET_CHART_TYPE':
+      return {
+        ...state,
+        chartType: action.payload
+      };
+    case 'SET_SELECTED_BAND':
+      return {
+        ...state,
+        selectedBand: action.payload
       };
     case 'RESET_TO_DEFAULTS':
       return initialState;

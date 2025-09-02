@@ -372,6 +372,152 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
   };
 };
 
+/**
+ * Generate Webtools UEC configuration for pie chart
+ */
+export const createPieChartConfig = (options: ChartConfigOptions) => {
+  const { 
+    categories,
+    series,
+    selectedYear = '',
+    title,
+    subtitle,
+    decimals = 2,
+    t
+  } = options;  // Use translations or fallback to defaults
+  const finalTitle = title || (t ? t('chart.pieTitle') : 'Price Components');
+  const finalSubtitle = subtitle || (t ? t('chart.pieSubtitle') : `Component breakdown${selectedYear ? ` - ${selectedYear}` : ''}`);
+
+  // Convert series data to pie chart format
+  const pieData = series[0]?.data.map((point: any, index: number) => {
+    const value = typeof point === 'object' ? point.y : point;
+    return {
+      name: categories[index] || `Category ${index + 1}`,
+      y: value || 0
+    };
+  }) || [];
+
+  return {
+    "data": {
+      "chart": {
+        "type": "pie",
+        "height": 500,
+        "backgroundColor": "transparent"
+      },
+      "title": {
+        "text": finalTitle,
+        "style": {
+          "fontSize": "18px",
+          "fontWeight": "bold",
+          "color": "#004494"
+        }
+      },
+      "subtitle": {
+        "text": finalSubtitle,
+        "style": {
+          "fontSize": "14px",
+          "color": "#666666"
+        }
+      },
+      "tooltip": {
+        "pointFormat": `{series.name}: <b>{point.percentage:.${decimals}f}%</b><br/>Value: <b>{point.y:.${decimals}f}</b>`
+      },
+      "plotOptions": {
+        "pie": {
+          "allowPointSelect": true,
+          "cursor": "pointer",
+          "dataLabels": {
+            "enabled": true,
+            "format": "<b>{point.name}</b>: {point.percentage:.1f} %"
+          },
+          "showInLegend": true
+        }
+      },
+      "credits": {
+        "text": "Source: Eurostat",
+        "href": "https://ec.europa.eu/eurostat",
+        "style": {
+          "color": "#004494",
+          "fontSize": "14px",
+          "fontWeight": "normal",
+          "textDecoration": "underline",
+          "cursor": "pointer"
+        }
+      },
+      "series": [{
+        "name": "Share",
+        "colorByPoint": true,
+        "data": pieData
+      }]
+    }
+  };
+};
+
+/**
+ * Create timeline chart configuration for bands over time
+ */
+export const createTimelineChartConfig = (options: ChartConfigOptions) => {
+  const { categories, series, title, decimals = 4, t } = options;
+
+  return {
+    "selector": `[data-uec-chart-id]`,
+    "options": {
+      "chart": {
+        "type": "line",
+        "animation": {
+          "duration": 800,
+          "easing": "easeOutQuart"
+        }
+      },
+      "title": {
+        "text": title || (t ? t('chart.timeline.title', 'Timeline Chart') : 'Timeline Chart'),
+        "style": {
+          "fontSize": "16px",
+          "fontWeight": "600"
+        }
+      },
+      "xAxis": {
+        "categories": categories,
+        "title": {
+          "text": t ? t('chart.timeline.xAxis', 'Time Period') : 'Time Period'
+        }
+      },
+      "yAxis": {
+        "title": {
+          "text": t ? t('chart.timeline.yAxis', 'Price (EUR)') : 'Price (EUR)'
+        },
+        "labels": {
+          "formatter": `function() { return this.value.toFixed(${decimals}); }`
+        }
+      },
+      "tooltip": {
+        "formatter": `function() { 
+          return '<b>' + this.series.name + '</b><br/>' + 
+                 this.x + ': ' + this.y.toFixed(${decimals}) + ' EUR'; 
+        }`
+      },
+      "legend": {
+        "enabled": true,
+        "align": "center",
+        "verticalAlign": "bottom"
+      },
+      "plotOptions": {
+        "line": {
+          "marker": {
+            "enabled": true,
+            "radius": 4
+          },
+          "lineWidth": 2
+        }
+      },
+      "series": series.map(s => ({
+        ...s,
+        "type": "line"
+      }))
+    }
+  };
+};
+
 
 
 

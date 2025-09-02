@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -12,10 +12,18 @@ import {
   faLayerGroup,
   faCogs,
   faEye,
-  faTimes
+  faTimes,
+  faChartBar,
+  faChartPie,
+  faChartLine,
+  faTable
 } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '../context/QueryContext';
 import { Tooltip } from 'react-tooltip';
+import { EclSingleSelect } from './ui/index';
+import {
+  getConsumptionBandOptionsByContext,
+} from '../data/energyData';
 
 interface Position {
   x: number;
@@ -148,6 +156,28 @@ const FloatingMenu: React.FC = () => {
   const toggleDetails = () => {
     dispatch({ type: 'SET_DETAILS', payload: !state.details });
   };
+
+  // Chart type handlers for bands view
+  const setChartType = (chartType: 'bar' | 'pie' | 'timeline' | 'table') => {
+    dispatch({ type: 'SET_CHART_TYPE', payload: chartType });
+  };
+
+  // Band selection handler
+  const handleBandChange = (selectedValue: string) => {
+    dispatch({ type: 'SET_SELECTED_BAND', payload: selectedValue });
+  };
+
+  // Get band options for dropdown (memoized)
+  const bandOptions = useMemo(() => {
+    return getConsumptionBandOptionsByContext(
+      state.product,
+      state.consumer,
+      state.component
+    ).map((option: { value: string; label: string }) => ({
+      ...option,
+      label: t(`energy.bands.${option.value}`, option.label),
+    }));
+  }, [state.product, state.consumer, state.component, t]);
 
   // Get order icon based on current state
   const getOrderIcon = () => {
@@ -331,6 +361,91 @@ const FloatingMenu: React.FC = () => {
           <FontAwesomeIcon icon={faCogs} />
         </button>
 
+        {/* Chart Type Buttons - Only show in bands view */}
+        {state.drillDownCountry && (
+          <>
+            {/* Bar Chart Button */}
+            <button
+              className={`ecl-button ${state.chartType === 'bar' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+              onClick={() => setChartType('bar')}
+              aria-label={t('floatingMenu.chartType.bar', 'Bar chart')}
+              data-tooltip-id="chart-bar-tooltip"
+              data-tooltip-content={t('floatingMenu.chartType.bar', 'Bar chart')}
+              aria-pressed={state.chartType === 'bar'}
+              style={{
+                padding: '8px',
+                borderRadius: '4px'
+              }}
+            >
+              <FontAwesomeIcon icon={faChartBar} />
+            </button>
+
+            {/* Pie Chart Button */}
+            <button
+              className={`ecl-button ${state.chartType === 'pie' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+              onClick={() => setChartType('pie')}
+              aria-label={t('floatingMenu.chartType.pie', 'Pie chart')}
+              data-tooltip-id="chart-pie-tooltip"
+              data-tooltip-content={t('floatingMenu.chartType.pie', 'Pie chart')}
+              aria-pressed={state.chartType === 'pie'}
+              style={{
+                padding: '8px',
+                borderRadius: '4px'
+              }}
+            >
+              <FontAwesomeIcon icon={faChartPie} />
+            </button>
+
+            {/* Timeline Chart Button */}
+            <button
+              className={`ecl-button ${state.chartType === 'timeline' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+              onClick={() => setChartType('timeline')}
+              aria-label={t('floatingMenu.chartType.timeline', 'Timeline chart')}
+              data-tooltip-id="chart-timeline-tooltip"
+              data-tooltip-content={t('floatingMenu.chartType.timeline', 'Timeline chart')}
+              aria-pressed={state.chartType === 'timeline'}
+              style={{
+                padding: '8px',
+                borderRadius: '4px'
+              }}
+            >
+              <FontAwesomeIcon icon={faChartLine} />
+            </button>
+
+            {/* Table Button */}
+            <button
+              className={`ecl-button ${state.chartType === 'table' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+              onClick={() => setChartType('table')}
+              aria-label={t('floatingMenu.chartType.table', 'Table view')}
+              data-tooltip-id="chart-table-tooltip"
+              data-tooltip-content={t('floatingMenu.chartType.table', 'Table view')}
+              aria-pressed={state.chartType === 'table'}
+              style={{
+                padding: '8px',
+                borderRadius: '4px'
+              }}
+            >
+              <FontAwesomeIcon icon={faTable} />
+            </button>
+          </>
+        )}
+
+        {/* Band Selection Dropdown - Only show in bands view for pie/timeline charts */}
+        {state.drillDownCountry && (state.chartType === 'pie' || state.chartType === 'timeline') && (
+          <div style={{ minWidth: '150px' }}>
+            <EclSingleSelect
+              id="floating-menu-band-select"
+              label=""
+              options={bandOptions}
+              value={state.selectedBand}
+              onChange={handleBandChange}
+              placeholder={t('floatingMenu.bands.placeholder', 'Select band...')}
+              helpText=""
+              required={false}
+            />
+          </div>
+        )}
+
         {/* Details Button */}
         <button
           className={`ecl-button ${state.details ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
@@ -382,6 +497,10 @@ const FloatingMenu: React.FC = () => {
       <Tooltip id="aggregates-tooltip" place="bottom" delayShow={500} />
       <Tooltip id="component-tooltip" place="bottom" delayShow={500} />
       <Tooltip id="details-tooltip" place="bottom" delayShow={500} />
+      <Tooltip id="chart-bar-tooltip" place="bottom" delayShow={500} />
+      <Tooltip id="chart-pie-tooltip" place="bottom" delayShow={500} />
+      <Tooltip id="chart-timeline-tooltip" place="bottom" delayShow={500} />
+      <Tooltip id="chart-table-tooltip" place="bottom" delayShow={500} />
 
       {/* Screen Reader Announcements */}
       <div aria-live="polite" aria-atomic="true" className="sr-only">

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { subscribeToDataUpdates, getCurrentData } from '../services/handleData';
-import { transformToCountryComparison, transformToCountryBands } from './chartData';
-import { createCountryComparisonConfig } from './chartConfig';
+import { transformToCountryComparison, transformToCountryBands, transformToBandsPieChart, createBandsTable, transformToBandsTimeline } from './chartData';
+import { createCountryComparisonConfig, createPieChartConfig, createTimelineChartConfig } from './chartConfig';
 import { useQuery } from '../context/QueryContext';
 import { eurostatService } from '../services/eurostat';
 import { allCountries, getDatasetConfig } from '../data/energyData';
@@ -236,26 +236,133 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       // Regular country comparison view OR bands view (if drillDownCountry is set)
       if (state.drillDownCountry && data?.dimension?.nrg_cons) {
         // This is bands data - transform it to show consumption bands
-        transformedData = transformToCountryBands(data, state.drillDownCountry, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+        if (state.chartType === 'table') {
+          // For table view, create a simple table HTML
+          if (chartContainerRef.current) {
+            chartContainerRef.current.innerHTML = '';
+            const tableHtml = createBandsTable(data, state.drillDownCountry, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+            chartContainerRef.current.innerHTML = tableHtml;
+          }
+          return;
+        } else if (state.chartType === 'pie') {
+          // For pie chart, show only the selected band with component breakdown
+          transformedData = transformToBandsPieChart(data, state.drillDownCountry, state.selectedBand, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+        } else if (state.chartType === 'timeline') {
+          // For timeline chart, we need to fetch time series data for the selected band
+          // First check if we already have multi-year data
+          const timeCategories = data?.dimension?.time?.category?.index;
+          const timeLabels = timeCategories ? Object.keys(timeCategories) : [];
+          
+          if (timeLabels.length <= 1) {
+            // We only have single year data, need to fetch time series
+            if (chartContainerRef.current) {
+              chartContainerRef.current.innerHTML = `
+                <div style="padding: 2rem; text-align: center;">
+                  <h3>${t('chart.timeline.loading', 'Loading Timeline Data...')}</h3>
+                  <p>${t('chart.timeline.fetchingData', 'Fetching time series data for')} ${state.selectedBand}</p>
+                  <p>${t('chart.timeline.country', 'Country')}: ${state.drillDownCountry}</p>
+                </div>
+              `;
+            }
+            
+            // Fetch time series data
+            const timeSeriesParams: Record<string, string | string[]> = {
+              currency: state.currency,
+            };
+
+            // Add appropriate parameters based on dataset type
+            const isComponentDataset = state.dataset.endsWith('_c') || state.component;
+            if (!isComponentDataset) {
+              timeSeriesParams.product = state.product;
+              timeSeriesParams.unit = state.unit === 'MWH' ? 'KWH' : state.unit;
+              if (state.taxs && state.taxs.length > 0) {
+                timeSeriesParams.tax = state.taxs;
+              }
+            } else {
+              // Component datasets: include all nrg_prc from the component dataset config
+              const dsConfig = getDatasetConfig(state.dataset.endsWith('_c') ? state.dataset : `${state.dataset}_c`);
+              if (dsConfig?.nrg_prc && dsConfig.nrg_prc.length > 0) {
+                timeSeriesParams.nrg_prc = dsConfig.nrg_prc;
+              }
+            }
+
+            eurostatService
+              .fetchTimeSeriesData(
+                isComponentDataset && !state.dataset.endsWith('_c') ? `${state.dataset}_c` : state.dataset,
+                state.drillDownCountry,
+                state.selectedBand,
+                timeSeriesParams
+              )
+              .then(timeSeriesData => {
+                console.log('[MainChart] Time series data received:', timeSeriesData);
+                setData(timeSeriesData);
+              })
+              .catch(error => {
+                console.error('[MainChart] Error fetching time series data:', error);
+                if (chartContainerRef.current) {
+                  chartContainerRef.current.innerHTML = `
+                    <div style="padding: 2rem; text-align: center; border: 2px solid #f44336; border-radius: 8px; background-color: #ffebee;">
+                      <h3 style="color: #f44336;">${t('chart.timeline.error', 'Error Loading Timeline')}</h3>
+                      <p>${t('chart.timeline.errorMessage', 'Unable to fetch time series data. Please try again.')}</p>
+                      <p style="font-size: 0.9em; color: #666;">${error.message}</p>
+                    </div>
+                  `;
+                }
+              });
+            return;
+          } else {
+            // We have multi-year data, create timeline chart
+            transformedData = transformToBandsTimeline(data, state.drillDownCountry, state.selectedBand, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+          }
+        } else {
+          // Default bar chart for bands
+          transformedData = transformToCountryBands(data, state.drillDownCountry, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+        }
         
-        // Modify the chart title to show it's a bands view
+        // Create chart configuration based on chart type
         const { categories, series, selectedYear, isDetailed } = transformedData;
-        chartConfig = createCountryComparisonConfig({
-          categories,
-          series,
-          selectedYear,
-          isDetailed: isDetailed || false, // Use the isDetailed flag from transformedData
-          isComponent: state.component && isDetailed, // Show as component view when component flag is on and in detailed mode
-          order: state.order,
-          percentage: false,
-          countryCodes: [],
-          decimals: state.decimals,
-          t
-        });
         
-        // Add back button to the title
-        if (chartConfig.data && chartConfig.data.title) {
-          chartConfig.data.title.text = `Consumption Bands - ${state.drillDownCountry} (${selectedYear})`;
+        if (state.chartType === 'pie') {
+          chartConfig = createPieChartConfig({
+            categories,
+            series,
+            selectedYear,
+            title: `${state.selectedBand} Components - ${state.drillDownCountry} (${selectedYear})`,
+            isDetailed: isDetailed || false,
+            isComponent: state.component && isDetailed,
+            decimals: state.decimals,
+            t
+          });
+        } else if (state.chartType === 'timeline') {
+          chartConfig = createTimelineChartConfig({
+            categories,
+            series,
+            selectedYear,
+            title: `${state.selectedBand} Timeline - ${state.drillDownCountry}${state.details ? ' (Detailed)' : ''}`,
+            isDetailed: isDetailed || false,
+            isComponent: state.component && isDetailed,
+            decimals: state.decimals,
+            t
+          });
+        } else {
+          // Bar chart configuration
+          chartConfig = createCountryComparisonConfig({
+            categories,
+            series,
+            selectedYear,
+            isDetailed: isDetailed || false,
+            isComponent: state.component && isDetailed,
+            order: state.order,
+            percentage: false,
+            countryCodes: [],
+            decimals: state.decimals,
+            t
+          });
+          
+          // Add back button to the title
+          if (chartConfig.data && chartConfig.data.title) {
+            chartConfig.data.title.text = `Consumption Bands - ${state.drillDownCountry} (${selectedYear})`;
+          }
         }
       } else {
         // Regular country comparison view
@@ -282,7 +389,11 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       let categories: string[] = [];
       let countryCodes: string[] = [];
       
-      if (chartConfig.data && chartConfig.data.plotOptions) {
+      // Get the correct config properties based on chart type
+      const chartOptions = (chartConfig as any).data?.plotOptions || (chartConfig as any).options?.plotOptions;
+      const chartSeries = (chartConfig as any).data?.series || (chartConfig as any).options?.series;
+      
+      if (chartOptions) {
         // Extract categories and countryCodes from the transformed data
         if (state.drillDownCountry && data?.dimension?.nrg_cons) {
           // For bands view, we don't want click handlers since we're already drilled down
@@ -294,38 +405,65 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           categories = regularData.categories || [];
           countryCodes = regularData.countryCodes || [];
           
-          const existingClickHandler = chartConfig.data.plotOptions.series?.point?.events?.click;
+          const existingClickHandler = chartOptions.series?.point?.events?.click;
           
-          chartConfig.data.plotOptions.series = {
-            ...chartConfig.data.plotOptions.series,
-            point: {
-              events: {
-                click: function(this: any) {
-                  const countryCode = this.countryCode;
-                  if (countryCode) {
-                    dispatch({ type: 'SET_DRILL_DOWN_COUNTRY', payload: countryCode });
-                  }
-                  
-                  // Call any existing click handler if present
-                  if (existingClickHandler) {
-                    existingClickHandler.call(this);
+          if ((chartConfig as any).data) {
+            (chartConfig as any).data.plotOptions.series = {
+              ...(chartConfig as any).data.plotOptions.series,
+              point: {
+                events: {
+                  click: function(this: any) {
+                    const countryCode = this.countryCode;
+                    if (countryCode) {
+                      dispatch({ type: 'SET_DRILL_DOWN_COUNTRY', payload: countryCode });
+                    }
+                    
+                    // Call any existing click handler if present
+                    if (existingClickHandler) {
+                      existingClickHandler.call(this);
+                    }
                   }
                 }
               }
-            }
-          };
+            };
+          } else if ((chartConfig as any).options) {
+            (chartConfig as any).options.plotOptions.series = {
+              ...(chartConfig as any).options.plotOptions.series,
+              point: {
+                events: {
+                  click: function(this: any) {
+                    const countryCode = this.countryCode;
+                    if (countryCode) {
+                      dispatch({ type: 'SET_DRILL_DOWN_COUNTRY', payload: countryCode });
+                    }
+                    
+                    // Call any existing click handler if present
+                    if (existingClickHandler) {
+                      existingClickHandler.call(this);
+                    }
+                  }
+                }
+              }
+            };
+          }
         }
       }
 
       // Modify the series data to include country codes (only for regular country view)
-      if (chartConfig.data && chartConfig.data.series && countryCodes.length > 0) {
-        chartConfig.data.series = chartConfig.data.series.map((series: any) => ({
+      if (chartSeries && countryCodes.length > 0) {
+        const modifiedSeries = chartSeries.map((series: any) => ({
           ...series,
           data: series.data.map((point: any, index: number) => ({
             ...point,
             countryCode: countryCodes[index] || null
           }))
         }));
+        
+        if ((chartConfig as any).data) {
+          (chartConfig as any).data.series = modifiedSeries;
+        } else if ((chartConfig as any).options) {
+          (chartConfig as any).options.series = modifiedSeries;
+        }
       }
 
       // Create the UEC script element with our data
@@ -413,7 +551,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     return () => {
       if (removeClickHandler) removeClickHandler();
     };
-  }, [data, state.details, state.order, state.percentage, state.hideAggregates, state.component, state.drillDownCountry, state.decimals, state.dataset, state.unit, state.currency, state.taxs, state.product, state.time, state.appliedGeos, i18n.language, t]);
+  }, [data, state.details, state.order, state.percentage, state.hideAggregates, state.component, state.drillDownCountry, state.decimals, state.dataset, state.unit, state.currency, state.taxs, state.product, state.time, state.appliedGeos, state.chartType, state.selectedBand, i18n.language, t]);
 
   return (
     <div className={`main-chart ${className}`}>

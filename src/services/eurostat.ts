@@ -297,6 +297,82 @@ class EurostatService {
       throw new Error(`Failed to fetch bands for country ${countryCode}: ${error}`);
     }
   }
+
+  /**
+   * Fetch time series data for a specific country and band
+   * Used for timeline charts
+   */
+  async fetchTimeSeriesData(
+    dataset: string,
+    countryCode: string,
+    bandCode: string,
+    extraParams: Record<string, string | string[]> = {}
+  ): Promise<any> {
+    try {
+      console.log('[EurostatService] Fetching time series data:', {
+        dataset,
+        countryCode,
+        bandCode,
+        extraParams
+      });
+
+      // Build parameters for time series request
+      const timeSeriesParams: Record<string, string | string[]> = {
+        geo: countryCode,
+        nrg_cons: bandCode,
+        time: 'LAST_10', // Get last 10 time periods
+        ...extraParams
+      };
+
+      const cacheKey = this.getCacheKey(dataset, timeSeriesParams);
+      
+      // Try to get from cache first
+      const cachedData = this.getFromCache(cacheKey);
+      if (cachedData) {
+        handleData(cachedData, { 
+          dataset, 
+          params: timeSeriesParams, 
+          source: 'cache',
+          requestKey: cacheKey 
+        });
+        return cachedData;
+      }
+
+      // Check if this request is already pending
+      const pendingRequest = this.pendingRequests.get(cacheKey);
+      if (pendingRequest) {
+        const result = await pendingRequest;
+        handleData(result, { 
+          dataset, 
+          params: timeSeriesParams, 
+          source: 'pending',
+          requestKey: cacheKey 
+        });
+        return result;
+      }
+
+      // Fetch from API
+      const fetchPromise = this.performFetch(dataset, timeSeriesParams, cacheKey);
+      
+      this.pendingRequests.set(cacheKey, fetchPromise);
+      
+      try {
+        const result = await fetchPromise;
+        handleData(result, { 
+          dataset, 
+          params: timeSeriesParams, 
+          source: 'api',
+          requestKey: cacheKey 
+        });
+        return result;
+      } finally {
+        this.pendingRequests.delete(cacheKey);
+      }
+    } catch (error) {
+      console.error('Error fetching time series data:', error);
+      throw new Error(`Failed to fetch time series for ${countryCode}/${bandCode}: ${error}`);
+    }
+  }
 }
 
 export const eurostatService = new EurostatService();
