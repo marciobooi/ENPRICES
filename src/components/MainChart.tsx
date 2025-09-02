@@ -112,13 +112,27 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     }
     
     if (needsBandsFetch && state.drillDownCountry) {
-      // Create a unique key for this fetch to prevent infinite loops
-      const fetchKey = `${state.dataset}-${state.drillDownCountry}-${state.time}-${JSON.stringify([state.currency, state.product, state.unit, state.taxs, state.component])}`;
+      // Build params based on dataset/component flags to determine fetch key
+      const isComponentDataset = state.dataset.endsWith('_c') || state.component;
+      
+      // Create a unique key for this fetch that includes the mode and relevant parameters
+      let fetchKeyParams;
+      if (!isComponentDataset) {
+        // Non-component: includes product, unit, and taxes
+        fetchKeyParams = [state.currency, state.product, state.unit, state.taxs, 'mode:tax'];
+      } else {
+        // Component: just mark as component mode - let the fetch service handle the nrg_prc details
+        fetchKeyParams = [state.currency, 'mode:component'];
+      }
+      
+      const fetchKey = `${state.dataset}-${state.drillDownCountry}-${state.time}-${JSON.stringify(fetchKeyParams)}`;
       
       console.log('[MainChart] Drill-down fetch check:', {
         fetchKey,
         lastFetchKey,
-        willFetch: lastFetchKey !== fetchKey
+        willFetch: lastFetchKey !== fetchKey,
+        isComponentDataset,
+        fetchKeyParams
       });
       
       if (lastFetchKey === fetchKey) {
@@ -132,27 +146,44 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         setOriginalData(data);
       }
       
+      // For component mode, determine the correct dataset to use
+      let fetchDataset = state.dataset;
+      if (isComponentDataset && !state.dataset.endsWith('_c')) {
+        fetchDataset = `${state.dataset}_c`;
+      }
+      
+      // Get configuration for the dataset we'll actually fetch from
+      const dsConfig = getDatasetConfig(fetchDataset);
+      console.log('[MainChart] Using dataset config for:', fetchDataset, dsConfig);
+      
       // Fetch band data for the selected country
-      // Build params based on dataset/component flags
-      const dsConfig = getDatasetConfig(state.dataset);
-      const isComponentDataset = state.dataset.endsWith('_c') || state.component;
       const extraParams: Record<string, string | string[]> = {
         currency: state.currency,
       };
 
       // For non-component datasets, include product and unit
       if (!isComponentDataset) {
-  extraParams.product = state.product;
-  // Eurostat expects KWH even when showing MWH; match legacy behavior if needed
-  extraParams.unit = state.unit === 'MWH' ? 'KWH' : state.unit;
+        extraParams.product = state.product;
+        // Eurostat expects KWH even when showing MWH; match legacy behavior if needed
+        extraParams.unit = state.unit === 'MWH' ? 'KWH' : state.unit;
         // Include tax codes when not component
         if (state.taxs && state.taxs.length > 0) {
           extraParams.tax = state.taxs;
         }
       } else {
-        // Component datasets: include all nrg_prc if available
+        // Component datasets: include all nrg_prc from the component dataset config
+        console.log('[MainChart] Component mode - checking component dsConfig:', {
+          componentDataset: fetchDataset,
+          dsConfig: dsConfig,
+          nrg_prc: dsConfig?.nrg_prc,
+          hasNrgPrc: dsConfig?.nrg_prc && dsConfig.nrg_prc.length > 0
+        });
+        
         if (dsConfig?.nrg_prc && dsConfig.nrg_prc.length > 0) {
           extraParams.nrg_prc = dsConfig.nrg_prc;
+          console.log('[MainChart] Added nrg_prc to extraParams:', dsConfig.nrg_prc);
+        } else {
+          console.warn('[MainChart] No nrg_prc found in component dsConfig, this should not happen');
         }
       }
 
@@ -168,15 +199,30 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       // Set the fetch key to prevent re-fetching
       setLastFetchKey(fetchKey);
 
+      console.log('[MainChart] Fetching bands data with params:', {
+        dataset: fetchDataset,
+        country: state.drillDownCountry,
+        time: state.time,
+        extraParams: JSON.stringify(extraParams, null, 2),
+        isComponentDataset,
+        stateComponent: state.component,
+        datasetEndsWithC: state.dataset.endsWith('_c')
+      });
+
+      // For component mode, use the _c version of the dataset if available
+      if (isComponentDataset && !fetchDataset.endsWith('_c')) {
+        console.log('[MainChart] Already using component dataset:', fetchDataset);
+      }
+
       eurostatService
         .fetchCountryBands(
-          state.dataset,
+          fetchDataset,
           state.drillDownCountry,
           state.time,
           extraParams
         )
       .then(bandData => {
-        // Set the bands data as the main data and let the regular rendering handle it
+        console.log('[MainChart] Bands data received for dataset:', fetchDataset, bandData);
         setData(bandData);
       }).catch(error => {
         console.error('[MainChart] Error fetching band data:', error);
@@ -190,7 +236,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       // Regular country comparison view OR bands view (if drillDownCountry is set)
       if (state.drillDownCountry && data?.dimension?.nrg_cons) {
         // This is bands data - transform it to show consumption bands
-        transformedData = transformToCountryBands(data, state.drillDownCountry, state.details, (key, defaultValue) => t(key, defaultValue || key));
+        transformedData = transformToCountryBands(data, state.drillDownCountry, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
         
         // Modify the chart title to show it's a bands view
         const { categories, series, selectedYear, isDetailed } = transformedData;
@@ -199,7 +245,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           series,
           selectedYear,
           isDetailed: isDetailed || false, // Use the isDetailed flag from transformedData
-          isComponent: false,
+          isComponent: state.component && isDetailed, // Show as component view when component flag is on and in detailed mode
           order: state.order,
           percentage: false,
           countryCodes: [],
@@ -209,7 +255,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         
         // Add back button to the title
         if (chartConfig.data && chartConfig.data.title) {
-          chartConfig.data.title.text = `← Back to Countries | Consumption Bands - ${state.drillDownCountry} (${selectedYear})`;
+          chartConfig.data.title.text = `Consumption Bands - ${state.drillDownCountry} (${selectedYear})`;
         }
       } else {
         // Regular country comparison view

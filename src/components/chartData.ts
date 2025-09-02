@@ -378,7 +378,7 @@ export const transformToTimeSeries = (eurostatData: any, maxCountries: number = 
  * Transform Eurostat data to show consumption bands for a specific country
  * Used for drill-down functionality when clicking on a country bar
  */
-export const transformToCountryBands = (eurostatData: any, countryCode: string, isDetailed: boolean = false, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
+export const transformToCountryBands = (eurostatData: any, countryCode: string, isDetailed: boolean = false, isComponent: boolean = false, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
   if (!eurostatData?.dimension?.time?.category?.index ||
       !eurostatData?.dimension?.geo?.category?.index) {
     return { categories: [], series: [], selectedYear: '', isDetailed: false };
@@ -503,7 +503,41 @@ export const transformToCountryBands = (eurostatData: any, countryCode: string, 
   const categories = bandData.map(item => item.name);
   
   // Handle detailed vs total view
-  if (isDetailed && taxDim) {
+  if (isDetailed && isComponent && prcDim) {
+    // For detailed view with component breakdown, create component series for each band
+    const prcLabels = Object.keys(prcDim);
+    
+    // Create series for each component across all consumption bands
+    const series = prcLabels.map((componentCode) => {
+      const componentLabel = eurostatData.dimension.nrg_prc.category.label[componentCode] || componentCode;
+      
+      const componentData = bandData.map(band => {
+        const consomIndex = consomCategories[band.consomCode];
+        const valueIndex = computeIndex({
+          time: selectedTimeIndex,
+          geo: countryIndex,
+          nrg_cons: consomIndex,
+          consom: consomIndex, // fallback if API used legacy name
+          nrg_prc: getDimIndex('nrg_prc', componentCode),
+          currency: getDimIndex('currency', 'EUR')
+        });
+        const value = eurostatData.value[valueIndex];
+        return (value !== undefined && value !== null) ? parseFloat(value) : 0;
+      });
+
+      return {
+        name: t ? t(`chart.series.components.${componentCode}`, componentLabel) : componentLabel,
+        data: componentData
+      };
+    });
+
+    return { 
+      categories, 
+      series, 
+      selectedYear,
+      isDetailed: true 
+    };
+  } else if (isDetailed && taxDim) {
     // For detailed view with tax breakdown, create tax component series for each band
     const taxLabels = Object.keys(taxDim);
     
