@@ -255,10 +255,10 @@ export const transformToCountryComparison = (eurostatData: any, isDetailedView: 
 
   // Filter by selected countries if provided
   if (selectedCountries && selectedCountries.length > 0) {
-    console.log('[transformToCountryComparison] Selected countries for filtering:', selectedCountries);
-    console.log('[transformToCountryComparison] Available geo labels before filtering:', geoLabels);
+    // console.log('[transformToCountryComparison] Selected countries for filtering:', selectedCountries);
+    // console.log('[transformToCountryComparison] Available geo labels before filtering:', geoLabels);
     geoLabels = geoLabels.filter(geoCode => selectedCountries.includes(geoCode));
-    console.log('[transformToCountryComparison] Filtered geo labels:', geoLabels);
+    // console.log('[transformToCountryComparison] Filtered geo labels:', geoLabels);
   } else {
     console.log('[transformToCountryComparison] No country filtering applied, showing all countries');
   }

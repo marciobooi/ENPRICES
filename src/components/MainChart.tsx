@@ -83,6 +83,10 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       // We're returning from bands view but still have bands data
       // We need to get fresh country comparison data since bands data only has one country
       
+      // Clear the lastFetchKey so that future drill-downs work correctly
+      console.log('[MainChart] Returning from bands view - clearing lastFetchKey');
+      setLastFetchKey('');
+      
       // Use the stored original country data if available
       if (originalData && originalData !== data) {
         setData(originalData);
@@ -111,8 +115,15 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       // Create a unique key for this fetch to prevent infinite loops
       const fetchKey = `${state.dataset}-${state.drillDownCountry}-${state.time}-${JSON.stringify([state.currency, state.product, state.unit, state.taxs, state.component])}`;
       
+      console.log('[MainChart] Drill-down fetch check:', {
+        fetchKey,
+        lastFetchKey,
+        willFetch: lastFetchKey !== fetchKey
+      });
+      
       if (lastFetchKey === fetchKey) {
         // Already fetched this exact same data, skip
+        console.log('[MainChart] Skipping fetch - already fetched this data');
         return;
       }
       
@@ -202,7 +213,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         }
       } else {
         // Regular country comparison view
-        console.log('[MainChart] Selected countries from state.appliedGeos:', state.appliedGeos);
+        // console.log('[MainChart] Selected countries from state.appliedGeos:', state.appliedGeos);
         transformedData = transformToCountryComparison(data, state.details, state.hideAggregates, state.component, undefined, state.appliedGeos);
         const { categories, series, selectedYear, countryCodes } = transformedData;
 

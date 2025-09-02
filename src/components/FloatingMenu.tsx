@@ -244,20 +244,22 @@ const FloatingMenu: React.FC = () => {
           </span>
         </button>
 
-        {/* Order Button */}
-        <button
-          className="ecl-button ecl-button--secondary floating-menu-btn"
-          onClick={toggleOrder}
-          aria-label={getOrderLabel()}
-          data-tooltip-id="order-tooltip"
-          data-tooltip-content={getOrderLabel()}
-          style={{
-            padding: '8px',
-            borderRadius: '4px'
-          }}
-        >
-          <FontAwesomeIcon icon={getOrderIcon()} />
-        </button>
+        {/* Order Button - Hide in bands view */}
+        {!state.drillDownCountry && (
+          <button
+            className="ecl-button ecl-button--secondary floating-menu-btn"
+            onClick={toggleOrder}
+            aria-label={getOrderLabel()}
+            data-tooltip-id="order-tooltip"
+            data-tooltip-content={getOrderLabel()}
+            style={{
+              padding: '8px',
+              borderRadius: '4px'
+            }}
+          >
+            <FontAwesomeIcon icon={getOrderIcon()} />
+          </button>
+        )}
 
         {/* Percentage Button - Only show in details mode */}
         {state.details && (
@@ -277,39 +279,41 @@ const FloatingMenu: React.FC = () => {
           </button>
         )}
 
-        {/* Hide Aggregates Button */}
-        <button
-          className={`ecl-button ${state.hideAggregates ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-          onClick={toggleAggregates}
-          aria-label={t('floatingMenu.aggregates.label', 'Toggle aggregates visibility')}
-          data-tooltip-id="aggregates-tooltip"
-          data-tooltip-content={t('floatingMenu.aggregates.tooltip', { status: state.hideAggregates ? 'hidden' : 'visible' })}
-          aria-pressed={state.hideAggregates}
-          style={{
-            padding: '8px',
-            borderRadius: '4px'
-          }}
-        >
-          <div style={{ position: 'relative', display: 'inline-block' }}>
-            <FontAwesomeIcon icon={faLayerGroup} />
-            {state.hideAggregates && (
-              <span 
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  fontSize: '18px',
-                  color: 'white',
-                  fontWeight: 'bold',
-                  textShadow: '0 0 2px rgba(0,0,0,0.8)'
-                }}
-              >
-                /
-              </span>
-            )}
-          </div>
-        </button>
+        {/* Hide Aggregates Button - Hide in bands view */}
+        {!state.drillDownCountry && (
+          <button
+            className={`ecl-button ${state.hideAggregates ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+            onClick={toggleAggregates}
+            aria-label={t('floatingMenu.aggregates.label', 'Toggle aggregates visibility')}
+            data-tooltip-id="aggregates-tooltip"
+            data-tooltip-content={t('floatingMenu.aggregates.tooltip', { status: state.hideAggregates ? 'hidden' : 'visible' })}
+            aria-pressed={state.hideAggregates}
+            style={{
+              padding: '8px',
+              borderRadius: '4px'
+            }}
+          >
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <FontAwesomeIcon icon={faLayerGroup} />
+              {state.hideAggregates && (
+                <span 
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    fontSize: '18px',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    textShadow: '0 0 2px rgba(0,0,0,0.8)'
+                  }}
+                >
+                  /
+                </span>
+              )}
+            </div>
+          </button>
+        )}
 
         {/* Component Button */}
         <button
