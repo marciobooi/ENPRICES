@@ -46,10 +46,20 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
     time: year,
     consoms: band,
     unit,
+    drillDownCountry, // Add this to ensure re-render when drill-down state changes
   } = state;
 
   // Temporary countries selection - only applied when Apply is pressed
   const [tempCountries, setTempCountries] = useState<string[]>(countries);
+  
+  // Force re-render when drill-down state changes
+  const [, forceUpdate] = useState({});
+  
+  // Watch for drill-down state changes to ensure menu button updates immediately
+  useEffect(() => {
+    // Force component re-render when drillDownCountry changes
+    forceUpdate({});
+  }, [drillDownCountry]);
 
   // Sync tempCountries with global state when it changes externally
   useEffect(() => {
@@ -318,13 +328,16 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
               id="menu-toggle-button"
               className={isOpen ? "active" : ""}
               onClick={toggleMenu}
+              disabled={!!drillDownCountry} // Disable menu when in bands view
               ariaExpanded={isOpen}
               ariaControls="dropdown-menu"
               ariaLabel={
-                t("menu.toggle", "Toggle menu") +
-                (isOpen
-                  ? t("ui.menu.is_open", ", menu is open")
-                  : t("ui.menu.is_closed", ", menu is closed"))
+                drillDownCountry 
+                  ? t("menu.disabled_in_bands", "Menu disabled in bands view") 
+                  : t("menu.toggle", "Toggle menu") +
+                    (isOpen
+                      ? t("ui.menu.is_open", ", menu is open")
+                      : t("ui.menu.is_closed", ", menu is closed"))
               }
               variant="ghost"
               size="medium"
@@ -517,13 +530,16 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
             id="menu-toggle-button"
             className={isOpen ? "active" : ""}
             onClick={toggleMenu}
+            disabled={!!drillDownCountry} // Disable menu when in bands view
             ariaExpanded={isOpen}
             ariaControls="dropdown-menu"
             ariaLabel={
-              t("menu.toggle", "Toggle menu") +
-              (isOpen
-                ? t("ui.menu.is_open", ", menu is open")
-                : t("ui.menu.is_closed", ", menu is closed"))
+              drillDownCountry 
+                ? t("menu.disabled_in_bands", "Menu disabled in bands view") 
+                : t("menu.toggle", "Toggle menu") +
+                  (isOpen
+                    ? t("ui.menu.is_open", ", menu is open")
+                    : t("ui.menu.is_closed", ", menu is closed"))
             }
             variant="ghost"
             size="medium"
