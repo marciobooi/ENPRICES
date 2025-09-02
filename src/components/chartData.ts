@@ -24,10 +24,10 @@ export interface ChartDataResult {
 /**
  * Transform Eurostat data to show tax breakdown
  */
-const transformToTaxBreakdown = (eurostatData: any, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
+const transformToTaxBreakdown = (eurostatData: any, t?: (key: string, defaultValue?: string) => string, selectedCountries?: string[]): ChartDataResult => {
   if (!eurostatData?.dimension?.tax?.category?.index) {
     // Fallback to regular display if no tax dimension
-    return transformToCountryComparison(eurostatData, false, false, false, t);
+    return transformToCountryComparison(eurostatData, false, false, false, t, selectedCountries);
   }
 
   const timeCategories = eurostatData.dimension.time.category.index;
@@ -36,7 +36,12 @@ const transformToTaxBreakdown = (eurostatData: any, t?: (key: string, defaultVal
   const selectedTimeIndex = timeCategories[selectedYear];
   
   const geoCategories = eurostatData.dimension.geo.category.index;
-  const geoLabels = Object.keys(geoCategories);
+  let geoLabels = Object.keys(geoCategories);
+  
+  // Filter by selected countries if provided
+  if (selectedCountries && selectedCountries.length > 0) {
+    geoLabels = geoLabels.filter(geoCode => selectedCountries.includes(geoCode));
+  }
   
   const taxCategories = eurostatData.dimension.tax.category.index;
   const taxLabels = Object.keys(taxCategories);
@@ -123,10 +128,10 @@ const transformToTaxBreakdown = (eurostatData: any, t?: (key: string, defaultVal
 /**
  * Transform Eurostat data to show price components breakdown
  */
-const transformToComponentBreakdown = (eurostatData: any, hideAggregates: boolean = false, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
+const transformToComponentBreakdown = (eurostatData: any, hideAggregates: boolean = false, t?: (key: string, defaultValue?: string) => string, selectedCountries?: string[]): ChartDataResult => {
   if (!eurostatData?.dimension?.nrg_prc?.category?.index) {
     // Fallback to regular display if no nrg_prc dimension
-    return transformToCountryComparison(eurostatData, false, hideAggregates, false, t);
+    return transformToCountryComparison(eurostatData, false, hideAggregates, false, t, selectedCountries);
   }
 
   const timeCategories = eurostatData.dimension.time.category.index;
@@ -138,6 +143,15 @@ const transformToComponentBreakdown = (eurostatData: any, hideAggregates: boolea
   let geoLabels = Object.keys(geoCategories);
 
   // Filter out aggregates (EU entities) if hideAggregates is true
+  if (hideAggregates) {
+    const aggregateCodes = ['EU27_2020', 'EA']; // EU27 and Euro Area
+    geoLabels = geoLabels.filter(geoCode => !aggregateCodes.includes(geoCode));
+  }
+
+  // Filter by selected countries if provided
+  if (selectedCountries && selectedCountries.length > 0) {
+    geoLabels = geoLabels.filter(geoCode => selectedCountries.includes(geoCode));
+  }
   if (hideAggregates) {
     const aggregateCodes = ['EU27_2020', 'EA']; // EU27 and Euro Area
     geoLabels = geoLabels.filter(geoCode => !aggregateCodes.includes(geoCode));
@@ -208,7 +222,7 @@ const transformToComponentBreakdown = (eurostatData: any, hideAggregates: boolea
 /**
  * Transform Eurostat data to show countries on x-axis for selected year
  */
-export const transformToCountryComparison = (eurostatData: any, isDetailedView: boolean = false, hideAggregates: boolean = false, isComponentView: boolean = false, t?: (key: string, defaultValue?: string) => string): ChartDataResult => {
+export const transformToCountryComparison = (eurostatData: any, isDetailedView: boolean = false, hideAggregates: boolean = false, isComponentView: boolean = false, t?: (key: string, defaultValue?: string) => string, selectedCountries?: string[]): ChartDataResult => {
   if (!eurostatData?.dimension?.time?.category?.index || !eurostatData?.dimension?.geo?.category?.index) {
     return { categories: [], series: [], selectedYear: '', isDetailed: isDetailedView };
   }
@@ -216,9 +230,9 @@ export const transformToCountryComparison = (eurostatData: any, isDetailedView: 
   // If detailed view is requested, show breakdown based on isComponentView flag
   if (isDetailedView) {
     if (isComponentView && eurostatData?.dimension?.nrg_prc?.category?.index) {
-      return transformToComponentBreakdown(eurostatData, hideAggregates, t);
+      return transformToComponentBreakdown(eurostatData, hideAggregates, t, selectedCountries);
     } else if (eurostatData?.dimension?.tax?.category?.index) {
-      return transformToTaxBreakdown(eurostatData, t);
+      return transformToTaxBreakdown(eurostatData, t, selectedCountries);
     }
   }
 
@@ -237,6 +251,16 @@ export const transformToCountryComparison = (eurostatData: any, isDetailedView: 
   if (hideAggregates) {
     const aggregateCodes = ['EU27_2020', 'EA']; // EU27 and Euro Area
     geoLabels = geoLabels.filter(geoCode => !aggregateCodes.includes(geoCode));
+  }
+
+  // Filter by selected countries if provided
+  if (selectedCountries && selectedCountries.length > 0) {
+    console.log('[transformToCountryComparison] Selected countries for filtering:', selectedCountries);
+    console.log('[transformToCountryComparison] Available geo labels before filtering:', geoLabels);
+    geoLabels = geoLabels.filter(geoCode => selectedCountries.includes(geoCode));
+    console.log('[transformToCountryComparison] Filtered geo labels:', geoLabels);
+  } else {
+    console.log('[transformToCountryComparison] No country filtering applied, showing all countries');
   }
   
   // Create array of countries with their values for the selected year

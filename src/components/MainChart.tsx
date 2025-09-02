@@ -202,7 +202,8 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         }
       } else {
         // Regular country comparison view
-        transformedData = transformToCountryComparison(data, state.details, state.hideAggregates, state.component, undefined);
+        console.log('[MainChart] Selected countries from state.appliedGeos:', state.appliedGeos);
+        transformedData = transformToCountryComparison(data, state.details, state.hideAggregates, state.component, undefined, state.appliedGeos);
         const { categories, series, selectedYear, countryCodes } = transformedData;
 
         // Create chart configuration using the external function
@@ -355,7 +356,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
     return () => {
       if (removeClickHandler) removeClickHandler();
     };
-  }, [data, state.details, state.order, state.percentage, state.hideAggregates, state.component, state.drillDownCountry, state.decimals, state.dataset, state.unit, state.currency, state.taxs, state.product, state.time, i18n.language, t]);
+  }, [data, state.details, state.order, state.percentage, state.hideAggregates, state.component, state.drillDownCountry, state.decimals, state.dataset, state.unit, state.currency, state.taxs, state.product, state.time, state.appliedGeos, i18n.language, t]);
 
   return (
     <div className={`main-chart ${className}`}>

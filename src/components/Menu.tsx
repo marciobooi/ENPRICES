@@ -48,6 +48,35 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
     unit,
   } = state;
 
+  // Temporary countries selection - only applied when Apply is pressed
+  const [tempCountries, setTempCountries] = useState<string[]>(countries);
+
+  // Sync tempCountries with global state when it changes externally
+  useEffect(() => {
+    setTempCountries(countries);
+  }, [countries]);
+
+  // Listen for ECL Apply button clicks
+  useEffect(() => {
+    const handleApplyClick = (event: Event) => {
+      const target = event.target as HTMLElement;
+      // Check if the clicked element is the ECL Apply button
+      if (target.classList.contains('ecl-button') && 
+          target.classList.contains('ecl-button--primary') && 
+          target.textContent?.trim() === 'Apply') {
+        console.log('[Menu] ECL Apply button clicked, applying countries:', tempCountries);
+        dispatch({ type: "APPLY_COUNTRIES", payload: tempCountries });
+      }
+    };
+
+    // Add event listener to document to catch ECL Apply button clicks
+    document.addEventListener('click', handleApplyClick);
+
+    return () => {
+      document.removeEventListener('click', handleApplyClick);
+    };
+  }, [tempCountries, dispatch]);
+
   // Dynamic dataset selection: when product or consumer changes, update band and unit defaults
   useEffect(() => {
     // Skip updates on initial mount to prevent unnecessary API calls
@@ -117,7 +146,9 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
 
   // Global state handlers
   const handleCountryChange = (selectedValues: string[]) => {
-    dispatch({ type: "SET_COUNTRIES", payload: selectedValues });
+    console.log('[Menu] Country selection changed:', selectedValues);
+    // Only update temporary state, don't apply to chart yet
+    setTempCountries(selectedValues);
   };
 
   const handleProductChange = (selectedValue: string) => {
@@ -225,6 +256,7 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
 
   const toggleMenu = () => {
     const newIsOpen = !isOpen;
+    console.log('[Menu] Toggle menu - current isOpen:', isOpen, 'new isOpen:', newIsOpen);
     setIsOpen(newIsOpen);
 
     // Announce state change to screen readers
@@ -330,7 +362,7 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
                           id="menu-select-countries"
                           label={t("nav.countries.label", "Select Countries")}
                           optionGroups={countryOptionGroups}
-                          values={countries}
+                          values={tempCountries}
                           onChange={handleCountryChange}
                           placeholder={t(
                             "nav.countries.placeholder",

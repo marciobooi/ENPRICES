@@ -15,6 +15,7 @@ export interface QueryState {
   decimals: number; // 1-4 decimal places for number formatting
   details: boolean;
   geos: string[];
+  appliedGeos: string[]; // Countries currently applied to the chart
   hideAggregates: boolean; // Toggle to hide EU aggregates
   language: string;
   nrg_prc: string[];
@@ -33,6 +34,7 @@ export interface QueryState {
 // Define action types for query updates
 export type QueryAction =
   | { type: 'SET_COUNTRIES'; payload: string[] }
+  | { type: 'APPLY_COUNTRIES'; payload: string[] }
   | { type: 'SET_PRODUCT'; payload: string }
   | { type: 'SET_CONSUMER'; payload: string }
   | { type: 'SET_YEAR'; payload: string }
@@ -66,6 +68,7 @@ const initialState: QueryState = {
   decimals: 4, // Default 4 decimal places
   details: false,
   geos: [...allCountries], // All countries by default instead of just EU
+  appliedGeos: [...allCountries], // Applied countries start same as selected
   hideAggregates: false, // Show aggregates by default
   language: "EN",
   nrg_prc: [], // Will be populated based on component and dataset selection
@@ -85,9 +88,16 @@ const initialState: QueryState = {
 const queryReducer = (state: QueryState, action: QueryAction): QueryState => {
   switch (action.type) {
     case 'SET_COUNTRIES':
+      console.log('[QueryContext] SET_COUNTRIES:', action.payload);
       return {
         ...state,
         geos: action.payload
+      };
+    case 'APPLY_COUNTRIES':
+      console.log('[QueryContext] APPLY_COUNTRIES:', action.payload);
+      return {
+        ...state,
+        appliedGeos: action.payload
       };
     case 'SET_PRODUCT':
       return {
