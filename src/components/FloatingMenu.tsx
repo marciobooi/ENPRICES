@@ -430,8 +430,11 @@ const FloatingMenu: React.FC = () => {
           </>
         )}
 
-        {/* Band Selection Dropdown - Only show in bands view for pie/timeline charts */}
-        {state.drillDownCountry && (state.chartType === 'pie' || state.chartType === 'timeline') && (
+        {/* Band Selection Dropdown - Show for pie charts always, and for timeline charts only in details mode */}
+        {state.drillDownCountry && (
+          (state.chartType === 'pie') || 
+          (state.chartType === 'timeline' && state.details)
+        ) && (
           <div style={{ minWidth: '150px' }}>
             <EclSingleSelect
               id="floating-menu-band-select"
