@@ -245,7 +245,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       eurostatService
         .fetchCountryBands(
           fetchDataset,
-          state.drillDownCountry,
+          state.drillDownCountry!, // Non-null assertion since we already check above
           state.chartType === 'timeline' ? undefined : state.time, // Don't restrict time for timeline charts
           extraParams
         )
@@ -274,13 +274,25 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           return;
         } else if (state.chartType === 'pie') {
           // For pie chart, show only the selected band with component breakdown
-          transformedData = transformToBandsPieChart(data, state.drillDownCountry, state.selectedBand, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+          if (state.drillDownCountry) {
+            transformedData = transformToBandsPieChart(data, state.drillDownCountry, state.selectedBand, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+          }
         } else if (state.chartType === 'timeline') {
           // For timeline chart, use the same data as pie chart but transform it for timeline view
-          transformedData = transformToBandsTimeline(data, state.drillDownCountry, state.selectedBand, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+          if (state.drillDownCountry) {
+            transformedData = transformToBandsTimeline(data, state.drillDownCountry, state.selectedBand, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+          }
         } else {
           // Default bar chart for bands
-          transformedData = transformToCountryBands(data, state.drillDownCountry, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+          if (state.drillDownCountry) {
+            transformedData = transformToCountryBands(data, state.drillDownCountry, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+          }
+        }
+        
+        // Only process chart configuration if we have transformed data
+        if (!transformedData) {
+          console.warn('[MainChart] No transformed data available for bands view');
+          return;
         }
         
         // Create chart configuration based on chart type
@@ -315,7 +327,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           });
           chartConfig = createTimelineChartConfig({
             categories,
-            series,
+            series: series as any, // Type assertion for timeline chart data
             selectedYear,
             title: `${state.selectedBand} Timeline - ${state.drillDownCountry}${state.details ? ' (Detailed)' : ''}`,
             isDetailed: isDetailed || false,
@@ -328,7 +340,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           // Bar chart configuration
           chartConfig = createCountryComparisonConfig({
             categories,
-            series,
+            series: series as any, // Type assertion for bar chart data
             selectedYear,
             isDetailed: isDetailed || false,
             isComponent: state.component && isDetailed,
@@ -353,7 +365,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         // Create chart configuration using the external function
         chartConfig = createCountryComparisonConfig({
           categories,
-          series,
+          series: series as any, // Type assertion for country comparison data
           selectedYear,
           isDetailed: state.details, // Use state.details to control detailed view
           isComponent: state.component, // Use state.component to control component vs tax breakdown
