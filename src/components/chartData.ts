@@ -919,22 +919,8 @@ export const transformToBandsTimeline = (
 
   const bandDim = eurostatData.dimension.nrg_cons || eurostatData.dimension.consom;
   const consomCategories = bandDim?.category?.index || {};
-  const bandIndex = consomCategories[selectedBand];
+  const consomLabels = bandDim?.category?.label || {};
   
-  if (bandIndex === undefined) {
-    console.log('[transformToBandsTimeline] Band not found:', {
-      selectedBand,
-      availableBands: Object.keys(consomCategories)
-    });
-    return { categories: [], series: [], selectedYear, isDetailed: false };
-  }
-
-  console.log('[transformToBandsTimeline] Found band at index:', {
-    selectedBand,
-    bandIndex,
-    geoIndex
-  });
-
   // Categories are time periods
   const categories = timeLabels.map(timeLabel => {
     // Format time labels for display (e.g., "2023-S2" -> "2023 H2")
@@ -947,76 +933,126 @@ export const transformToBandsTimeline = (
 
   let series: any[] = [];
 
-  if (isDetailed && (isComponent || eurostatData.dimension.nrg_prc)) {
-    // Component breakdown over time
-    const nrgPrcCategories = eurostatData.dimension.nrg_prc?.category?.index || {};
-    const nrgPrcLabels = Object.keys(nrgPrcCategories);
+  if (isDetailed) {
+    // Details view: Show breakdown (tax/components) of the selected band over time
+    const bandIndex = consomCategories[selectedBand];
     
-    series = nrgPrcLabels.map(nrgCode => {
-      const nrgIndex = nrgPrcCategories[nrgCode];
-      const label = eurostatData.dimension.nrg_prc.category.label[nrgCode];
-      const translatedLabel = t ? t(`energy.nrgPrc.${nrgCode}`, label) : label;
-      
-      const data = timeLabels.map(timeLabel => {
-        const timeIndex = timeCategories[timeLabel];
-        const valueIndex = geoIndex * Object.keys(consomCategories).length * nrgPrcLabels.length * timeLabels.length +
-                          bandIndex * nrgPrcLabels.length * timeLabels.length +
-                          nrgIndex * timeLabels.length +
-                          timeIndex;
-        const value = eurostatData.value[valueIndex];
-        return (value !== undefined && value !== null) ? parseFloat(value) : null;
+    if (bandIndex === undefined) {
+      console.log('[transformToBandsTimeline] Band not found for detailed view:', {
+        selectedBand,
+        availableBands: Object.keys(consomCategories)
       });
+      return { categories, series: [], selectedYear, isDetailed: false };
+    }
 
-      return {
-        name: translatedLabel,
-        data: data
-      };
+    console.log('[transformToBandsTimeline] Found band at index for detailed view:', {
+      selectedBand,
+      bandIndex,
+      geoIndex
     });
-  } else if (isDetailed && eurostatData.dimension.tax) {
-    // Tax breakdown over time
-    const taxCategories = eurostatData.dimension.tax.category.index;
-    const taxLabels = Object.keys(taxCategories);
-    
-    series = taxLabels.map(taxCode => {
-      const taxIndex = taxCategories[taxCode];
-      const label = eurostatData.dimension.tax.category.label[taxCode];
-      const translatedLabel = t ? t(`energy.tax.${taxCode}`, label) : label;
+
+    if (isComponent && eurostatData.dimension.nrg_prc) {
+      // Component breakdown over time for selected band
+      const nrgPrcCategories = eurostatData.dimension.nrg_prc?.category?.index || {};
+      const nrgPrcLabels = Object.keys(nrgPrcCategories);
       
-      const data = timeLabels.map(timeLabel => {
-        const timeIndex = timeCategories[timeLabel];
-        const valueIndex = geoIndex * Object.keys(consomCategories).length * taxLabels.length * timeLabels.length +
-                          bandIndex * taxLabels.length * timeLabels.length +
-                          taxIndex * timeLabels.length +
-                          timeIndex;
-        const value = eurostatData.value[valueIndex];
-        return (value !== undefined && value !== null) ? parseFloat(value) : null;
-      });
+      series = nrgPrcLabels.map(nrgCode => {
+        const nrgIndex = nrgPrcCategories[nrgCode];
+        const label = eurostatData.dimension.nrg_prc.category.label[nrgCode];
+        const translatedLabel = t ? t(`energy.nrgPrc.${nrgCode}`, label) : label;
+        
+        const data = timeLabels.map(timeLabel => {
+          const timeIndex = timeCategories[timeLabel];
+          const valueIndex = geoIndex * Object.keys(consomCategories).length * nrgPrcLabels.length * timeLabels.length +
+                            bandIndex * nrgPrcLabels.length * timeLabels.length +
+                            nrgIndex * timeLabels.length +
+                            timeIndex;
+          const value = eurostatData.value[valueIndex];
+          return (value !== undefined && value !== null) ? parseFloat(value) : null;
+        });
 
-      return {
-        name: translatedLabel,
-        data: data
-      };
-    });
+        return {
+          name: translatedLabel,
+          data: data
+        };
+      });
+    } else if (eurostatData.dimension.tax) {
+      // Tax breakdown over time for selected band
+      const taxCategories = eurostatData.dimension.tax.category.index;
+      const taxLabels = Object.keys(taxCategories);
+      
+      series = taxLabels.map(taxCode => {
+        const taxIndex = taxCategories[taxCode];
+        const label = eurostatData.dimension.tax.category.label[taxCode];
+        const translatedLabel = t ? t(`energy.tax.${taxCode}`, label) : label;
+        
+        const data = timeLabels.map(timeLabel => {
+          const timeIndex = timeCategories[timeLabel];
+          const valueIndex = geoIndex * Object.keys(consomCategories).length * taxLabels.length * timeLabels.length +
+                            bandIndex * taxLabels.length * timeLabels.length +
+                            taxIndex * timeLabels.length +
+                            timeIndex;
+          const value = eurostatData.value[valueIndex];
+          return (value !== undefined && value !== null) ? parseFloat(value) : null;
+        });
+
+        return {
+          name: translatedLabel,
+          data: data
+        };
+      });
+    }
   } else {
-    // Total values over time (non-detailed view)
-    const data = timeLabels.map(timeLabel => {
-      const timeIndex = timeCategories[timeLabel];
-      const valueIndex = geoIndex * Object.keys(consomCategories).length * timeLabels.length +
-                        bandIndex * timeLabels.length +
+    // Totals view: Show all bands over time (like band bar chart shows all bands for one year)
+    const allBands = Object.keys(consomCategories);
+    
+    series = allBands.map(bandCode => {
+      const bandIndex = consomCategories[bandCode];
+      const bandLabel = consomLabels[bandCode] || bandCode;
+      const translatedBandLabel = t ? t(`energy.bands.${bandCode}`, bandLabel) : bandLabel;
+      
+      const data = timeLabels.map(timeLabel => {
+        const timeIndex = timeCategories[timeLabel];
+        // For totals, we need to get the total value for this band at this time
+        // This might require summing across tax dimensions or getting the total tax value
+        let valueIndex: number;
+        
+        if (eurostatData.dimension.tax) {
+          // If we have tax dimension, sum all tax values for this band and time
+          const taxCategories = eurostatData.dimension.tax.category.index;
+          const taxLabels = Object.keys(taxCategories);
+          let totalValue = 0;
+          let hasValues = false;
+          
+          for (const taxCode of taxLabels) {
+            const taxIndex = taxCategories[taxCode];
+            valueIndex = geoIndex * Object.keys(consomCategories).length * taxLabels.length * timeLabels.length +
+                        bandIndex * taxLabels.length * timeLabels.length +
+                        taxIndex * timeLabels.length +
                         timeIndex;
-      const value = eurostatData.value[valueIndex];
-      return (value !== undefined && value !== null) ? parseFloat(value) : null;
+            const value = eurostatData.value[valueIndex];
+            if (value !== undefined && value !== null) {
+              totalValue += parseFloat(value);
+              hasValues = true;
+            }
+          }
+          
+          return hasValues ? totalValue : null;
+        } else {
+          // Simple case without tax breakdown
+          valueIndex = geoIndex * Object.keys(consomCategories).length * timeLabels.length +
+                      bandIndex * timeLabels.length +
+                      timeIndex;
+          const value = eurostatData.value[valueIndex];
+          return (value !== undefined && value !== null) ? parseFloat(value) : null;
+        }
+      });
+
+      return {
+        name: translatedBandLabel,
+        data: data
+      };
     });
-
-    const bandLabel = eurostatData.dimension.nrg_cons?.category?.label[selectedBand] || 
-                     eurostatData.dimension.consom?.category?.label[selectedBand] || 
-                     selectedBand;
-    const translatedBandLabel = t ? t(`energy.bands.${selectedBand}`, bandLabel) : bandLabel;
-
-    series = [{
-      name: translatedBandLabel,
-      data: data
-    }];
   }
 
   return {
