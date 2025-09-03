@@ -469,10 +469,16 @@ export const createTimelineChartConfig = (options: ChartConfigOptions) => {
   const { categories, series, title, decimals = 4, t } = options;
 
   return {
-    "selector": `[data-uec-chart-id]`,
-    "options": {
+    "service": "chart",
+    "version": "2.0", 
+    "menu": false,
+    "data": {
       "chart": {
         "type": "line",
+        "height": 400,
+        "style": {
+          "fontFamily": "Arial, sans-serif"
+        },
         "animation": {
           "duration": 800,
           "easing": "easeOutQuart"
@@ -496,14 +502,14 @@ export const createTimelineChartConfig = (options: ChartConfigOptions) => {
           "text": t ? t('chart.timeline.yAxis', 'Price (EUR)') : 'Price (EUR)'
         },
         "labels": {
-          "formatter": `function() { return this.value.toFixed(${decimals}); }`
+          "format": `{value:.${decimals}f}`
         }
       },
       "tooltip": {
-        "formatter": `function() { 
-          return '<b>' + this.series.name + '</b><br/>' + 
-                 this.x + ': ' + this.y.toFixed(${decimals}) + ' EUR'; 
-        }`
+        "pointFormat": `<span style="color:{series.color}">●</span> {series.name}: <b>{point.y:.${decimals}f} EUR</b><br/>`,
+        "headerFormat": `<span style="font-size:16px; font-weight: bold">{point.key}</span><br/>`,
+        "shared": true,
+        "useHTML": true
       },
       "legend": {
         "enabled": true,
@@ -522,7 +528,12 @@ export const createTimelineChartConfig = (options: ChartConfigOptions) => {
       "series": series.map(s => ({
         ...s,
         "type": "line"
-      }))
+      })),
+      "credits": {
+        "enabled": true,
+        "text": "Source: Eurostat",
+        "href": "https://ec.europa.eu/eurostat/"
+      }
     }
   };
 };

@@ -884,8 +884,18 @@ export const transformToBandsTimeline = (
   isComponent: boolean = false, 
   t?: (key: string, defaultValue?: string) => string
 ): ChartDataResult => {
+  console.log('[transformToBandsTimeline] Starting transformation with:', {
+    eurostatData: !!eurostatData,
+    countryCode,
+    selectedBand,
+    isDetailed,
+    isComponent,
+    hasTimeData: !!eurostatData?.dimension?.time?.category?.index
+  });
+
   if (!eurostatData?.dimension?.time?.category?.index ||
       !eurostatData?.dimension?.geo?.category?.index) {
+    console.log('[transformToBandsTimeline] Missing required dimensions');
     return { categories: [], series: [], selectedYear: '', isDetailed: false };
   }
 
@@ -893,10 +903,17 @@ export const transformToBandsTimeline = (
   const timeLabels = Object.keys(timeCategories).sort((a, b) => timeCategories[a] - timeCategories[b]);
   const selectedYear = timeLabels[timeLabels.length - 1];
 
+  console.log('[transformToBandsTimeline] Time data:', {
+    timeLabels,
+    selectedYear,
+    timeLabelCount: timeLabels.length
+  });
+
   const geoCategories = eurostatData.dimension.geo.category.index;
   const geoIndex = geoCategories[countryCode];
   
   if (geoIndex === undefined) {
+    console.log('[transformToBandsTimeline] Country not found:', countryCode);
     return { categories: [], series: [], selectedYear, isDetailed: false };
   }
 
@@ -905,8 +922,18 @@ export const transformToBandsTimeline = (
   const bandIndex = consomCategories[selectedBand];
   
   if (bandIndex === undefined) {
+    console.log('[transformToBandsTimeline] Band not found:', {
+      selectedBand,
+      availableBands: Object.keys(consomCategories)
+    });
     return { categories: [], series: [], selectedYear, isDetailed: false };
   }
+
+  console.log('[transformToBandsTimeline] Found band at index:', {
+    selectedBand,
+    bandIndex,
+    geoIndex
+  });
 
   // Categories are time periods
   const categories = timeLabels.map(timeLabel => {

@@ -143,6 +143,8 @@ class EurostatService {
       
       const fullUrl = `${url}?${queryParams.toString()}`;
       
+      console.log('[EurostatService] Fetching URL:', fullUrl);
+      
       const response = await axios.get(fullUrl, {
         timeout: 30000 // 30 seconds timeout
       });
@@ -224,7 +226,7 @@ class EurostatService {
    * Fetch all consumption bands for a specific country and time period
    * Used for drill-down functionality when clicking on a country bar
    */
-  async fetchCountryBands(dataset: string, countryCode: string, timePeriod: string, params?: Record<string, string | string[]>): Promise<any> {
+  async fetchCountryBands(dataset: string, countryCode: string, timePeriod?: string, params?: Record<string, string | string[]>): Promise<any> {
     try {
       // Get dataset configuration to know available consumption bands
       const { getDatasetConfig } = await import('../data/energyData');
@@ -237,11 +239,15 @@ class EurostatService {
       // Create parameters for fetching all bands for this country
       const bandParams: Record<string, string | string[]> = {
         geo: countryCode,
-        time: timePeriod,
         ...params, // Include other params first
         // Use correct Eurostat parameter name for consumption bands - this must come last to override any single band selection
         nrg_cons: config.consoms
       };
+
+      // Only add time parameter if provided (for timeline charts, we want all time periods)
+      if (timePeriod) {
+        bandParams.time = timePeriod;
+      }
 
       // Ensure currency is always set (default EUR) if not provided
       if (!bandParams.currency) {

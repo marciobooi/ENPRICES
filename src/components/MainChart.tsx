@@ -111,7 +111,22 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       return;
     }
     
-    if (needsBandsFetch && state.drillDownCountry) {
+    // Check if we need timeline data (all years) but currently have only single year data
+    const needsTimelineData = state.chartType === 'timeline' && state.drillDownCountry && 
+                              data?.dimension?.time?.category?.index && 
+                              Object.keys(data.dimension.time.category.index).length <= 1;
+
+    console.log('[MainChart] Fetch conditions check:', {
+      needsBandsFetch,
+      needsTimelineData,
+      chartType: state.chartType,
+      drillDownCountry: state.drillDownCountry,
+      hasMultipleBands,
+      currentTimeLabels: data?.dimension?.time?.category?.index ? Object.keys(data.dimension.time.category.index).length : 0,
+      willFetch: (needsBandsFetch && state.drillDownCountry) || needsTimelineData
+    });
+    
+    if ((needsBandsFetch && state.drillDownCountry) || needsTimelineData) {
       // Build params based on dataset/component flags to determine fetch key
       const isComponentDataset = state.dataset.endsWith('_c') || state.component;
       
@@ -125,14 +140,17 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         fetchKeyParams = [state.currency, 'mode:component'];
       }
       
-      const fetchKey = `${state.dataset}-${state.drillDownCountry}-${state.time}-${JSON.stringify(fetchKeyParams)}`;
+      const timeParam = state.chartType === 'timeline' ? 'ALL_YEARS' : state.time;
+      const fetchKey = `${state.dataset}-${state.drillDownCountry}-${timeParam}-${JSON.stringify(fetchKeyParams)}`;
       
       console.log('[MainChart] Drill-down fetch check:', {
         fetchKey,
         lastFetchKey,
         willFetch: lastFetchKey !== fetchKey,
         isComponentDataset,
-        fetchKeyParams
+        fetchKeyParams,
+        chartType: state.chartType,
+        timeParam
       });
       
       if (lastFetchKey === fetchKey) {
@@ -214,11 +232,21 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         console.log('[MainChart] Already using component dataset:', fetchDataset);
       }
 
+      console.log('[MainChart] Fetching bands data with params:', {
+        dataset: fetchDataset,
+        country: state.drillDownCountry,
+        time: state.chartType === 'timeline' ? 'ALL_YEARS' : state.time,
+        chartType: state.chartType,
+        extraParams: JSON.stringify(extraParams, null, 2),
+        isComponentDataset,
+        willFetchAllYears: state.chartType === 'timeline'
+      });
+
       eurostatService
         .fetchCountryBands(
           fetchDataset,
           state.drillDownCountry,
-          state.time,
+          state.chartType === 'timeline' ? undefined : state.time, // Don't restrict time for timeline charts
           extraParams
         )
       .then(bandData => {
@@ -248,72 +276,8 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           // For pie chart, show only the selected band with component breakdown
           transformedData = transformToBandsPieChart(data, state.drillDownCountry, state.selectedBand, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
         } else if (state.chartType === 'timeline') {
-          // For timeline chart, we need to fetch time series data for the selected band
-          // First check if we already have multi-year data
-          const timeCategories = data?.dimension?.time?.category?.index;
-          const timeLabels = timeCategories ? Object.keys(timeCategories) : [];
-          
-          if (timeLabels.length <= 1) {
-            // We only have single year data, need to fetch time series
-            if (chartContainerRef.current) {
-              chartContainerRef.current.innerHTML = `
-                <div style="padding: 2rem; text-align: center;">
-                  <h3>${t('chart.timeline.loading', 'Loading Timeline Data...')}</h3>
-                  <p>${t('chart.timeline.fetchingData', 'Fetching time series data for')} ${state.selectedBand}</p>
-                  <p>${t('chart.timeline.country', 'Country')}: ${state.drillDownCountry}</p>
-                </div>
-              `;
-            }
-            
-            // Fetch time series data
-            const timeSeriesParams: Record<string, string | string[]> = {
-              currency: state.currency,
-            };
-
-            // Add appropriate parameters based on dataset type
-            const isComponentDataset = state.dataset.endsWith('_c') || state.component;
-            if (!isComponentDataset) {
-              timeSeriesParams.product = state.product;
-              timeSeriesParams.unit = state.unit === 'MWH' ? 'KWH' : state.unit;
-              if (state.taxs && state.taxs.length > 0) {
-                timeSeriesParams.tax = state.taxs;
-              }
-            } else {
-              // Component datasets: include all nrg_prc from the component dataset config
-              const dsConfig = getDatasetConfig(state.dataset.endsWith('_c') ? state.dataset : `${state.dataset}_c`);
-              if (dsConfig?.nrg_prc && dsConfig.nrg_prc.length > 0) {
-                timeSeriesParams.nrg_prc = dsConfig.nrg_prc;
-              }
-            }
-
-            eurostatService
-              .fetchTimeSeriesData(
-                isComponentDataset && !state.dataset.endsWith('_c') ? `${state.dataset}_c` : state.dataset,
-                state.drillDownCountry,
-                state.selectedBand,
-                timeSeriesParams
-              )
-              .then(timeSeriesData => {
-                console.log('[MainChart] Time series data received:', timeSeriesData);
-                setData(timeSeriesData);
-              })
-              .catch(error => {
-                console.error('[MainChart] Error fetching time series data:', error);
-                if (chartContainerRef.current) {
-                  chartContainerRef.current.innerHTML = `
-                    <div style="padding: 2rem; text-align: center; border: 2px solid #f44336; border-radius: 8px; background-color: #ffebee;">
-                      <h3 style="color: #f44336;">${t('chart.timeline.error', 'Error Loading Timeline')}</h3>
-                      <p>${t('chart.timeline.errorMessage', 'Unable to fetch time series data. Please try again.')}</p>
-                      <p style="font-size: 0.9em; color: #666;">${error.message}</p>
-                    </div>
-                  `;
-                }
-              });
-            return;
-          } else {
-            // We have multi-year data, create timeline chart
-            transformedData = transformToBandsTimeline(data, state.drillDownCountry, state.selectedBand, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
-          }
+          // For timeline chart, use the same data as pie chart but transform it for timeline view
+          transformedData = transformToBandsTimeline(data, state.drillDownCountry, state.selectedBand, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
         } else {
           // Default bar chart for bands
           transformedData = transformToCountryBands(data, state.drillDownCountry, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
@@ -341,6 +305,14 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           });
           console.log('[MainChart] Pie chart config created:', chartConfig);
         } else if (state.chartType === 'timeline') {
+          console.log('[MainChart] Creating timeline chart config with data:', {
+            categories,
+            series,
+            selectedYear,
+            seriesCount: series.length,
+            categoriesCount: categories.length,
+            seriesData: series.map((s: any) => ({ name: s.name, dataLength: s.data?.length }))
+          });
           chartConfig = createTimelineChartConfig({
             categories,
             series,
@@ -351,6 +323,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
             decimals: state.decimals,
             t
           });
+          console.log('[MainChart] Timeline chart config created:', chartConfig);
         } else {
           // Bar chart configuration
           chartConfig = createCountryComparisonConfig({
@@ -512,8 +485,10 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         if (typeof (window as any).Highcharts !== 'undefined') {
           console.log('[MainChart] Attempting Highcharts fallback');
           try {
-            const chartConfigData = (chartConfig as any).data;
-            (window as any).Highcharts.chart(chartContainerRef.current, chartConfigData);
+            // Extract the chart data from the config structure
+            const chartData = (chartConfig as any).data;
+            console.log('[MainChart] Chart data for fallback:', chartData);
+            (window as any).Highcharts.chart(chartContainerRef.current, chartData);
           } catch (error) {
             console.warn('[MainChart] Highcharts fallback failed:', error);
           }
