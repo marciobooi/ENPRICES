@@ -78,33 +78,29 @@
 .time-slider-container {
   margin: 20px 0;
   padding: 20px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 12px;
-  border: 1px solid #dee2e6;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 /* Accessibility enhancements for time slider */
 .time-slider-container .rc-slider-handle:focus {
-  outline: 3px solid #0073e6;
+  outline: 3px solid #004494;
   outline-offset: 3px;
-  box-shadow: 0 0 0 6px rgba(0, 115, 230, 0.25);
+  box-shadow: 0 0 0 6px rgba(0, 68, 148, 0.25);
 }
 
 .time-slider-container .rc-slider-track {
-  background: linear-gradient(90deg, #0073e6 0%, #005bb5 100%);
+  background: linear-gradient(90deg, #004494 0%, #003366 100%);
   border-radius: 3px;
 }
 
 .time-slider-container .rc-slider-rail {
-  background-color: #e1e8f0;
+  background-color: #d9e3f0;
   border-radius: 3px;
 }
 
 .time-slider-container .rc-slider-handle {
-  border: 3px solid #0073e6;
-  background-color: #ffffff;
-  box-shadow: 0 4px 16px rgba(0, 115, 230, 0.3);
+  border: 3px solid #004494;
+  background-color: #004494;
+  box-shadow: 0 4px 16px rgba(0, 68, 148, 0.3);
   transition: all 0.2s ease;
 }
 

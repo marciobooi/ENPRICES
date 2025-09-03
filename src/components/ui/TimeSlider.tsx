@@ -108,30 +108,42 @@ export const TimeSlider: React.FC<TimeSliderProps> = ({
     }
   }, [indexToTime, selectedTime, onChange]);
 
-  // Create marks for the slider (show only years and specific semesters to avoid overcrowding)
+  // Create marks for the slider (adaptive display based on data volume)
   const marks = useMemo(() => {
     const marks: Record<number, React.ReactNode> = {};
+    const totalTimeOptions = sortedTimeOptions.length;
     
     sortedTimeOptions.forEach((time, index) => {
-      // Show marks for:
-      // 1. First item
-      // 2. Last item  
-      // 3. S2 (second semester) of every 2-3 years to avoid overcrowding
       const isFirst = index === 0;
       const isLast = index === sortedTimeOptions.length - 1;
-      const isS2 = time.includes('-S2');
       const year = parseInt(time.split('-')[0]);
-      const showYearMark = isS2 && (year % 2 === 0); // Show every even year's S2
       
-      if (isFirst || isLast || showYearMark) {
+      // Adaptive marking strategy based on data volume
+      let shouldShowMark = false;
+      
+      if (isFirst || isLast) {
+        // Always show first and last
+        shouldShowMark = true;
+      } else if (totalTimeOptions <= 10) {
+        // Few time periods: show all
+        shouldShowMark = true;
+      } else if (totalTimeOptions <= 20) {
+        // Medium number: show every other year (only S1)
+        shouldShowMark = time.includes('-S1') && year % 2 === 0;
+      } else {
+        // Many time periods (like tax data): show every 2-3 years (only S1)
+        shouldShowMark = time.includes('-S1') && year % 3 === 0;
+      }
+      
+      if (shouldShowMark) {
         marks[index] = (
           <span 
             style={{ 
-              fontSize: '11px', 
-              color: '#495057',
+              fontSize: '14px', 
+              color: '#989898ff',
               whiteSpace: 'nowrap',
               transform: 'translateX(-50%)',
-              fontWeight: '500'
+              fontWeight: '400'
             }}
           >
             {formatTimeForDisplay(time)}
@@ -195,28 +207,9 @@ export const TimeSlider: React.FC<TimeSliderProps> = ({
   return (
     <div className={`time-slider-container ${className}`} style={{ margin: '20px 0' }}>
       {/* Label for screen readers */}
-      <label htmlFor={id} className="ecl-form-label" style={{ marginBottom: '10px', display: 'block' }}>
+      <label htmlFor={id} className="sr-only">
         {t('timeSlider.label', 'Time Period')}
       </label>
-      
-      {/* Current value display */}
-      <div 
-        id={`${id}-value`}
-        style={{ 
-          textAlign: 'center', 
-          marginBottom: '15px', 
-          fontSize: '16px', 
-          fontWeight: 'bold',
-          padding: '8px',
-          backgroundColor: '#f8f9fa',
-          border: '1px solid #dee2e6',
-          borderRadius: '4px'
-        }}
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        {formatTimeForDisplay(selectedTime)}
-      </div>
       
       {/* Slider component */}
       <div style={{ margin: '0 20px', position: 'relative' }}>
@@ -237,43 +230,45 @@ export const TimeSlider: React.FC<TimeSliderProps> = ({
             style={{
               marginBottom: '40px'
             }}
-            trackStyle={{
-              backgroundColor: '#0073e6',
-              height: 6
-            }}
-            railStyle={{
-              backgroundColor: '#e1e8f0',
-              height: 6
-            }}
-            handleStyle={{
-              backgroundColor: '#ffffff',
-              borderColor: '#0073e6',
-              borderWidth: 3,
-              height: 32,
-              width: 32,
-              marginTop: -13,
-              boxShadow: '0 3px 12px rgba(0,115,230,0.4)',
-              cursor: disabled ? 'not-allowed' : 'grab',
-              borderRadius: '50%',
-              borderStyle: 'solid',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '10px',
-              fontWeight: 'bold',
-              color: '#0073e6',
-              position: 'relative'
+            styles={{
+              handle: {
+                backgroundColor: '#004494',
+                borderColor: '#004494',
+                borderWidth: 3,
+                height: 32,
+                width: 75,
+                marginTop: -13,
+                boxShadow: '0 3px 12px rgba(0,68,148,0.4)',
+                cursor: disabled ? 'not-allowed' : 'grab',
+                borderRadius: '4px',
+                borderStyle: 'solid',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                color: '#ffffff',
+                position: 'relative'
+              },
+              track: {
+                backgroundColor: '#004494',
+                height: 6
+              },
+              rail: {
+                backgroundColor: '#d9e3f0',
+                height: 6
+              }
             }}
             dotStyle={{
-              backgroundColor: '#b8c5d1',
-              borderColor: '#b8c5d1',
+              backgroundColor: '#b3c6e7',
+              borderColor: '#b3c6e7',
               height: 6,
               width: 6,
               marginTop: 0
             }}
             activeDotStyle={{
-              backgroundColor: '#0073e6',
-              borderColor: '#0073e6'
+              backgroundColor: '#004494',
+              borderColor: '#004494'
             }}
           />
           
@@ -282,25 +277,26 @@ export const TimeSlider: React.FC<TimeSliderProps> = ({
             style={{
               position: 'absolute',
               left: `calc(${(timeIndex / Math.max(1, sortedTimeOptions.length - 1)) * 100}%)`,
-              top: '-13px',
+              top: '-10px',
               transform: 'translateX(-50%)',
               pointerEvents: 'none',
-              fontSize: '9px',
+              fontSize: '16px',
               fontWeight: 'bold',
-              color: '#0073e6',
+              color: '#ffffff',
               zIndex: 10,
               textAlign: 'center',
-              lineHeight: '1.1',
-              width: '32px',
+              lineHeight: '1.2',
+              width: '75px',
               height: '32px',
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              gap: '4px'
             }}
           >
-            <div>{selectedTime.split('-')[0]}</div>
-            <div style={{ fontSize: '8px' }}>{selectedTime.includes('-S') ? selectedTime.split('-')[1] : ''}</div>
+            <span>{selectedTime.split('-')[0]}</span>
+            <span style={{ fontSize: '14px' }}>{selectedTime.includes('-S') ? selectedTime.split('-')[1] : ''}</span>
           </div>
         </div>
       </div>

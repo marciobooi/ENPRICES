@@ -26,15 +26,13 @@ const MainContent: React.FC<MainContentProps> = ({ children, className }) => {
             <MainChart />
             
             {/* Time Period Slider - placed below chart */}
-            <div className="time-slider-container">
-              <TimeSlider
+            <TimeSlider
                 timeOptions={state.availableYears}
                 selectedTime={state.time}
                 onChange={(time) => {
                   dispatch({ type: 'SET_YEAR', payload: time });
                 }}
               />
-            </div>
           </div>
         </div>
 
