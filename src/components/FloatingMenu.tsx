@@ -345,21 +345,23 @@ const FloatingMenu: React.FC = () => {
           </button>
         )}
 
-        {/* Component Button */}
-        <button
-          className={`ecl-button ${state.component ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-          onClick={toggleComponent}
-          aria-label={t('floatingMenu.component.label', 'Toggle price components')}
-          data-tooltip-id="component-tooltip"
-          data-tooltip-content={t('floatingMenu.component.tooltip', { status: state.component ? 'included' : 'excluded' })}
-          aria-pressed={state.component}
-          style={{
-            padding: '8px',
-            borderRadius: '4px'
-          }}
-        >
-          <FontAwesomeIcon icon={faCogs} />
-        </button>
+        {/* Component Button - Only show in main chart view, not in drill-down mode */}
+        {!state.drillDownCountry && (
+          <button
+            className={`ecl-button ${state.component ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+            onClick={toggleComponent}
+            aria-label={t('floatingMenu.component.label', 'Toggle price components')}
+            data-tooltip-id="component-tooltip"
+            data-tooltip-content={t('floatingMenu.component.tooltip', { status: state.component ? 'included' : 'excluded' })}
+            aria-pressed={state.component}
+            style={{
+              padding: '8px',
+              borderRadius: '4px'
+            }}
+          >
+            <FontAwesomeIcon icon={faCogs} />
+          </button>
+        )}
 
         {/* Chart Type Buttons - Only show in bands view */}
         {state.drillDownCountry && (
