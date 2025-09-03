@@ -19,6 +19,15 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
   const [originalData, setOriginalData] = useState<any>(null); // Store original country data
   const [lastFetchKey, setLastFetchKey] = useState<string>('');
 
+  // Helper function to format time period for chart subtitle
+  const formatTimeForChart = (time: string): string => {
+    if (time.includes('-S')) {
+      const [year, semester] = time.split('-S');
+      return `${year} S${semester}`;
+    }
+    return time;
+  };
+
   // Subscribe to data updates from handleData
   useEffect(() => {
     const currentData = getCurrentData();
@@ -296,20 +305,21 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         }
         
         // Create chart configuration based on chart type
-        const { categories, series, selectedYear, isDetailed } = transformedData;
+        const { categories, series, isDetailed } = transformedData;
+        const formattedTime = formatTimeForChart(state.time);
         
         if (state.chartType === 'pie') {
           console.log('[MainChart] Creating pie chart config with data:', {
             categories,
             series,
-            selectedYear,
+            selectedYear: formattedTime,
             seriesData: series[0]?.data
           });
           chartConfig = createPieChartConfig({
             categories,
             series: series as any, // Type assertion for pie chart data
-            selectedYear,
-            title: `${state.selectedBand} Components - ${state.drillDownCountry} (${selectedYear})`,
+            selectedYear: formattedTime,
+            title: `${state.selectedBand} Components - ${state.drillDownCountry} (${formattedTime})`,
             isDetailed: isDetailed || false,
             isComponent: state.component && isDetailed,
             decimals: state.decimals,
@@ -320,7 +330,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           console.log('[MainChart] Creating timeline chart config with data:', {
             categories,
             series,
-            selectedYear,
+            selectedYear: formattedTime,
             seriesCount: series.length,
             categoriesCount: categories.length,
             seriesData: series.map((s: any) => ({ name: s.name, dataLength: s.data?.length }))
@@ -328,7 +338,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           chartConfig = createTimelineChartConfig({
             categories,
             series: series as any, // Type assertion for timeline chart data
-            selectedYear,
+            selectedYear: formattedTime,
             title: `${state.selectedBand} Timeline - ${state.drillDownCountry}${state.details ? ' (Detailed)' : ''}`,
             isDetailed: isDetailed || false,
             isComponent: state.component && isDetailed,
@@ -341,7 +351,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           chartConfig = createCountryComparisonConfig({
             categories,
             series: series as any, // Type assertion for bar chart data
-            selectedYear,
+            selectedYear: formattedTime,
             isDetailed: isDetailed || false,
             isComponent: state.component && isDetailed,
             order: state.order,
@@ -353,20 +363,21 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           
           // Add back button to the title
           if (chartConfig.data && chartConfig.data.title) {
-            chartConfig.data.title.text = `Consumption Bands - ${state.drillDownCountry} (${selectedYear})`;
+            chartConfig.data.title.text = `Consumption Bands - ${state.drillDownCountry} (${formattedTime})`;
           }
         }
       } else {
         // Regular country comparison view
         // console.log('[MainChart] Selected countries from state.appliedGeos:', state.appliedGeos);
         transformedData = transformToCountryComparison(data, state.details, state.hideAggregates, state.component, undefined, state.appliedGeos);
-        const { categories, series, selectedYear, countryCodes } = transformedData;
+        const { categories, series, countryCodes } = transformedData;
+        const formattedTime = formatTimeForChart(state.time);
 
         // Create chart configuration using the external function
         chartConfig = createCountryComparisonConfig({
           categories,
           series: series as any, // Type assertion for country comparison data
-          selectedYear,
+          selectedYear: formattedTime,
           isDetailed: state.details, // Use state.details to control detailed view
           isComponent: state.component, // Use state.component to control component vs tax breakdown
           order: state.order,

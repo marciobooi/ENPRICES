@@ -67,12 +67,13 @@ const DynamicTitle: React.FC<DynamicTitleProps> = ({ className = '' }) => {
   const formatPeriod = (time: string) => {
     // Extract year and semester from time like "2024-S2"
     if (time.includes('-S')) {
-      return time; // Already in correct format
+      const [year, semester] = time.split('-S');
+      return `${year} S${semester}`; // Format as "2024 S2"
     }
     
     // If it's just a year, default to S2
     const currentYear = new Date().getFullYear();
-    return `${time || currentYear}-S2`;
+    return `${time || currentYear} S2`;
   };
 
   // Helper function to get band label
@@ -93,7 +94,6 @@ const DynamicTitle: React.FC<DynamicTitleProps> = ({ className = '' }) => {
   const consumerType = getConsumerType(state.consumer);
   const currencySymbol = getCurrencySymbol(state.currency);
   const unitSymbol = getUnitSymbol(state.unit);
-  const period = formatPeriod(state.time);
   const bandLabel = getBandLabel(state.consoms);
 
   // Band subtitle logic (only show if not "all bands" and not in component view)
@@ -106,20 +106,20 @@ const DynamicTitle: React.FC<DynamicTitleProps> = ({ className = '' }) => {
 
   // Main title - different for component view
   const mainTitle = state.component 
-    ? `Electricity components for prices for household consumers - annual data (from 2007 onwards) (€/kWh) ${state.time.split('-')[0]}`
+    ? `Electricity components for prices for household consumers - annual data (from 2007 onwards) (€/kWh) ${formatPeriod(state.time)}`
     : t('title.main', {
         productName,
         consumerType,
         currency: currencySymbol,
         unit: unitSymbol,
-      });
+      }) + ` - ${formatPeriod(state.time)}`;
 
   // Band subtitle - different for component view
   const bandSubtitle = state.component
-    ? `All bands: Consumption of kWh - ${state.time.split('-')[0]}`
+    ? `All bands: Consumption of kWh - ${formatPeriod(state.time)}`
     : (showBandSubtitle ? t('title.band', {
         bandLabel,
-        period
+        period: formatPeriod(state.time)
       }) : '');
 
   return (

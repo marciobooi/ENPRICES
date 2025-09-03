@@ -25,14 +25,16 @@ const MainContent: React.FC<MainContentProps> = ({ children, className }) => {
           <div className="ecl-col-12">
             <MainChart />
             
-            {/* Time Period Slider - placed below chart */}
-            <TimeSlider
+            {/* Time Period Slider - only visible in main chart view, hidden in band charts (pie/line) */}
+            {!state.drillDownCountry && (
+              <TimeSlider
                 timeOptions={state.availableYears}
                 selectedTime={state.time}
                 onChange={(time) => {
                   dispatch({ type: 'SET_YEAR', payload: time });
                 }}
               />
+            )}
           </div>
         </div>
 
