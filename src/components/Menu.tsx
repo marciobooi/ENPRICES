@@ -9,7 +9,6 @@ import {
   RoundBtn,
 } from "./ui/index";
 import { useQuery } from "../context/QueryContext";
-import { useDynamicYears } from "../hooks/useDynamicYears";
 import {
   AGGREGATES_COUNTRY_CODES,
   EU_COUNTRY_CODES,
@@ -30,7 +29,6 @@ interface MenuProps {
 const Menu: React.FC<MenuProps> = ({ className = "" }) => {
   const { t } = useTranslation();
   const { state, dispatch } = useQuery();
-  const { availableYears } = useDynamicYears();
 
   const [isOpen, setIsOpen] = useState(false);
   const [announcementMessage, setAnnouncementMessage] = useState("");
@@ -43,7 +41,6 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
     geos: countries,
     product,
     consumer,
-    time: year,
     consoms: band,
     unit,
     drillDownCountry, // Add this to ensure re-render when drill-down state changes
@@ -169,10 +166,6 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
     dispatch({ type: "SET_CONSUMER", payload: selectedValue });
   };
 
-  const handleYearChange = (selectedValue: string) => {
-    dispatch({ type: "SET_YEAR", payload: selectedValue });
-  };
-
   const handleBandChange = (selectedValue: string) => {
     dispatch({ type: "SET_BAND", payload: selectedValue });
   };
@@ -198,14 +191,6 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
       label: t(`energy.consumers.${option.value}`, option.label),
     }));
   }, [t]);
-
-  // Get energy year options - memoized from dynamic API data
-  const energyYearOptions = useMemo(() => {
-    return availableYears.map((year) => ({
-      value: year,
-      label: t(`energy.years.${year}`, year),
-    }));
-  }, [availableYears, t]);
 
   // Get energy band options (based on current product and consumer) - memoized
   const energyBandOptions = useMemo(() => {
@@ -442,29 +427,7 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
                   </div>
 
                   <div className="menuRow">
-                    {/* Second Row: Year, Consumption Band, Unit */}
-
-                    {/* Energy Year Selection Section */}
-                    <div className="menu-section">
-                      <div className="menu-year">
-                        <EclSingleSelect
-                          id="menu-select-year"
-                          label={t("energy.years.label", "Select Year")}
-                          options={energyYearOptions}
-                          value={year}
-                          onChange={handleYearChange}
-                          placeholder={t(
-                            "energy.years.placeholder",
-                            "Choose a year..."
-                          )}
-                          helpText={t(
-                            "energy.years.help",
-                            "Select the year for energy price data"
-                          )}
-                          required={true}
-                        />
-                      </div>
-                    </div>
+                    {/* Second Row: Consumption Band, Unit */}
 
                     {/* Energy Band (Consumption) Selection Section */}
                     <div className="menu-section">

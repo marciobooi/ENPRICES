@@ -81,9 +81,9 @@ const initialState: QueryState = {
   product: "6000",
   share: false,
   taxs: ["X_TAX", "X_VAT", "I_TAX"],
-  time: `${new Date().getFullYear()}-S2`, // Current year, second semester
+  time: "2024-S1", // Default to 2024-S1 (most recent likely available)
   unit: "KWH",
-  availableYears: [],
+  availableYears: ["2024-S1"], // Default fallback year
   isLoadingYears: false,
   drillDownCountry: null, // No country selected for drill-down initially
   chartType: 'bar', // Default to bar chart in bands view
