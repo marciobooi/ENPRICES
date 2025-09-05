@@ -443,7 +443,7 @@ export const createPieChartConfig = (options: ChartConfigOptions) => {
     "data": {
       "chart": {
         "type": "pie",
-        "height": 500,
+        "height": 600,
         "backgroundColor": "transparent"
       },
       "title": {
@@ -509,7 +509,7 @@ export const createTimelineChartConfig = (options: ChartConfigOptions) => {
     "data": {
       "chart": {
         "type": "line",
-        "height": 400,
+        "height": 500,
         "style": {
           "fontFamily": "Arial, sans-serif"
         },

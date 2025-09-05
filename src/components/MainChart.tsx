@@ -363,6 +363,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
             categories,
             series: series as any, // Type assertion for bar chart data
             selectedYear: formattedTime,
+            height: 600, // Increased height for band bar chart
             isDetailed: isDetailed || false,
             isComponent: state.component && isDetailed,
             order: state.order,
