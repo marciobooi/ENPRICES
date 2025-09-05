@@ -388,19 +388,52 @@ export const createPieChartConfig = (options: ChartConfigOptions) => {
   const finalTitle = title || (t ? t('chart.pieTitle') : 'Price Components');
   const finalSubtitle = subtitle || (t ? t('chart.pieSubtitle') : `Component breakdown${selectedYear ? ` - ${selectedYear}` : ''}`);
 
+  // Helper function to translate tax names
+  const translateTaxName = (name: string): string => {
+    if (!t) return name;
+    
+    // Map API tax names to translation keys
+    let translationKey = null;
+    
+    if (['X_TAX', 'X_VAT', 'I_TAX'].includes(name)) {
+      translationKey = `chart.series.taxBreakdown.${name}`;
+    } else {
+      // Map common API descriptions to our translation keys
+      const nameLower = name.toLowerCase();
+      if (nameLower.includes('excluding taxes') || nameLower.includes('ohne steuern') || nameLower.includes('hors taxes')) {
+        translationKey = 'chart.series.taxBreakdown.X_TAX';
+      } else if (nameLower.includes('vat') || nameLower.includes('mehrwertsteuer') || nameLower.includes('tva')) {
+        translationKey = 'chart.series.taxBreakdown.X_VAT';
+      } else if (nameLower.includes('all taxes') || nameLower.includes('alle steuern') || nameLower.includes('toutes taxes') || 
+                nameLower.includes('rest of taxes') || nameLower.includes('taxes and levies included')) {
+        translationKey = 'chart.series.taxBreakdown.I_TAX';
+      }
+    }
+    
+    if (translationKey) {
+      const translation = t(translationKey, null);
+      if (translation !== null) {
+        return translation;
+      }
+    }
+    
+    return name;
+  };
+
   // Convert series data to pie chart format
   const pieData = series[0]?.data.map((point: any, index: number) => {
     if (typeof point === 'object' && point.name && point.y !== undefined) {
       // Point already has name and y properties (pie chart format)
       return {
-        name: point.name,
+        name: translateTaxName(point.name),
         y: point.y || 0
       };
     } else {
       // Convert from other formats
       const value = typeof point === 'object' ? point.y : point;
+      const originalName = categories[index] || `Category ${index + 1}`;
       return {
-        name: categories[index] || `Category ${index + 1}`,
+        name: translateTaxName(originalName),
         y: value || 0
       };
     }
@@ -435,6 +468,7 @@ export const createPieChartConfig = (options: ChartConfigOptions) => {
         "pie": {
           "allowPointSelect": true,
           "cursor": "pointer",
+          "innerSize": "50%", // Makes it a donut chart with 50% inner hole
           "dataLabels": {
             "enabled": true,
             "format": "<b>{point.name}</b>: {point.percentage:.1f} %"
