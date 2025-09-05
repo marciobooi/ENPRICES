@@ -358,6 +358,47 @@
     }
   },
 
+  "table": {
+    "title": {
+      "main": "Energiepreise nach Land",
+      "detailed": "Energiepreise nach Steuerkomponente",
+      "components": "Strompreis-Komponenten nach Land",
+      "bands": "Verbrauchsbänder",
+      "pie": {
+        "components": "Komponenten",
+        "taxes": "Steueraufschlüsselung"
+      },
+      "timeline": {
+        "components": "Komponenten-Zeitverlauf",
+        "taxes": "Steueraufschlüsselung-Zeitverlauf"
+      }
+    },
+    "headers": {
+      "country": "Land",
+      "band": "Band",
+      "component": "Komponente",
+      "value": "Wert (EUR/kWh)",
+      "percentage": "Prozentsatz",
+      "timePeriod": "Zeitraum",
+      "total": "Gesamt"
+    },
+    "footer": {
+      "source": "Quelle",
+      "unit": "Einheit",
+      "note": "Hinweis",
+      "sourceValue": "Eurostat",
+      "unitValue": "EUR pro kWh",
+      "notes": {
+        "decimals": "Werte werden mit 4 Dezimalstellen angezeigt. N/V zeigt fehlende Daten an.",
+        "components": "Werte zeigen Komponentenaufschlüsselung für",
+        "taxes": "Werte zeigen Steueraufschlüsselung für",
+        "consumptionBand": "Verbrauchsband",
+        "timelineComponents": "Zeitreihe zeigt Komponentenaufschlüsselung für",
+        "timelineTaxes": "Zeitreihe zeigt Steueraufschlüsselung für"
+      }
+    }
+  },
+
   "floatingMenu": {
     "label": "Diagramm-Steuerung",
     "drag": "Zum Verschieben des Menüs ziehen",

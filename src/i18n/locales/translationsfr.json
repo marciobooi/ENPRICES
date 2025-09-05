@@ -356,6 +356,47 @@
     }
   },
 
+  "table": {
+    "title": {
+      "main": "Prix de l'énergie par pays",
+      "detailed": "Prix de l'énergie par composante fiscale",
+      "components": "Composantes du prix de l'électricité par pays",
+      "bands": "Tranches de consommation",
+      "pie": {
+        "components": "Composantes",
+        "taxes": "Répartition fiscale"
+      },
+      "timeline": {
+        "components": "Chronologie des composantes",
+        "taxes": "Chronologie de la répartition fiscale"
+      }
+    },
+    "headers": {
+      "country": "Pays",
+      "band": "Tranche",
+      "component": "Composante",
+      "value": "Valeur (EUR/kWh)",
+      "percentage": "Pourcentage",
+      "timePeriod": "Période",
+      "total": "Total"
+    },
+    "footer": {
+      "source": "Source",
+      "unit": "Unité",
+      "note": "Note",
+      "sourceValue": "Eurostat",
+      "unitValue": "EUR par kWh",
+      "notes": {
+        "decimals": "Les valeurs sont affichées avec 4 décimales. N/A indique l'absence de données.",
+        "components": "Les valeurs montrent la répartition des composantes pour",
+        "taxes": "Les valeurs montrent la répartition fiscale pour",
+        "consumptionBand": "tranche de consommation",
+        "timelineComponents": "Série temporelle montrant la répartition des composantes pour",
+        "timelineTaxes": "Série temporelle montrant la répartition fiscale pour"
+      }
+    }
+  },
+
   "floatingMenu": {
     "label": "Contrôles du graphique",
     "drag": "Glisser pour déplacer le menu",

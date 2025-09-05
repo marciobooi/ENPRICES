@@ -832,7 +832,7 @@ export const createCountryComparisonTable = (
       <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
         <thead>
           <tr style="background-color: #f5f5f5;">
-            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Country</th>
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">${t ? t('table.headers.country', 'Country') : 'Country'}</th>
   `;
 
   // Add column headers for each series
@@ -869,9 +869,9 @@ export const createCountryComparisonTable = (
         </tbody>
       </table>
       <p style="margin-top: 1rem; font-size: 12px; color: #666;">
-        <strong>Source:</strong> Eurostat<br>
-        <strong>Unit:</strong> EUR per kWh<br>
-        <strong>Note:</strong> Values are displayed with 4 decimal places. N/A indicates no data available.
+        <strong>${t ? t('table.footer.source', 'Source') : 'Source'}:</strong> ${t ? t('table.footer.sourceValue', 'Eurostat') : 'Eurostat'}<br>
+        <strong>${t ? t('table.footer.unit', 'Unit') : 'Unit'}:</strong> ${t ? t('table.footer.unitValue', 'EUR per kWh') : 'EUR per kWh'}<br>
+        <strong>${t ? t('table.footer.note', 'Note') : 'Note'}:</strong> ${t ? t('table.footer.notes.decimals', 'Values are displayed with 4 decimal places. N/A indicates no data available.') : 'Values are displayed with 4 decimal places. N/A indicates no data available.'}
       </p>
     </div>
   `;
@@ -893,11 +893,11 @@ export const createBandsTable = (
   
   let tableHtml = `
     <div style="padding: 1rem;">
-      <h3>Consumption Bands - ${selectedCountry} (${bandsData.selectedYear})</h3>
+      <h3>${t ? t('table.title.bands', 'Consumption Bands') : 'Consumption Bands'} - ${selectedCountry} (${bandsData.selectedYear})</h3>
       <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
         <thead>
           <tr style="background-color: #f5f5f5;">
-            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Band</th>
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">${t ? t('table.headers.band', 'Band') : 'Band'}</th>
   `;
 
   // Add column headers for each series
@@ -906,7 +906,7 @@ export const createBandsTable = (
   });
   
   if (isDetailed && bandsData.series.length > 1) {
-    tableHtml += `<th style="border: 1px solid #ddd; padding: 8px; text-align: right;">Total</th>`;
+    tableHtml += `<th style="border: 1px solid #ddd; padding: 8px; text-align: right;">${t ? t('table.headers.total', 'Total') : 'Total'}</th>`;
   }
   
   tableHtml += `
@@ -938,6 +938,169 @@ export const createBandsTable = (
   tableHtml += `
         </tbody>
       </table>
+      <p style="margin-top: 1rem; font-size: 12px; color: #666;">
+        <strong>${t ? t('table.footer.source', 'Source') : 'Source'}:</strong> ${t ? t('table.footer.sourceValue', 'Eurostat') : 'Eurostat'}<br>
+        <strong>${t ? t('table.footer.unit', 'Unit') : 'Unit'}:</strong> ${t ? t('table.footer.unitValue', 'EUR per kWh') : 'EUR per kWh'}
+      </p>
+    </div>
+  `;
+
+  return tableHtml;
+};
+
+/**
+ * Create HTML table for pie chart data (component breakdown for selected band)
+ */
+export const createPieChartTable = (
+  eurostatData: any,
+  selectedCountry: string,
+  selectedBand: string,
+  isDetailed: boolean = false,
+  isComponent: boolean = false,
+  t?: (key: string, defaultValue?: string) => string
+): string => {
+  const pieData = transformToBandsPieChart(eurostatData, selectedCountry, selectedBand, isDetailed, isComponent, t);
+  
+  const tableTitle = isComponent
+    ? `${selectedBand} ${t ? t('table.title.pie.components', 'Components') : 'Components'} - ${selectedCountry} (${pieData.selectedYear})`
+    : `${selectedBand} ${t ? t('table.title.pie.taxes', 'Tax Breakdown') : 'Tax Breakdown'} - ${selectedCountry} (${pieData.selectedYear})`;
+
+  let tableHtml = `
+    <div style="padding: 1rem;">
+      <h3>${tableTitle}</h3>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+          <tr style="background-color: #f5f5f5;">
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">${t ? t('table.headers.component', 'Component') : 'Component'}</th>
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: right;">${t ? t('table.headers.value', 'Value (EUR/kWh)') : 'Value (EUR/kWh)'}</th>
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: right;">${t ? t('table.headers.percentage', 'Percentage') : 'Percentage'}</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+  // Calculate total for percentage calculation
+  const total = pieData.series[0]?.data.reduce((sum: number, point: any) => {
+    const value = typeof point === 'object' ? point.y || 0 : point || 0;
+    return sum + value;
+  }, 0) || 0;
+
+  // Add data rows
+  pieData.categories.forEach((category: string, index: number) => {
+    const point = pieData.series[0]?.data[index];
+    const value = point && typeof point === 'object' ? point.y || 0 : point || 0;
+    const percentage = total > 0 ? (value / total * 100) : 0;
+    
+    tableHtml += `
+      <tr style="background-color: ${index % 2 === 0 ? '#fff' : '#f9f9f9'};">
+        <td style="border: 1px solid #ddd; padding: 8px; font-weight: bold;">${category}</td>
+        <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${value.toFixed(4)}</td>
+        <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${percentage.toFixed(1)}%</td>
+      </tr>
+    `;
+  });
+
+  // Add total row
+  tableHtml += `
+      <tr style="background-color: #e9ecef; font-weight: bold;">
+        <td style="border: 1px solid #ddd; padding: 8px;">${t ? t('table.headers.total', 'Total') : 'Total'}</td>
+        <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${total.toFixed(4)}</td>
+        <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">100.0%</td>
+      </tr>
+  `;
+
+  const noteText = isComponent 
+    ? `${t ? t('table.footer.notes.components', 'Values show component breakdown for') : 'Values show component breakdown for'} ${selectedBand} ${t ? t('table.footer.notes.consumptionBand', 'consumption band') : 'consumption band'}.`
+    : `${t ? t('table.footer.notes.taxes', 'Values show tax breakdown for') : 'Values show tax breakdown for'} ${selectedBand} ${t ? t('table.footer.notes.consumptionBand', 'consumption band') : 'consumption band'}.`;
+
+  tableHtml += `
+        </tbody>
+      </table>
+      <p style="margin-top: 1rem; font-size: 12px; color: #666;">
+        <strong>${t ? t('table.footer.source', 'Source') : 'Source'}:</strong> ${t ? t('table.footer.sourceValue', 'Eurostat') : 'Eurostat'}<br>
+        <strong>${t ? t('table.footer.unit', 'Unit') : 'Unit'}:</strong> ${t ? t('table.footer.unitValue', 'EUR per kWh') : 'EUR per kWh'}<br>
+        <strong>${t ? t('table.footer.note', 'Note') : 'Note'}:</strong> ${noteText}
+      </p>
+    </div>
+  `;
+
+  return tableHtml;
+};
+
+/**
+ * Create HTML table for timeline chart data (time series for selected band)
+ */
+export const createTimelineChartTable = (
+  eurostatData: any,
+  selectedCountry: string,
+  selectedBand: string,
+  isDetailed: boolean = false,
+  isComponent: boolean = false,
+  t?: (key: string, defaultValue?: string) => string
+): string => {
+  const timelineData = transformToBandsTimeline(eurostatData, selectedCountry, selectedBand, isDetailed, isComponent, t);
+  
+  const tableTitle = isComponent
+    ? `${selectedBand} ${t ? t('table.title.timeline.components', 'Components Timeline') : 'Components Timeline'} - ${selectedCountry}`
+    : `${selectedBand} ${t ? t('table.title.timeline.taxes', 'Tax Breakdown Timeline') : 'Tax Breakdown Timeline'} - ${selectedCountry}`;
+
+  let tableHtml = `
+    <div style="padding: 1rem;">
+      <h3>${tableTitle}</h3>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+          <tr style="background-color: #f5f5f5;">
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">${t ? t('table.headers.timePeriod', 'Time Period') : 'Time Period'}</th>
+  `;
+
+  // Add column headers for each series
+  timelineData.series.forEach((series: any) => {
+    tableHtml += `<th style="border: 1px solid #ddd; padding: 8px; text-align: right;">${series.name}</th>`;
+  });
+
+  // Add total column for detailed view
+  if (isDetailed && timelineData.series.length > 1) {
+    tableHtml += `<th style="border: 1px solid #ddd; padding: 8px; text-align: right;">${t ? t('table.headers.total', 'Total') : 'Total'}</th>`;
+  }
+
+  tableHtml += `
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+  // Add data rows
+  timelineData.categories.forEach((period: string, periodIndex: number) => {
+    tableHtml += `<tr style="background-color: ${periodIndex % 2 === 0 ? '#fff' : '#f9f9f9'};">`;
+    tableHtml += `<td style="border: 1px solid #ddd; padding: 8px; font-weight: bold;">${period}</td>`;
+    
+    let total = 0;
+    timelineData.series.forEach((series: any) => {
+      const value = series.data[periodIndex];
+      const numericValue = typeof value === 'object' ? (value as any)?.y || 0 : value || 0;
+      total += numericValue;
+      tableHtml += `<td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${numericValue.toFixed(4)}</td>`;
+    });
+    
+    if (isDetailed && timelineData.series.length > 1) {
+      tableHtml += `<td style="border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;">${total.toFixed(4)}</td>`;
+    }
+    
+    tableHtml += `</tr>`;
+  });
+
+  const noteText = isComponent 
+    ? `${t ? t('table.footer.notes.timelineComponents', 'Time series showing component breakdown for') : 'Time series showing component breakdown for'} ${selectedBand} ${t ? t('table.footer.notes.consumptionBand', 'consumption band') : 'consumption band'}.`
+    : `${t ? t('table.footer.notes.timelineTaxes', 'Time series showing tax breakdown for') : 'Time series showing tax breakdown for'} ${selectedBand} ${t ? t('table.footer.notes.consumptionBand', 'consumption band') : 'consumption band'}.`;
+
+  tableHtml += `
+        </tbody>
+      </table>
+      <p style="margin-top: 1rem; font-size: 12px; color: #666;">
+        <strong>${t ? t('table.footer.source', 'Source') : 'Source'}:</strong> ${t ? t('table.footer.sourceValue', 'Eurostat') : 'Eurostat'}<br>
+        <strong>${t ? t('table.footer.unit', 'Unit') : 'Unit'}:</strong> ${t ? t('table.footer.unitValue', 'EUR per kWh') : 'EUR per kWh'}<br>
+        <strong>${t ? t('table.footer.note', 'Note') : 'Note'}:</strong> ${noteText}
+      </p>
     </div>
   `;
 
@@ -995,11 +1158,7 @@ export const transformToBandsTimeline = (
   
   // Categories are time periods
   const categories = timeLabels.map(timeLabel => {
-    // Format time labels for display (e.g., "2023-S2" -> "2023 H2")
-    if (timeLabel.includes('-S')) {
-      const [year, semester] = timeLabel.split('-S');
-      return `${year} H${semester}`;
-    }
+    // Keep original format for time labels (e.g., "2023-S2" -> "2023-S2" or just year)
     return timeLabel;
   });
 

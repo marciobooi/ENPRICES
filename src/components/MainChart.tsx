@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { subscribeToDataUpdates, getCurrentData } from '../services/handleData';
-import { transformToCountryComparison, transformToCountryBands, transformToBandsPieChart, createBandsTable, createCountryComparisonTable, transformToBandsTimeline } from './chartData';
+import { transformToCountryComparison, transformToCountryBands, transformToBandsPieChart, createBandsTable, createCountryComparisonTable, createPieChartTable, createTimelineChartTable, transformToBandsTimeline } from './chartData';
 import { createCountryComparisonConfig, createPieChartConfig, createTimelineChartConfig } from './chartConfig';
 import { useQuery } from '../context/QueryContext';
 import { eurostatService } from '../services/eurostat';
@@ -274,10 +274,21 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       if (state.drillDownCountry && data?.dimension?.nrg_cons) {
         // This is bands data - transform it to show consumption bands
         if (state.chartType === 'table') {
-          // For table view, create a simple table HTML
+          // For table view, create appropriate table based on previous chart type
           if (chartContainerRef.current) {
             chartContainerRef.current.innerHTML = '';
-            const tableHtml = createBandsTable(data, state.drillDownCountry, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+            let tableHtml = '';
+            
+            // Use the previous chart type to determine what table to show
+            if (state.previousChartType === 'pie') {
+              tableHtml = createPieChartTable(data, state.drillDownCountry, state.selectedBand, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+            } else if (state.previousChartType === 'timeline') {
+              tableHtml = createTimelineChartTable(data, state.drillDownCountry, state.selectedBand, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+            } else {
+              // Default to bands table for bar chart
+              tableHtml = createBandsTable(data, state.drillDownCountry, state.details, state.component, (key, defaultValue) => t(key, defaultValue || key));
+            }
+            
             chartContainerRef.current.innerHTML = tableHtml;
           }
           return;

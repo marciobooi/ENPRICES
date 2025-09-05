@@ -366,7 +366,40 @@
       "title": {
         "main": "Energy Prices by Country",
         "detailed": "Energy Prices by Tax Component",
-        "components": "Electricity Price Components by Country"
+        "components": "Electricity Price Components by Country",
+        "bands": "Consumption Bands",
+        "pie": {
+          "components": "Components",
+          "taxes": "Tax Breakdown"
+        },
+        "timeline": {
+          "components": "Components Timeline",
+          "taxes": "Tax Breakdown Timeline"
+        }
+      },
+      "headers": {
+        "country": "Country",
+        "band": "Band",
+        "component": "Component",
+        "value": "Value (EUR/kWh)",
+        "percentage": "Percentage",
+        "timePeriod": "Time Period",
+        "total": "Total"
+      },
+      "footer": {
+        "source": "Source",
+        "unit": "Unit",
+        "note": "Note",
+        "sourceValue": "Eurostat",
+        "unitValue": "EUR per kWh",
+        "notes": {
+          "decimals": "Values are displayed with 4 decimal places. N/A indicates no data available.",
+          "components": "Values show component breakdown for",
+          "taxes": "Values show tax breakdown for",
+          "consumptionBand": "consumption band",
+          "timelineComponents": "Time series showing component breakdown for",
+          "timelineTaxes": "Time series showing tax breakdown for"
+        }
       }
     },
     "aria": {
