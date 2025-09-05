@@ -30,6 +30,7 @@ export interface QueryState {
   isLoadingYears: boolean;
   drillDownCountry: string | null; // Country selected for drill-down to bands view
   chartType: 'bar' | 'pie' | 'timeline' | 'table'; // Chart type for bands view
+  previousChartType: 'bar' | 'pie' | 'timeline'; // Previous chart type before switching to table
   selectedBand: string; // Selected band for pie/timeline charts in bands view
 }
 
@@ -56,6 +57,7 @@ export type QueryAction =
   | { type: 'SET_LOADING_YEARS'; payload: boolean }
   | { type: 'SET_DRILL_DOWN_COUNTRY'; payload: string | null }
   | { type: 'SET_CHART_TYPE'; payload: 'bar' | 'pie' | 'timeline' | 'table' }
+  | { type: 'TOGGLE_TABLE_VIEW' }
   | { type: 'SET_SELECTED_BAND'; payload: string }
   | { type: 'RESET_TO_DEFAULTS' };
 
@@ -87,6 +89,7 @@ const initialState: QueryState = {
   isLoadingYears: false,
   drillDownCountry: null, // No country selected for drill-down initially
   chartType: 'bar', // Default to bar chart in bands view
+  previousChartType: 'bar', // Default previous chart type
   selectedBand: 'KWH_LT1000', // Default band for pie/timeline charts
 };
 
@@ -199,7 +202,14 @@ const queryReducer = (state: QueryState, action: QueryAction): QueryState => {
     case 'SET_CHART_TYPE':
       return {
         ...state,
+        previousChartType: state.chartType !== 'table' ? state.chartType : state.previousChartType,
         chartType: action.payload
+      };
+    case 'TOGGLE_TABLE_VIEW':
+      return {
+        ...state,
+        previousChartType: state.chartType !== 'table' ? state.chartType : state.previousChartType,
+        chartType: state.chartType === 'table' ? state.previousChartType : 'table'
       };
     case 'SET_SELECTED_BAND':
       return {

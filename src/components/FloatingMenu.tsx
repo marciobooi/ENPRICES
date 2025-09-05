@@ -162,6 +162,11 @@ const FloatingMenu: React.FC = () => {
     dispatch({ type: 'SET_CHART_TYPE', payload: chartType });
   };
 
+  // Table toggle handler
+  const toggleTableView = () => {
+    dispatch({ type: 'TOGGLE_TABLE_VIEW' });
+  };
+
   // Band selection handler
   const handleBandChange = (selectedValue: string) => {
     dispatch({ type: 'SET_SELECTED_BAND', payload: selectedValue });
@@ -366,7 +371,7 @@ const FloatingMenu: React.FC = () => {
         {/* Table Button - Available in both main view and drill-down view */}
         <button
           className={`ecl-button ${state.chartType === 'table' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-          onClick={() => setChartType('table')}
+          onClick={toggleTableView}
           aria-label={t('floatingMenu.chartType.table', 'Table view')}
           data-tooltip-id="chart-table-tooltip"
           data-tooltip-content={t('floatingMenu.chartType.table', 'Table view')}
