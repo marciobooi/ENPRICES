@@ -363,6 +363,22 @@ const FloatingMenu: React.FC = () => {
           </button>
         )}
 
+        {/* Table Button - Available in both main view and drill-down view */}
+        <button
+          className={`ecl-button ${state.chartType === 'table' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+          onClick={() => setChartType('table')}
+          aria-label={t('floatingMenu.chartType.table', 'Table view')}
+          data-tooltip-id="chart-table-tooltip"
+          data-tooltip-content={t('floatingMenu.chartType.table', 'Table view')}
+          aria-pressed={state.chartType === 'table'}
+          style={{
+            padding: '8px',
+            borderRadius: '4px'
+          }}
+        >
+          <FontAwesomeIcon icon={faTable} />
+        </button>
+
         {/* Chart Type Buttons - Only show in bands view */}
         {state.drillDownCountry && (
           <>
@@ -412,22 +428,6 @@ const FloatingMenu: React.FC = () => {
               }}
             >
               <FontAwesomeIcon icon={faChartLine} />
-            </button>
-
-            {/* Table Button */}
-            <button
-              className={`ecl-button ${state.chartType === 'table' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-              onClick={() => setChartType('table')}
-              aria-label={t('floatingMenu.chartType.table', 'Table view')}
-              data-tooltip-id="chart-table-tooltip"
-              data-tooltip-content={t('floatingMenu.chartType.table', 'Table view')}
-              aria-pressed={state.chartType === 'table'}
-              style={{
-                padding: '8px',
-                borderRadius: '4px'
-              }}
-            >
-              <FontAwesomeIcon icon={faTable} />
             </button>
           </>
         )}

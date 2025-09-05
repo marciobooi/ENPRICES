@@ -362,6 +362,13 @@
           "VAT": "Value Added Tax"
       }
     },
+    "table": {
+      "title": {
+        "main": "Energy Prices by Country",
+        "detailed": "Energy Prices by Tax Component",
+        "components": "Electricity Price Components by Country"
+      }
+    },
     "aria": {
       "label": "Energy prices chart showing data over time for selected countries and parameters"
     },

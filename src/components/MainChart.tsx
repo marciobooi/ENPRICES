@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { subscribeToDataUpdates, getCurrentData } from '../services/handleData';
-import { transformToCountryComparison, transformToCountryBands, transformToBandsPieChart, createBandsTable, transformToBandsTimeline } from './chartData';
+import { transformToCountryComparison, transformToCountryBands, transformToBandsPieChart, createBandsTable, createCountryComparisonTable, transformToBandsTimeline } from './chartData';
 import { createCountryComparisonConfig, createPieChartConfig, createTimelineChartConfig } from './chartConfig';
 import { useQuery } from '../context/QueryContext';
 import { eurostatService } from '../services/eurostat';
@@ -369,6 +369,24 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
       } else {
         // Regular country comparison view
         // console.log('[MainChart] Selected countries from state.appliedGeos:', state.appliedGeos);
+        
+        // Handle table view for main chart
+        if (state.chartType === 'table') {
+          if (chartContainerRef.current) {
+            chartContainerRef.current.innerHTML = '';
+            const tableHtml = createCountryComparisonTable(
+              data, 
+              state.details, 
+              state.hideAggregates, 
+              state.component, 
+              state.appliedGeos, 
+              (key, defaultValue) => t(key, defaultValue || key)
+            );
+            chartContainerRef.current.innerHTML = tableHtml;
+          }
+          return;
+        }
+        
         transformedData = transformToCountryComparison(data, state.details, state.hideAggregates, state.component, undefined, state.appliedGeos);
         const { categories, series, countryCodes } = transformedData;
         const formattedTime = formatTimeForChart(state.time);

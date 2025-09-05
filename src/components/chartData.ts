@@ -808,6 +808,78 @@ export const transformToBandsPieChart = (
 };
 
 /**
+ * Create HTML table for country comparison data
+ */
+export const createCountryComparisonTable = (
+  eurostatData: any,
+  isDetailed: boolean = false,
+  hideAggregates: boolean = false,
+  isComponent: boolean = false,
+  selectedCountries?: string[],
+  t?: (key: string, defaultValue?: string) => string
+): string => {
+  const comparisonData = transformToCountryComparison(eurostatData, isDetailed, hideAggregates, isComponent, t, selectedCountries);
+  
+  const tableTitle = isComponent 
+    ? (t ? t('table.title.components', 'Electricity Price Components by Country') : 'Electricity Price Components by Country')
+    : isDetailed 
+    ? (t ? t('table.title.detailed', 'Energy Prices by Tax Component') : 'Energy Prices by Tax Component')
+    : (t ? t('table.title.main', 'Energy Prices by Country') : 'Energy Prices by Country');
+
+  let tableHtml = `
+    <div style="padding: 1rem;">
+      <h3>${tableTitle} (${comparisonData.selectedYear})</h3>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+          <tr style="background-color: #f5f5f5;">
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Country</th>
+  `;
+
+  // Add column headers for each series
+  comparisonData.series.forEach((series: any) => {
+    tableHtml += `<th style="border: 1px solid #ddd; padding: 8px; text-align: right;">${series.name}</th>`;
+  });
+
+  tableHtml += `
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+  // Add data rows
+  comparisonData.categories.forEach((country: string, countryIndex: number) => {
+    tableHtml += `<tr style="background-color: ${countryIndex % 2 === 0 ? '#fff' : '#f9f9f9'};">`;
+    tableHtml += `<td style="border: 1px solid #ddd; padding: 8px; font-weight: bold;">${country}</td>`;
+    
+    comparisonData.series.forEach((series: any) => {
+      const value = series.data[countryIndex];
+      const displayValue = value !== null && value !== undefined 
+        ? typeof value === 'object' && value.y !== undefined 
+          ? parseFloat(value.y).toFixed(4)
+          : parseFloat(value).toFixed(4)
+        : 'N/A';
+      
+      tableHtml += `<td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${displayValue}</td>`;
+    });
+    
+    tableHtml += `</tr>`;
+  });
+
+  tableHtml += `
+        </tbody>
+      </table>
+      <p style="margin-top: 1rem; font-size: 12px; color: #666;">
+        <strong>Source:</strong> Eurostat<br>
+        <strong>Unit:</strong> EUR per kWh<br>
+        <strong>Note:</strong> Values are displayed with 4 decimal places. N/A indicates no data available.
+      </p>
+    </div>
+  `;
+
+  return tableHtml;
+};
+
+/**
  * Create HTML table for bands data
  */
 export const createBandsTable = (
