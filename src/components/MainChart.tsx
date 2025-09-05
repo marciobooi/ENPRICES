@@ -330,7 +330,8 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
             categories,
             series: series as any, // Type assertion for pie chart data
             selectedYear: formattedTime,
-            title: `${state.selectedBand} Components - ${state.drillDownCountry} (${formattedTime})`,
+            title: `${t ? t(`energy.bands.${state.selectedBand}`, state.selectedBand) : state.selectedBand} ${t ? t('chart.pieTitle', 'Components') : 'Components'} - ${t ? t(`countries.${state.drillDownCountry}`, state.drillDownCountry) : state.drillDownCountry} (${formattedTime})`,
+            subtitle: t ? t('chart.pieSubtitle', 'Component breakdown') : 'Component breakdown',
             isDetailed: isDetailed || false,
             isComponent: state.component && isDetailed,
             decimals: state.decimals,
@@ -350,7 +351,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
             categories,
             series: series as any, // Type assertion for timeline chart data
             selectedYear: formattedTime,
-            title: `${state.selectedBand} Timeline - ${state.drillDownCountry}${state.details ? ' (Detailed)' : ''}`,
+            title: `${t ? t(`energy.bands.${state.selectedBand}`, state.selectedBand) : state.selectedBand} ${t ? t('chart.timelineTitle', 'Timeline') : 'Timeline'} - ${t ? t(`countries.${state.drillDownCountry}`, state.drillDownCountry) : state.drillDownCountry}${state.details ? ` (${t ? t('floatingMenu.details.detailed', 'Detailed') : 'Detailed'})` : ''}`,
             isDetailed: isDetailed || false,
             isComponent: state.component && isDetailed,
             decimals: state.decimals,
@@ -375,7 +376,7 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
           
           // Add back button to the title
           if (chartConfig.data && chartConfig.data.title) {
-            chartConfig.data.title.text = `Consumption Bands - ${state.drillDownCountry} (${formattedTime})`;
+            chartConfig.data.title.text = `${t ? t('chart.bandsTitle', 'Consumption Bands') : 'Consumption Bands'} - ${t ? t(`countries.${state.drillDownCountry}`, state.drillDownCountry) : state.drillDownCountry} (${formattedTime})`;
           }
         }
       } else {
