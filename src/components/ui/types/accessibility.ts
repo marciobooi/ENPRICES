@@ -215,3 +215,20 @@ export interface LiveRegionProps {
   /** Indicates whether the entire region should be announced */
   'aria-atomic'?: boolean;
 }
+
+/**
+ * Tooltip accessibility props for keyboard navigation and screen reader support
+ */
+export interface TooltipAccessibilityProps extends BaseAccessibilityProps {
+  /** Whether tooltips should be triggered on focus (keyboard navigation) */
+  showOnFocus?: boolean;
+  
+  /** Whether tooltips can be closed by pressing Escape */
+  closable?: boolean;
+  
+  /** Delay before showing tooltip on focus (in ms) */
+  focusDelay?: number;
+  
+  /** Delay before hiding tooltip on blur (in ms) */
+  blurDelay?: number;
+}

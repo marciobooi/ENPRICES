@@ -19,8 +19,8 @@ import {
   faTable
 } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '../context/QueryContext';
-import { Tooltip } from 'react-tooltip';
 import { EclSingleSelect } from './ui/index';
+import { AccessibleTooltip } from './ui/index';
 import {
   getConsumptionBandOptionsByContext,
 } from '../data/energyData';
@@ -215,7 +215,7 @@ const FloatingMenu: React.FC = () => {
           position: 'fixed',
           right: `${position.x}px`,
           top: `${position.y}px`,
-          zIndex: 0,
+          zIndex: 9,
           backgroundColor: 'white',
           borderRadius: '8px',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
@@ -228,212 +228,262 @@ const FloatingMenu: React.FC = () => {
         aria-label={t('floatingMenu.label', 'Chart controls')}
       >
         {/* Drag Handle */}
-        <button
-          ref={dragHandleRef}
-          className="ecl-button ecl-button--secondary"
-          onMouseDown={handleMouseDown}
-          onKeyDown={handleKeyDown}
-          aria-label={t('floatingMenu.drag', 'Drag to move menu')}
-          data-tooltip-id="drag-tooltip"
-          data-tooltip-content={t('floatingMenu.drag', 'Drag to move menu')}
-          style={{
-            cursor: isDragging ? 'grabbing' : 'grab',
-            padding: '8px',
-            borderRadius: '4px'
-          }}
+        <AccessibleTooltip
+          id="drag-tooltip"
+          content={t('floatingMenu.drag', 'Drag to move menu')}
+          place="bottom"
+          delayShow={500}
         >
-          <FontAwesomeIcon icon={faGripVertical} />
-        </button>
+          <button
+            ref={dragHandleRef}
+            className="ecl-button ecl-button--secondary"
+            onMouseDown={handleMouseDown}
+            onKeyDown={handleKeyDown}
+            aria-label={t('floatingMenu.drag', 'Drag to move menu')}
+            style={{
+              cursor: isDragging ? 'grabbing' : 'grab',
+              padding: '8px',
+              borderRadius: '4px'
+            }}
+          >
+            <FontAwesomeIcon icon={faGripVertical} />
+          </button>
+        </AccessibleTooltip>
 
 
 
         {/* Decimals Button */}
-        <button
-          className={`ecl-button ecl-button--secondary floating-menu-btn`}
-          onClick={toggleDecimals}
-          aria-label={t('floatingMenu.decimals.label', { count: state.decimals })}
-          data-tooltip-id="decimals-tooltip"
-          data-tooltip-content={t('floatingMenu.decimals.tooltip', { count: state.decimals })}
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            position: 'relative'
-          }}
+        <AccessibleTooltip
+          id="decimals-tooltip"
+          content={t('floatingMenu.decimals.tooltip', { count: state.decimals })}
+          place="bottom"
+          delayShow={500}
         >
-          <FontAwesomeIcon icon={faHashtag} />
-          <span style={{ 
-            fontSize: '10px', 
-            position: 'absolute', 
-            bottom: '2px', 
-            right: '2px',
-            backgroundColor: '#007bff',
-            color: 'white',
-            borderRadius: '50%',
-            width: '14px',
-            height: '14px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-            {state.decimals}
-          </span>
-        </button>
+          <button
+            className={`ecl-button ecl-button--secondary floating-menu-btn`}
+            onClick={toggleDecimals}
+            aria-label={t('floatingMenu.decimals.label', { count: state.decimals })}
+            style={{
+              padding: '8px',
+              borderRadius: '4px',
+              position: 'relative'
+            }}
+          >
+            <FontAwesomeIcon icon={faHashtag} />
+            <span style={{ 
+              fontSize: '10px', 
+              position: 'absolute', 
+              bottom: '2px', 
+              right: '2px',
+              backgroundColor: '#007bff',
+              color: 'white',
+              borderRadius: '50%',
+              width: '14px',
+              height: '14px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              {state.decimals}
+            </span>
+          </button>
+        </AccessibleTooltip>
 
         {/* Order Button - Hide in bands view */}
         {!state.drillDownCountry && (
-          <button
-            className="ecl-button ecl-button--secondary floating-menu-btn"
-            onClick={toggleOrder}
-            aria-label={getOrderLabel()}
-            data-tooltip-id="order-tooltip"
-            data-tooltip-content={getOrderLabel()}
-            style={{
-              padding: '8px',
-              borderRadius: '4px'
-            }}
+          <AccessibleTooltip
+            id="order-tooltip"
+            content={getOrderLabel()}
+            place="bottom"
+            delayShow={500}
           >
-            <FontAwesomeIcon icon={getOrderIcon()} />
-          </button>
+            <button
+              className="ecl-button ecl-button--secondary floating-menu-btn"
+              onClick={toggleOrder}
+              aria-label={getOrderLabel()}
+              style={{
+                padding: '8px',
+                borderRadius: '4px'
+              }}
+            >
+              <FontAwesomeIcon icon={getOrderIcon()} />
+            </button>
+          </AccessibleTooltip>
         )}
 
         {/* Percentage Button - Only show in details mode */}
         {state.details && (
-          <button
-            className={`ecl-button ${state.percentage ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-            onClick={togglePercentage}
-            aria-label={t('floatingMenu.percentage.label', 'Toggle percentage view')}
-            data-tooltip-id="percentage-tooltip"
-            data-tooltip-content={t('floatingMenu.percentage.tooltip', { status: state.percentage ? 'on' : 'off' })}
-            aria-pressed={state.percentage}
-            style={{
-              padding: '8px',
-              borderRadius: '4px'
-            }}
+          <AccessibleTooltip
+            id="percentage-tooltip"
+            content={t('floatingMenu.percentage.tooltip', { status: state.percentage ? 'on' : 'off' })}
+            place="bottom"
+            delayShow={500}
           >
-            <FontAwesomeIcon icon={faPercent} />
-          </button>
+            <button
+              className={`ecl-button ${state.percentage ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+              onClick={togglePercentage}
+              aria-label={t('floatingMenu.percentage.label', 'Toggle percentage view')}
+              aria-pressed={state.percentage}
+              style={{
+                padding: '8px',
+                borderRadius: '4px'
+              }}
+            >
+              <FontAwesomeIcon icon={faPercent} />
+            </button>
+          </AccessibleTooltip>
         )}
 
         {/* Hide Aggregates Button - Hide in bands view */}
         {!state.drillDownCountry && (
-          <button
-            className={`ecl-button ${state.hideAggregates ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-            onClick={toggleAggregates}
-            aria-label={t('floatingMenu.aggregates.label', 'Toggle aggregates visibility')}
-            data-tooltip-id="aggregates-tooltip"
-            data-tooltip-content={t('floatingMenu.aggregates.tooltip', { status: state.hideAggregates ? 'hidden' : 'visible' })}
-            aria-pressed={state.hideAggregates}
-            style={{
-              padding: '8px',
-              borderRadius: '4px'
-            }}
+          <AccessibleTooltip
+            id="aggregates-tooltip"
+            content={t('floatingMenu.aggregates.tooltip', { status: state.hideAggregates ? 'hidden' : 'visible' })}
+            place="bottom"
+            delayShow={500}
           >
-            <div style={{ position: 'relative', display: 'inline-block' }}>
-              <FontAwesomeIcon icon={faLayerGroup} />
-              {state.hideAggregates && (
-                <span 
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    fontSize: '18px',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    textShadow: '0 0 2px rgba(0,0,0,0.8)'
-                  }}
-                >
-                  /
-                </span>
-              )}
-            </div>
-          </button>
+            <button
+              className={`ecl-button ${state.hideAggregates ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+              onClick={toggleAggregates}
+              aria-label={t('floatingMenu.aggregates.label', 'Toggle aggregates visibility')}
+              aria-pressed={state.hideAggregates}
+              style={{
+                padding: '8px',
+                borderRadius: '4px'
+              }}
+            >
+              <div style={{ position: 'relative', display: 'inline-block' }}>
+                <FontAwesomeIcon icon={faLayerGroup} />
+                {state.hideAggregates && (
+                  <span 
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      fontSize: '18px',
+                      color: 'white',
+                      fontWeight: 'bold',
+                      textShadow: '0 0 2px rgba(0,0,0,0.8)'
+                    }}
+                  >
+                    /
+                  </span>
+                )}
+              </div>
+            </button>
+          </AccessibleTooltip>
         )}
 
         {/* Component Button - Only show in main chart view, not in drill-down mode */}
         {!state.drillDownCountry && (
+          <AccessibleTooltip
+            id="component-tooltip"
+            content={t('floatingMenu.component.tooltip', { status: state.component ? 'included' : 'excluded' })}
+            place="bottom"
+            delayShow={500}
+          >
+            <button
+              className={`ecl-button ${state.component ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+              onClick={toggleComponent}
+              aria-label={t('floatingMenu.component.label', 'Toggle price components')}
+              aria-pressed={state.component}
+              style={{
+                padding: '8px',
+                borderRadius: '4px'
+              }}
+            >
+              <FontAwesomeIcon icon={faCogs} />
+            </button>
+          </AccessibleTooltip>
+        )}
+
+        {/* Table Button - Available in both main view and drill-down view */}
+        <AccessibleTooltip
+          id="chart-table-tooltip"
+          content={t('floatingMenu.chartType.table', 'Table view')}
+          place="bottom"
+          delayShow={500}
+        >
           <button
-            className={`ecl-button ${state.component ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-            onClick={toggleComponent}
-            aria-label={t('floatingMenu.component.label', 'Toggle price components')}
-            data-tooltip-id="component-tooltip"
-            data-tooltip-content={t('floatingMenu.component.tooltip', { status: state.component ? 'included' : 'excluded' })}
-            aria-pressed={state.component}
+            className={`ecl-button ${state.chartType === 'table' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+            onClick={toggleTableView}
+            aria-label={t('floatingMenu.chartType.table', 'Table view')}
+            aria-pressed={state.chartType === 'table'}
             style={{
               padding: '8px',
               borderRadius: '4px'
             }}
           >
-            <FontAwesomeIcon icon={faCogs} />
+            <FontAwesomeIcon icon={faTable} />
           </button>
-        )}
-
-        {/* Table Button - Available in both main view and drill-down view */}
-        <button
-          className={`ecl-button ${state.chartType === 'table' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-          onClick={toggleTableView}
-          aria-label={t('floatingMenu.chartType.table', 'Table view')}
-          data-tooltip-id="chart-table-tooltip"
-          data-tooltip-content={t('floatingMenu.chartType.table', 'Table view')}
-          aria-pressed={state.chartType === 'table'}
-          style={{
-            padding: '8px',
-            borderRadius: '4px'
-          }}
-        >
-          <FontAwesomeIcon icon={faTable} />
-        </button>
+        </AccessibleTooltip>
 
         {/* Chart Type Buttons - Only show in bands view */}
         {state.drillDownCountry && (
           <>
             {/* Bar Chart Button */}
-            <button
-              className={`ecl-button ${state.chartType === 'bar' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-              onClick={() => setChartType('bar')}
-              aria-label={t('floatingMenu.chartType.bar', 'Bar chart')}
-              data-tooltip-id="chart-bar-tooltip"
-              data-tooltip-content={t('floatingMenu.chartType.bar', 'Bar chart')}
-              aria-pressed={state.chartType === 'bar'}
-              style={{
-                padding: '8px',
-                borderRadius: '4px'
-              }}
+            <AccessibleTooltip
+              id="chart-bar-tooltip"
+              content={t('floatingMenu.chartType.bar', 'Bar chart')}
+              place="bottom"
+              delayShow={500}
             >
-              <FontAwesomeIcon icon={faChartBar} />
-            </button>
+              <button
+                className={`ecl-button ${state.chartType === 'bar' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+                onClick={() => setChartType('bar')}
+                aria-label={t('floatingMenu.chartType.bar', 'Bar chart')}
+                aria-pressed={state.chartType === 'bar'}
+                style={{
+                  padding: '8px',
+                  borderRadius: '4px'
+                }}
+              >
+                <FontAwesomeIcon icon={faChartBar} />
+              </button>
+            </AccessibleTooltip>
 
             {/* Pie Chart Button */}
-            <button
-              className={`ecl-button ${state.chartType === 'pie' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-              onClick={() => setChartType('pie')}
-              aria-label={t('floatingMenu.chartType.pie', 'Pie chart')}
-              data-tooltip-id="chart-pie-tooltip"
-              data-tooltip-content={t('floatingMenu.chartType.pie', 'Pie chart')}
-              aria-pressed={state.chartType === 'pie'}
-              style={{
-                padding: '8px',
-                borderRadius: '4px'
-              }}
+            <AccessibleTooltip
+              id="chart-pie-tooltip"
+              content={t('floatingMenu.chartType.pie', 'Pie chart')}
+              place="bottom"
+              delayShow={500}
             >
-              <FontAwesomeIcon icon={faChartPie} />
-            </button>
+              <button
+                className={`ecl-button ${state.chartType === 'pie' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+                onClick={() => setChartType('pie')}
+                aria-label={t('floatingMenu.chartType.pie', 'Pie chart')}
+                aria-pressed={state.chartType === 'pie'}
+                style={{
+                  padding: '8px',
+                  borderRadius: '4px'
+                }}
+              >
+                <FontAwesomeIcon icon={faChartPie} />
+              </button>
+            </AccessibleTooltip>
 
             {/* Timeline Chart Button */}
-            <button
-              className={`ecl-button ${state.chartType === 'timeline' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-              onClick={() => setChartType('timeline')}
-              aria-label={t('floatingMenu.chartType.timeline', 'Timeline chart')}
-              data-tooltip-id="chart-timeline-tooltip"
-              data-tooltip-content={t('floatingMenu.chartType.timeline', 'Timeline chart')}
-              aria-pressed={state.chartType === 'timeline'}
-              style={{
-                padding: '8px',
-                borderRadius: '4px'
-              }}
+            <AccessibleTooltip
+              id="chart-timeline-tooltip"
+              content={t('floatingMenu.chartType.timeline', 'Timeline chart')}
+              place="bottom"
+              delayShow={500}
             >
-              <FontAwesomeIcon icon={faChartLine} />
-            </button>
+              <button
+                className={`ecl-button ${state.chartType === 'timeline' ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+                onClick={() => setChartType('timeline')}
+                aria-label={t('floatingMenu.chartType.timeline', 'Timeline chart')}
+                aria-pressed={state.chartType === 'timeline'}
+                style={{
+                  padding: '8px',
+                  borderRadius: '4px'
+                }}
+              >
+                <FontAwesomeIcon icon={faChartLine} />
+              </button>
+            </AccessibleTooltip>
           </>
         )}
 
@@ -458,61 +508,57 @@ const FloatingMenu: React.FC = () => {
 
         {/* Details Button - Hide for pie chart since pie always shows details */}
         {state.chartType !== 'pie' && (
-          <button
-            className={`ecl-button ${state.details ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
-            onClick={toggleDetails}
-            aria-label={t('floatingMenu.details.label', 'Toggle detailed view')}
-            data-tooltip-id="details-tooltip"
-            data-tooltip-content={t('floatingMenu.details.tooltip', { status: state.details ? 'detailed' : 'summary' })}
-            aria-pressed={state.details}
-            style={{
-              padding: '8px',
-              borderRadius: '4px'
-            }}
+          <AccessibleTooltip
+            id="details-tooltip"
+            content={t('floatingMenu.details.tooltip', { status: state.details ? 'detailed' : 'summary' })}
+            place="bottom"
+            delayShow={500}
           >
-            <FontAwesomeIcon icon={faEye} />
-          </button>
+            <button
+              className={`ecl-button ${state.details ? 'ecl-button--primary' : 'ecl-button--secondary'} floating-menu-btn`}
+              onClick={toggleDetails}
+              aria-label={t('floatingMenu.details.label', 'Toggle detailed view')}
+              aria-pressed={state.details}
+              style={{
+                padding: '8px',
+                borderRadius: '4px'
+              }}
+            >
+              <FontAwesomeIcon icon={faEye} />
+            </button>
+          </AccessibleTooltip>
         )}
 
 
         {/* Close/Return Button - Only show when in drill-down mode */}
         {state.drillDownCountry && (
-          <button
-            className="ecl-button ecl-button--secondary floating-menu-btn"
-            onClick={() => {
-              // Clear drill-down state which should trigger fresh data fetch in MainContent
-              dispatch({ type: 'SET_DRILL_DOWN_COUNTRY', payload: null });
-            }}
-            aria-label={t('floatingMenu.close', 'Return to countries view')}
-            data-tooltip-id="close-tooltip"
-            data-tooltip-content={t('floatingMenu.close', 'Return to countries view')}
-            style={{
-              padding: '8px',
-              borderRadius: '4px',
-              backgroundColor: '#e74c3c',
-              color: 'white'
-            }}
+          <AccessibleTooltip
+            id="close-tooltip"
+            content={t('floatingMenu.close', 'Return to countries view')}
+            place="bottom"
+            delayShow={500}
           >
-            <FontAwesomeIcon icon={faTimes} />
-          </button>
+            <button
+              className="ecl-button ecl-button--secondary floating-menu-btn"
+              onClick={() => {
+                // Clear drill-down state which should trigger fresh data fetch in MainContent
+                dispatch({ type: 'SET_DRILL_DOWN_COUNTRY', payload: null });
+              }}
+              aria-label={t('floatingMenu.close', 'Return to countries view')}
+              style={{
+                padding: '8px',
+                borderRadius: '4px',
+                backgroundColor: '#e74c3c',
+                color: 'white'
+              }}
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+          </AccessibleTooltip>
         )}
 
 
       </div>
-
-      {/* Tooltips */}
-      <Tooltip id="drag-tooltip" place="bottom" delayShow={500} />
-      <Tooltip id="close-tooltip" place="bottom" delayShow={500} />
-      <Tooltip id="decimals-tooltip" place="bottom" delayShow={500} />
-      <Tooltip id="order-tooltip" place="bottom" delayShow={500} />
-      <Tooltip id="percentage-tooltip" place="bottom" delayShow={500} />
-      <Tooltip id="aggregates-tooltip" place="bottom" delayShow={500} />
-      <Tooltip id="component-tooltip" place="bottom" delayShow={500} />
-      <Tooltip id="details-tooltip" place="bottom" delayShow={500} />
-      <Tooltip id="chart-bar-tooltip" place="bottom" delayShow={500} />
-      <Tooltip id="chart-pie-tooltip" place="bottom" delayShow={500} />
-      <Tooltip id="chart-timeline-tooltip" place="bottom" delayShow={500} />
-      <Tooltip id="chart-table-tooltip" place="bottom" delayShow={500} />
 
       {/* Screen Reader Announcements */}
       <div aria-live="polite" aria-atomic="true" className="sr-only">

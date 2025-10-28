@@ -3,12 +3,12 @@ export { default as RoundBtn } from './RoundBtn';
 export { default as EclSingleSelect } from './EclSingleSelect';
 export { default as EclMultiSelect } from './EclMultiSelect';
 export { EclRadio } from './EclRadio';
-export { default as AccessibleTooltip } from './AccessibleTooltip';
 export { default as TimeSlider } from './TimeSlider';
 
 // Removed Card and ChartHighcharts exports
 export { default as ScreenReaderOnly } from './ScreenReaderOnly';
 export { default as LiveRegion, AssertiveLiveRegion, PoliteLiveRegion } from './LiveRegion';
+export { default as AccessibleTooltip, type AccessibleTooltipProps } from './AccessibleTooltip';
 
 // Export accessibility types
 export type * from './types/accessibility';
