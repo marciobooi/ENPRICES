@@ -1,5 +1,5 @@
 import translationsEn from '../i18n/locales/translationsEn.json';
-import translationsFr from '../i18n/locales/translationsFr.json';
+import translationsFr from '../i18n/locales/translationsfr.json';
 import translationsDe from '../i18n/locales/translationsDe.json';
 
 // Type for supported languages
