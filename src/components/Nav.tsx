@@ -55,7 +55,7 @@ const Nav: React.FC<NavProps> = () => {
           <div id="banner-logo">
             <a href="https://www.ec.europa.eu/eurostat" target="_self">
               <img
-                src="/img/estat-logo-horizontal.svg"
+                src="/ENPRICES/img/estat-logo-horizontal.svg"
                 alt={t("nav.logo.alt", "Home - Eurostat")}
               />
             </a>
