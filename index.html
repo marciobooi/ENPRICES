@@ -9,6 +9,28 @@
     <title>Energy prices - Eurostat</title>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Highcharts (required for webtools charts) -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    
+    <!-- ECL CSS from CDN (as per ECL documentation) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn1.fpfis.tech.ec.europa.eu/ecl/v2.39.0/ec-preset-website/styles/ecl-ec-preset-website.css"
+      integrity="sha256-5gtjJdzhQj/6dDgp8U5pEU79zmJt3tOZXtU9KGiPckM= sha384-ERo8XH/B7LiOKgppaZUgZcAXFYmnG9YmFGVXJL8GLRmrIdRJ+25EyMgqQlAHX7tk sha512-iml+ef18jNra9w1C9uT45dQEcC2Mjun2X4Em88F/sA6hpktGuvb5Rug/cQK/uQFACW3gxo4dZMOgFjov7i44qA=="
+      crossorigin="anonymous"
+      media="screen"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn1.fpfis.tech.ec.europa.eu/ecl/v2.39.0/ec-preset-website/styles/ecl-ec-preset-website-print.css"
+      integrity="sha256-7W96/0QE9AYUoYHTTeRjEtpBeZxKRaCmS31d09tjUZU= sha384-PTC+d8Xi3nX1JSOnLJWXDUtz2KAwWMMIbZsuKHPNJn6CY8O41ATk2FYOJde+sU7q sha512-W1yLeUjXwua1SJbEmqPWhfsZ4uYfZKEQM2Q3b2K7ekhWyJtjjdrAYxTEUpCYE3zw2VE52RutTQeOtX7c+IwIVA=="
+      crossorigin="anonymous"
+      media="print"
+    />
     <!-- Webtools Smart Loader (dynamic) -->
     <!--
       We load the webtools loader dynamically so we can detect when it fails (403 on GitHub Pages)
@@ -20,14 +42,15 @@
     -->
     <script>
       (function() {
-        var wtSrc = 'https://webtools.europa.eu/load.js';
+        // Use the correct protocol-relative URL as per ECL documentation
+        var wtSrc = '//europa.eu/webtools/load.js';
         var s = document.createElement('script');
         s.type = 'text/javascript';
         s.async = true;
         s.src = wtSrc;
 
         s.onload = function() {
-          console.info('[Webtools] load.js loaded successfully');
+          console.info('[Webtools] load.js loaded successfully from', wtSrc);
           try { 
             if (typeof $wt === 'function') { 
               console.info('[Webtools] $wt available, calling initialization');
@@ -39,12 +62,17 @@
           
           // Check for UEC availability after webtools loads
           setTimeout(function() {
-            if (typeof window.UEC !== 'undefined') {
-              console.info('[Webtools] UEC is available on window');
+            if (typeof window.UEC !== 'undefined' && typeof window.UEC.charts === 'function') {
+              console.info('[Webtools] UEC.charts is available and ready');
+              // Make UEC globally available for chart rendering
+              window.UEC = window.UEC;
             } else {
-              console.warn('[Webtools] UEC not found on window after webtools loaded - chart service may not be initialized');
+              console.warn('[Webtools] UEC.charts not found on window after webtools loaded - chart service may not be initialized');
+              if (typeof window.UEC !== 'undefined') {
+                console.log('[Webtools] UEC object exists but no charts method:', Object.keys(window.UEC));
+              }
             }
-          }, 1000);
+          }, 3000); // Increased timeout to allow for chart service loading
         };
 
         s.onerror = function(ev) {
@@ -62,7 +90,7 @@
             banner.style.fontSize = '14px';
             banner.style.textAlign = 'center';
             banner.style.zIndex = 99999;
-            banner.textContent = 'Webtools (UEC) failed to load from webtools.europa.eu. Charts may not render on this hosted site (403).\nPlease ask the webtools team to whitelist your GitHub Pages domain or host the UEC scripts locally.';
+            banner.textContent = 'Webtools (UEC) failed to load from europa.eu. Charts may not render on this hosted site (403).\nPlease ask the webtools team to whitelist your GitHub Pages domain or host the UEC scripts locally.';
             if (document.body && document.body.firstChild) {
               document.body.insertBefore(banner, document.body.firstChild);
             } else if (document.body) {
@@ -107,7 +135,8 @@
     }
     </script>
 
-    <!-- Eurostat Webtools - UEC Charts -->
+    <!-- Eurostat Webtools - UEC Charts DISABLED -->
+    <!--
     <script type="application/json">
     {
       "service": "chart",
@@ -115,18 +144,25 @@
       "lang": "en"
     }
     </script>
+    -->
 
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
         
-    <!-- ECL JavaScript -->
+    <!-- ECL JavaScript from CDN (as per ECL documentation) -->
+    <script
+      src="https://cdn1.fpfis.tech.ec.europa.eu/ecl/v2.39.0/ec-preset-website/scripts/ecl-ec-preset-website.js"
+      integrity="sha256-yUbijtAjATuk84ne0cK5+XpesZtkSngBLvavTNYCu7s= sha384-ML+E8uznb01P2wSN1AMxHR8q0v/9ss9Yn7iOeZgauX3PYq7GUsicWPcklXXMI+jn sha512-vdpwGmw8qnh7tmdZn0BFOJvoDNDyA6n+UNE4j2EGR2EmyOVJrGsuux4tMF0xWUiv4bdpbdSBuq5Mz+a+t8D7Kg=="
+      crossorigin="anonymous"
+    ></script>
     <script>
-      // Load ECL script with correct path based on environment
-      var eclScript = document.createElement('script');
-      eclScript.src = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
-        ? '/ecl-eu.js' 
-        : '/ENPRICES/ecl-eu.js';
-      document.head.appendChild(eclScript);
+      // Initialize ECL components automatically (as per ECL documentation)
+      if (typeof ECL !== 'undefined' && ECL.autoInit) {
+        ECL.autoInit();
+        console.info('[ECL] Auto-initialized successfully');
+      } else {
+        console.warn('[ECL] ECL not available or autoInit not found');
+      }
     </script>
   </body>
 </html>

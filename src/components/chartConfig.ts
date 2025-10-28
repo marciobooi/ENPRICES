@@ -284,8 +284,7 @@ export const createCountryComparisonConfig = (options: ChartConfigOptions) => {
         "height": height,
         "style": {
           "fontFamily": "Arial, sans-serif"
-        },
-        ...((isDetailed) && { "plotOptions": { "column": { "stacking": "normal" } } })
+        }
       },
       "xAxis": {
         "categories": translatedCategories,

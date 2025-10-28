@@ -500,52 +500,71 @@ const MainChart: React.FC<MainChartProps> = ({ className = '' }) => {
         }
       }
 
-      // Create the UEC script element with our data
-      console.log('[MainChart] Creating script element for chart type:', state.chartType, {
-        hasConfig: !!chartConfig,
-        configKeys: chartConfig ? Object.keys(chartConfig) : null,
-        chartData: (chartConfig as any)?.data,
-        container: chartContainerRef.current
-      });
+      // Create the UEC script element with our data (only if UEC is available)
+      if (typeof (window as any).UEC !== 'undefined' && typeof (window as any).UEC.charts === 'function') {
+        console.log('[MainChart] Creating script element for UEC processing');
+        const scriptElement = document.createElement('script');
+        scriptElement.type = 'application/json';
+        scriptElement.textContent = JSON.stringify(chartConfig);
 
-      const scriptElement = document.createElement('script');
-      scriptElement.type = 'application/json';
-      scriptElement.textContent = JSON.stringify(chartConfig);
-
-      // Add script to container
-      chartContainerRef.current.appendChild(scriptElement);
-      
-      console.log('[MainChart] Script element added, container now has:', {
-        childElementCount: chartContainerRef.current.childElementCount,
-        innerHTML: chartContainerRef.current.innerHTML.substring(0, 100) + '...'
-      });
+        // Add script to container
+        chartContainerRef.current.appendChild(scriptElement);
+        
+        console.log('[MainChart] Script element added, container now has:', {
+          childElementCount: chartContainerRef.current.childElementCount,
+          innerHTML: chartContainerRef.current.innerHTML.substring(0, 100) + '...'
+        });
+      }
 
       // Try to trigger UEC processing manually if available
-      if (typeof (window as any).UEC !== 'undefined') {
+      if (typeof (window as any).UEC !== 'undefined' && typeof (window as any).UEC.charts === 'function') {
         console.log('[MainChart] UEC found, attempting to process charts');
         try {
           (window as any).UEC.charts();
         } catch (error) {
           console.warn('[MainChart] Error calling UEC.charts():', error);
+          // Fall back to Highcharts if UEC fails
+          if (typeof (window as any).Highcharts !== 'undefined') {
+            console.log('[MainChart] Falling back to Highcharts after UEC error');
+            try {
+              // Extract the chart data from the config structure
+              const chartData = (chartConfig as any).data || (chartConfig as any).options;
+              console.log('[MainChart] Chart data for Highcharts fallback:', chartData);
+              (window as any).Highcharts.chart(chartContainerRef.current, chartData);
+            } catch (fallbackError) {
+              console.warn('[MainChart] Highcharts fallback also failed:', fallbackError);
+            }
+          }
         }
       } else {
-        console.warn('[MainChart] UEC not found on window object - chart may not render');
+        console.warn('[MainChart] UEC not found on window object - falling back to Highcharts');
         
-        // Check if ecl-eu.js is loaded
-        const eclScripts = document.querySelectorAll('script[src*="ecl-eu"]');
-        console.log('[MainChart] ECL scripts found:', eclScripts.length);
-        
-        // If no UEC, try to create a basic Highcharts chart as fallback
+        // Use Highcharts directly as primary renderer
         if (typeof (window as any).Highcharts !== 'undefined') {
-          console.log('[MainChart] Attempting Highcharts fallback');
+          console.log('[MainChart] Using Highcharts as primary renderer');
           try {
             // Extract the chart data from the config structure
-            const chartData = (chartConfig as any).data;
-            console.log('[MainChart] Chart data for fallback:', chartData);
-            (window as any).Highcharts.chart(chartContainerRef.current, chartData);
+            const chartData = (chartConfig as any).data || (chartConfig as any).options;
+            console.log('[MainChart] Chart data for Highcharts:', chartData);
+            console.log('[MainChart] Container element:', chartContainerRef.current);
+            console.log('[MainChart] Container innerHTML before clearing:', chartContainerRef.current?.innerHTML);
+            
+            // Clear any existing content including script elements
+            if (chartContainerRef.current) {
+              chartContainerRef.current.innerHTML = '';
+            }
+            
+            console.log('[MainChart] Container innerHTML after clearing:', chartContainerRef.current?.innerHTML);
+            
+            const chart = (window as any).Highcharts.chart(chartContainerRef.current, chartData);
+            console.log('[MainChart] Highcharts chart created:', chart);
+            console.log('[MainChart] Chart container after creation:', chartContainerRef.current?.innerHTML.substring(0, 200) + '...');
           } catch (error) {
-            console.warn('[MainChart] Highcharts fallback failed:', error);
+            console.warn('[MainChart] Highcharts rendering failed:', error);
+            console.error('[MainChart] Error details:', error);
           }
+        } else {
+          console.error('[MainChart] Neither UEC nor Highcharts available for chart rendering');
         }
       }
 
