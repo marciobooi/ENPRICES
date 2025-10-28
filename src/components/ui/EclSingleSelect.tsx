@@ -102,7 +102,7 @@ const EclSingleSelect: React.FC<EclSingleSelectProps> = ({
                   <span class="ecl-button__container">
                     <span class="ecl-button__label" data-ecl-label="true">${t('ui.select.toggle_dropdown', 'Toggle dropdown')}</span>
                     <svg class="ecl-icon ecl-icon--xs ecl-button__icon" focusable="false" aria-hidden="true" data-ecl-icon="">
-                      <use xlink:href="/icons.svg#corner-arrow"></use>
+                      <use xlink:href="/ENPRICES/icons.svg#corner-arrow"></use>
                     </svg>
                   </span>
                 </button>
