@@ -105,7 +105,7 @@ export const AccessibleTooltip: React.FC<AccessibleTooltipProps> = ({
       // Handle ref assignment properly
       if (triggerRef.current !== null) {
         // If there's already a ref, we need to merge them
-        const existingRef = (child as any).ref;
+        const existingRef = (child as any).props?.ref;
         if (existingRef) {
           enhancedProps.ref = (node: HTMLElement) => {
             triggerRef.current = node;

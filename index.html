@@ -28,7 +28,23 @@
 
         s.onload = function() {
           console.info('[Webtools] load.js loaded successfully');
-          try { if (typeof $wt === 'function') { console.info('[Webtools] $wt available'); } } catch(e) {}
+          try { 
+            if (typeof $wt === 'function') { 
+              console.info('[Webtools] $wt available, calling initialization');
+              $wt(); // Initialize webtools services
+            }
+          } catch(e) {
+            console.warn('[Webtools] Error calling $wt():', e);
+          }
+          
+          // Check for UEC availability after webtools loads
+          setTimeout(function() {
+            if (typeof window.UEC !== 'undefined') {
+              console.info('[Webtools] UEC is available on window');
+            } else {
+              console.warn('[Webtools] UEC not found on window after webtools loaded - chart service may not be initialized');
+            }
+          }, 1000);
         };
 
         s.onerror = function(ev) {
@@ -104,6 +120,13 @@
     <script type="module" src="/src/main.tsx"></script>
         
     <!-- ECL JavaScript -->
-    <script src="/ENPRICES/ecl-eu.js"></script>
+    <script>
+      // Load ECL script with correct path based on environment
+      var eclScript = document.createElement('script');
+      eclScript.src = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+        ? '/ecl-eu.js' 
+        : '/ENPRICES/ecl-eu.js';
+      document.head.appendChild(eclScript);
+    </script>
   </body>
 </html>
