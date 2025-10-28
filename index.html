@@ -9,8 +9,64 @@
     <title>Energy prices - Eurostat</title>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <!-- Webtools Smart Loader -->
-    <script src="https://webtools.europa.eu/load.js" type="text/javascript"></script>
+    <!-- Webtools Smart Loader (dynamic) -->
+    <!--
+      We load the webtools loader dynamically so we can detect when it fails (403 on GitHub Pages)
+      and show a clear diagnostics banner. The Webtools service often restricts allowed
+      referers/origins; if load.js is blocked by webtools the UEC charting services won't be
+      available on the live GitHub Pages site. If you see the banner below on the deployed site
+      please ask the Eurostat / webtools team to whitelist the GitHub Pages domain or provide
+      an alternative way to serve the chart service.
+    -->
+    <script>
+      (function() {
+        var wtSrc = 'https://webtools.europa.eu/load.js';
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = wtSrc;
+
+        s.onload = function() {
+          console.info('[Webtools] load.js loaded successfully');
+          try { if (typeof $wt === 'function') { console.info('[Webtools] $wt available'); } } catch(e) {}
+        };
+
+        s.onerror = function(ev) {
+          console.error('[Webtools] Failed to load load.js from', wtSrc, ev);
+
+          // Create a visible banner to inform the user / site administrators
+          try {
+            var banner = document.createElement('div');
+            banner.setAttribute('role', 'alert');
+            banner.style.background = '#fff3cd';
+            banner.style.color = '#856404';
+            banner.style.border = '1px solid #ffeeba';
+            banner.style.padding = '10px 14px';
+            banner.style.fontFamily = 'Arial, sans-serif';
+            banner.style.fontSize = '14px';
+            banner.style.textAlign = 'center';
+            banner.style.zIndex = 99999;
+            banner.textContent = 'Webtools (UEC) failed to load from webtools.europa.eu. Charts may not render on this hosted site (403).\nPlease ask the webtools team to whitelist your GitHub Pages domain or host the UEC scripts locally.';
+            if (document.body && document.body.firstChild) {
+              document.body.insertBefore(banner, document.body.firstChild);
+            } else if (document.body) {
+              document.body.appendChild(banner);
+            }
+          } catch (e) {
+            // ignore banner errors
+          }
+
+          // Add a console hint to help debugging
+          console.warn('[Webtools] If you are deploying to GitHub Pages, webtools may block load.js (403).\n' +
+            'Recommended actions:\n' +
+            '  - Contact webtools to whitelist the domain (e.g. https://<your-user>.github.io or https://<org>.github.io).\n' +
+            '  - As a temporary workaround host the required UEC chart scripts locally (check licensing),\n' +
+            '    or implement a fallback chart renderer such as Highcharts/Chart.js until webtools access is granted.');
+        };
+
+        document.head.appendChild(s);
+      })();
+    </script>
   </head>
   <body>
     <!-- Eurostat Webtools - Cookie Consent Kit -->
@@ -32,6 +88,15 @@
       "service": "globan",
       "lang": "en",
       "theme": "dark"
+    }
+    </script>
+
+    <!-- Eurostat Webtools - UEC Charts -->
+    <script type="application/json">
+    {
+      "service": "chart",
+      "version": "2.0",
+      "lang": "en"
     }
     </script>
 
