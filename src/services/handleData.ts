@@ -72,7 +72,7 @@ const notifyListeners = (data: any) => {
  * Called whenever data is fetched from API, retrieved from cache, or obtained from pending request
  */
 export const handleData = (data: any, options: DataHandlerOptions): any => {
-  const { dataset, params, source, requestKey } = options;
+  const { dataset, params } = options;
   
   // Update global data store
   globalDataStore.data = data;
@@ -128,7 +128,7 @@ export const handleData = (data: any, options: DataHandlerOptions): any => {
         
         geoKeys.slice(0, 5).forEach(geoCode => { // Show first 5 countries
           const geoIndex = data.dimension.geo.category.index[geoCode];
-          const countryName = data.dimension.geo.category.label[geoCode] || geoCode;
+          // const countryName = data.dimension.geo.category.label[geoCode] || geoCode;
           const taxValues: string[] = [];
           
           taxKeys.forEach((taxCode, taxIndex) => {
