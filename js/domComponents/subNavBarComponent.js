@@ -95,26 +95,32 @@ class SubNavbar {
 
 
       const mobileContent = /*html*/`<div class="">
+        <div class="col-12 subNavTwo">
+          <div class="text-group">
+              <h2 id="title" class="title"></h2>
+              <h6 id="subtitle" class="subtitle"></h6>      
+          </div>
+        </div>
         <div class="col-12 subNavOne">
-        <div class="menuBtn">              
-        <button id="tools" class="btnGroup" type="button" data-i18n-label="TOOLS" data-i18n-title="TOOLS" aria-haspopup="true">
-            <i class="fas fa-ellipsis-h"></i>      
-            <span class="iconText" data-i18n="TOOLS"></span>    
-        </button>
-    </div>
-    <div class="menuBtn">              
-        <button id="menu" class="btnGroup" type="button" data-i18n-label="MAINMENU" data-i18n-title="MAINMENU" aria-haspopup="true">    
-            <i class="fas fa-filter"></i>           
-            <span class="iconText" data-i18n="MAINMENU"></span>           
-        </button>
-    </div>
-    
-    <div class="menuBtn">                    
-    <button id="options" class="btnGroup" type="button" data-i18n-label="OPTIONS" data-i18n-title="OPTIONS" aria-haspopup="true">
-        <i class="fas fa-bars"></i>      
-        <span class="iconText" data-i18n="OPTIONS"></span>    
-    </button>
-</div>
+          <div class="menuBtn">              
+            <button id="tools" class="btnGroup" type="button" data-i18n-label="TOOLS" data-i18n-title="TOOLS" aria-haspopup="true">
+                <i class="fas fa-ellipsis-h"></i>      
+                <span class="iconText" data-i18n="TOOLS"></span>    
+            </button>
+          </div>
+          <div class="menuBtn">              
+            <button id="menu" class="btnGroup" type="button" data-i18n-label="MAINMENU" data-i18n-title="MAINMENU" aria-haspopup="true">    
+                <i class="fas fa-filter"></i>           
+                <span class="iconText" data-i18n="MAINMENU"></span>           
+            </button>
+          </div>
+          <div class="menuBtn">                    
+            <button id="options" class="btnGroup" type="button" data-i18n-label="OPTIONS" data-i18n-title="OPTIONS" aria-haspopup="true">
+                <i class="fas fa-bars"></i>      
+                <span class="iconText" data-i18n="OPTIONS"></span>    
+            </button>
+          </div>
+        </div>
 
 
         <div class="chartMenuMobile d-none">
@@ -186,12 +192,7 @@ class SubNavbar {
 
 
         </div>
-        <div class="col-12 subNavTwo">
-          <div class="text-group">
-              <h2 id="title" class="title"></h2>
-              <h6 id="subtitle" class="subtitle"></h6>      
-            </div>
-        </div>
+
       </div>`;
 
 
@@ -237,6 +238,9 @@ class SubNavbar {
 
             this.chartMenuOpen.parentElement.classList.add('menuOpen');
             this.chartMenuOpen.classList.add('important-styles');
+            
+            // Add trap focus for mobile view (200% zoom)
+            trapTab();
 
           });
 
@@ -250,6 +254,17 @@ class SubNavbar {
             this.chartOptionsButton.parentElement.classList.add('menuOpen');
             this.chartOptionsButton.classList.add('important-styles');
           });
+
+          // Add close button event listener for mobile (200% zoom)
+          this.closeChartMenuBtn = this.subNavbar.querySelector('#closeChartMenuBtn');
+          
+          if (this.closeChartMenuBtn) {
+            this.closeChartMenuBtn.addEventListener('click', () => {
+              console.log('Close button clicked in mobile view');
+              this.toggleChartOptionsMenu();
+              this.chartMenuOpen.focus();
+            });
+          }
 
         } else {
 

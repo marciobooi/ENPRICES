@@ -187,3 +187,7 @@ button:focus-visible {
 a.ecl-link.ecl-link--standalone.ecl-site-header__language-link:focus-visible .ecl-site-header__language-link-label {
   text-decoration: underline
 }
+
+#globan.dark .wt-globan--flag {
+    border: 1px solid rgba(255, 255, 255, 0.884);
+}
