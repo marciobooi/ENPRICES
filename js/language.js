@@ -61,11 +61,16 @@ var languageNameSpace = {
     ECL.autoInit();
     document.documentElement.lang = language.toLowerCase();
 
-    enableTooltips()
+    // Clean up any existing tooltips before re-initializing
+    cleanupTooltips();
+    enableTooltips();
   },
 
   ChangeLanguage: function (val) {
     REF.language = val;
+
+    // Clean up tooltips before language change
+    cleanupTooltips();
 
     removeComponents();
     buildComponents();
