@@ -6,7 +6,7 @@
  */
 
 /* ==========================================================================
-   200% ZOOM LEVEL SUPPORT
+  200% ZOOM LEVEL SUPPORT
    At 200% zoom, a 1280px screen becomes 640px, a 1920px screen becomes 960px
    Target viewport: ~640px - 1024px (captures 200% zoom on most desktop screens)
    Excludes actual tablets/small screens using min-resolution to detect zoom

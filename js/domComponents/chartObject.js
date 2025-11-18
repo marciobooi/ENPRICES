@@ -19,7 +19,7 @@ class Chart {
     }
   
     createChart() {
-      Highcharts.chart(this.containerId, {
+  Highcharts.chart(this.containerId, {
         chart: {
           type: this.type,
           plotBackgroundColor: null,
@@ -58,11 +58,7 @@ class Chart {
           // backgroundColor: "rgba(255,255,255,0.9)",   
         },
         credits: {
-          text: this.creditsText,
-          href: this.creditsHref,
-          position:{
-            align:'center',
-          },   
+          enabled: false,
         },
         legend: {                
           itemHiddenStyle: {
@@ -147,7 +143,50 @@ class Chart {
         updateAccessibilityLabels()
       }, 500);
 
+      this.renderCustomCredits();
+
     } // end of chart function
+
+    renderCustomCredits() {
+      if (!this.creditsText) {
+        return;
+      }
+
+      const container = document.getElementById(this.containerId);
+      if (!container) {
+        return;
+      }
+
+      const regionId = `${this.containerId}-credits-region`;
+      let creditsWrapper = document.getElementById(regionId);
+
+      if (!creditsWrapper) {
+        creditsWrapper = document.createElement('div');
+        creditsWrapper.id = regionId;
+        creditsWrapper.className = 'chart-credits-region';
+
+        if (container.parentNode) {
+          container.parentNode.insertBefore(creditsWrapper, container.nextSibling);
+        } else {
+          container.appendChild(creditsWrapper);
+        }
+      }
+
+      creditsWrapper.setAttribute('role', 'contentinfo');
+      creditsWrapper.setAttribute('aria-live', 'polite');
+      creditsWrapper.innerHTML = this.creditsText;
+
+      const link = creditsWrapper.querySelector('a');
+      if (link) {
+        link.setAttribute('tabindex', '0');
+        link.addEventListener('keydown', (event) => {
+          if (event.key === ' ' || event.key === 'Spacebar') {
+            event.preventDefault();
+            link.click();
+          }
+        });
+      }
+    }
     
   }
 

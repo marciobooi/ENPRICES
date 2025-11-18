@@ -41,6 +41,7 @@ body {
 }
 
 .fa-rotate-180 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
   -webkit-transform: rotate3d(25, -10.5, 6, 127deg);
   transform: rotate3d(25.5, -10.5, 6, 127deg);
@@ -104,8 +105,22 @@ header.ecl-modal__header {
   padding: 1rem;
 }
 
-tspan#credits {
-  fill: #262B38 !important;
+.chart-credits-region {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #262B38;
+}
+
+.chart-credits-region a {
+  color: #004494;
+  text-decoration: underline;
+}
+
+.chart-credits-region a:focus-visible {
+  outline: 2px solid #0e47cb;
+  outline-offset: 2px;
+  background-color: rgba(14, 71, 203, 0.1);
 }
 
 /* styles apply on 11/18/2025 to overright old ones */
