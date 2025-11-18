@@ -235,3 +235,15 @@ button#menu:focus, button#menu:active {
     color: #3e6cd5 !important;
     box-shadow: 0 0 0 0.15rem #cca30000 !important;
 }
+
+btn:active, .btn:hover, .btn:focus-visible, .btn.show, .btn:focus, .introjs-button:focus {
+    box-shadow: 0 2px 4px rgb(167 186 231 / 19%), 0 0 10px rgb(167 186 231 / 19%), 0 4px 5px rgb(167 186 231 / 19%), 0 -4px 4px rgb(167 186 231 / 19%);
+    text-decoration: none;
+    color: white !important;
+    /* border-color: transparent !important;
+    background-color: #CCA300!important;
+    border-color: #CCA300 !important; */
+    background-color: var(--c-p-10)!important;
+    border-color: var(--c-d)!important;
+    color: var(--c-d)!important;
+}

@@ -127,3 +127,19 @@ tspan#credits {
   opacity: 1;
   pointer-events: auto;
 }
+
+.ecl-link--standalone {
+  text-decoration: underline;
+}
+
+.ecl-link--standalone, .ecl-link {
+ text-decoration: none;
+
+}
+.ecl-link--standalone:hover, .ecl-link:hover {
+ text-decoration: underline !important;
+}
+
+a.ecl-link.ecl-link--standalone.ecl-site-header__language-link:focus-visible .ecl-site-header__language-link-label {
+  text-decoration: underline
+}
