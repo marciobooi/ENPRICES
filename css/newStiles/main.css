@@ -107,6 +107,7 @@ header.ecl-modal__header {
 
 .chart-credits-region {
   margin-top: 0.75rem;
+  margin-bottom: 1.2rem;
   text-align: center;
   font-size: 0.9rem;
   color: #262B38;
@@ -136,6 +137,7 @@ header.ecl-modal__header {
   transition: opacity 0.2s ease-in-out;
   border: 4px solid #0e47cb;
   border-radius: 10px;
+  top:0
 }
 
 /* Tooltip positioned below element */
