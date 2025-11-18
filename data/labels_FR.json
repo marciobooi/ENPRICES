@@ -401,6 +401,11 @@
 
   "SELECTLANGUAGE": "Sélectionner la langue",
   "OFFICIAL": "Langues officielles de l'UE :",
+  "CHANGE_LANGUAGE": "Changer de langue",
+  "CURRENT_LANGUAGE_IS": "la langue actuelle est",
+  "LANG_ENGLISH": "English",
+  "LANG_DEUTSCH": "Deutsch", 
+  "LANG_FRANCAIS": "Français",
 
   "AGGREGATE": "Agrégats",
   "EUCTR": "Pays de l'UE",

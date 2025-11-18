@@ -397,6 +397,11 @@
 
   "SELECTLANGUAGE": "Sprache auswählen",
   "OFFICIAL": "Amtssprachen der EU:",
+  "CHANGE_LANGUAGE": "Sprache ändern",
+  "CURRENT_LANGUAGE_IS": "aktuelle Sprache ist",
+  "LANG_ENGLISH": "English",
+  "LANG_DEUTSCH": "Deutsch", 
+  "LANG_FRANCAIS": "Français",
 
   "AGGREGATE": "Aggregatz",
   "EUCTR": "EU-Länder",

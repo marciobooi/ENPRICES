@@ -1,25 +1,19 @@
+const tutorialCache = {};
+let translationsData = null;
+
 var languageNameSpace = {
   labels: {},
   tutorial: {},
 
   initLanguage: function (val, language) {
-    language == "" ? (language = "EN") : (language = val);
+    const targetLanguage = resolveLanguage(val, language);
+    languageNameSpace.labels = getLabelsForLanguage(targetLanguage);
+    languageNameSpace.tutorial = getTutorialForLanguage(targetLanguage);
 
-    $.ajaxSetup({
-      async: false,
-    });
-    // load the labels for the selected language
-    $.getJSON("data/translations.json", function (data) {
-      for (let key in data) {
-        if (data[key][language]) {
-          languageNameSpace.labels[key] = data[key][language];
-        }
-      }
-    }).then(
-      $.getJSON("data/tutorial_" + language + ".json", function (data) {
-        languageNameSpace.tutorial = data;
-      })
-    );
+    if (!Object.keys(languageNameSpace.labels).length) {
+      console.error(`[language] Missing labels for ${targetLanguage}`);
+      return;
+    }
     
       const translateElements = (selector, attribute, targetAttr = "text") => {
         $(selector).each(function () {
@@ -46,23 +40,27 @@ var languageNameSpace = {
       // specials
 
     const selectElement = $("#selectCountries"); 
-
-    selectElement.attr('data-ecl-auto-init', 'Select');
-    selectElement.attr('data-ecl-select-multiple', '');
-    selectElement.attr('data-ecl-select-default', languageNameSpace.labels["SELITEN"]);
-    selectElement.attr('data-ecl-select-search', languageNameSpace.labels["KEYWORD"]);
-    selectElement.attr('data-ecl-select-no-results', languageNameSpace.labels["NORESULTS"]);
-    selectElement.attr('data-ecl-select-all', languageNameSpace.labels["SELALL"]);
-    selectElement.attr('data-ecl-select-clear-all', languageNameSpace.labels["CLEAR"]);
-    selectElement.attr('data-ecl-select-close', languageNameSpace.labels["CLOSE"]);
+    if (selectElement.length) {
+      selectElement.attr('data-ecl-auto-init', 'Select');
+      selectElement.attr('data-ecl-select-multiple', '');
+      selectElement.attr('data-ecl-select-default', languageNameSpace.labels["SELITEN"]);
+      selectElement.attr('data-ecl-select-search', languageNameSpace.labels["KEYWORD"]);
+      selectElement.attr('data-ecl-select-no-results', languageNameSpace.labels["NORESULTS"]);
+      selectElement.attr('data-ecl-select-all', languageNameSpace.labels["SELALL"]);
+      selectElement.attr('data-ecl-select-clear-all', languageNameSpace.labels["CLEAR"]);
+      selectElement.attr('data-ecl-select-close', languageNameSpace.labels["CLOSE"]);
+    }
 
     checkAndShowTutorial()
 
     ECL.autoInit();
-    document.documentElement.lang = language.toLowerCase();
+    document.documentElement.lang = targetLanguage.toLowerCase();
 
     // Clean up any existing tooltips before re-initializing
     cleanupTooltips();
+
+    updateLanguageSelectorLabel();
+
     enableTooltips();
   },
 
@@ -96,3 +94,63 @@ var languageNameSpace = {
     ECL.autoInit();
   },
 };
+
+
+function updateLanguageSelectorLabel() {
+  const langButton = document.getElementById('toggleLanguageBtn');
+  if (langButton) {
+    const langText = langButton.querySelector('#lang-selection-text');
+    if (langText) {
+      const currentLangText = langText.textContent;
+      const changeLanguageText = languageNameSpace.labels["CHANGE_LANGUAGE"] || "Change language";
+      const currentLanguageText = languageNameSpace.labels["CURRENT_LANGUAGE_IS"] || "current language is";
+      langButton.setAttribute("aria-label", `${changeLanguageText}, ${currentLanguageText} ${currentLangText}`);
+    }
+  }
+}
+
+function resolveLanguage(val, language) {
+  return (language || val || "EN").toUpperCase();
+}
+
+function getLabelsForLanguage(language) {
+  if (!translationsData) {
+    translationsData = loadJsonSync("data/translations.json") || {};
+  }
+
+  const labels = {};
+  for (const key in translationsData) {
+    if (!Object.prototype.hasOwnProperty.call(translationsData, key)) {
+      continue;
+    }
+    const translationEntry = translationsData[key];
+    if (translationEntry && translationEntry[language]) {
+      labels[key] = translationEntry[language];
+    }
+  }
+  return labels;
+}
+
+function getTutorialForLanguage(language) {
+  if (!tutorialCache[language]) {
+    tutorialCache[language] = loadJsonSync(`data/tutorial_${language}.json`) || {};
+  }
+  return tutorialCache[language];
+}
+
+function loadJsonSync(url) {
+  let result = null;
+  $.ajax({
+    url,
+    dataType: "json",
+    async: false,
+    cache: true,
+    success: function (data) {
+      result = data;
+    },
+    error: function (xhr, status, error) {
+      console.error(`[language] Failed to load ${url}:`, error || status);
+    }
+  });
+  return result;
+}
