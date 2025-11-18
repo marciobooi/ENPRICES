@@ -204,5 +204,5 @@ a.ecl-link.ecl-link--standalone.ecl-site-header__language-link:focus-visible .ec
 }
 
 #globan.dark .wt-globan--flag {
-    border: 1px solid rgba(255, 255, 255, 0.884);
+    border: 1px solid rgba(255, 255, 255, 0.884) !important;
 }
