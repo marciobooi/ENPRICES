@@ -22,7 +22,7 @@ class SubNavbar {
         <div class="col-3">
           <ul id="chartBtns"  data-i18n-label="OPTIONS_GRAPH_TOOLBOX" aria-label="Options graph toolbox" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
             <li role="menuitem" class="nav-item dropdown px-1" id="infoBtnChart">
-              <button class="ecl-button ecl-button--primary round-btn" type="button" data-i18n-label="INFO" data-i18n-title="INFO" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true" id="infoBtn">
+              <button class="ecl-button ecl-button--primary round-btn" type="button" data-i18n-label="INFO" data-i18n-title="INFO" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-disabled="false" id="infoBtn">
                 <i class="fas fa-info"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="infoBtn">
@@ -32,7 +32,7 @@ class SubNavbar {
               </ul>
             </li>
             <li role="menuitem" class="nav-item dropdown px-1" id="downloadChart">
-              <button class="ecl-button ecl-button--primary round-btn" type="button" data-i18n-label="DOWNLOAD_CHART_IMAGE" data-i18n-title="DOWNLOAD_CHART_IMAGE" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true" id="downloadBtn">
+              <button class="ecl-button ecl-button--primary round-btn" type="button" data-i18n-label="DOWNLOAD_CHART_IMAGE" data-i18n-title="DOWNLOAD_CHART_IMAGE" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-disabled="false" id="downloadBtn">
                 <i class="fas fa-download"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="downloadBtn">
@@ -42,12 +42,12 @@ class SubNavbar {
               </ul>
             </li>
             <li role="menuitem" class="nav-item button px-1" id="embebedChart">
-              <button id="embebedBtn" type="button" class="ecl-button ecl-button--primary round-btn" data-i18n-title="EMBEDDED" data-i18n-label="EMBEDDED" onclick="exportIframe()">
+              <button id="embebedBtn" type="button" class="ecl-button ecl-button--primary round-btn" data-i18n-title="EMBEDDED" data-i18n-label="EMBEDDED" aria-disabled="false" onclick="exportIframe()">
                 <i class="fas fa-code" aria-hidden="true"></i>
               </button>
             </li>
             <li role="menuitem" class="nav-item dropdown px-1" id="social-media">
-              <button class="ecl-button ecl-button--primary round-btn" type="button" data-i18n-label="SHARE" data-i18n-title="SHARE" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true" id="shareChart">
+              <button class="ecl-button ecl-button--primary round-btn" type="button" data-i18n-label="SHARE" data-i18n-title="SHARE" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-disabled="false" id="shareChart">
                 <i class="fas fa-share-alt" aria-hidden="true"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="shareChart">
@@ -126,7 +126,7 @@ class SubNavbar {
         <div class="chartMenuMobile d-none">
           <ul id="chartBtns"  data-i18n-label="OPTIONS" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
               <li class="nav-item dropdown px-1" id="infoBtnChart" >
-              <button class="btn btn-primary min-with--nav round-btn" type="button" data-i18n-label="INFO" data-i18n-title="INFO" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="true" id="infoBtn">
+              <button class="btn btn-primary min-with--nav round-btn" type="button" data-i18n-label="INFO" data-i18n-title="INFO" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" aria-disabled="false" id="infoBtn">
     <i class="fas fa-info"></i>
 </button>
 
@@ -137,7 +137,7 @@ class SubNavbar {
                 </ul>
               </li>
               <li class="nav-item dropdown px-1" id="downloadChart" >
-              <button class="btn btn-primary min-with--nav round-btn" type="button" data-i18n-label="DOWNLOAD" data-bs-toggle="dropdown"  data-i18n-title="DOWNLOAD" aria-haspopup="true" aria-expanded="true" id="downloadBtn">
+              <button class="btn btn-primary min-with--nav round-btn" type="button" data-i18n-label="DOWNLOAD" data-bs-toggle="dropdown"  data-i18n-title="DOWNLOAD" aria-haspopup="true" aria-expanded="false" aria-disabled="false" id="downloadBtn">
               <i class="fas fa-download"></i>
             </button>
             
@@ -149,14 +149,14 @@ class SubNavbar {
                 </ul>
               </li>     
               <li class="nav-item button px-1" id="embebedChart" >
-              <button id="embebedBtn" type="button" class="btn btn-primary min-with--nav round-btn" data-i18n-label="EMBEDDED" aria-label="EMBEDDED" data-i18n-title="EMBEDDED" onclick="exportIframe()">
+              <button id="embebedBtn" type="button" class="btn btn-primary min-with--nav round-btn" data-i18n-label="EMBEDDED" aria-label="EMBEDDED" data-i18n-title="EMBEDDED" aria-disabled="false" onclick="exportIframe()">
               <i class="fas fa-code"></i>
           </button>
           
               </li>
 
               <li class="nav-item dropdown px-1" id="social-media-dropdown" >
-              <button class="ecl-button ecl-button--primary round-btn" type="button" data-i18n-label="SHARE" aria-label="SHARE" data-bs-toggle="dropdown"  data-i18n-title="SHARE" aria-haspopup="true" aria-expanded="true" id="shareChart1">
+              <button class="ecl-button ecl-button--primary round-btn" type="button" data-i18n-label="SHARE" aria-label="SHARE" data-bs-toggle="dropdown"  data-i18n-title="SHARE" aria-haspopup="true" aria-expanded="false" aria-disabled="false" id="shareChart1">
               <i class="fas fa-share-alt" aria-hidden="true"></i>
           </button>
           <ul class="dropdown-menu dropdown-menu-end" role="menu" data-i18n-labelledby="SHARE">

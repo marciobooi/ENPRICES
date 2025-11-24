@@ -107,15 +107,30 @@ class ChartControls {
 		closeChart.setInnerHtml('<i class="fas fa-times"></i>');
 	
 		// Set click handlers for each button
-		barChart.setClickHandler(function() {
+		barChart.setClickHandler(function(e) {
+		  const button = e.currentTarget;
+		  if (button.getAttribute('aria-disabled') === 'true') {
+			e.preventDefault();
+			return;
+		  }
 		  disableChatOptionsBtn(this.value);
 		  auxiliarBarGraph();
 		});
-		pieChart.setClickHandler(function() {
+		pieChart.setClickHandler(function(e) {
+		  const button = e.currentTarget;
+		  if (button.getAttribute('aria-disabled') === 'true') {
+			e.preventDefault();
+			return;
+		  }
 		  disableChatOptionsBtn(this.value);
 		  createPieChart();
 		});
-		lineChart.setClickHandler(function() {
+		lineChart.setClickHandler(function(e) {
+		  const button = e.currentTarget;
+		  if (button.getAttribute('aria-disabled') === 'true') {
+			e.preventDefault();
+			return;
+		  }
 		  disableChatOptionsBtn(this.value);
 		  createLineChart();
 		});
@@ -130,16 +145,20 @@ class ChartControls {
 			
 				tableBtn.setAttribute('aria-label', 'Toggle chart');
 				tableBtn.setAttribute('title', 'Toggle chart');
+				tableBtn.setAttribute('aria-pressed', 'true');
 
 				const charts = ["barChart", "pieChart", "lineChart"];  
 				charts.forEach(chart => {
-					$("#" + chart).attr("disabled", "disabled")
-					$("#" + chart).attr("aria-disabled", "true")
+					$("#" + chart).attr("disabled", "disabled");
+					$("#" + chart).attr("aria-disabled", "true");
 				})		
 
 				$("#"+REF.chartId).addClass('highlighDisbleBtn');
 
-				$('.ecl-button').not('button#tb-togle-table').not('#toggleTableBtn').prop('disabled', true);		
+				$('.ecl-button').not('button#tb-togle-table').not('#toggleTableBtn').prop('disabled', true);
+				$('.ecl-button').not('button#tb-togle-table').not('#toggleTableBtn').each(function() {
+					$(this).attr('aria-disabled', 'true');
+				});
 				$('#menu').prop('disabled', true);		
 			
 				openVizTable();
@@ -151,12 +170,16 @@ class ChartControls {
 			
 				tableBtn.setAttribute('aria-label', 'Toggle table');
 				tableBtn.setAttribute('title', 'Toggle table');
+				tableBtn.setAttribute('aria-pressed', 'false');
 			
 				closeTable();
 
 				$("#"+REF.chartId).removeClass('highlighDisbleBtn');
 				
-				$('.ecl-button').not('button#tb-togle-table').prop('disabled', false);		
+				$('.ecl-button').not('button#tb-togle-table').prop('disabled', false);
+				$('.ecl-button').not('button#tb-togle-table').not('#toggleTableBtn').each(function() {
+					$(this).attr('aria-disabled', 'false');
+				});
 				$('#menu').prop('disabled', false);		
 				disableChatOptionsBtn(REF.chartId)
 				tableBtn.focus();
@@ -203,6 +226,16 @@ class ChartControls {
 			document.getElementById("closeChart").appendChild(closeChartElement);
 
 			barChart.setDisabled(true);
+			
+			// Initialize aria attributes
+			barChartElement.setAttribute('aria-disabled', 'true');
+			barChartElement.setAttribute('aria-pressed', 'true');
+			pieChartElement.setAttribute('aria-disabled', 'false');
+			pieChartElement.setAttribute('aria-pressed', 'false');
+			lineChartElement.setAttribute('aria-disabled', 'false');
+			lineChartElement.setAttribute('aria-pressed', 'false');
+			tableChartElement.setAttribute('aria-disabled', 'false');
+			tableChartElement.setAttribute('aria-pressed', 'false');
 
 			languageNameSpace.initLanguage(REF.language);
 	}
@@ -237,10 +270,12 @@ class ChartControls {
 	charts.forEach(chart => {
 	  if (REF.chartId == chart) {
 		$("#" + chart).attr("disabled", "disabled");
-		$("#" + chart).attr("aria-disabled", "true")
+		$("#" + chart).attr("aria-disabled", "true");
+		$("#" + chart).attr("aria-pressed", "true");
 	  } else {
 		$("#" + chart).removeAttr("disabled");
-		$("#" + chart).attr("aria-disabled")
+		$("#" + chart).attr("aria-disabled", "false");
+		$("#" + chart).attr("aria-pressed", "false");
 	  }
 	});
   }
