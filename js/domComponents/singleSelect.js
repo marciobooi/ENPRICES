@@ -17,7 +17,7 @@ class Singleselect {
 
     createSingleSelect() {    
         const singleSelectHTML = /*html*/`
-                <div class="ecl-form-group" role="application">
+                <div class="ecl-form-group">
                 <label for="${this.elementId}" class="ecl-form-label" data-i18n="${this.labelDescription}"></label>  
                     <div class="ecl-select__container ecl-select__container--l">
                     <p class=sr-only>Your selection will automatically update the chart</p>
