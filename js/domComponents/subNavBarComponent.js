@@ -75,7 +75,7 @@ class SubNavbar {
         </div>
         <div id="chartOptionsMenu" class="toggleMenu">
           <div class="close-button-container">
-            <button id="closeChartMenuBtn" class="btn btn-primary close-chart-menu-btn" data-i18n-label="CLOSE">
+            <button id="closeChartMenuBtn" class="ecl-button ecl-button--primary round-btn" data-i18n-label="CLOSE">
               <i class="fas fa-times"></i>
             </button>
           </div>

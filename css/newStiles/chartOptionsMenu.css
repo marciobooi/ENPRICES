@@ -207,7 +207,7 @@ a.dropdown-item.selected {
 
 
 
-.close-chart-menu-btn:hover span {
+/* .close-chart-menu-btn:hover span {
   background-color: #aaa;
   color: #fff;
 }
@@ -215,7 +215,7 @@ a.dropdown-item.selected {
 .close-chart-menu-btn:focus span {
   background-color: #aaa;
   color: #fff;
-}
+} */
 
 
 .traped_focus:focus {

@@ -149,7 +149,7 @@ ul#floatingMenu {
     opacity: .7;
 }
 
-.close-chart-menu-btn {  
+/* .close-chart-menu-btn {  
     color: #0e47cb;   
     background-color: #cfdaf5;   
     border-color: var(--bs-btn-active-border-color);  
@@ -165,7 +165,7 @@ ul#floatingMenu {
     background-color: #0e47cb;
     border-color: var(--bs-btn-hover-border-color);
   }
-  
+   */
 
 
   .close-button-container {
