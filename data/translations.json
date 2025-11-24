@@ -234,6 +234,16 @@
     "DE": "Sprache ändern, aktuelle Sprache ist ",
     "FR": "Changer de langue, la langue actuelle est "
   },
+  "CHANGE_LANGUAGE": {
+    "EN": "Change language",
+    "DE": "Sprache ändern",
+    "FR": "Changer de langue"
+  },
+  "CURRENT_LANGUAGE_IS": {
+    "EN": "current language is",
+    "DE": "aktuelle Sprache ist",
+    "FR": "la langue actuelle est"
+  },
   "OFFICIAL": {
     "EN": "Official EU languages:",
     "DE": "Amtssprachen der EU:",

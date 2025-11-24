@@ -145,7 +145,13 @@ selectLanguage(langItem) {
   const langLabel = langItem.querySelector(".ecl-site-header__language-link-label").textContent;
   this.langSelection.innerHTML = `<i class="fas fa-globe" focusable="false" aria-hidden="true"></i>
   <span id="lang-selection-text" class="btn-text">${langLabel}</span>`;
-  this.langSelection.setAttribute("aria-label", `Change language, current language is ${langLabel}`); 
+
+      const changeLanguageText = languageNameSpace.labels["CHANGE_LANGUAGE"] || "Change language";
+      const currentLanguageText = languageNameSpace.labels["CURRENT_LANGUAGE_IS"] || "current language is";
+      this.langSelection.setAttribute("aria-label", `${changeLanguageText}, ${currentLanguageText} ${langLabel}`);
+
+
+
 
 }
 

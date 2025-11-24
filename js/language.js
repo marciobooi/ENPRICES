@@ -104,7 +104,7 @@ function updateLanguageSelectorLabel() {
       const currentLangText = langText.textContent;
       const changeLanguageText = languageNameSpace.labels["CHANGE_LANGUAGE"] || "Change language";
       const currentLanguageText = languageNameSpace.labels["CURRENT_LANGUAGE_IS"] || "current language is";
-      langButton.setAttribute("aria-label", `${changeLanguageText}, ${currentLanguageText} ${currentLangText}`);
+       langButton.setAttribute("aria-label", `${changeLanguageText}, ${currentLanguageText} ${currentLangText}`);
     }
   }
 }
