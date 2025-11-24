@@ -45,10 +45,7 @@ function populateCountries() {
                     </optgroup> 
                     </select>
                     <div class="ecl-select__icon">
-                        <svg class="ecl-icon ecl-icon--s ecl-icon--rotate-180 ecl-select__icon-shape"
-                            focusable="false" aria-hidden="true">
-                            <use xlink:href="/component-library/dist/media/icons.75c96284.svg#corner-arrow"></use>
-                        </svg>
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
                     </div>
                 </div>
             </div>`;
