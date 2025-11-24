@@ -9,18 +9,18 @@ class FloatingChartControls {
 
     <div id="switchBtn">
     <div>
-      <label id="hideDetailsLabel" class="form-check-label" for="switchDetails" data-i18n="HIDE_DETAILS"></label>
+      <label id="hideDetailsLabel" class="form-check-label" for="switchDetails" data-i18n="HIDE_DETAILS" aria-hidden="${REF.detail == 1 ? 'false' : 'true'}"></label>
       <div class="form-check form-switch d-inline-block">
-        <input class="form-check-input focus-ring" type="checkbox" value="${REF.detail == 1 ? 1 : 0}" role="switch" id="switchDetails" ${REF.detail == 1 ? 'checked' : ''}>
-        <label id="showDetailsLabel" class="form-check-label" for="switchDetails" data-i18n="DETAILS"></label>
+        <input class="form-check-input focus-ring" type="checkbox" value="${REF.detail == 1 ? 1 : 0}" role="switch" id="switchDetails" ${REF.detail == 1 ? 'checked' : ''} data-i18n-label="HIDE_DETAILS" aria-label="${REF.detail == 1 ? 'Hide details' : 'Show details'}">
+        <label id="showDetailsLabel" class="form-check-label" for="switchDetails" data-i18n="DETAILS" aria-hidden="${REF.detail == 1 ? 'true' : 'false'}"></label>
       </div>
     </div>
 
     <div>
-      <label id="hideComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_HIDE"></label>
+      <label id="hideComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_HIDE" aria-hidden="${REF.components == 1 ? 'false' : 'true'}"></label>
       <div class="form-check form-switch d-inline-block">
-        <input class="form-check-input focus-ring" type="checkbox" value="${REF.components == 1 ? 1 : 0}" role="switch" id="switchComponents" ${REF.components == 1 ? 'checked' : ''}>
-        <label id="showComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_SHOW"></label>
+        <input class="form-check-input focus-ring" type="checkbox" value="${REF.components == 1 ? 1 : 0}" role="switch" id="switchComponents" ${REF.components == 1 ? 'checked' : ''} data-i18n-label="COMPONENTS_HIDE" aria-label="${REF.components == 1 ? 'Hide components' : 'Show components'}">
+        <label id="showComponentsLabel" class="form-check-label" for="switchComponents" data-i18n="COMPONENTS_SHOW" aria-hidden="${REF.components == 1 ? 'true' : 'false'}"></label>
       </div>
     </div>
   </div>
