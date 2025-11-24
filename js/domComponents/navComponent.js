@@ -48,19 +48,19 @@ class Navbar {
               <div class="ecl-site-header__language-category-title" data-i18n="OFFICIAL"></div>
                   <ul class="ecl-site-header__language-list">
                   <li class="ecl-site-header__language-item" id="EN" data-lang="EN" tabindex="0">
-                  <a class="ecl-link ecl-link--standalone ecl-site-header__language-link" lang="en-EN">
+                  <a class="ecl-link ecl-link--standalone ecl-site-header__language-link" lang="en">
                     <span class="ecl-site-header__language-link-code">en</span>
                     <span class="ecl-site-header__language-link-label">English</span>
                   </a>
                 </li>
                 <li class="ecl-site-header__language-item" id="DE"  data-lang="DE" tabindex="0">
-                  <a class="ecl-link ecl-link--standalone ecl-site-header__language-link" lang="de-DE">
+                  <a class="ecl-link ecl-link--standalone ecl-site-header__language-link" lang="de">
                     <span class="ecl-site-header__language-link-code">de</span>
                     <span class="ecl-site-header__language-link-label">Deutsch</span>
                   </a>
                 </li>
                 <li class="ecl-site-header__language-item" id="FR" data-lang="FR" tabindex="0">
-                  <a class="ecl-link ecl-link--standalone ecl-site-header__language-link" lang="fr-FR">
+                  <a class="ecl-link ecl-link--standalone ecl-site-header__language-link" lang="fr">
                     <span class="ecl-site-header__language-link-code">fr</span>
                     <span class="ecl-site-header__language-link-label">Français</span>
                   </a>
