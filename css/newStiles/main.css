@@ -59,6 +59,7 @@ body {
 #chart {
   width: 97vw;
   height: 73vh;
+  min-height: 600px; /* Ensure minimum height on desktop */
   padding-top: 3rem;
 }
 
