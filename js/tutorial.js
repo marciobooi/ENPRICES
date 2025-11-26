@@ -216,9 +216,13 @@ function closeProcess(params) {
 	introJs().exit()
 	buttonTimer = setTimeout("introJs().exit()", 4000);
 	clearTimeout(buttonTimer);
-	document.querySelector("#tb-tutorial-btn");
-	// const button = document.getElementById('tb-tutorial-btn');
-	$('button#closeChartMenuBtn').focus();
+	
+	// Set focus to info button after closing tutorial
+	const infoBtnChart = document.querySelector('#infoBtnChart button');
+	if (infoBtnChart) {
+		infoBtnChart.focus();
+	}
+	
 	isOpen = false
 }
 
