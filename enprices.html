@@ -4,7 +4,7 @@
 <head>
   <title>Energy prices - Eurostat</title>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
@@ -135,6 +135,12 @@
 </head>
 
 <body id="body">
+
+  <!-- Skip link for keyboard users - WCAG 2.4.1 -->
+  <a href="#chart" class="skip-link" id="skip-to-content">Skip to main content</a>
+
+  <!-- Live region for screen reader announcements - WCAG 4.1.3 -->
+  <div id="aria-live-region" aria-live="polite" aria-atomic="true" class="sr-only" role="status"></div>
 
   <div id="hiddenFormDiv"></div>
   <noscript>

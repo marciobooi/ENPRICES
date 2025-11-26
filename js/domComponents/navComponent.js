@@ -26,14 +26,15 @@ class Navbar {
             <i class="fas fa-globe" focusable="false" aria-hidden="true"></i>
             <span id="lang-selection-text" class="btn-text">English</span>
           </button>
-          <div class="ecl-site-header__language-container" id="language-list-overlay" data-ecl-language-list-overlay="" aria-labelledby="ecl-site-header__language-title" role="dialog" aria-modal="true">
+          <div class="ecl-site-header__language-container" id="language-list-overlay" data-ecl-language-list-overlay="" aria-labelledby="ecl-site-header__language-title" role="dialog" aria-modal="true" aria-hidden="true">
           <div class="ecl-site-header__language-header">
           <div class="ecl-site-header__language-title" id="ecl-site-header__language-title" data-i18n="SELECTLANGUAGE"></div>
           <button id="languageClsBtn" 
                   class="ecl-button ecl-button--ghost ecl-site-header__language-close" 
-                  type="submit" 
+                  type="button" 
                   data-ecl-language-list-close="" 
                   tabindex="0"
+                  aria-label="Close language selection"
                   data-i18n-label="CLOSE">
               <span class="ecl-button__container">
                   <span class="ecl-u-sr-only" data-i18n="CLOSE"></span>   
@@ -160,6 +161,11 @@ selectLanguage(langItem) {
 toggleDropdown() {
   var dropdown = this.langSelection.nextElementSibling;
   dropdown.classList.toggle("visible");
+  
+  // WCAG: Update aria-expanded and aria-hidden states
+  const isVisible = dropdown.classList.contains("visible");
+  this.langSelection.setAttribute("aria-expanded", isVisible);
+  dropdown.setAttribute("aria-hidden", !isVisible);
 
   document.querySelector("#toggleLanguageBtn").focus()
 }

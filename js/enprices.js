@@ -228,6 +228,9 @@ dataNameSpace.setRefURL();
 
 enableScreenREader()
 
+// Announce chart update to screen readers
+announceChartUpdate();
+
 stopLoadingAnimation()
 
 }

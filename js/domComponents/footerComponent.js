@@ -22,22 +22,32 @@ class Footer {
     buildLinksFooter() {
       const footerCredits = document.querySelector('#footerCredits');
       footerCredits.innerHTML = '';
+      
+      const opensNewTab = languageNameSpace.labels["OPENS_NEW_TAB"] || "(opens in new tab)";
   
       const linksContent = /*html*/`
       <li class="ecl-site-footer__list-item">
-      <a id="footer-privacy" href="https://ec.europa.eu/info/privacy-policy_${REF.language.toLowerCase()}" target="_self" rel="noreferrer noopener" class="ecl-link ecl-link--standalone ecl-site-footer__link" data-i18n="PRIVACY"></a>
+      <a id="footer-privacy" href="https://ec.europa.eu/info/privacy-policy_${REF.language.toLowerCase()}" target="_blank" rel="noreferrer noopener" class="ecl-link ecl-link--standalone ecl-site-footer__link" data-i18n="PRIVACY">
+        <span class="ecl-u-sr-only">${opensNewTab}</span>
+      </a>
   </li>
 
   <li class="ecl-site-footer__list-item">
-      <a id="footer-legal" href="https://ec.europa.eu/info/legal-notice_${REF.language.toLowerCase()}" target="_self" rel="noreferrer noopener" class="ecl-link ecl-link--standalone ecl-site-footer__link" data-i18n="LEGAL"></a>
+      <a id="footer-legal" href="https://ec.europa.eu/info/legal-notice_${REF.language.toLowerCase()}" target="_blank" rel="noreferrer noopener" class="ecl-link ecl-link--standalone ecl-site-footer__link" data-i18n="LEGAL">
+        <span class="ecl-u-sr-only">${opensNewTab}</span>
+      </a>
   </li>
 
   <li class="ecl-site-footer__list-item">
-      <a id="footer-cookies" href="https://ec.europa.eu/info/cookies_${REF.language.toLowerCase()}" target="_self" rel="noreferrer noopener" class="ecl-link ecl-link--standalone ecl-site-footer__link" data-i18n="COOKIES"></a>
+      <a id="footer-cookies" href="https://ec.europa.eu/info/cookies_${REF.language.toLowerCase()}" target="_blank" rel="noreferrer noopener" class="ecl-link ecl-link--standalone ecl-site-footer__link" data-i18n="COOKIES">
+        <span class="ecl-u-sr-only">${opensNewTab}</span>
+      </a>
   </li>
 
   <li class="ecl-site-footer__list-item">
-      <a id="footer-access" href="https://ec.europa.eu/eurostat/web/main/help/accessibility" target="_self" rel="noreferrer noopener" class="ecl-link ecl-link--standalone ecl-site-footer__link" data-i18n="ACCESS"></a>
+      <a id="footer-access" href="https://ec.europa.eu/eurostat/web/main/help/accessibility" target="_blank" rel="noreferrer noopener" class="ecl-link ecl-link--standalone ecl-site-footer__link" data-i18n="ACCESS">
+        <span class="ecl-u-sr-only">${opensNewTab}</span>
+      </a>
   </li>
   
       `;

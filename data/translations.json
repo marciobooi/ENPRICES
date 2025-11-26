@@ -1159,5 +1159,30 @@
     "EN": "Loading",
     "FR": "Chargement",
     "DE": "Laden"
+},
+"OPENS_NEW_TAB": {
+    "EN": "(opens in new tab)",
+    "FR": "(s'ouvre dans un nouvel onglet)",
+    "DE": "(öffnet in neuem Tab)"
+},
+"CHART_UPDATED": {
+    "EN": "Chart updated",
+    "FR": "Graphique mis à jour",
+    "DE": "Diagramm aktualisiert"
+},
+"DATA_LOADING": {
+    "EN": "Loading data, please wait",
+    "FR": "Chargement des données, veuillez patienter",
+    "DE": "Daten werden geladen, bitte warten"
+},
+"DATA_LOADED": {
+    "EN": "Data loaded successfully",
+    "FR": "Données chargées avec succès",
+    "DE": "Daten erfolgreich geladen"
+},
+"SELECTION_CHANGED": {
+    "EN": "Selection changed",
+    "FR": "Sélection modifiée",
+    "DE": "Auswahl geändert"
 }
 }

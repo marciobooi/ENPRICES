@@ -121,14 +121,20 @@ ul#floatingMenu {
     color: #fff;
     border: 2px solid #0e47cb;
     border-radius: 50%;
-    min-height: 2.75rem;
+    min-height: 44px;
     min-width: 44px;
     padding: 0;
     display: flex !important;
     justify-content: center;
     align-items: center;
     font-size: 1.2em !important;
+    /* WCAG 2.5.8: Minimum touch target size of 44x44 CSS pixels */
+}
 
+.round-btn:focus-visible {
+    outline: 3px solid #000;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px rgba(14, 71, 203, 0.3);
 } 
 
 .round-btn:hover:not(:disabled), .round-btn:active {
@@ -228,6 +234,28 @@ button#menu:focus, button#menu:active {
     border: 0;
   }
 
+/* WCAG 2.4.7: Focus Visible - Enhanced focus indicators */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid #000 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 5px rgba(14, 71, 203, 0.3) !important;
+}
+
+/* High contrast mode support for focus */
+@media (prefers-contrast: high) {
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    [tabindex]:focus-visible {
+        outline: 3px solid currentColor !important;
+        outline-offset: 3px !important;
+    }
+}
 
   .highlighDisbleBtn {
     background-color: #fff  !important;

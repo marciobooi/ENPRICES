@@ -548,10 +548,56 @@ function chartApiCall() {
 }
 
 function startLoadingAnimation() {
-  $('#loader').css('display', 'flex')
+  $('#loader').css('display', 'flex');
+  announceToScreenReader(languageNameSpace.labels["DATA_LOADING"] || "Loading data, please wait");
 }
 function stopLoadingAnimation() {
-  $('#loader').css('display', 'none')
+  $('#loader').css('display', 'none');
+  announceToScreenReader(languageNameSpace.labels["DATA_LOADED"] || "Data loaded successfully");
+}
+
+/**
+ * Announces a message to screen readers via aria-live region
+ * @param {string} message - The message to announce
+ * @param {string} priority - 'polite' (default) or 'assertive'
+ */
+function announceToScreenReader(message, priority = 'polite') {
+  const liveRegion = document.getElementById('aria-live-region');
+  if (liveRegion) {
+    // Set the priority if different from default
+    if (priority === 'assertive') {
+      liveRegion.setAttribute('aria-live', 'assertive');
+    } else {
+      liveRegion.setAttribute('aria-live', 'polite');
+    }
+    
+    // Clear and set the message (clearing first ensures the message is re-announced)
+    liveRegion.textContent = '';
+    // Use setTimeout to ensure the DOM updates and screen readers detect the change
+    setTimeout(() => {
+      liveRegion.textContent = message;
+    }, 100);
+  }
+}
+
+/**
+ * Announces chart update to screen readers
+ */
+function announceChartUpdate() {
+  const chartTitle = getTitle();
+  const message = (languageNameSpace.labels["CHART_UPDATED"] || "Chart updated") + ": " + chartTitle;
+  announceToScreenReader(message);
+}
+
+/**
+ * Announces selection change to screen readers
+ * @param {string} selectionType - The type of selection that changed
+ * @param {string} newValue - The new value selected
+ */
+function announceSelectionChange(selectionType, newValue) {
+  const prefix = languageNameSpace.labels["SELECTION_CHANGED"] || "Selection changed";
+  const message = `${prefix}: ${selectionType} - ${newValue}`;
+  announceToScreenReader(message);
 }
 
 function agregateIcon() {
