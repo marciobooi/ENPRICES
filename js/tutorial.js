@@ -75,6 +75,18 @@ function tutorial(buttonTimer) {
 		  intro: languageNameSpace.tutorial["TUTO_12"],
 		  position: 'auto'
 		},
+		{
+		  element: document.querySelector("#switchBtn > div:nth-child(1)"),
+		  title: languageNameSpace.tutorial["TUTO_23"],
+		  intro: languageNameSpace.tutorial["TUTO_24"],
+		  position: 'auto'
+		},
+		{
+		  element: document.querySelector("#switchBtn > div:nth-child(2)"),
+		  title: languageNameSpace.tutorial["TUTO_25"],
+		  intro: languageNameSpace.tutorial["TUTO_26"],
+		  position: 'auto'
+		},
 		{			
 		  element: document.querySelector("#infoBtn"),
 		  title: languageNameSpace.tutorial["TUTO_13"],
@@ -94,7 +106,7 @@ function tutorial(buttonTimer) {
 		  position: 'auto'
 		},
 		{			
-		  element: document.querySelector("#lang-selection"),
+		  element: document.querySelector("#toggleLanguageBtn"),
 		  title: languageNameSpace.tutorial["TUTO_19"],
 		  intro: languageNameSpace.tutorial["TUTO_20"],
 		  position: 'auto'

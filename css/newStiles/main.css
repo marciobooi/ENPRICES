@@ -208,3 +208,35 @@ a.ecl-link.ecl-link--standalone.ecl-site-header__language-link:focus-visible .ec
 #globan.dark .wt-globan--flag {
     border: 1px solid rgba(255, 255, 255, 0.884) !important;
 }
+
+/* Allow 2 lines for select options and checkbox labels */
+.ecl-select__multiple .ecl-checkbox__label {
+  white-space: normal !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  min-height: 3rem;
+  line-height: 1.5rem !important;
+}
+
+.ecl-select__multiple .ecl-checkbox__label > span {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  line-height: 1.5rem;
+}
+
+/* Ensure checkbox box aligns properly with wrapped text */
+.ecl-select__multiple .ecl-checkbox__box {
+  flex-shrink: 0;
+  margin-top: 0 !important;
+}
+
+/* Handle optgroup titles */
+.ecl-select__multiple .ecl-select__multiple-group__title {
+  white-space: normal !important;
+  line-height: 1.5rem !important;
+  word-break: break-word;
+}

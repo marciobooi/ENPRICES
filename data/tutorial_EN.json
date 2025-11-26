@@ -11,6 +11,13 @@
   "TUTO_10": "Use this option to change the order of the chart elements.",
   "TUTO_11": "Aggregates Feature",
   "TUTO_12": "Use this option to add or remove aggregates from the chart.",
+
+
+  "TUTO_23": "Components",
+  "TUTO_24": "Use this option to change to components mode.",
+  "TUTO_25": "Details",
+	"TUTO_26": "Use this option to see in details.",
+
   "TUTO_13": "Info",
   "TUTO_14": "Use this menu to access the tutorial, metadata, or to send feedback.",
   "TUTO_15": "Download Options",
@@ -21,6 +28,8 @@
   "TUTO_20": "Use this option to change the language of the tool. It supports English, French, and German.",
   "TUTO_21": "End of Tour",
   "TUTO_22": "If you find this visualisation tool useful, please show your support by sharing it with others on X, Facebook, email, and LinkedIn. Thank you!",
+
+
 
   "PROMO_TUTO_1": "Tutorial",
   "PROMO_TUTO_2": "Welcome to Eurostat's visualisation Tool for Energy Prices. For a guided tour of the features, <a href='#' onclick='tutorial();'>click here and a tour will start!</a>."
