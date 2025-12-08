@@ -315,7 +315,7 @@ codesDataset = {
 		"consoms": ["TOT_GJ", "GJ_LT1000", "GJ1000-9999", "GJ10000-99999", "GJ100000-999999", "GJ1000000-3999999", "GJ_GE4000000"],
 		"unit": ["GJ_GCV", "KWH", "MWH"],
 		"currency": ["EUR", "PPS"],
-		"defaultConsom": "GJ1000-9999",
+		"defaultConsom": "GJ10000-99999",
 		"defaultUnit": "KWH",
 		"defaultCurrency": "EUR"
 	},
@@ -336,7 +336,7 @@ codesDataset = {
 		"consoms": ["KWH_LT1000", "KWH_GE15000", "KWH5000-14999", "KWH2500-4999", "KWH1000-2499"],
 		"unit": ["KWH", "MWH"],
 		"currency": ["EUR", "PPS"],
-		"defaultConsom": "KWH_LT1000",
+		"defaultConsom": "KWH2500-4999",
 		"defaultUnit": "KWH",
 		"defaultCurrency": "EUR"
 	},
@@ -358,7 +358,7 @@ codesDataset = {
 		"consoms": ["TOT_KWH", "MWH_LT20", "MWH20-499", "MWH500-1999", "MWH2000-19999", "MWH20000-69999", "MWH70000-149999", "MWH_GE150000"],
 		"unit": ["KWH", "MWH"],
 		"currency": ["EUR", "PPS"],		
-		"defaultConsom": "MWH20-499",
+		"defaultConsom": "MWH500-1999",
 		"defaultUnit": "KWH",
 		"defaultCurrency": "EUR"
 	},

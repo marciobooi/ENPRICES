@@ -9,54 +9,190 @@
   200% ZOOM LEVEL SUPPORT
    At 200% zoom, a 1280px screen becomes 640px, a 1920px screen becomes 960px
    Target viewport: ~640px - 1024px (captures 200% zoom on most desktop screens)
-   Excludes actual tablets/small screens using min-resolution to detect zoom
+   Excludes actual tablets/small screens using pointer: fine to detect mouse users
    ========================================================================== */
 
 @media only screen and (pointer: fine) and (min-width: 640px) and (max-width: 1024px),
        only screen and (pointer: fine) and (min-width: 768px) and (max-width: 1024px) and (min-resolution: 1.5dppx) {
-  /* Tools button icon-only style for 200% zoom */
-  #tools {
-    min-width: 44px !important;
-    min-height: 44px !important;
-    padding: 0.4rem !important;
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    position: relative !important;
-  }
+
+  /* ==========================================================================
+     HEADER FIXES FOR 200% ZOOM
+     ========================================================================== */
   
-  #tools .iconText,
-  #tools span[data-i18n="TOOLS"] {
-    display: none !important;
+  /* Override grid layout with flexbox */
+  #es_app_header {
+    display: flex !important;
+    grid-template-columns: none !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0.5rem 1rem !important;
+    gap: 0.75rem !important;
+    max-width: 100% !important;
+    width: 100% !important;
   }
-  
-  #tools i {
-    display: inline-block !important;
-    margin: 0 !important;
-    font-size: 1.5rem !important;
+
+  /* Header title - flexible width, comes first */
+  #es_app_header_title {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    order: 1 !important;
   }
-  
-  /* Language button icon-only style for 200% zoom */
+
+  #es_app_header_title .es_app_title,
+  #header-title-label {
+    font-size: 1.1rem !important;
+    line-height: 1.3 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* Language section - compact, middle position */
+  #lang-section {
+    flex: 0 0 auto !important;
+    order: 2 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  /* Language button - icon only at 200% zoom */
   #toggleLanguageBtn {
     min-width: 44px !important;
+    max-width: 44px !important;
     min-height: 44px !important;
-    padding: 0.4rem !important;
+    width: 44px !important;
+    height: 44px !important;
+    padding: 0 !important;
     display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
+    align-items: center !important;
+    justify-content: center !important;
   }
   
+  /* Hide ALL text in language button */
   #toggleLanguageBtn #lang-selection-text,
-  #toggleLanguageBtn .btn-text {
+  #toggleLanguageBtn .btn-text,
+  #toggleLanguageBtn > span,
+  #lang-selection-text {
     display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
   }
   
-  #toggleLanguageBtn i {
+  /* Show only the globe icon */
+  #toggleLanguageBtn i,
+  #toggleLanguageBtn i.fas.fa-globe {
+    display: inline-block !important;
     margin: 0 !important;
     padding: 0 !important;
+    font-size: 1.4rem !important;
   }
-  
-  /* Mobile navigation button fixes for 200% zoom */
+
+  /* Language overlay positioning */
+  #language-list-overlay {
+    position: absolute !important;
+    top: 50px !important;
+    right: 0 !important;
+    left: auto !important;
+    width: 20rem !important;
+    max-width: 90vw !important;
+    z-index: 999999 !important;
+  }
+
+  /* Hide ribbon at 200% zoom to save space */
+  #es_app_header_ribbon {
+    display: none !important;
+  }
+
+  /* Logo wrapper container - force visible */
+  .es_app_top {
+    flex: 0 0 auto !important;
+    order: 3 !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  /* Eurostat logo link - KEEP VISIBLE and properly sized */
+  #es_app_title {
+    flex: 0 0 auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    visibility: visible !important;
+  }
+
+  /* Eurostat logo image */
+  #es_app_title .es_logo,
+  .es_logo {
+    display: inline-block !important;
+    max-height: 35px !important;
+    width: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* ==========================================================================
+     SUB-NAVBAR / MENU TOOLBAR FIXES FOR 200% ZOOM
+     ========================================================================== */
+
+  #menuToolbar {
+    flex-wrap: wrap !important;
+    padding: 0.5rem !important;
+  }
+
+  /* Title section in toolbar */
+  #menuToolbar .text-group {
+    flex: 1 1 100% !important;
+    order: -1 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  #menuToolbar .title {
+    font-size: 1rem !important;
+    line-height: 1.3 !important;
+    white-space: normal !important;
+  }
+
+  #menuToolbar .subtitle {
+    font-size: 0.85rem !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Menu button in desktop view */
+  #menuToolbar #menu {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    padding: 0.5rem !important;
+  }
+
+  #menuToolbar #menu span {
+    display: none !important;
+  }
+
+  /* Chart buttons toolbar */
+  #chartBtns {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.25rem !important;
+    justify-content: flex-end !important;
+  }
+
+  #chartBtns .nav-item {
+    padding: 0.15rem !important;
+  }
+
+  #chartBtns .round-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    padding: 0.4rem !important;
+  }
+
+  /* ==========================================================================
+     MOBILE-STYLE NAVIGATION BUTTONS (subNavOne/subNavTwo)
+     ========================================================================== */
+
   .subNavOne {
     display: flex !important;
     flex-direction: row !important;
@@ -76,26 +212,41 @@
     flex-shrink: 0 !important;
   }
   
-  .menuBtn .btnGroup {
+  .menuBtn .btnGroup,
+  #tools,
+  #menu,
+  #options {
     min-width: 44px !important;
     min-height: 44px !important;
     padding: 0.4rem !important;
     display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
+    align-items: center !important;
+    justify-content: center !important;
   }
   
-  /* Hide button text in mobile navigation at 200% zoom, keep only icons */
-  .menuBtn .btnGroup .iconText {
+  /* Hide button text, keep only icons */
+  .menuBtn .btnGroup .iconText,
+  #tools .iconText,
+  #menu .iconText,
+  #options .iconText,
+  #tools span[data-i18n="TOOLS"],
+  #menu span[data-i18n="MAINMENU"],
+  #options span[data-i18n="OPTIONS"] {
     display: none !important;
   }
   
-  .menuBtn .btnGroup i {
+  .menuBtn .btnGroup i,
+  #tools i,
+  #menu i,
+  #options i {
     margin: 0 !important;
     font-size: 1.2rem !important;
   }
+
+  /* ==========================================================================
+     CHART OPTIONS MENU (DROPDOWN FILTERS)
+     ========================================================================== */
   
-  /* Ensure chart options menu works properly at 200% zoom */
   #chartOptionsMenu {
     position: fixed !important;
     top: 5rem !important;
@@ -106,6 +257,9 @@
     z-index: 999999999 !important;
     overflow-y: auto !important;
     max-height: calc(100vh - 6rem) !important;
+    background-color: #f3f6fc !important;
+    border-radius: 4px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
   }
   
   #chartOptionsMenu .dropdown-grid {
@@ -116,9 +270,18 @@
   #chartOptionsMenu .dropdown-grid .row {
     width: 100% !important;
     margin: 0 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+
+  #chartOptionsMenu .dropdown-grid .col-12,
+  #chartOptionsMenu .dropdown-grid [class*="col-"] {
+    flex: 1 1 45% !important;
+    max-width: 50% !important;
+    min-width: 200px !important;
   }
   
-  /* Ensure close button works properly at 200% zoom */
+  /* Close button for chart options menu */
   #chartOptionsMenu .close-button-container {
     position: sticky !important;
     top: 0 !important;
@@ -142,8 +305,8 @@
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background-color: var(--bs-btn-bg, #0e47cb) !important;
-    border: 1px solid var(--bs-btn-border-color, #0e47cb) !important;
+    background-color: var(--btn-color, #0e47cb) !important;
+    border: 1px solid var(--btn-color, #0e47cb) !important;
     border-radius: 4px !important;
     position: relative !important;
   }
@@ -154,8 +317,11 @@
     color: white !important;
     font-size: 1.2rem !important;
   }
+
+  /* ==========================================================================
+     SELECT/DROPDOWN FIXES
+     ========================================================================== */
   
-  /* Select dropdown text wrapping for 200% zoom */
   select.ecl-select,
   .ecl-select {
     word-wrap: break-word !important;
@@ -163,8 +329,9 @@
     white-space: normal !important;
     overflow-wrap: break-word !important;
     max-width: 100% !important;
-    width: auto !important;
-    min-width: 200px !important;
+    width: 100% !important;
+    min-width: 150px !important;
+    font-size: 0.9rem !important;
   }
   
   select.ecl-select option,
@@ -175,19 +342,20 @@
     overflow-wrap: break-word !important;
     max-width: 100% !important;
   }
-  
-  /* Hide tooltips for dropdown menu items */
-  .dropdown-menu .dropdown-item[aria-describedby],
-  .dropdown-menu button[aria-describedby] {
-    position: relative !important;
+
+  .ecl-form-group {
+    margin-bottom: 0.5rem !important;
   }
-  
-  .dropdown-menu .dropdown-item[aria-describedby]::after,
-  .dropdown-menu button[aria-describedby]::after {
-    display: none !important;
+
+  .ecl-form-label {
+    font-size: 0.85rem !important;
+    margin-bottom: 0.25rem !important;
   }
+
+  /* ==========================================================================
+     TOOLTIP HANDLING - Hide to prevent overlap issues
+     ========================================================================== */
   
-  /* Hide ALL tooltip elements at 200% zoom - they can block interactions */
   [id^="tooltip-"],
   .tooltip,
   [role="tooltip"],
@@ -203,25 +371,6 @@
   a[aria-describedby] {
     pointer-events: auto !important;
   }
-  
-  /* ==========================================================================
-     HEADER AND NAVIGATION FIXES
-     ========================================================================== */
-  
-    #es_app_header {
-        max-width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    #language-list-overlay {
-        position: absolute;
-        top: 45px;
-        left: 19px;
-        width: 24rem;
-    }
 
 
   /* ==========================================================================
@@ -233,13 +382,13 @@
   dialog#iframeModal.ecl-modal,
   dialog#iframeModal[open] {
     position: fixed !important;
-    top: 25% !important;
-    left: 25% !important;
-    transform: translate(-25%, -25%) !important;
-    max-width: 98vw !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-width: 95vw !important;
     min-width: 60vw !important;
     width: auto !important;
-    max-height: 96vh !important;
+    max-height: 90vh !important;
     margin: 0 !important;
     padding: 0.5rem !important;
     border: none !important;
@@ -252,7 +401,7 @@
     background: rgba(0, 0, 0, 0.5) !important;
   }
   
-  /* Modal container sizing - override ECL container */
+  /* Modal container sizing */
   dialog#iframeModal .ecl-modal__container,
   dialog#iframeModal .ecl-modal__container.ecl-container,
   #iframeModal .ecl-modal__container.ecl-container {
@@ -266,7 +415,7 @@
     border-radius: 4px !important;
   }
   
-  /* Modal content area - override ECL grid classes */
+  /* Modal content area */
   dialog#iframeModal .ecl-modal__content,
   dialog#iframeModal .ecl-modal__content.ecl-col-12,
   dialog#iframeModal .ecl-modal__content.ecl-col-m-10,
@@ -303,8 +452,8 @@
   /* Modal close button */
   dialog#iframeModal .ecl-modal__close {
     padding: 0.4rem !important;
-    min-width: 40px;
-    min-height: 40px;
+    min-width: 44px;
+    min-height: 44px;
     flex-shrink: 0;
   }
   
@@ -315,8 +464,8 @@
     overflow-y: auto !important;
     overflow-x: hidden !important;
     padding: 0.5rem !important;
-    max-height: calc(80vh - 200px) !important;
-    min-height: 170px !important;
+    max-height: calc(80vh - 180px) !important;
+    min-height: 150px !important;
     -webkit-overflow-scrolling: touch;
   }
   
@@ -349,7 +498,7 @@
 
   /* Modal min-height fix for content */
   #iframeModal > div > div > div {
-    min-height: 140px !important;
+    min-height: 120px !important;
   }
 
   /* ==========================================================================
@@ -357,318 +506,10 @@
      ========================================================================== */
   
   /* Main chart container */
-  #chart,
-  #chartContainer,
-  .chart-container {
-    width: 100% !important;
-    min-height: 700px !important;
-    height: 750px !important;
-    max-height: 75vh !important;
-    overflow: visible !important;
-    padding: 1rem !important;
-    margin: 1rem 0 !important;
-  }
-  
-  /* Highcharts specific containers */
-  .highcharts-container,
-  .highcharts-root {
-    width: 100% !important;
-    min-height: 700px !important;
-    height: 750px !important;
-    max-height: 75vh !important;
-  }
-  
-  /* Chart plot area */
-  .highcharts-plot-background,
-  .highcharts-plot-border {
-    min-height: 600px !important;
-    height: auto !important;
-  }
-  
-  /* Ensure chart series are visible */
-  .highcharts-series-group {
-    transform: none !important;
-    visibility: visible !important;
-  }
-  
-  /* Bar and column visibility */
-  .highcharts-column-series rect,
-  .highcharts-bar-series rect,
-  .highcharts-series rect {
-    min-width: 5px !important;
-    min-height: 5px !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  /* Chart text sizing */
-  .highcharts-legend {
-    font-size: 0.85rem !important;
-  }
-  
-  .highcharts-xaxis-labels text,
-  .highcharts-yaxis-labels text {
-    font-size: 0.8rem !important;
-  }
-  
-  .highcharts-title {
-    font-size: 1.1rem !important;
-  }
-  
-  .highcharts-subtitle {
-    font-size: 0.9rem !important;
-  }
-  
-
-/* Optional: consistent focus visible treatment for the HTML overlay */
-.accessible-credits-overlay:focus,
-.accessible-credits-overlay:focus-visible {
-  outline: 2px solid #005ea2;
-  outline-offset: 2px;
-}
-
-
-  /* Chart area wrapper */
-  #chartArea {
-    width: 100% !important;
-    max-width: 100vw !important;
-    overflow-x: hidden !important;
-    padding: 0.5rem !important;
-  }
-  
-  /* Footer positioning for 200% zoom - bottom of content */
-  #componentFooter {
-    position: relative !important;
-    width: 100% !important;
-    background-color: white !important;
-    margin-top: 2rem !important;
-    padding-top: 1rem !important;
-    border-top: 1px solid #e0e0e0 !important;
-    clear: both !important;
-  }
-
-    #chartOptions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  
-    .subNavOne {
-      display: flex;
-      /* align-items: center; */
-      justify-content: flex-end;
-    }
-
-    .w-75 {
-      width: 100% !important;
-};
-    
-
-}
-
-/* ==========================================================================
-   400% ZOOM LEVEL SUPPORT
-   At 400% zoom, a 1280px screen becomes 320px, a 1920px screen becomes 480px
-   Target viewport: ~320px - 639px
-   Uses additional checks to avoid affecting actual mobile devices
-   ========================================================================== */
-
-@media only screen and (pointer: fine) and (min-width: 320px) and (max-width: 639px) and (min-resolution: 1.5dppx),
-       only screen and (pointer: fine) and (max-width: 480px) and (min-resolution: 2dppx) {
-  
-  /* Extreme zoom adjustments */
   #chart {
-    /* height: 300px !important; */
-    min-height: 250px !important;
-  }
-
-      #lang-section > button > i {
-    line-height: 0px;
-    padding-right: 0px;
-    }
-  
-  /* Ultra-compact button sizing */
-  .btn, button {
-    padding: 0.3rem 0.4rem;
-    font-size: 0.7rem;
-    min-width: 35px;
-    min-height: 35px;
-  }
-  
-  /* Stack navigation vertically */
-  #menuToolbar {
-         flex-direction: column;
-        /* align-items: stretch; */
-        height: 3rem;
-        /* align-items: center; */
-        justify-content: center;
-  }
-
-  .chartMenuMobile, #chartBtns {
-    position: absolute;
-    display: flex;
-    top: 101%;
-    left: 62%;
-    background-color: white;
-    box-shadow: 0 11px 15px rgba(9, 49, 142, .08), 0 9px 46px rgba(9, 49, 142, .04), 0 24px 38px rgba(9, 49, 142, .04), 0 -4px 4px rgba(9, 49, 142, .04);
-    border-radius: 5px;
-    padding: 7px;
-        z-index: 999;
-}
-#auxChartTitle {
-    padding: 12px;
-    padding-bottom: 50px;
-}
- #chartBtns {
-        top: 50%;
-        left: 2%;
-        flex-direction: row;
-    }
-  
-  .subNavOne, .subNavTwo {
-    align-items: stretch;
-  }
-  
-  /* Single column layout for extreme zoom */
-  .dropdown-grid {
-    display: block;
-  }
-  
-  .dropdown-grid .row {
-    display: block;
-  }
-  
-  .dropdown-grid .col-12 {
-    width: 100%;
-    margin-bottom: 0.5rem;
-  }
-  
-  /* ==========================================================================
-     MODAL FIXES FOR 400% ZOOM (#iframeModal - Share/Embed Modal)
-     ========================================================================== */
-  
-  /* Main modal dialog positioning - ultra compact */
-  dialog#iframeModal,
-  dialog#iframeModal.ecl-modal,
-  dialog#iframeModal[open] {
-        position: fixed !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-        margin: 0 !important;
-        padding: 0.3rem !important;
-        border: none !important;
-        background: transparent !important;
-  }
-  
-  /* Dialog backdrop */
-  dialog#iframeModal::backdrop {
-    background: rgba(0, 0, 0, 0.5) !important;
-  }
-  
-  /* Ultra-compact modal container - override ECL container */
-  dialog#iframeModal .ecl-modal__container,
-  dialog#iframeModal .ecl-modal__container.ecl-container,
-  #iframeModal .ecl-modal__container.ecl-container {
-    margin: 0 auto !important;
-    padding: 0.3rem !important;
-    box-sizing: border-box !important;
-    background: white !important;
-    border-radius: 4px !important;
-  }
-  
-  /* Modal content ultra compact - override ECL grid classes */
-  dialog#iframeModal .ecl-modal__content,
-  dialog#iframeModal .ecl-modal__content.ecl-col-12,
-  dialog#iframeModal .ecl-modal__content.ecl-col-m-10,
-  dialog#iframeModal .ecl-modal__content.ecl-col-l-8,
-  dialog#iframeModal.ecl-modal .ecl-modal__content {
-        margin: 0 auto !important;
-        padding: 0.3rem !important;
-        box-sizing: border-box !important;
-        background: white !important;
-        border-radius: 4px !important;
-  }
-  
-  /* Compact modal header */
-  dialog#iframeModal .ecl-modal__header {
-    padding: 0.3rem !important;
-    min-height: 45px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    flex-shrink: 0;
-  }
-  
-  dialog#iframeModal .ecl-modal__header-content {
-    flex: 1;
-    margin-right: 0.3rem;
-    font-size: 0.85rem;
-    line-height: 1.2;
-  }
-  
-  /* Ultra-compact close button */
-  dialog#iframeModal .ecl-modal__close {
-    padding: 0.3rem !important;
-    min-width: 35px;
-    min-height: 35px;
-    flex-shrink: 0;
-  }
-  
-  /* Ultra-compact modal body */
-  dialog#iframeModal .ecl-modal__body,
-  #iframeModal .ecl-modal__body {
-    flex: 1 1 auto;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    padding: 0.3rem !important;
-    max-height: 100vh;
-    min-height: 80px !important;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  /* Compact body scroll content */
-  dialog#iframeModal .ecl-modal__body-scroll {
-    font-size: 0.75rem !important;
-    line-height: 1.3;
-    padding: 0.3rem !important;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
-  
-  /* Compact modal footer */
-  dialog#iframeModal .ecl-modal__footer {
-    padding: 0.3rem !important;
-    flex-shrink: 0;
-    border-top: 1px solid #dee2e6;
-  }
-  
-  dialog#iframeModal .ecl-modal__footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.3rem;
-  }
-  
-  dialog#iframeModal .ecl-modal__footer .ecl-button {
-    font-size: 0.7rem !important;
-    padding: 0.3rem 0.5rem !important;
-    width: 100%;
-    text-align: center;
-  }
-  
-  /* ==========================================================================
-     CHART CONTAINER FIXES FOR 400% ZOOM
-     ========================================================================== */
-  
-  /* Main chart container - compact but visible */
-  #chart,
-  #chartContainer,
-  .chart-container {
     width: 100% !important;
-    min-height: 700px !important;
-    height: 750px !important;
+    min-height: 500px !important;
+    height: auto !important;
     max-height: 70vh !important;
     overflow: visible !important;
     padding: 0.5rem !important;
@@ -679,163 +520,519 @@
   .highcharts-container,
   .highcharts-root {
     width: 100% !important;
-    min-height: 700px !important;
-    height: 750px !important;
-    max-height: 70vh !important;
-  }
-  
-  /* Chart plot area */
-  .highcharts-plot-background,
-  .highcharts-plot-border {
-    min-height: 600px !important;
+    min-height: 450px !important;
     height: auto !important;
   }
   
-  /* Ensure chart series are visible */
-  .highcharts-series-group {
-    transform: none !important;
-    visibility: visible !important;
-  }
-  
-  /* Bar and column visibility - larger minimum for better visibility */
-  .highcharts-column-series rect,
-  .highcharts-bar-series rect,
-  .highcharts-series rect {
-    min-width: 4px !important;
-    min-height: 4px !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  /* Compact chart text sizing */
+  /* Chart text sizing */
   .highcharts-legend {
-    font-size: 0.7rem !important;
+    font-size: 0.8rem !important;
   }
   
   .highcharts-xaxis-labels text,
   .highcharts-yaxis-labels text {
-    font-size: 0.65rem !important;
-  }
-  
-  .highcharts-title {
-    font-size: 0.9rem !important;
-  }
-  
-  .highcharts-subtitle {
     font-size: 0.75rem !important;
   }
   
-  /* Chart area wrapper */
-  #chartArea {
-    width: 100% !important;
-    max-width: 100vw !important;
-    overflow-x: hidden !important;
-    padding: 0.3rem !important;
+  .highcharts-title {
+    font-size: 1rem !important;
   }
   
-  /* Footer positioning for 400% zoom - bottom of content */
+  .highcharts-subtitle {
+    font-size: 0.85rem !important;
+  }
+
+  /* Chart credits region */
+  .chart-credits-region {
+    font-size: 0.8rem !important;
+    padding: 0.5rem !important;
+  }
+
+  /* ==========================================================================
+     AUX CHART CONTROLS (Detail/Order switches)
+     ========================================================================== */
+
+  #menuSwitch {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+  }
+
+  #menuSwitch fieldset {
+    flex: 1 1 45% !important;
+    min-width: 150px !important;
+  }
+
+  .form-check.form-switch {
+    padding-left: 2.5rem !important;
+  }
+
+  .form-check-label {
+    font-size: 0.85rem !important;
+  }
+
+  /* ==========================================================================
+     FOOTER FIXES FOR 200% ZOOM
+     ========================================================================== */
+  
   #componentFooter {
     position: relative !important;
     width: 100% !important;
     background-color: white !important;
-    margin-top: 1.5rem !important;
-    padding-top: 0.75rem !important;
+    margin-top: 1rem !important;
+    padding-top: 0.5rem !important;
     border-top: 1px solid #e0e0e0 !important;
     clear: both !important;
   }
-  
-  /* Original 400% zoom fixes */
-  
-  /* Ultra-compact modal sizing */
-  .ecl-modal {
+
+  #footerCredits {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+  }
+
+  #footerCredits .ecl-site-footer__list-item {
+    padding: 0.25rem 0.5rem !important;
+  }
+
+  #footerCredits a {
+    font-size: 0.85rem !important;
+  }
+
+  /* ==========================================================================
+     GENERAL LAYOUT FIXES
+     ========================================================================== */
+
+  .w-75 {
+    width: 100% !important;
+  }
+
+  #chartOptions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+  }
+
+  /* Page container */
+  #page {
+    overflow-x: hidden !important;
     padding: 0.5rem !important;
   }
-  
-  .ecl-modal__container.ecl-container {
-    width: 98vw !important;
-    max-width: 98vw !important;
-    max-height: 95vh !important;
-  }
-  
-  .ecl-modal__content {
-    max-height: 90vh !important;
-  }
-  
-  /* Compact modal header */
-  .ecl-modal__header {
-    padding: 0.3rem !important;
-    min-height: 50px;
-    align-items: stretch;
-    gap: 0.3rem;
-  }
-  
-  .ecl-modal__header-content {
-    font-size: 0.9rem;
-    margin-right: 0;
-    margin-bottom: 0.2rem;
-  }
-  
-  .ecl-modal__close {
-    align-self: flex-end;
-    padding: 0.3rem !important;
-    min-width: 35px;
-    min-height: 35px;
-  }
-  
-  /* Ultra-compact modal body */
-  .ecl-modal__body {
-    padding: 0.3rem;
-    max-height: calc(90vh - 100px);
-  }
-  
-  .ecl-modal__body-scroll {
-    font-size: 0.75rem;
-    line-height: 1.3;
-  }
-  
-  /* Smaller modal images */
-  img.card-img-top {
-    max-height: 150px !important;
-  }
-  
-  /* Compact modal footer */
-  .ecl-modal__footer {
-    padding: 0.3rem !important;
-  }
-  
-  .ecl-modal__footer-content {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.3rem;
-  }
-  
-  /* Stack modal buttons vertically */
-  #btnControl {
-    align-items: stretch;
-    gap: 0.3rem;
-  }
-  
-  .ecl-modal .ecl-button {
-    font-size: 0.75rem;
-    padding: 0.3rem 0.4rem;
-    text-align: center;
-  }
-  
-  /* Language overlay for extreme zoom */
-  #language-list-overlay {
-    top: 50px !important;
-    width: 95vw !important;
-    max-width: none !important;
-    max-height: 60vh !important;
-  }
-  
-  /* Iframe modal extreme zoom */
-  #iframeModal .ecl-modal__body-scroll {
-    font-size: 0.7rem;
-    max-height: 200px;
-  }
+
 }
 
+/* ==========================================================================
+   400% ZOOM LEVEL SUPPORT
+   At 400% zoom, a 1280px screen becomes 320px, a 1920px screen becomes 480px
+   Target viewport: ~320px - 639px
+   Uses pointer: fine to detect desktop users with mouse (not touch devices)
+   ========================================================================== */
+
+@media only screen and (pointer: fine) and (min-width: 320px) and (max-width: 639px) and (min-resolution: 1.5dppx),
+       only screen and (pointer: fine) and (max-width: 480px) and (min-resolution: 2dppx) {
+  
+  /* ==========================================================================
+     HEADER FIXES FOR 400% ZOOM
+     ========================================================================== */
+  
+  #es_app_header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 0.3rem !important;
+    gap: 0.3rem !important;
+  }
+
+  #es_app_header_title {
+    max-width: 100% !important;
+    text-align: center !important;
+  }
+
+  #es_app_header_title .es_app_title {
+    font-size: 0.9rem !important;
+    line-height: 1.2 !important;
+  }
+
+  #lang-section {
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  #toggleLanguageBtn {
+    min-width: 40px !important;
+    min-height: 40px !important;
+    padding: 0.3rem !important;
+  }
+
+  #toggleLanguageBtn i {
+    font-size: 1rem !important;
+  }
+
+  /* Language overlay for 400% zoom */
+  #language-list-overlay {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 95vw !important;
+    max-width: none !important;
+    max-height: 80vh !important;
+    z-index: 9999999 !important;
+  }
+
+  /* Hide ribbon and logo at 400% zoom */
+  #es_app_header_ribbon,
+  #es_app_title {
+    display: none !important;
+  }
+
+  /* ==========================================================================
+     SUB-NAVBAR / MENU TOOLBAR FIXES FOR 400% ZOOM
+     ========================================================================== */
+
+  #menuToolbar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 0.3rem !important;
+  }
+
+  #menuToolbar .container-fluid {
+    flex-direction: column !important;
+  }
+
+  #menuToolbar .text-group {
+    text-align: center !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  #menuToolbar .title {
+    font-size: 0.85rem !important;
+  }
+
+  #menuToolbar .subtitle {
+    font-size: 0.75rem !important;
+  }
+
+  /* Ultra-compact buttons */
+  .btn, button, .btnGroup {
+    padding: 0.3rem 0.4rem !important;
+    font-size: 0.75rem !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+  }
+
+  #chartBtns {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+  }
+
+  #chartBtns .nav-item {
+    padding: 0.1rem !important;
+  }
+
+  #chartBtns .round-btn {
+    min-width: 38px !important;
+    min-height: 38px !important;
+    padding: 0.3rem !important;
+  }
+
+  #chartBtns .round-btn i {
+    font-size: 0.9rem !important;
+  }
+
+  /* Mobile tools menu positioning */
+  .chartMenuMobile {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 60px !important;
+    left: 5% !important;
+    right: 5% !important;
+    width: 90% !important;
+    background-color: white !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15) !important;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 0.5rem !important;
+    z-index: 999999 !important;
+  }
+
+  .chartMenuMobile #chartBtns {
+    flex-direction: row !important;
+    justify-content: space-around !important;
+  }
+
+  /* ==========================================================================
+     CHART OPTIONS MENU FOR 400% ZOOM
+     ========================================================================== */
+  
+  #chartOptionsMenu {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    z-index: 999999999 !important;
+    overflow-y: auto !important;
+    background-color: #f3f6fc !important;
+    padding: 0.3rem !important;
+  }
+
+  #chartOptionsMenu .dropdown-grid {
+    padding: 0.3rem !important;
+  }
+  
+  #chartOptionsMenu .dropdown-grid .row {
+    display: block !important;
+  }
+
+  #chartOptionsMenu .dropdown-grid .col-12,
+  #chartOptionsMenu .dropdown-grid [class*="col-"] {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  #closeChartMenuBtn,
+  .close-chart-menu-btn {
+    min-width: 40px !important;
+    min-height: 40px !important;
+  }
+
+  /* ==========================================================================
+     SELECT/DROPDOWN FIXES FOR 400% ZOOM
+     ========================================================================== */
+
+  select.ecl-select,
+  .ecl-select {
+    font-size: 0.8rem !important;
+    padding: 0.4rem !important;
+    min-width: 100% !important;
+  }
+
+  .ecl-form-label {
+    font-size: 0.75rem !important;
+  }
+
+  .ecl-select__container {
+    width: 100% !important;
+  }
+
+  /* ==========================================================================
+     MODAL FIXES FOR 400% ZOOM
+     ========================================================================== */
+  
+  dialog#iframeModal,
+  dialog#iframeModal.ecl-modal,
+  dialog#iframeModal[open] {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    transform: none !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  dialog#iframeModal .ecl-modal__container,
+  #iframeModal .ecl-modal__container.ecl-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    padding: 0.3rem !important;
+    border-radius: 0 !important;
+  }
+  
+  dialog#iframeModal .ecl-modal__content {
+    max-height: 100% !important;
+    height: 100% !important;
+  }
+  
+  dialog#iframeModal .ecl-modal__header {
+    padding: 0.3rem !important;
+    flex-wrap: wrap !important;
+  }
+  
+  dialog#iframeModal .ecl-modal__header-content {
+    font-size: 0.85rem !important;
+    flex: 1 1 80% !important;
+  }
+  
+  dialog#iframeModal .ecl-modal__close {
+    min-width: 38px !important;
+    min-height: 38px !important;
+    padding: 0.3rem !important;
+  }
+  
+  dialog#iframeModal .ecl-modal__body,
+  #iframeModal .ecl-modal__body {
+    padding: 0.3rem !important;
+    max-height: calc(100vh - 120px) !important;
+    min-height: 100px !important;
+  }
+  
+  dialog#iframeModal .ecl-modal__body-scroll {
+    font-size: 0.75rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  dialog#iframeModal .ecl-modal__footer {
+    padding: 0.3rem !important;
+  }
+  
+  dialog#iframeModal .ecl-modal__footer-content {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  
+  dialog#iframeModal .ecl-modal__footer .ecl-button {
+    font-size: 0.75rem !important;
+    padding: 0.3rem 0.5rem !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  /* ==========================================================================
+     CHART CONTAINER FIXES FOR 400% ZOOM
+     ========================================================================== */
+  
+  #chart {
+    width: 100% !important;
+    min-height: 300px !important;
+    height: auto !important;
+    max-height: 60vh !important;
+    padding: 0.25rem !important;
+    margin: 0.25rem 0 !important;
+  }
+  
+  .highcharts-container,
+  .highcharts-root {
+    min-height: 280px !important;
+    height: auto !important;
+  }
+  
+  /* Compact chart text */
+  .highcharts-legend {
+    font-size: 0.65rem !important;
+  }
+  
+  .highcharts-xaxis-labels text,
+  .highcharts-yaxis-labels text {
+    font-size: 0.6rem !important;
+  }
+  
+  .highcharts-title {
+    font-size: 0.85rem !important;
+  }
+  
+  .highcharts-subtitle {
+    font-size: 0.7rem !important;
+  }
+
+  .chart-credits-region {
+    font-size: 0.7rem !important;
+    padding: 0.25rem !important;
+  }
+
+  /* ==========================================================================
+     AUX CHART CONTROLS FOR 400% ZOOM
+     ========================================================================== */
+
+  #menuSwitch {
+    flex-direction: column !important;
+  }
+
+  #menuSwitch fieldset {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+  }
+
+  .form-check-label {
+    font-size: 0.75rem !important;
+  }
+
+  /* ==========================================================================
+     FOOTER FIXES FOR 400% ZOOM
+     ========================================================================== */
+  
+  #componentFooter {
+    margin-top: 0.5rem !important;
+    padding-top: 0.3rem !important;
+  }
+
+  #footerCredits {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  #footerCredits a {
+    font-size: 0.75rem !important;
+  }
+
+  /* ==========================================================================
+     HIDE TOOLTIPS AT 400% ZOOM
+     ========================================================================== */
+
+  [id^="tooltip-"],
+  .tooltip,
+  [role="tooltip"],
+  div[id*="tooltip"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* ==========================================================================
+     GENERAL LAYOUT FOR 400% ZOOM
+     ========================================================================== */
+
+  #page {
+    overflow-x: hidden !important;
+    padding: 0.25rem !important;
+  }
+
+  .w-75 {
+    width: 100% !important;
+  }
+
+  /* Stack all multi-column layouts */
+  .row {
+    flex-direction: column !important;
+  }
+
+  [class*="col-"] {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+  }
+
+}
+
+/* ==========================================================================
+   GLOBAL FIXES (Apply to all zoom levels)
+   ========================================================================== */
+
+/* Hide invalid domain warning from webtools */
 .wt-globan--invalid-domain {
-    display: none;
+  display: none !important;
+}
+
+/* Ensure focus indicators are always visible */
+@media only screen and (pointer: fine) {
+  *:focus-visible {
+    outline: 2px solid #0e47cb !important;
+    outline-offset: 2px !important;
+  }
 }
