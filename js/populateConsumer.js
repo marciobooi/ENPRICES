@@ -3,7 +3,7 @@ function populateConsumer() {
     const elementId = 'selectConsumer';
     const optionsArray = Object.keys(energyConsumers);
     const labelDescription = "CONSUMER";
-    const activeElement = REF.product;
+    const activeElement = REF.consumer;
     const textChange = "MENU_CONSUMER";
     
 
@@ -14,8 +14,9 @@ function populateConsumer() {
 
     const singleSelect = new Singleselect(elementId, optionsArray, labelDescription, activeElement, textChange, selectedValue => {
         REF.consumer = selectedValue;
-        populateConsumption()
+        populateConsumption();
         enprices();
+        languageNameSpace.initLanguage(REF.language);
     });
 
     const singleSelectHTML = singleSelect.createSingleSelect();
