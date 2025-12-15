@@ -311,13 +311,17 @@
     border-radius: 4px !important;
     position: relative !important;
   }
+
+
   
   #closeChartMenuBtn i,
   .close-chart-menu-btn i {
     pointer-events: none !important;
-    color: white !important;
+    /* color: white !important; */
     font-size: 1.2rem !important;
   }
+
+
 
   /* ==========================================================================
      SELECT/DROPDOWN FIXES
@@ -632,6 +636,11 @@
 #menuToolbar > div > div.col-3 {   
       flex: 0 0 auto;
       width: 33.33333333%;
+  }
+
+  #chartControls > div {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
 

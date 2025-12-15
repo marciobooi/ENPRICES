@@ -215,12 +215,12 @@ button#menu:focus, button#menu:active {
     color: #fff !important;
 }
 
-.ecl-button--primary:active, .ecl-button--primary:hover, .ecl-button--primary:focus {
+/* .ecl-button--primary:active, .ecl-button--primary:hover, .ecl-button--primary:focus {
     background-color: #3e6cd5 !important;
     background-color: #fff !important;
     border: 2px solid #0e47cb !important;
     color: #0e47cb !important;
-}
+} */
 
 .sr-only {
     position: absolute;
