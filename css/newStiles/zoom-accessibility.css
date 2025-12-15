@@ -358,9 +358,10 @@
   }
 
   /* ==========================================================================
-     TOOLTIP HANDLING - Hide to prevent overlap issues
+     TOOLTIP HANDLING - Show only active tooltips at 200% (avoid showing all)
      ========================================================================== */
   
+  /* Default: hide tooltip elements to avoid accidental multiple visible elements. */
   [id^="tooltip-"],
   .tooltip,
   [role="tooltip"],
@@ -371,7 +372,20 @@
     pointer-events: none !important;
   }
   
-  /* Ensure buttons work without tooltips */
+  /* Show only when Bootstrap (or script) marks them visible (e.g., with .show or attribute data-show).
+     This ensures only one tooltip at a time (the active one) is visible on desktop at 200% zoom. */
+  .tooltip.show,
+  [role="tooltip"].show,
+  div[id*="tooltip"].show,
+  [id^="tooltip-"].show,
+  [data-show="true"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Ensure buttons still work when aria-describedby is present */
   button[aria-describedby],
   a[aria-describedby] {
     pointer-events: auto !important;

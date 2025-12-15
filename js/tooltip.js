@@ -105,8 +105,7 @@ class TooltipManager {
       console.log(`Switching from ${this.currentMode} to ${newMode} mode - hiding all tooltips`);
       this.hideAllTooltips();
     } else if (newMode === 'mouse' && this.activeTooltip && this.activeTooltip !== currentTooltip) {
-      // If we're in mouse mode and showing a different tooltip, hide the current one
-    //   console.log(`Same mode (${newMode}) but different tooltip - hiding current tooltip`);
+      // Same interaction mode (mouse) but a different tooltip is requested - hide existing one(s)
       this.hideAllTooltips();
     }
     this.currentMode = newMode;
@@ -217,6 +216,9 @@ class TooltipManager {
 
     tooltip.style.visibility = "visible";
     tooltip.style.opacity = "1";
+    // Mark tooltip as active for CSS selectors (e.g., .tooltip.show)
+    tooltip.classList.add('show');
+    tooltip.setAttribute('data-show', 'true');
     tooltip.setAttribute('aria-hidden', 'false');
     this.visibleTooltips.add(tooltip);
     this.activeTooltip = tooltip;
@@ -234,6 +236,9 @@ class TooltipManager {
   hideTooltip(tooltip, button = null) {
     tooltip.style.visibility = "hidden";
     tooltip.style.opacity = "0";
+    // Remove active markers so CSS hides it
+    tooltip.classList.remove('show');
+    tooltip.removeAttribute('data-show');
     tooltip.setAttribute('aria-hidden', 'true');
     this.visibleTooltips.delete(tooltip);
 
