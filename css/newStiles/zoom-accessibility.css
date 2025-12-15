@@ -94,13 +94,17 @@
   /* Language overlay positioning */
   #language-list-overlay {
     position: absolute !important;
-    top: 50px !important;
-    right: 0 !important;
-    left: auto !important;
-    width: 20rem !important;
-    max-width: 90vw !important;
-    z-index: 999999 !important;
+        top: 50px !important;
+        /* right: 6rem !important; */
+        left: -7rem !important;
+        width: 23rem !important;
+        max-width: 90vw !important;
+        z-index: 999999 !important;
   }
+
+  .ecl-site-header__language-container:before {
+    left: 87%;   
+}
 
   /* Hide ribbon at 200% zoom to save space */
   #es_app_header_ribbon {
@@ -384,7 +388,6 @@
     transform: translate(-50%, -50%) !important;
     max-width: 95vw !important;
     min-width: 60vw !important;
-    width: auto !important;
     max-height: 90vh !important;
     margin: 0 !important;
     padding: 0.5rem !important;
@@ -408,7 +411,6 @@
     margin: 0 auto !important;
     padding: 0.5rem !important;
     box-sizing: border-box !important;
-    background: white !important;
     border-radius: 4px !important;
   }
   
