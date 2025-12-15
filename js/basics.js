@@ -1,6 +1,30 @@
 var log = console.log.bind(console);
 
-var isMobile = /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 850 || /Mobi|Android/i.test(navigator.userAgent) && (window.innerWidth < window.innerHeight);
+// Detect mobile: prefer userAgent or actual touch capability when width is small.
+function detectMobile() {
+  const uaMobile = /Mobi|Android/i.test(navigator.userAgent);
+  const smallViewport = window.innerWidth < 850;
+  const hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+
+  // Consider mobile when UA says mobile, or when viewport is small AND the device has touch support.
+  // This prevents desktop browsers zooming to 200% (which reduces innerWidth) from being treated as mobile.
+  return uaMobile || (smallViewport && hasTouch) || (uaMobile && (window.innerWidth < window.innerHeight));
+}
+
+var isMobile = detectMobile();
+
+// Keep `isMobile` up-to-date on resize/zoom changes and notify listeners when it changes.
+window.addEventListener('resize', () => {
+  const newIsMobile = detectMobile();
+  if (newIsMobile !== isMobile) {
+    isMobile = newIsMobile;
+    try {
+      document.dispatchEvent(new CustomEvent('isMobileChange', { detail: isMobile }));
+    } catch (e) {
+      // CustomEvent may fail in very old browsers; ignore in that case.
+    }
+  }
+});
 
 formMessage = (/The ENPRICES tool is down since:     (.*)/)
 

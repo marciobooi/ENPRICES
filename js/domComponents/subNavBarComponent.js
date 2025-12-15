@@ -199,99 +199,118 @@ class SubNavbar {
          
 
 
-        if (isMobile) {          
-          this.subNavbar.innerHTML = mobileContent         
-         setTimeout(() => {
-           $('#menuSwitch').appendTo('.chartOptions');
-         }, 10);
-          
-          this.toolsButton = this.subNavbar.querySelector('#tools');
-          this.chartToolsMenu = this.subNavbar.querySelector('.chartMenuMobile');
+        // Store HTML content so we can re-render on actual device/orientation changes
+        this.browserContent = browser;
+        this.mobileContent = mobileContent;
 
-          this.chartOptionsMenu = this.subNavbar.querySelector('#chartOptionsMenu');
-          this.chartMenuOpen = this.subNavbar.querySelector('#menu');
+        // Initial layout render based on current environment
+        this.renderLayout();
 
-          this.chartOptionsButton = this.subNavbar.querySelector('#options');
-          this.chartOptionsOpen = this.subNavbar.querySelector('.chartOptions');
+        // Re-render when detection changes (e.g., orientation or resize that actually changes device type)
+        document.addEventListener('isMobileChange', () => this.renderLayout());
+    }
+    renderLayout() {
+      if (typeof detectMobile !== 'function') {
+        // Fallback: use existing global `isMobile` if detectMobile not present
+        this.subNavbar.innerHTML = isMobile ? this.mobileContent : this.browserContent;
+        return;
+      }
 
-       
-      
-          this.toolsButton.addEventListener('click', () => {     
-            $('body').find('.important-styles').removeClass('important-styles');
-            $('body').find('.menuOpen').removeClass('menuOpen');
+      if (detectMobile()) {
+        this.subNavbar.innerHTML = this.mobileContent;
+        setTimeout(() => {
+          $('#menuSwitch').appendTo('.chartOptions');
+        }, 10);
+        this.setupMobileUI();
+      } else {
+        this.subNavbar.innerHTML = this.browserContent;
+        this.setupDesktopUI();
+      }
+    }
 
-            this.chartOptionsMenu.classList.contains("toggleMenu") ? "" : this.toggleChartOptionsMenu();
-            this.chartOptionsOpen.classList.contains("d-none") ? "" : this.chartOptionsOpen.classList.toggle('d-none');
-            this.chartToolsMenu.classList.toggle('d-none');
+    setupMobileUI() {
+      this.toolsButton = this.subNavbar.querySelector('#tools');
+      this.chartToolsMenu = this.subNavbar.querySelector('.chartMenuMobile');
 
-             // btn styles
-             this.toolsButton.parentElement.classList.add('menuOpen');
-             this.toolsButton.classList.add('important-styles');
-          });
+      this.chartOptionsMenu = this.subNavbar.querySelector('#chartOptionsMenu');
+      this.chartMenuOpen = this.subNavbar.querySelector('#menu');
 
-          this.chartMenuOpen.addEventListener('click', () => {    
-            $('body').find('.important-styles').removeClass('important-styles');
-            $('body').find('.menuOpen').removeClass('menuOpen');      
-            this.chartToolsMenu.classList.contains("d-none") ? "" : this.chartToolsMenu.classList.toggle('d-none');
-            this.chartOptionsOpen.classList.contains("d-none") ? "" : this.chartOptionsOpen.classList.toggle('d-none');
-            this.toggleChartOptionsMenu();
+      this.chartOptionsButton = this.subNavbar.querySelector('#options');
+      this.chartOptionsOpen = this.subNavbar.querySelector('.chartOptions');
 
-            this.chartMenuOpen.parentElement.classList.add('menuOpen');
-            this.chartMenuOpen.classList.add('important-styles');
-            
-            // Add trap focus for mobile view (200% zoom)
-            trapTab();
+      if (this.toolsButton) {
+        this.toolsButton.addEventListener('click', () => {
+          $('body').find('.important-styles').removeClass('important-styles');
+          $('body').find('.menuOpen').removeClass('menuOpen');
 
-          });
+          this.chartOptionsMenu.classList.contains("toggleMenu") ? "" : this.toggleChartOptionsMenu();
+          this.chartOptionsOpen.classList.contains("d-none") ? "" : this.chartOptionsOpen.classList.toggle('d-none');
+          this.chartToolsMenu.classList.toggle('d-none');
 
-          this.chartOptionsButton.addEventListener('click', () => {   
-            $('body').find('.important-styles').removeClass('important-styles');
-            $('body').find('.menuOpen').removeClass('menuOpen');
-            this.chartOptionsMenu.classList.contains("toggleMenu") ? "" : this.toggleChartOptionsMenu();  
-            this.chartToolsMenu.classList.contains("d-none") ? "" : this.chartToolsMenu.classList.toggle('d-none');
-            this.chartOptionsOpen.classList.toggle('d-none');
+          // btn styles
+          this.toolsButton.parentElement.classList.add('menuOpen');
+          this.toolsButton.classList.add('important-styles');
+        });
+      }
 
-            this.chartOptionsButton.parentElement.classList.add('menuOpen');
-            this.chartOptionsButton.classList.add('important-styles');
-          });
+      if (this.chartMenuOpen) {
+        this.chartMenuOpen.addEventListener('click', () => {
+          $('body').find('.important-styles').removeClass('important-styles');
+          $('body').find('.menuOpen').removeClass('menuOpen');
+          this.chartToolsMenu.classList.contains("d-none") ? "" : this.chartToolsMenu.classList.toggle('d-none');
+          this.chartOptionsOpen.classList.contains("d-none") ? "" : this.chartOptionsOpen.classList.toggle('d-none');
+          this.toggleChartOptionsMenu();
 
-          // Add close button event listener for mobile (200% zoom)
-          this.closeChartMenuBtn = this.subNavbar.querySelector('#closeChartMenuBtn');
-          
-          if (this.closeChartMenuBtn) {
-            this.closeChartMenuBtn.addEventListener('click', () => {
-              console.log('Close button clicked in mobile view');
-              this.toggleChartOptionsMenu();
-              this.chartMenuOpen.focus();
-            });
-          }
+          this.chartMenuOpen.parentElement.classList.add('menuOpen');
+          this.chartMenuOpen.classList.add('important-styles');
 
-        } else {
+          // Add trap focus for mobile view (200% zoom)
+          trapTab();
+        });
+      }
 
-          this.subNavbar.innerHTML = browser         
+      if (this.chartOptionsButton) {
+        this.chartOptionsButton.addEventListener('click', () => {
+          $('body').find('.important-styles').removeClass('important-styles');
+          $('body').find('.menuOpen').removeClass('menuOpen');
+          this.chartOptionsMenu.classList.contains("toggleMenu") ? "" : this.toggleChartOptionsMenu();
+          this.chartToolsMenu.classList.contains("d-none") ? "" : this.chartToolsMenu.classList.toggle('d-none');
+          this.chartOptionsOpen.classList.toggle('d-none');
 
-      
+          this.chartOptionsButton.parentElement.classList.add('menuOpen');
+          this.chartOptionsButton.classList.add('important-styles');
+        });
+      }
 
-          this.menuButton = this.subNavbar.querySelector('#menu');
-          this.chartOptionsMenu = this.subNavbar.querySelector('#chartOptionsMenu');
-          this.chartMenuOpen = this.subNavbar.querySelector('#menu');
+      // Add close button event listener for mobile (200% zoom)
+      this.closeChartMenuBtn = this.subNavbar.querySelector('#closeChartMenuBtn');
+      if (this.closeChartMenuBtn) {
+        this.closeChartMenuBtn.addEventListener('click', () => {
+          this.toggleChartOptionsMenu();
+          if (this.chartMenuOpen) this.chartMenuOpen.focus();
+        });
+      }
+    }
 
+    setupDesktopUI() {
+      this.menuButton = this.subNavbar.querySelector('#menu');
+      this.chartOptionsMenu = this.subNavbar.querySelector('#chartOptionsMenu');
+      this.chartMenuOpen = this.subNavbar.querySelector('#menu');
 
+      if (this.menuButton) {
+        this.menuButton.addEventListener('click', () => {
+          this.toggleChartOptionsMenu();
+          trapTab();
+        });
+      }
 
-  
-          this.menuButton.addEventListener('click', () => {
-            this.toggleChartOptionsMenu();
-            trapTab()
-          });
-  
-          this.closeChartMenuBtn = this.subNavbar.querySelector('#closeChartMenuBtn');
-  
-          this.closeChartMenuBtn.addEventListener('click', () => {
-              this.toggleChartOptionsMenu();
-              this.menuButton.focus();
-          });
-
-        }     
+      this.closeChartMenuBtn = this.subNavbar.querySelector('#closeChartMenuBtn');
+      if (this.closeChartMenuBtn) {
+        this.closeChartMenuBtn.addEventListener('click', () => {
+          this.toggleChartOptionsMenu();
+          if (this.menuButton) this.menuButton.focus();
+        });
+      }
     }
     toggleChartOptionsMenu() {
       this.chartOptionsMenu.classList.toggle('toggleMenu');
