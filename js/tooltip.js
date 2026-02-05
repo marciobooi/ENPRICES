@@ -197,7 +197,14 @@ class TooltipManager {
       this.hideTooltip(tooltip);
     });
     
-    document.body.appendChild(tooltip);
+    // Append to main landmark to ensure content is contained by landmarks (WCAG 2.1)
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      mainElement.appendChild(tooltip);
+    } else {
+      // Fallback to body if main element doesn't exist
+      document.body.appendChild(tooltip);
+    }
     return tooltip;
   }
 
