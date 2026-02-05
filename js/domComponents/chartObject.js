@@ -176,7 +176,8 @@ class Chart {
         }
       }
 
-      creditsWrapper.setAttribute('role', 'contentinfo');
+      creditsWrapper.setAttribute('role', 'region');
+      creditsWrapper.setAttribute('aria-label', 'Chart attribution');
       creditsWrapper.setAttribute('aria-live', 'polite');
       creditsWrapper.innerHTML = this.creditsText;
 

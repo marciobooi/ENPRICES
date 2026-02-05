@@ -132,6 +132,35 @@
       "is404" : false
     } </script>
 
+    <!-- Script to fix banner landmark positioning and ensure unique labels -->
+    <script>
+      // Move banner landmark to top level and add unique aria-label
+      function fixBannerPosition() {
+        const banner = document.querySelector('.es_app_top[role="banner"]');
+        const bannerContainer = document.getElementById('banner-container');
+        
+        if (banner && bannerContainer && !bannerContainer.contains(banner)) {
+          bannerContainer.appendChild(banner);
+        }
+        
+        // Ensure banner has a unique aria-label for landmark distinction
+        if (banner && !banner.getAttribute('aria-label')) {
+          banner.setAttribute('aria-label', 'European Commission');
+        }
+      }
+      
+      // Run immediately after page load and also watch for banner injection
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fixBannerPosition);
+      } else {
+        fixBannerPosition();
+      }
+      
+      // Also run it after a short delay to catch delayed injections
+      setTimeout(fixBannerPosition, 1000);
+      setTimeout(fixBannerPosition, 3000);
+    </script>
+
 </head>
 
 <body id="body">
@@ -147,9 +176,9 @@
   <noscript>
       <p class="no-script"> Your browser does not support Javascript or Javascript is disabled. <br /> Please enable Javascript to use the enprices tool. </p>
   </noscript>
-  <header>
+  <div id="navbar-wrapper" role="region" aria-label="Navigation">
       <div id="navbar-container"></div>      
-  </header>
+  </div>
   <main>
       <div id="page">
           <div id="allContainer">
@@ -179,7 +208,7 @@
     
   </main>
   <div id="contentinfo-container"></div>
-  <footer id="componentFooter"></footer>
+  <footer id="componentFooter" aria-label="Page footer"></footer>
 
   <!-- <div class="modal" tabindex="-1" id="iframeModal">
     <div class="modal-dialog">
@@ -219,11 +248,11 @@
         <div class="ecl-modal__body">
           <div class="ecl-modal__body-scroll targetUrl" data-ecl-modal-scroll></div>
         </div>
-        <footer class="ecl-modal__footer">
+        <div class="ecl-modal__footer">
           <div class="ecl-modal__footer-content">
             <button id="close" class="ecl-button ecl-button--secondary ecl-modal__button" onclick="closeModalUrl()" type="button" data-ecl-modal-close data-i18n="CLOSE"></button>
             <button id="share" class="ecl-button ecl-button--primary ecl-modal__button" onclick="copyUrl()" type="submit" data-i18n="COPYURL"></button></div>
-        </footer>
+        </div>
       </div>
     </div>
   </dialog>

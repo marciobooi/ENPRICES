@@ -253,7 +253,7 @@ function chartNormalTooltip(points) {
   html += `<table class="table_component"> 
   <thead class="">
     <tr class="">
-        <th scope="cols" colspan="2">${title}</th>                
+        <th scope="col" colspan="2">${title}</th>                
     </tr>
   </thead>
   <tbody>
@@ -316,8 +316,8 @@ function tooltipTable(points) {
     html += `<table id="tooltipTable" class="table_component">                
                 <thead>
                   <tr>
-                    <th scope="cols">${points[0].x}</th>                    
-                    <th scope="cols"></th>                    
+                    <th scope="col">${points[0].x}</th>                    
+                    <th scope="col"></th>                    
                   </tr>
                 </thead>`
       points.forEach(element => {
@@ -347,8 +347,8 @@ function tooltipTable(points) {
     html += `<table id="tooltipTable" class="table_component">                
       <thead>
         <tr>
-          <th scope="cols">${sortedPoints[0].key}</th>                    
-          <th class="tooltipUnit" scope="cols">${REF.unit}</th>                    
+          <th scope="col">${sortedPoints[0].key}</th>                    
+          <th class="tooltipUnit" scope="col">${REF.unit}</th>                    
         </tr>
       </thead>`;
     
@@ -379,7 +379,7 @@ function tooltipTable(points) {
     `<table id="tooltipTable" class="table_component">                
     <thead>
       <tr>
-        <th scope="cols">${sortedPoints[0].key}</th>                                    
+        <th scope="col">${sortedPoints[0].key}</th>                                    
       </tr>
     </thead><tr>      
     <td>${languageNameSpace.labels["FLAG_NA"]}</td>

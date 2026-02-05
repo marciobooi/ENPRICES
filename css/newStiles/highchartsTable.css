@@ -148,6 +148,8 @@ th.highcharts-text {
 .table_component caption {
     caption-side: top;
     text-align: center;
+    color: #262b38;
+    font-weight: 500;
 }
 
 .table_component th {
@@ -186,6 +188,11 @@ th.highcharts-text {
     padding-left: 1rem !important;
 }
 
+/* Highcharts data table caption - WCAG AAA contrast compliance (7:1 ratio) */
+.highcharts-table-caption {
+    color: #262b38 !important;
+    font-weight: 500;
+}
 
 
 

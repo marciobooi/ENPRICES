@@ -58,7 +58,13 @@
 /* Cookie consent button - WCAG AAA contrast compliance (7:1 ratio) */
 .wt-ecl-button--primary {
     background-color: #082b7a !important;
-    color: #ffffff !important;
+}
+
+/* Language link - WCAG AAA contrast compliance on active state (7:1 ratio) */
+/* Active language link has #e7edfa background, text needs darker color */
+.ecl-site-header__language-link--active .ecl-site-header__language-link-label {
+    color: #03194d !important;
+    font-weight: 600;
 }
 
 .wt-ecl-button--primary:active, .wt-ecl-button--primary:hover {

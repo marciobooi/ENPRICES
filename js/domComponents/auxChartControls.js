@@ -16,18 +16,18 @@ class ChartControls {
 			<h3 id="subtitle" class="subtitle">subtitle</h3>
 			  </div>
 			  <div class="menu">
-				<ul id="chartBtns"  aria-label="options graph toolbox" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
-				  <li class="nav-item button px-1" id="toggleBarChart" role="none"></li>
-				  <li class="nav-item button px-1" id="togglePieChart" role="none"></li>
-				  <li class="nav-item button px-1" id="toggleLineChart" role="none"></li>
-				  <li class="nav-item button px-1" id="toggleAuxTable" role="none" style="margin-right: 2rem;"></li>
+				<div id="chartBtns" role="toolbar" aria-label="options graph toolbox" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
+				  <div class="nav-item button px-1" id="toggleBarChart"></div>
+				  <div class="nav-item button px-1" id="togglePieChart"></div>
+				  <div class="nav-item button px-1" id="toggleLineChart"></div>
+				  <div class="nav-item button px-1" id="toggleAuxTable" style="margin-right: 2rem;"></div>
 
-				  <li class="nav-item button px-1" id="printChart" role="none"></li>
-				  <li class="nav-item dropdown px-1" id="downloadChart" role="none"></li>
-				  <li class="nav-item button px-1" id="downloadExcel" role="none"></li>
-				  <li class="nav-item button px-1" id="embebedChart" role="none" style="margin-right: 2rem;"></li>
-				  <li class="nav-item button px-1" id="closeChart" role="none"></li>
-				</ul>
+				  <div class="nav-item button px-1" id="printChart"></div>
+				  <div class="nav-item dropdown px-1" id="downloadChart"></div>
+				  <div class="nav-item button px-1" id="downloadExcel"></div>
+				  <div class="nav-item button px-1" id="embebedChart" style="margin-right: 2rem;"></div>
+				  <div class="nav-item button px-1" id="closeChart"></div>
+				</div>
 			  </div>
 			</div>
 		  </nav>
@@ -41,18 +41,18 @@ class ChartControls {
 			<span class="iconText" data-i18n="TOOLS"></span>
 			</button>
 			<div class="menu d-none">
-			  <ul id="chartBtns"  data-i18n-label="OPTIONS_GRAPH_TOOLBOX" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
-				<li class="nav-item button px-1" id="toggleBarChart" role="none"></li>
-				<li class="nav-item button px-1" id="togglePieChart" role="none"></li>
-				<li class="nav-item button px-1" id="toggleLineChart" role="none"></li>
-				<li class="nav-item button px-1" id="toggleAuxTable" role="none"></li>
+			  <div id="chartBtns" role="toolbar" data-i18n-label="OPTIONS_GRAPH_TOOLBOX" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
+				<div class="nav-item button px-1" id="toggleBarChart"></div>
+				<div class="nav-item button px-1" id="togglePieChart"></div>
+				<div class="nav-item button px-1" id="toggleLineChart"></div>
+				<div class="nav-item button px-1" id="toggleAuxTable"></div>
 
-				<li class="nav-item button px-1" id="printChart" role="none"></li>
-				<li class="nav-item dropdown px-1" id="downloadChart" role="none"></li>
-				<li class="nav-item button px-1" id="downloadExcel" role="none"></li>
-				<li class="nav-item button px-1" id="embebedChart" role="none"></li>
-				<li class="nav-item button px-1" id="closeChart" role="none"></li>
-			  </ul>
+				<div class="nav-item button px-1" id="printChart"></div>
+				<div class="nav-item dropdown px-1" id="downloadChart"></div>
+				<div class="nav-item button px-1" id="downloadExcel"></div>
+				<div class="nav-item button px-1" id="embebedChart"></div>
+				<div class="nav-item button px-1" id="closeChart"></div>
+			  </div>
 			</div>
 		  </div>
 		  <div class="col-12 subNavTwo">

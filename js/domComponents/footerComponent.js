@@ -1,7 +1,6 @@
 class Footer {
     constructor() {
-      this.footer = document.createElement('footer');
-  
+      // Use div instead of footer to avoid nested footer landmarks
       const footerContainer = document.createElement('div');
       footerContainer.id = 'footer';
   
@@ -10,7 +9,9 @@ class Footer {
       footerCreditsList.classList.add('nav', 'justify-content-end');
   
       footerContainer.appendChild(footerCreditsList);
-      this.footer.appendChild(footerContainer);
+      
+      // Store the content for later appending
+      this.footerContent = footerContainer;
     }
 
 
@@ -57,11 +58,17 @@ class Footer {
   
     addToDOM(targetElement) {
       const container = document.querySelector(targetElement);
-      container.appendChild(this.footer);
+      // If targeting the footer element, append the content directly; otherwise create wrapper
+      if (container && container.tagName === 'FOOTER') {
+        container.appendChild(this.footerContent);
+      } else {
+        const footerWrapper = document.createElement('footer');
+        footerWrapper.appendChild(this.footerContent);
+        container.appendChild(footerWrapper);
+      }
 
-
-    // Call the buildLinksFooter method after inserting the footer into the DOM
-    this.buildLinksFooter();
-  }
+      // Call the buildLinksFooter method after inserting the footer into the DOM
+      this.buildLinksFooter();
+    }
 }
   

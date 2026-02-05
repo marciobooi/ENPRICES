@@ -308,7 +308,6 @@ class FloatingChartControls {
     const dropdownOrderBtn = document.querySelector("#tb-togle-order")
 
     dropdownOrderBtn.setAttribute("data-bs-toggle", "dropdown");
-    dropdownOrderBtn.setAttribute("role", "menuitem");
     dropdownOrderBtn.setAttribute("aria-haspopup", "true");
     dropdownOrderBtn.setAttribute("data-bs-auto-close", "true");
     dropdownOrderBtn.setAttribute("aria-expanded", "false");
