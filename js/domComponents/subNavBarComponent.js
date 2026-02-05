@@ -16,12 +16,12 @@ class SubNavbar {
         <div class="col-8">
           <div class="text-group">
             <h2 id="title" class="title"></h2>
-            <h6 id="subtitle" class="subtitle"></h6>
+            <h3 id="subtitle" class="subtitle"></h3>
           </div>
         </div>
         <div class="col-3">
-          <ul id="chartBtns"  data-i18n-label="OPTIONS_GRAPH_TOOLBOX" aria-label="Options graph toolbox" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
-            <li role="menuitem" class="nav-item dropdown px-1" id="infoBtnChart">
+          <div id="chartBtns" role="toolbar" data-i18n-label="OPTIONS_GRAPH_TOOLBOX" aria-label="Options graph toolbox" class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50vw;">
+            <div class="nav-item dropdown px-1" id="infoBtnChart">
               <button class="ecl-button ecl-button--primary round-btn" type="button" data-i18n-label="INFO" data-i18n-title="INFO" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-disabled="false" id="infoBtn">
                 <i class="fas fa-info"></i>
               </button>
@@ -30,8 +30,8 @@ class SubNavbar {
                 <li role="menuitem"><button class="dropdown-item ecl-link ecl-link--standalone" onclick="openMeta()" data-i18n="META">Metadata</button></li>
                 <li role="menuitem"><button class="dropdown-item ecl-link ecl-link--standalone" onclick="socialNameSpace.email()" data-i18n="FEED">Feedback</button></li>
               </ul>
-            </li>
-            <li role="menuitem" class="nav-item dropdown px-1" id="downloadChart">
+            </div>
+            <div class="nav-item dropdown px-1" id="downloadChart">
               <button class="ecl-button ecl-button--primary round-btn" type="button" data-i18n-label="DOWNLOAD_CHART_IMAGE" data-i18n-title="DOWNLOAD_CHART_IMAGE" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-disabled="false" id="downloadBtn">
                 <i class="fas fa-download"></i>
               </button>
@@ -40,13 +40,13 @@ class SubNavbar {
                 <li role="menuitem"><button class="dropdown-item ecl-link ecl-link--standalone" onclick="exportJpegChart()" data-i18n="DOWNLOAD_JPEG">JPEG</button></li>
                 <li role="menuitem"><button class="dropdown-item ecl-link ecl-link--standalone" onclick="exportXlsChart()" data-i18n="DOWNLOAD_XLS">XLS</button></li>
               </ul>
-            </li>
-            <li role="menuitem" class="nav-item button px-1" id="embebedChart">
+            </div>
+            <div class="nav-item button px-1" id="embebedChart">
               <button id="embebedBtn" type="button" class="ecl-button ecl-button--primary round-btn" data-i18n-title="EMBEDDED" data-i18n-label="EMBEDDED" aria-disabled="false" onclick="exportIframe()">
                 <i class="fas fa-code" aria-hidden="true"></i>
               </button>
-            </li>
-            <li role="menuitem" class="nav-item dropdown px-1" id="social-media">
+            </div>
+            <div class="nav-item dropdown px-1" id="social-media">
               <button class="ecl-button ecl-button--primary round-btn" type="button" data-i18n-label="SHARE" data-i18n-title="SHARE" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-disabled="false" id="shareChart">
                 <i class="fas fa-share-alt" aria-hidden="true"></i>
               </button>
@@ -70,8 +70,8 @@ class SubNavbar {
                   </button>
                 </li>
               </ul>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
         <div id="chartOptionsMenu" class="toggleMenu">
           <div class="close-button-container">
@@ -98,7 +98,7 @@ class SubNavbar {
         <div class="col-12 subNavTwo">
           <div class="text-group">
               <h2 id="title" class="title"></h2>
-              <h6 id="subtitle" class="subtitle"></h6>      
+              <h3 id="subtitle" class="subtitle"></h3>      
           </div>
         </div>
         <div class="col-12 subNavOne">

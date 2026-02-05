@@ -165,7 +165,11 @@ class Chart {
         creditsWrapper.id = regionId;
         creditsWrapper.className = 'chart-credits-region';
 
-        if (container.parentNode) {
+        // Append to the top-level contentinfo container to avoid nesting in landmarks
+        const contentinfoContainer = document.getElementById('contentinfo-container');
+        if (contentinfoContainer) {
+          contentinfoContainer.appendChild(creditsWrapper);
+        } else if (container.parentNode) {
           container.parentNode.insertBefore(creditsWrapper, container.nextSibling);
         } else {
           container.appendChild(creditsWrapper);
