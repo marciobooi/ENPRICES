@@ -54,3 +54,13 @@
     box-shadow: 0 2px 4px rgb(9 49 142 / 8%), 0 0 10px rgb(9 49 142 / 4%), 0 4px 5px rgb(9 49 142 / 4%), 0 -4px 4px rgb(9 49 142 / 4%);
     text-decoration: none;
 }
+
+/* Cookie consent button - WCAG AAA contrast compliance (7:1 ratio) */
+.wt-ecl-button--primary {
+    background-color: #082b7a !important;
+    color: #ffffff !important;
+}
+
+.wt-ecl-button--primary:active, .wt-ecl-button--primary:hover {
+    background-color: #0a328e !important;
+}
