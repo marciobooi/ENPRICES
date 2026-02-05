@@ -25,7 +25,6 @@ function populateConsumption() {
     if (existingSingleSelect) {
         existingSingleSelect.parentElement.parentElement.remove();
     }
-  log('here')
     const singleSelect = new Singleselect(elementId, optionsArray, labelDescription, activeElement, textChange, selectedValue => {
         REF.consoms = selectedValue;
         // populateConsumption()

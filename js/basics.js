@@ -527,7 +527,7 @@ function chartApiCall() {
   switch (REF.chartId) {
     case "lineChart":
       url += (REF.component == 1? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : REF.taxs.map(tax => "&tax=" + tax).join(""));
-      url += (!REF.component ? "&product=" + REF.product + "&unit=" + unitChange : "");
+      url += (!REF.component ? "&unit=" + unitChange : "");
       url += "&nrg_cons=" + REF.consoms;
       url += "&currency=" + REF.currency;
       url += "&geo=" + REF.chartGeo;
@@ -540,7 +540,7 @@ function chartApiCall() {
       url += "&nrg_cons=" + REF.consoms;
       break;
     case "barChart":
-      url += (REF.component == 1 ? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : "&product=" + REF.product + "&unit=" + unitChange);
+      url += (REF.component == 1 ? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : "&unit=" + unitChange);
       url += "&currency=" + REF.currency;
       url += "&time=" + REF.time;
       url += "&geo=" + REF.chartGeo;
@@ -550,7 +550,7 @@ function chartApiCall() {
       url += "&currency=" + REF.currency;
       url += "&time=" + REF.time;
       url += "&nrg_cons=" + REF.consoms;
-      url += (REF.component == 1 ? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") : "&product=" + REF.product + "&unit=" + unitChange);
+      url += (REF.component == 1 ? REF.nrg_prc.map(prc => "&nrg_prc=" + prc).join("") :  "&unit=" + unitChange);
       break;
   }
 
@@ -726,7 +726,6 @@ function enableScreenREader(params) {
           if (target.tagName === "svg" && target.getAttribute("aria-hidden") === "false") {
             // Remove or correct the attribute
             target.removeAttribute("aria-hidden");
-            console.log("Corrected aria-hidden on:", target);
           }
         }
       });

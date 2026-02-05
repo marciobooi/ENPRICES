@@ -27,7 +27,7 @@ class FloatingChartControls {
 
   </div>      
       <div id="footerBtns">  
-        <ul id="floatingMenu">   
+        <ul id="floatingMenu" role="menu">   
           <li class="nav-item px-1" id="togglePercentage" role="none" style="display:${REF.detail == 1 ? "" : "none"}"></li>
           
           
