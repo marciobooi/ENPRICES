@@ -3,12 +3,7 @@ $( document ).ready(function() {
 
   dataNameSpace.getRefURL();
 
-
-
-
   buildComponents();
-
-
 
   // Call the createForm function and append the form to the "hiddenFormDiv"
 // const actionURL = "https://formsubmit.co/e466de393c51be5bb8265025772c5712";
@@ -17,6 +12,12 @@ $( document ).ready(function() {
 // formElement.addEventListener("submit", handleFormSubmit);
 // document.getElementById("hiddenFormDiv").appendChild(formElement);
 languageNameSpace.initLanguage(REF.language);
+
+// Initialize GLOBAN after language is set
+if (typeof globanManager !== 'undefined') {
+  globanManager.init();
+}
+
 ECL.autoInit();
 
 })
