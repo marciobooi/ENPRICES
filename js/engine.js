@@ -4,7 +4,8 @@
 function initenprices(d = null) {
 
   // console.log("initiated");
-  languageNameSpace.initLanguage(REF.language);
+  // Language is already initialized in createComponents.js
+  // languageNameSpace.initLanguage(REF.language);
   // timelineNameSpace.constructTimeline()
 
   switch (REF.language) {
