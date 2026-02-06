@@ -704,18 +704,7 @@ function enableScreenREader(params) {
   }
 
 
-  function euGlobanContainer() {
-    $("#euGlobanContainer").remove();
-  
-    const euGlobanContainer = $("<div>", { id: "euGlobanContainer" });
-    euGlobanContainer.prependTo("header");
-  
-    $wt.render("euGlobanContainer", {
-      utility: "globan",
-      lang: REF.language.toLowerCase(),
-      theme: "dark",
-    });
-  }
+
 
 
   function observeAriaHidden() {

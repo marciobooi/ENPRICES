@@ -78,6 +78,20 @@
 
   <!-- Tooltip Management System -->
   <script src="js/tooltip.js"></script>
+  
+  <!-- GLOBAN Widget Configuration -->
+  <script type="application/json">
+  {
+    "utility": "globan",
+    "theme": "light",
+    "logo": true,
+    "link": true,
+    "lang": "en",
+    "mode": false,
+    "zindex": 40,
+    "target": "euGlobanContainer"
+  }
+  </script>
 
   <script src="js/basics.js"></script>
   <script src="js/json-stat.js"></script>
@@ -132,34 +146,7 @@
       "is404" : false
     } </script>
 
-    <!-- Script to fix banner landmark positioning and ensure unique labels -->
-    <script>
-      // Move banner landmark to top level and add unique aria-label
-      function fixBannerPosition() {
-        const banner = document.querySelector('.es_app_top[role="banner"]');
-        const bannerContainer = document.getElementById('banner-container');
-        
-        if (banner && bannerContainer && !bannerContainer.contains(banner)) {
-          bannerContainer.appendChild(banner);
-        }
-        
-        // Ensure banner has a unique aria-label for landmark distinction
-        if (banner && !banner.getAttribute('aria-label')) {
-          banner.setAttribute('aria-label', 'European Commission');
-        }
-      }
-      
-      // Run immediately after page load and also watch for banner injection
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', fixBannerPosition);
-      } else {
-        fixBannerPosition();
-      }
-      
-      // Also run it after a short delay to catch delayed injections
-      setTimeout(fixBannerPosition, 1000);
-      setTimeout(fixBannerPosition, 3000);
-    </script>
+
 
 </head>
 
@@ -172,7 +159,7 @@
   <div id="aria-live-region" aria-live="polite" aria-atomic="true" class="sr-only" role="status"></div>
 
   <div id="hiddenFormDiv"></div>
-  <div id="banner-container"></div>
+  <div id="euGlobanContainer"></div>
   <noscript>
       <p class="no-script"> Your browser does not support Javascript or Javascript is disabled. <br /> Please enable Javascript to use the enprices tool. </p>
   </noscript>
@@ -259,35 +246,4 @@
 
 
   <script src="js/bootstrap/bootstrap@5.3.0.js"></script>
-  <script src="js/external/intro7.0.1.js"></script>
-  <script src="js/external/ecl-eu.js"></script>
-
-
-  <script>
-
-    $( document ).ready(function() {        
-    initenprices()    
-    hideForIframe()
-    }); 
-</script>
-
-
-<!-- functions from eurostat -->
-<script>
-  window.addEventListener("wtReady", function () {
-      $wt.render("euGlobanContainer", {
-          utility: "globan",
-          lang: REF.language.toLowerCase(),
-          theme: "dark",
-      });
-  });
-</script>
-<script type="application/json">{
-  "utility": "cck",
-  "url": "http://ec.europa.eu/cookies/index_en.htm",
-  "target": true
-}</script>
-  
-</body>
-
-</html>
+  <script src

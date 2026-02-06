@@ -35,7 +35,7 @@ var languageNameSpace = {
 
       getTitle();
 
-      euGlobanContainer();
+ 
 
       // specials
 
