@@ -11,7 +11,7 @@ function populateCountries() {
     const EU_COUNTRY_CODES = ["BE", "BG", "CZ", "DK", "DE", "EE", "IE", "EL", "ES", "FR", "HR", "IT", "CY", "LV", "LT", "LU", "HU", "MT", "NL", "AT", "PL", "PT", "RO", "SI", "SK", "FI", "SE"];
     const EFTA_COUNTRY_CODES = ["IS", "LI", "NO"];
     const ENLARGEMENT_COUNTRY_CODES = [ "BA","ME","MD","MK","GE","AL","RS","TR","UA","XK",]
-    // const OTHER_THIRD_COUNTRY_CODES = ["UA", "MD", "GE"];
+
 
 
 

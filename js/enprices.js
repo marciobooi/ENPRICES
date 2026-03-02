@@ -17,21 +17,23 @@ function chartdata(d = null) {
   REF.nrg_prc = codesDataset[conditions[datasetKey]].nrg_prc
   REF.product = codesDataset[conditions[datasetKey]].product
 
-  if(REF.geos == null || REF.geos == '') {
-    REF.geos = defGeos
-  } else {
-    REF.geos = REF.geos
+  if (REF.geos == null || REF.geos == '') {
+    REF.geos = defGeos;
+  }
+  if (Array.isArray(REF.geos)) {
+    REF.geos = REF.geos.filter((geo) => geo !== "EA");
   }
 
   d = chartApiCall();
 
-  geos = d.Dimension("geo").id;
+  const dimensionGeos = d.Dimension("geo").id;
+  const filteredGeos = dimensionGeos.filter((geo) => geo !== "EA");
+  geos = filteredGeos;
   tax = REF.component == 1 ? d.Dimension('nrg_prc').id : REF.taxs;  
   dec = REF.unit == "MWH" ? 0 : 4;
   factor = REF.unit == "MWH" ? 1000 : 1;
   
-
-  geo = d.Dimension("geo").id;
+  geo = filteredGeos;
 
   barcateg = []
   bardata = [];
@@ -107,7 +109,12 @@ function chartdata(d = null) {
 
       const languageLabel = languageNameSpace.labels[geo];
       const color = geo == "EU27_2020" ? '#CCA300' : (geo == "EA" ? '#208486' : "#0E47CB");
-      bartotals.push({ name: languageLabel, y: taxValue, color }); 
+      bartotals.push({
+        name: languageLabel,
+        y: taxValue,
+        color,
+        code: geo,
+      }); 
     });
   }  
  
