@@ -36,8 +36,6 @@ function chartdata(d = null) {
   barcateg = []
   bardata = [];
 
-
-
   const isEmpty = Object.values(d.value).every(x => x == null || x == '');
 
   if (isEmpty) { nullishChart(); return;}

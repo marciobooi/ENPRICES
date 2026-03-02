@@ -91,6 +91,8 @@ var languageNameSpace = {
       hideMenuSwitch();
     }
 
+    enprices();
+
     ECL.autoInit();
   },
 };

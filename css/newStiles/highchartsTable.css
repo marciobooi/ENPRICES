@@ -192,6 +192,12 @@ th.highcharts-text {
 .highcharts-table-caption {
     color: #262b38 !important;
     font-weight: 500;
+    position: absolute ;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    top: auto;
+    overflow: hidden;
 }
 
 
