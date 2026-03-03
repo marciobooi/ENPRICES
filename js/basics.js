@@ -1,65 +1,5 @@
 var log = console.log.bind(console);
 
-if (!window.COUNTRY_GROUP_DEFINITIONS) {
-  window.COUNTRY_GROUP_DEFINITIONS = [
-    { name: "AGGREGATE", codes: ["EU27_2020"] },
-    {
-      name: "EUCTR",
-      codes: [
-        "BE",
-        "BG",
-        "CZ",
-        "DK",
-        "DE",
-        "EE",
-        "IE",
-        "EL",
-        "ES",
-        "FR",
-        "HR",
-        "IT",
-        "CY",
-        "LV",
-        "LT",
-        "LU",
-        "HU",
-        "MT",
-        "NL",
-        "AT",
-        "PL",
-        "PT",
-        "RO",
-        "SI",
-        "SK",
-        "FI",
-        "SE",
-      ],
-    },
-    { name: "EFTA", codes: ["IS", "LI", "NO"] },
-    {
-      name: "ENLARGEMENT",
-      codes: ["BA", "ME", "MD", "MK", "GE", "AL", "RS", "TR", "UA", "XK"],
-    },
-  ];
-
-  window.COUNTRY_GROUP_PRIORITY = window.COUNTRY_GROUP_DEFINITIONS.reduce((acc, group, index) => {
-    group.codes.forEach((code) => {
-      acc[code] = index;
-    });
-    return acc;
-  }, {});
-
-  window.DEFAULT_COUNTRY_GROUP_INDEX = window.COUNTRY_GROUP_DEFINITIONS.length;
-}
-
-function getCountryGroupIndex(code) {
-  const priority = window.COUNTRY_GROUP_PRIORITY;
-  if (!code) {
-    return window.DEFAULT_COUNTRY_GROUP_INDEX;
-  }
-  return priority && priority.hasOwnProperty(code) ? priority[code] : window.DEFAULT_COUNTRY_GROUP_INDEX;
-}
-
 // Detect mobile: prefer userAgent or actual touch capability when width is small.
 function detectMobile() {
   const uaMobile = /Mobi|Android/i.test(navigator.userAgent);
@@ -229,48 +169,28 @@ function sortArrayAlphabetically() {
 
 function sortArrayByAscValues(arr) {
   if (REF.detail == 1) {
-    sortDetailCategoriesByGroup(arr, true);
+    arr.sort((a, b) => {
+      const sumA = a.y.reduce((acc, val) => acc + val, 0);
+      const sumB = b.y.reduce((acc, val) => acc + val, 0);
+      return sumA - sumB;
+    });
   } else {
-    sortBardataByGroup(arr, true);
+    // arr.sort((a, b) => a.y % 2 - b.y % 2 || a.y - b.y);
+    arr.sort((a, b) => b.y - a.y);
   }
 }
 
 function sortArrayByDescValues(arr) {
   if (REF.detail == 1) {
-    sortDetailCategoriesByGroup(arr, false);
+    arr.sort((a, b) => {
+      const sumA = a.y.reduce((acc, val) => acc + val, 0);
+      const sumB = b.y.reduce((acc, val) => acc + val, 0);
+      return sumB - sumA;
+    });
   } else {
-    sortBardataByGroup(arr, false);
+    // arr.sort((a, b) => b.y % 2 - a.y % 2 || b.y - a.y);
+    arr.sort((a, b) => b.y - a.y);
   }
-}
-
-// Keep aggregates grouped by category when sorting the flat chart view.
-function sortBardataByGroup(arr, ascending) {
-  arr.sort((a, b) => {
-    const groupA = getCountryGroupIndex(a.code);
-    const groupB = getCountryGroupIndex(b.code);
-    if (groupA !== groupB) {
-      return groupA - groupB;
-    }
-    const valueA = typeof a.y === "number" ? a.y : Number(a.y) || 0;
-    const valueB = typeof b.y === "number" ? b.y : Number(b.y) || 0;
-    return ascending ? valueA - valueB : valueB - valueA;
-  });
-}
-
-function sortDetailCategoriesByGroup(arr, ascending) {
-  arr.sort((a, b) => {
-    if (!a || !b) {
-      return a ? -1 : b ? 1 : 0;
-    }
-    const groupA = getCountryGroupIndex(a.code);
-    const groupB = getCountryGroupIndex(b.code);
-    if (groupA !== groupB) {
-      return groupA - groupB;
-    }
-    const sumA = (a.y || []).reduce((acc, val) => acc + (val || 0), 0);
-    const sumB = (b.y || []).reduce((acc, val) => acc + (val || 0), 0);
-    return ascending ? sumA - sumB : sumB - sumA;
-  });
 }
 
 function sortArrayByProtocolOrder(arr) {
@@ -304,7 +224,7 @@ function sortArrayByProtocolOrder(arr) {
       // const color = geop == "EU27_2020" ? '#14375a' : (geop == "EA" ? '#800000' : "#32afaf");
       const color = geop == "EU27_2020" ? '#CCA300' : (geop == "EA" ? '#208486' : "#0E47CB");
 
-      barproto.push({ name: languageLabel, y: taxValue, color, code: geop });
+      barproto.push({ name: languageLabel, y: taxValue, color });
     });
   }
 }
@@ -344,6 +264,8 @@ function chartNormalTooltip(points) {
 </table>`;
   return html
 }
+
+
 
 
 function pieTolltip(point) {
