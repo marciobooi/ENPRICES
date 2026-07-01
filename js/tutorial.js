@@ -148,6 +148,12 @@ function tutorial() {
 		doneBtnText: languageNameSpace.labels['CLOSE'],
 		steps: steps,
 		onCloseClick: () => closeProcess(),
+		onPopoverRender: (popover) => {
+			// driver.js renders the button bar as a bare <footer>, which browsers
+			// expose as a second "contentinfo" landmark alongside the real page
+			// footer. It's just a button group, not page footer content.
+			popover.footer.setAttribute('role', 'none');
+		},
 		onDestroyed: () => {
 			window.scrollTo(0, 0);
 			isOpen = false;

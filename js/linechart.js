@@ -112,7 +112,7 @@ function createLineChart() {
         type: "spline",
         title: lineTitle,
         subtitle: null,
-        xAxis: {"categories": linedata.map((e) => e.x),},
+        xAxis: {"categories": lineCat},
         yAxisFormat: "{value:.2f}",
         tooltipFormatter: tooltipFormatter,
         creditsText: credits(),
