@@ -2,6 +2,454 @@ ENPRICES INSIGHTS: PRODUCT STRUCTURE, CALCULATION FORMULAS, DATA REQUIREMENTS, A
 Version: Concept specification
 Scope: Eurostat Energy Prices visualisation (Enprices)
 
+
+===============================================================================
+some style used in other tools
+===============================================================================
+
+.insights-panel {
+  padding: 1.25rem 1.5rem;
+  max-height: calc(90vh - 160px);
+  overflow-y: auto;
+}
+
+.insights-panel:focus {
+  outline: 3px solid var(--tool-1);
+  outline-offset: 3px;
+}
+
+.insights-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--tool-1);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--tool-1);
+}
+
+.insights-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 0.85rem;
+}
+
+.insights-meta__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 110px;
+  padding: 0.4rem 0.6rem;
+  background: #fff;
+  border: 1px solid #dce3f0;
+  border-radius: 6px;
+}
+
+.insights-meta__label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #4c5563;
+}
+
+.insights-meta__value {
+  font-size: 0.82rem;
+  color: var(--tool-1);
+}
+
+.insights-summary {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #333;
+  background: #eef1fb;
+  border-left: 4px solid var(--tool-1);
+  padding: 0.65rem 0.9rem;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 0.6rem;
+}
+
+.insights-note {
+  font-size: 0.75rem;
+  color: #4c5563;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.insights-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.insights-section {
+  background: #f5f7fc;
+  border-radius: 6px;
+  padding: 1rem 1.25rem 1.25rem;
+  border-left: 4px solid var(--tool-1);
+}
+
+.insights-section__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.insights-year-label {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: #4c5563;
+  margin-left: 0.4rem;
+}
+
+/* â”€â”€ Metric cards â”€â”€ */
+.insights-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.insight-card {
+  background: #fff;
+  border: 1px solid #dce3f0;
+  border-radius: 6px;
+  padding: 0.65rem 0.9rem;
+  min-width: 130px;
+  flex: 1 1 130px;
+  max-width: 210px;
+}
+
+.insight-card--positive {
+  border-left: 3px solid #28a745;
+}
+
+.insight-card--negative {
+  border-left: 3px solid #dc3545;
+}
+
+.insight-card__label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #4c5563;
+  margin-bottom: 0.25rem;
+}
+
+.insight-card__value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--tool-1);
+  line-height: 1.2;
+}
+
+.insight-card__sub {
+  font-size: 0.75rem;
+  color: #555;
+  margin-top: 0.2rem;
+}
+
+.insight-card__note {
+  font-size: 0.68rem;
+  color: #4c5563;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+/* â”€â”€ Rank table â”€â”€ */
+.insights-rank-table-wrapper {
+  margin-top: 0.5rem;
+  overflow-x: auto;
+}
+
+.insights-rank-table-wrapper:focus-visible {
+  outline: 3px solid var(--tool-1);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.insights-rank-table {
+  width: 100%;
+  font-size: 0.83rem;
+}
+
+.insights-rank-table [hidden] {
+  display: none !important;
+}
+
+.insights-rank-table__header--rank,
+.insights-rank-table__cell--rank {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.insights-rank-table__header--numeric,
+.insights-rank-table__cell--numeric {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.insights-rank-table__row--top {
+  background: rgba(11, 57, 162, 0.04);
+}
+
+.insights-rank-table__row--top .insights-rank-table__cell--partner {
+  font-weight: 700;
+}
+
+.insights-rank-table-toggle {
+  margin-top: 0.65rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid #b8c6e3;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--tool-1);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.insights-rank-table-toggle:hover,
+.insights-rank-table-toggle:focus-visible {
+  border-color: var(--tool-1);
+  background: #eef1fb;
+  outline: none;
+}
+
+.insights-rank-cards {
+  display: none;
+}
+
+.insights-rank-card {
+  border: 1px solid #dce3f0;
+  border-radius: 6px;
+  background: #fff;
+  padding: 0.75rem 0.8rem;
+}
+
+.insights-rank-card--top {
+  border-left: 3px solid var(--tool-1);
+}
+
+.insights-rank-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: baseline;
+  margin-bottom: 0.55rem;
+}
+
+.insights-rank-card__rank {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #4c5563;
+}
+
+.insights-rank-card__partner {
+  color: var(--tool-1);
+  text-align: right;
+}
+
+.insights-rank-card__stats {
+  margin: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.insights-rank-card__stat {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: baseline;
+}
+
+.insights-rank-card__stat dt {
+  margin: 0;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #4c5563;
+}
+
+.insights-rank-card__stat dd {
+  margin: 0;
+  text-align: right;
+}
+
+.insights-mini-profile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 0.85rem;
+}
+
+.insights-mini-profile__item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  background: #fff;
+  border: 1px solid #dce3f0;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+}
+
+.insights-mini-profile__label {
+  font-size: 0.76rem;
+  color: #4c5563;
+}
+
+.insights-mini-profile__value {
+  font-size: 0.84rem;
+  color: var(--tool-1);
+}
+
+.insights-history-trend {
+  margin-bottom: 0.9rem;
+  padding: 0.75rem 0.85rem;
+  background: #fff;
+  border: 1px solid #dce3f0;
+  border-radius: 6px;
+}
+
+.insights-history-trend__title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #4c5563;
+  margin-bottom: 0.45rem;
+}
+
+.insights-history-trend__meta {
+  margin-left: 0.45rem;
+  font-weight: 400;
+  color: #5f6978;
+}
+
+.insights-sparkline {
+  color: var(--tool-1);
+}
+
+.insights-sparkline__svg {
+  display: block;
+  width: 100%;
+  height: 10rem;
+}
+
+.insights-sparkline__area {
+  fill: rgba(11, 57, 162, 0.12);
+}
+
+.insights-sparkline__line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.insights-sparkline__point {
+  fill: #fff;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.insights-sparkline__point--peak {
+  fill: currentColor;
+  opacity: 0.45;
+  stroke: none;
+}
+
+.insights-sparkline__axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: #4c5563;
+  margin-top: 0.15rem;
+}
+
+/* â”€â”€ Rank movement pills â”€â”€ */
+.insights-rank-movement {
+  margin-top: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #dce3f0;
+}
+
+.insights-rank-movement__label {
+  font-size: 0.78rem;
+  margin-bottom: 0.4rem;
+}
+
+.insights-rank-movement__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.insight-rank-item {
+  font-size: 0.8rem;
+  background: #eef1fb;
+  padding: 0.18rem 0.55rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.insight-rank-num {
+  font-weight: 700;
+  color: #555;
+  min-width: 1.1em;
+}
+
+.insight-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0 0.3em;
+  border-radius: 2px;
+}
+
+
+.insight-rank-up   { color: #155724; font-weight: 700; }
+.insight-rank-down { color: #8b1e1a; font-weight: 700; }
+.insight-rank-same { color: #4c5563; }
+.insight-rank-new  { color: #0b5563; font-weight: 700; }
+
+.insight-stable  { color: #155724; font-weight: 700; }
+.insight-changed { color: #8b1e1a; font-weight: 700; }
+
+.insights-no-prev {
+  font-size: 0.85rem;
+  color: #5f6674;
+  font-style: italic;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .insights-rank-table-wrapper {
+    overflow-x: hidden;
+  }
+
+  .insights-rank-table {
+    display: none;
+  }
+
+  .insights-rank-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    width: 100%;
+  }
+}
+
 ===============================================================================
 1. PURPOSE
 ===============================================================================

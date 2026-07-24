@@ -309,6 +309,16 @@
     "DE": "Teilen",
     "FR": "Partager"
   },
+  "INSIGHTS": {
+    "EN": "Show insights",
+    "DE": "Erkenntnisse anzeigen",
+    "FR": "Afficher les analyses"
+  },
+  "INSIGHTS_TITLE": {
+    "EN": "Insights",
+    "DE": "Erkenntnisse",
+    "FR": "Analyses"
+  },
   "TWITTER": {
     "EN": "X",
     "DE": "X",

@@ -1,0 +1,11 @@
+#insightsView {
+    width: 97vw;
+    min-height: 73vh;
+    padding-top: 3rem;
+}
+
+.insights-view-title {
+    font-size: 1.25rem;
+    color: var(--text-main-color);
+    margin-bottom: 1rem;
+}

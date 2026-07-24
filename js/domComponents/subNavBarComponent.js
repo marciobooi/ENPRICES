@@ -71,6 +71,16 @@ class SubNavbar {
                 </li>
               </ul>
             </div>
+            <div class="nav-item button px-1" id="toggleInsights">
+              <button id="insightsChart" type="button" class="ecl-button ecl-button--primary round-btn" data-i18n-title="INSIGHTS" data-i18n-label="INSIGHTS" aria-expanded="false" aria-controls="insightsView" aria-disabled="false" onclick="openInsightsView()">
+                <i class="fas fa-lightbulb" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="nav-item button px-1 d-none" id="closeInsightsWrapper">
+              <button id="btnCloseModalChart" class="ecl-button ecl-button--primary round-btn close-chart-menu-btn" value="false" data-i18n-label="CLOSE" data-i18n-title="CLOSE" aria-label="Close" onclick="closeInsightsView()">
+                <i class="fas fa-times" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
         <div id="chartOptionsMenu" class="toggleMenu">
@@ -164,8 +174,18 @@ class SubNavbar {
               <button class="dropdown-item ecl-link ecl-link--standalone"  onclick="socialNameSpace.facebook()" data-i18n-label="FACEBOOK" aria-label="FACEBOOK">FACEBOOK</button>
               <button class="dropdown-item ecl-link ecl-link--standalone"  onclick="socialNameSpace.linkedin()" data-i18n-label="LINKEDIN" aria-label="LINKEDIN">LINKEDIN</button>
           </ul>
-          
-            </li>    
+
+            </li>
+              <li class="nav-item button px-1" id="toggleInsights">
+              <button id="insightsChart" type="button" class="btn btn-primary min-with--nav round-btn" data-i18n-title="INSIGHTS" data-i18n-label="INSIGHTS" aria-expanded="false" aria-controls="insightsView" aria-disabled="false" onclick="openInsightsView()">
+              <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </button>
+              </li>
+              <li class="nav-item button px-1 d-none" id="closeInsightsWrapper">
+              <button id="btnCloseModalChart" class="ecl-button ecl-button--primary round-btn close-chart-menu-btn" value="false" data-i18n-label="CLOSE" data-i18n-title="CLOSE" aria-label="Close" onclick="closeInsightsView()">
+              <i class="fas fa-times" aria-hidden="true"></i>
+          </button>
+              </li>
           </ul>
         </div>
 
