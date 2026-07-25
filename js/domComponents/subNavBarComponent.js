@@ -77,7 +77,7 @@ class SubNavbar {
               </button>
             </div>
             <div class="nav-item button px-1 d-none" id="closeInsightsWrapper">
-              <button id="btnCloseModalChart" class="ecl-button ecl-button--primary round-btn close-chart-menu-btn" value="false" data-i18n-label="CLOSE" data-i18n-title="CLOSE" aria-label="Close" onclick="closeInsightsView()">
+              <button id="insightsCloseBtn" class="ecl-button ecl-button--primary round-btn close-chart-menu-btn" value="false" data-i18n-label="CLOSE" data-i18n-title="CLOSE" aria-label="Close" onclick="closeInsightsView()">
                 <i class="fas fa-times" aria-hidden="true"></i>
               </button>
             </div>
@@ -182,7 +182,7 @@ class SubNavbar {
           </button>
               </li>
               <li class="nav-item button px-1 d-none" id="closeInsightsWrapper">
-              <button id="btnCloseModalChart" class="ecl-button ecl-button--primary round-btn close-chart-menu-btn" value="false" data-i18n-label="CLOSE" data-i18n-title="CLOSE" aria-label="Close" onclick="closeInsightsView()">
+              <button id="insightsCloseBtn" class="ecl-button ecl-button--primary round-btn close-chart-menu-btn" value="false" data-i18n-label="CLOSE" data-i18n-title="CLOSE" aria-label="Close" onclick="closeInsightsView()">
               <i class="fas fa-times" aria-hidden="true"></i>
           </button>
               </li>

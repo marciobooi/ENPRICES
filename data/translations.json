@@ -319,6 +319,771 @@
     "DE": "Erkenntnisse",
     "FR": "Analyses"
   },
+  "INSIGHTS_LOADING": {
+    "EN": "Loading insights…",
+    "DE": "Erkenntnisse werden geladen…",
+    "FR": "Chargement des analyses…"
+  },
+  "INSIGHTS_ERROR": {
+    "EN": "Insights could not be loaded for the current selection.",
+    "DE": "Erkenntnisse konnten für die aktuelle Auswahl nicht geladen werden.",
+    "FR": "Les analyses n'ont pas pu être chargées pour la sélection actuelle."
+  },
+  "INSIGHTS_CONTEXT": {
+    "EN": "Current selection",
+    "DE": "Aktuelle Auswahl",
+    "FR": "Sélection actuelle"
+  },
+  "INSIGHTS_GEOGRAPHY": {
+    "EN": "Geography",
+    "DE": "Geografie",
+    "FR": "Géographie"
+  },
+  "INSIGHTS_PERIOD": {
+    "EN": "Period",
+    "DE": "Zeitraum",
+    "FR": "Période"
+  },
+  "INSIGHTS_PRODUCT": {
+    "EN": "Product",
+    "DE": "Produkt",
+    "FR": "Produit"
+  },
+  "INSIGHTS_CONSUMER": {
+    "EN": "Consumer type",
+    "DE": "Verbrauchertyp",
+    "FR": "Type de consommateur"
+  },
+  "INSIGHTS_BAND": {
+    "EN": "Consumption band",
+    "DE": "Verbrauchsband",
+    "FR": "Tranche de consommation"
+  },
+  "INSIGHTS_PRICE_EXPRESSION": {
+    "EN": "Price expression",
+    "DE": "Preisausdruck",
+    "FR": "Expression du prix"
+  },
+  "INSIGHTS_LATEST_PRICE": {
+    "EN": "Latest price",
+    "DE": "Aktueller Preis",
+    "FR": "Dernier prix"
+  },
+  "INSIGHTS_SEMESTER_CHANGE": {
+    "EN": "Semester-on-semester",
+    "DE": "Im Vergleich zum Vorhalbjahr",
+    "FR": "Par rapport au semestre précédent"
+  },
+  "INSIGHTS_YOY_CHANGE": {
+    "EN": "Year-on-year change",
+    "DE": "Veränderung zum Vorjahr",
+    "FR": "Variation sur un an"
+  },
+  "INSIGHTS_EU_COMPARISON": {
+    "EN": "EU comparison",
+    "DE": "EU-Vergleich",
+    "FR": "Comparaison UE"
+  },
+  "INSIGHTS_EA_COMPARISON": {
+    "EN": "Euro area comparison",
+    "DE": "Vergleich Euroraum",
+    "FR": "Comparaison zone euro"
+  },
+  "INSIGHTS_HISTORICAL_POSITION": {
+    "EN": "Historical position",
+    "DE": "Historische Einordnung",
+    "FR": "Position historique"
+  },
+  "INSIGHTS_COUNTRY_RANK": {
+    "EN": "Country rank",
+    "DE": "Länderrang",
+    "FR": "Rang du pays"
+  },
+  "INSIGHTS_COMPOSITION": {
+    "EN": "Price composition",
+    "DE": "Preiszusammensetzung",
+    "FR": "Composition du prix"
+  },
+  "INSIGHTS_MAIN_DRIVER": {
+    "EN": "Main driver of change",
+    "DE": "Haupttreiber der Veränderung",
+    "FR": "Principal facteur de variation"
+  },
+  "INSIGHTS_FISCAL_EFFECT": {
+    "EN": "Fiscal effect on the annual change",
+    "DE": "Fiskalische Wirkung auf die Jahresveränderung",
+    "FR": "Effet fiscal sur la variation annuelle"
+  },
+  "INSIGHTS_PPS_PERSPECTIVE": {
+    "EN": "Purchasing-power (PPS) perspective",
+    "DE": "Kaufkraftperspektive (PPS)",
+    "FR": "Perspective en pouvoir d'achat (SPA)"
+  },
+  "INSIGHTS_DATA_QUALITY": {
+    "EN": "Data and interpretation notes",
+    "DE": "Daten- und Interpretationshinweise",
+    "FR": "Notes sur les données et l'interprétation"
+  },
+  "INSIGHTS_NOT_AVAILABLE": {
+    "EN": "Not available",
+    "DE": "Nicht verfügbar",
+    "FR": "Non disponible"
+  },
+  "INSIGHTS_REPORTING_COUNTRIES": {
+    "EN": "reporting countries",
+    "DE": "berichtende Länder",
+    "FR": "pays déclarants"
+  },
+  "INSIGHTS_VS_MEDIAN": {
+    "EN": "vs. country median",
+    "DE": "ggü. Länder-Median",
+    "FR": "par rapport à la médiane des pays"
+  },
+  "INSIGHTS_RANK_LABEL": {
+    "EN": "Rank (highest price)",
+    "DE": "Rang (höchster Preis)",
+    "FR": "Rang (prix le plus élevé)"
+  },
+  "INSIGHTS_PERCENTILE": {
+    "EN": "Percentile",
+    "DE": "Perzentil",
+    "FR": "Centile"
+  },
+  "INSIGHTS_HISTORICAL_MIN": {
+    "EN": "Historical minimum",
+    "DE": "Historisches Minimum",
+    "FR": "Minimum historique"
+  },
+  "INSIGHTS_HISTORICAL_MAX": {
+    "EN": "Historical maximum",
+    "DE": "Historisches Maximum",
+    "FR": "Maximum historique"
+  },
+  "INSIGHTS_PEAK_PERIOD": {
+    "EN": "Peak period",
+    "DE": "Höchststand-Zeitraum",
+    "FR": "Période du pic"
+  },
+  "INSIGHTS_SINCE_PEAK": {
+    "EN": "Semesters since peak",
+    "DE": "Halbjahre seit Höchststand",
+    "FR": "Semestres depuis le pic"
+  },
+  "INSIGHTS_NEW_HIGH": {
+    "EN": "New historical high",
+    "DE": "Neues historisches Hoch",
+    "FR": "Nouveau maximum historique"
+  },
+  "INSIGHTS_NEW_LOW": {
+    "EN": "New historical low",
+    "DE": "Neues historisches Tief",
+    "FR": "Nouveau minimum historique"
+  },
+  "INSIGHTS_NEAR_HIGH": {
+    "EN": "Near historical high",
+    "DE": "Nahe historischem Hoch",
+    "FR": "Proche du maximum historique"
+  },
+  "INSIGHTS_NEAR_LOW": {
+    "EN": "Near historical low",
+    "DE": "Nahe historischem Tief",
+    "FR": "Proche du minimum historique"
+  },
+  "INSIGHTS_RISING": {
+    "EN": "Rising",
+    "DE": "Steigend",
+    "FR": "En hausse"
+  },
+  "INSIGHTS_FALLING": {
+    "EN": "Falling",
+    "DE": "Fallend",
+    "FR": "En baisse"
+  },
+  "INSIGHTS_STABLE": {
+    "EN": "Broadly stable",
+    "DE": "Weitgehend stabil",
+    "FR": "Globalement stable"
+  },
+  "INSIGHTS_UNAVAILABLE": {
+    "EN": "Unavailable",
+    "DE": "Nicht verfügbar",
+    "FR": "Indisponible"
+  },
+  "INSIGHTS_ABOVE_EU": {
+    "EN": "above the EU aggregate",
+    "DE": "über dem EU-Aggregat",
+    "FR": "au-dessus de l'agrégat UE"
+  },
+  "INSIGHTS_BELOW_EU": {
+    "EN": "below the EU aggregate",
+    "DE": "unter dem EU-Aggregat",
+    "FR": "en dessous de l'agrégat UE"
+  },
+  "INSIGHTS_IN_LINE_EU": {
+    "EN": "broadly in line with the EU aggregate",
+    "DE": "weitgehend im Einklang mit dem EU-Aggregat",
+    "FR": "globalement conforme à l'agrégat UE"
+  },
+  "INSIGHTS_MAIN_UPWARD_DRIVER": {
+    "EN": "Main upward driver",
+    "DE": "Haupttreiber nach oben",
+    "FR": "Principal facteur à la hausse"
+  },
+  "INSIGHTS_MAIN_DOWNWARD_DRIVER": {
+    "EN": "Main downward driver",
+    "DE": "Haupttreiber nach unten",
+    "FR": "Principal facteur à la baisse"
+  },
+  "INSIGHTS_MIXED_MOVEMENT": {
+    "EN": "No single component dominates the change",
+    "DE": "Keine einzelne Komponente dominiert die Veränderung",
+    "FR": "Aucune composante ne domine la variation"
+  },
+  "INSIGHTS_NO_COMPONENT_DATA": {
+    "EN": "Component breakdown is not available for this selection.",
+    "DE": "Für diese Auswahl liegt keine Komponentenaufschlüsselung vor.",
+    "FR": "La décomposition par composante n'est pas disponible pour cette sélection."
+  },
+  "INSIGHTS_FISCAL_CUSHIONED": {
+    "EN": "Fiscal changes cushioned the underlying price increase",
+    "DE": "Fiskalische Änderungen dämpften den zugrunde liegenden Preisanstieg",
+    "FR": "Les évolutions fiscales ont atténué la hausse sous-jacente du prix"
+  },
+  "INSIGHTS_FISCAL_AMPLIFIED": {
+    "EN": "Fiscal changes amplified the underlying price increase",
+    "DE": "Fiskalische Änderungen verstärkten den zugrunde liegenden Preisanstieg",
+    "FR": "Les évolutions fiscales ont amplifié la hausse sous-jacente du prix"
+  },
+  "INSIGHTS_FISCAL_OFFSET_DECREASE": {
+    "EN": "Fiscal changes partly offset the underlying price decrease",
+    "DE": "Fiskalische Änderungen glichen den zugrunde liegenden Preisrückgang teilweise aus",
+    "FR": "Les évolutions fiscales ont partiellement compensé la baisse sous-jacente du prix"
+  },
+  "INSIGHTS_FISCAL_OPPOSITE_UP": {
+    "EN": "The final price increased despite an underlying pre-tax decrease",
+    "DE": "Der Endpreis stieg trotz eines zugrunde liegenden Rückgangs vor Steuern",
+    "FR": "Le prix final a augmenté malgré une baisse sous-jacente hors taxes"
+  },
+  "INSIGHTS_FISCAL_OPPOSITE_DOWN": {
+    "EN": "The final price decreased despite an underlying pre-tax increase",
+    "DE": "Der Endpreis sank trotz eines zugrunde liegenden Anstiegs vor Steuern",
+    "FR": "Le prix final a diminué malgré une hausse sous-jacente hors taxes"
+  },
+  "INSIGHTS_FISCAL_NEUTRAL": {
+    "EN": "Broadly neutral fiscal effect",
+    "DE": "Weitgehend neutrale fiskalische Wirkung",
+    "FR": "Effet fiscal globalement neutre"
+  },
+  "INSIGHTS_FISCAL_UNAVAILABLE": {
+    "EN": "The fiscal effect could not be calculated for this selection.",
+    "DE": "Die fiskalische Wirkung konnte für diese Auswahl nicht berechnet werden.",
+    "FR": "L'effet fiscal n'a pas pu être calculé pour cette sélection."
+  },
+  "INSIGHTS_PRETAX_CHANGE": {
+    "EN": "Pre-tax price change",
+    "DE": "Preisänderung vor Steuern",
+    "FR": "Variation du prix hors taxes"
+  },
+  "INSIGHTS_FINAL_CHANGE": {
+    "EN": "Final price change",
+    "DE": "Änderung des Endpreises",
+    "FR": "Variation du prix final"
+  },
+  "INSIGHTS_EUR_RANK": {
+    "EN": "EUR rank",
+    "DE": "Rang in EUR",
+    "FR": "Rang en EUR"
+  },
+  "INSIGHTS_PPS_RANK": {
+    "EN": "PPS rank",
+    "DE": "Rang in PPS",
+    "FR": "Rang en SPA"
+  },
+  "INSIGHTS_RANK_SHIFT": {
+    "EN": "Rank shift",
+    "DE": "Rangverschiebung",
+    "FR": "Décalage de rang"
+  },
+  "INSIGHTS_PPS_HIGHER": {
+    "EN": "The price appears higher from a purchasing-power perspective",
+    "DE": "Aus Kaufkraftsicht erscheint der Preis höher",
+    "FR": "Le prix apparaît plus élevé du point de vue du pouvoir d'achat"
+  },
+  "INSIGHTS_PPS_LOWER": {
+    "EN": "The price appears lower from a purchasing-power perspective",
+    "DE": "Aus Kaufkraftsicht erscheint der Preis niedriger",
+    "FR": "Le prix apparaît plus faible du point de vue du pouvoir d'achat"
+  },
+  "INSIGHTS_PPS_SIMILAR": {
+    "EN": "The purchasing-power position is broadly similar",
+    "DE": "Die Kaufkraftposition ist weitgehend ähnlich",
+    "FR": "La position en pouvoir d'achat est globalement similaire"
+  },
+  "INSIGHTS_PPS_UNAVAILABLE": {
+    "EN": "PPS comparison is not available for this selection.",
+    "DE": "Der PPS-Vergleich ist für diese Auswahl nicht verfügbar.",
+    "FR": "La comparaison en SPA n'est pas disponible pour cette sélection."
+  },
+  "INSIGHTS_QUALITY_FOCUS_MISSING": {
+    "EN": "No value is available for the selected geography and period.",
+    "DE": "Für die ausgewählte Geografie und den Zeitraum liegt kein Wert vor.",
+    "FR": "Aucune valeur n'est disponible pour la géographie et la période sélectionnées."
+  },
+  "INSIGHTS_QUALITY_YOY_MISSING": {
+    "EN": "No comparable value is available one year earlier.",
+    "DE": "Ein Jahr zuvor liegt kein vergleichbarer Wert vor.",
+    "FR": "Aucune valeur comparable n'est disponible un an plus tôt."
+  },
+  "INSIGHTS_QUALITY_BENCHMARK_MISSING": {
+    "EN": "The EU aggregate is not available for this selection.",
+    "DE": "Das EU-Aggregat ist für diese Auswahl nicht verfügbar.",
+    "FR": "L'agrégat UE n'est pas disponible pour cette sélection."
+  },
+  "INSIGHTS_QUALITY_COMPONENT_MISSING": {
+    "EN": "Component breakdown data is not available.",
+    "DE": "Es liegen keine Komponentendaten vor.",
+    "FR": "Les données de décomposition par composante ne sont pas disponibles."
+  },
+  "INSIGHTS_QUALITY_INSUFFICIENT_HISTORY": {
+    "EN": "Limited historical depth: fewer than 6 comparable observations.",
+    "DE": "Begrenzte historische Tiefe: weniger als 6 vergleichbare Beobachtungen.",
+    "FR": "Profondeur historique limitée : moins de 6 observations comparables."
+  },
+  "INSIGHTS_QUALITY_RECONCILIATION": {
+    "EN": "Components do not fully reconcile with the total price; the breakdown is partial.",
+    "DE": "Die Komponenten summieren sich nicht vollständig zum Gesamtpreis; die Aufschlüsselung ist unvollständig.",
+    "FR": "Les composantes ne se recoupent pas entièrement avec le prix total ; la décomposition est partielle."
+  },
+  "INSIGHTS_QUALITY_OK": {
+    "EN": "No data-quality issues were detected for this selection.",
+    "DE": "Für diese Auswahl wurden keine Datenqualitätsprobleme festgestellt.",
+    "FR": "Aucun problème de qualité des données n'a été détecté pour cette sélection."
+  },
+  "INSIGHTS_OUTLIER_HIGH": {
+    "EN": "Statistical outlier (high)",
+    "DE": "Statistischer Ausreißer (hoch)",
+    "FR": "Valeur aberrante statistique (haute)"
+  },
+  "INSIGHTS_OUTLIER_LOW": {
+    "EN": "Statistical outlier (low)",
+    "DE": "Statistischer Ausreißer (niedrig)",
+    "FR": "Valeur aberrante statistique (basse)"
+  },
+  "INSIGHTS_HOW_CALCULATED": {
+    "EN": "How is this calculated?",
+    "DE": "Wie wird das berechnet?",
+    "FR": "Comment est-ce calculé ?"
+  },
+  "INSIGHTS_WHAT_THIS_SHOWS": {
+    "EN": "What this shows",
+    "DE": "Was dies zeigt",
+    "FR": "Ce que cela montre"
+  },
+  "INSIGHTS_CALCULATION": {
+    "EN": "Calculation",
+    "DE": "Berechnung",
+    "FR": "Calcul"
+  },
+  "INSIGHTS_EXPLAIN_LATEST_PRICE": {
+    "EN": "The most recent available price for the product, consumer type, consumption band and geography selected above, including all taxes and levies.",
+    "DE": "Der zuletzt verfügbare Preis für das oben ausgewählte Produkt, den Verbrauchertyp, das Verbrauchsband und die Geografie, einschließlich aller Steuern und Abgaben.",
+    "FR": "Le dernier prix disponible pour le produit, le type de consommateur, la tranche de consommation et la géographie sélectionnés ci-dessus, taxes et prélèvements compris."
+  },
+  "INSIGHTS_EXPLAIN_SEMESTER_CHANGE": {
+    "EN": "Compares the latest price with the immediately preceding semester, for the same country and context.",
+    "DE": "Vergleicht den aktuellen Preis mit dem unmittelbar vorangegangenen Halbjahr, für dasselbe Land und denselben Kontext.",
+    "FR": "Compare le dernier prix avec le semestre immédiatement précédent, pour le même pays et le même contexte."
+  },
+  "INSIGHTS_EXPLAIN_YOY_CHANGE": {
+    "EN": "Compares the latest price with the same semester one year earlier, for the same country and context.",
+    "DE": "Vergleicht den aktuellen Preis mit demselben Halbjahr ein Jahr zuvor, für dasselbe Land und denselben Kontext.",
+    "FR": "Compare le dernier prix avec le même semestre un an plus tôt, pour le même pays et le même contexte."
+  },
+  "INSIGHTS_EXPLAIN_EU_COMPARISON": {
+    "EN": "Compares the selected country's price with the official EU27_2020 aggregate, for the same product, consumer type, band and period.",
+    "DE": "Vergleicht den Preis des ausgewählten Landes mit dem offiziellen EU27_2020-Aggregat, für dasselbe Produkt, denselben Verbrauchertyp, dasselbe Band und denselben Zeitraum.",
+    "FR": "Compare le prix du pays sélectionné avec l'agrégat officiel EU27_2020, pour le même produit, le même type de consommateur, la même tranche et la même période."
+  },
+  "INSIGHTS_EXPLAIN_COUNTRY_RANK": {
+    "EN": "The country's position among all reporting countries with comparable data, ranked from highest to lowest price. EU and euro-area aggregates are excluded from the ranking.",
+    "DE": "Die Position des Landes unter allen berichtenden Ländern mit vergleichbaren Daten, sortiert vom höchsten zum niedrigsten Preis. EU- und Euroraum-Aggregate sind vom Ranking ausgeschlossen.",
+    "FR": "La position du pays parmi tous les pays déclarants disposant de données comparables, classés du prix le plus élevé au plus bas. Les agrégats UE et zone euro sont exclus du classement."
+  },
+  "INSIGHTS_EXPLAIN_MEDIAN": {
+    "EN": "Compares the country's price with the middle value of all reporting countries (not the official EU aggregate, which can differ from the median).",
+    "DE": "Vergleicht den Preis des Landes mit dem mittleren Wert aller berichtenden Länder (nicht das offizielle EU-Aggregat, das vom Median abweichen kann).",
+    "FR": "Compare le prix du pays avec la valeur médiane de tous les pays déclarants (et non l'agrégat officiel de l'UE, qui peut différer de la médiane)."
+  },
+  "INSIGHTS_EXPLAIN_HISTORICAL": {
+    "EN": "Compares the latest price with the minimum, maximum and typical value of the full historical series available for this country and context.",
+    "DE": "Vergleicht den aktuellen Preis mit dem Minimum, Maximum und typischen Wert der gesamten verfügbaren historischen Reihe für dieses Land und diesen Kontext.",
+    "FR": "Compare le dernier prix avec le minimum, le maximum et la valeur typique de la série historique complète disponible pour ce pays et ce contexte."
+  },
+  "INSIGHTS_EXPLAIN_COMPOSITION": {
+    "EN": "Breaks the final price down into its official components (energy and supply, network costs, taxes and levies) for the latest available year.",
+    "DE": "Schlüsselt den Endpreis in seine offiziellen Komponenten auf (Energie und Versorgung, Netzkosten, Steuern und Abgaben) für das zuletzt verfügbare Jahr.",
+    "FR": "Décompose le prix final en ses composantes officielles (énergie et approvisionnement, coûts de réseau, taxes et prélèvements) pour la dernière année disponible."
+  },
+  "INSIGHTS_EXPLAIN_MAIN_DRIVER": {
+    "EN": "Identifies which price component changed the most, in price units, between the latest year and the previous year.",
+    "DE": "Zeigt, welche Preiskomponente sich zwischen dem letzten und dem vorherigen Jahr in Preiseinheiten am stärksten verändert hat.",
+    "FR": "Identifie la composante du prix qui a le plus varié, en unités de prix, entre la dernière année et l'année précédente."
+  },
+  "INSIGHTS_EXPLAIN_FISCAL_EFFECT": {
+    "EN": "Compares how much the pre-tax price changed with how much the final (all-taxes-included) price changed over the same year, to see whether taxation cushioned or amplified the movement.",
+    "DE": "Vergleicht die Änderung des Preises vor Steuern mit der Änderung des Endpreises (inklusive aller Steuern) im selben Jahr, um zu sehen, ob die Besteuerung die Bewegung gedämpft oder verstärkt hat.",
+    "FR": "Compare l'évolution du prix hors taxes à celle du prix final (toutes taxes comprises) sur la même année, afin de voir si la fiscalité a atténué ou amplifié le mouvement."
+  },
+  "INSIGHTS_EXPLAIN_PPS": {
+    "EN": "Recalculates the country's rank using Purchasing Power Standards instead of euro, to see whether the country's relative position changes once national price-level differences are accounted for. This is a purchasing-power perspective, not a direct measure of affordability.",
+    "DE": "Berechnet den Rang des Landes anhand von Kaufkraftstandards statt Euro neu, um zu sehen, ob sich die relative Position ändert, sobald nationale Preisniveauunterschiede berücksichtigt werden. Dies ist eine Kaufkraftperspektive, kein direktes Maß für Erschwinglichkeit.",
+    "FR": "Recalcule le rang du pays en utilisant les standards de pouvoir d'achat plutôt que l'euro, pour voir si la position relative change une fois les différences de niveau de prix national prises en compte. Il s'agit d'une perspective de pouvoir d'achat, non d'une mesure directe de l'accessibilité financière."
+  },
+  "INSIGHTS_MOMENTUM": {
+    "EN": "Momentum",
+    "DE": "Dynamik",
+    "FR": "Dynamique"
+  },
+  "INSIGHTS_EXPLAIN_MOMENTUM": {
+    "EN": "Compares the latest year-on-year change with the year-on-year change one semester earlier, to see whether the movement is accelerating, slowing, or reversing.",
+    "DE": "Vergleicht die aktuelle Veränderung zum Vorjahr mit der Veränderung zum Vorjahr ein Halbjahr zuvor, um zu sehen, ob sich die Bewegung beschleunigt, verlangsamt oder umkehrt.",
+    "FR": "Compare la dernière variation annuelle avec celle du semestre précédent, afin de voir si le mouvement s'accélère, ralentit ou s'inverse."
+  },
+  "INSIGHTS_RISING_ACCELERATING": {
+    "EN": "Rising and accelerating",
+    "DE": "Steigend und sich beschleunigend",
+    "FR": "En hausse et en accélération"
+  },
+  "INSIGHTS_RISING_SLOWING": {
+    "EN": "Rising but slowing",
+    "DE": "Steigend, aber sich verlangsamend",
+    "FR": "En hausse mais ralentissement"
+  },
+  "INSIGHTS_FALLING_ACCELERATING": {
+    "EN": "Falling and accelerating",
+    "DE": "Fallend und sich beschleunigend",
+    "FR": "En baisse et en accélération"
+  },
+  "INSIGHTS_FALLING_SLOWING": {
+    "EN": "Falling but decline is slowing",
+    "DE": "Fallend, aber der Rückgang verlangsamt sich",
+    "FR": "En baisse mais ralentissement du recul"
+  },
+  "INSIGHTS_REVERSAL": {
+    "EN": "Possible reversal",
+    "DE": "Mögliche Trendwende",
+    "FR": "Retournement possible"
+  },
+  "INSIGHTS_STABLE_YOY": {
+    "EN": "Broadly stable year-on-year",
+    "DE": "Im Jahresvergleich weitgehend stabil",
+    "FR": "Globalement stable sur un an"
+  },
+  "INSIGHTS_MEDIUM_TERM_CHANGE": {
+    "EN": "Medium-term change",
+    "DE": "Mittelfristige Veränderung",
+    "FR": "Évolution à moyen terme"
+  },
+  "INSIGHTS_EXPLAIN_CAGR": {
+    "EN": "The smoothed annual growth rate over the selected number of years — not the actual change observed in each individual year.",
+    "DE": "Die geglättete jährliche Wachstumsrate über die ausgewählte Anzahl von Jahren – nicht die tatsächliche Veränderung in jedem einzelnen Jahr.",
+    "FR": "Le taux de croissance annuel lissé sur le nombre d'années sélectionné, et non la variation réelle observée chaque année."
+  },
+  "INSIGHTS_CAGR_2Y": {
+    "EN": "2-year CAGR",
+    "DE": "CAGR (2 Jahre)",
+    "FR": "TCAC sur 2 ans"
+  },
+  "INSIGHTS_CAGR_5Y": {
+    "EN": "5-year CAGR",
+    "DE": "CAGR (5 Jahre)",
+    "FR": "TCAC sur 5 ans"
+  },
+  "INSIGHTS_TREND_REVERSAL": {
+    "EN": "Trend reversal",
+    "DE": "Trendwende",
+    "FR": "Retournement de tendance"
+  },
+  "INSIGHTS_CONSECUTIVE_INCREASE": {
+    "EN": "consecutive semester increases",
+    "DE": "aufeinanderfolgende Halbjahresanstiege",
+    "FR": "hausses semestrielles consécutives"
+  },
+  "INSIGHTS_CONSECUTIVE_DECREASE": {
+    "EN": "consecutive semester decreases",
+    "DE": "aufeinanderfolgende Halbjahresrückgänge",
+    "FR": "baisses semestrielles consécutives"
+  },
+  "INSIGHTS_VOLATILITY": {
+    "EN": "Recent volatility",
+    "DE": "Jüngste Volatilität",
+    "FR": "Volatilité récente"
+  },
+  "INSIGHTS_EXPLAIN_VOLATILITY": {
+    "EN": "The sample standard deviation of period-to-period percentage changes over the recent window — a higher value means more variable prices.",
+    "DE": "Die Stichproben-Standardabweichung der Veränderungen von Periode zu Periode im jüngsten Zeitfenster – ein höherer Wert bedeutet stärker schwankende Preise.",
+    "FR": "L'écart-type d'échantillon des variations en pourcentage d'une période à l'autre sur la fenêtre récente — une valeur plus élevée signifie des prix plus variables."
+  },
+  "INSIGHTS_SEASONAL_PATTERN": {
+    "EN": "Seasonal pattern",
+    "DE": "Saisonales Muster",
+    "FR": "Schéma saisonnier"
+  },
+  "INSIGHTS_EXPLAIN_SEASONAL": {
+    "EN": "The typical difference between the first and second semester of the same year across the historical series, and whether the latest semester's movement was unusually large compared with that typical pattern.",
+    "DE": "Der typische Unterschied zwischen dem ersten und zweiten Halbjahr desselben Jahres über die historische Reihe hinweg, und ob die Bewegung des letzten Halbjahres im Vergleich zu diesem typischen Muster ungewöhnlich groß war.",
+    "FR": "L'écart typique entre le premier et le second semestre d'une même année sur l'ensemble de la série historique, et si le mouvement du dernier semestre a été inhabituellement important par rapport à ce schéma habituel."
+  },
+  "INSIGHTS_TYPICAL_S2_PREMIUM": {
+    "EN": "Typical H2 vs H1 difference",
+    "DE": "Typischer Unterschied H2 vs. H1",
+    "FR": "Écart type H2 vs H1"
+  },
+  "INSIGHTS_SEASONALLY_UNUSUAL": {
+    "EN": "considerably larger than the typical seasonal movement",
+    "DE": "erheblich größer als die typische saisonale Bewegung",
+    "FR": "nettement plus important que le mouvement saisonnier habituel"
+  },
+  "INSIGHTS_SEASONALLY_TYPICAL": {
+    "EN": "broadly in line with the typical seasonal movement",
+    "DE": "weitgehend im Einklang mit der typischen saisonalen Bewegung",
+    "FR": "globalement conforme au mouvement saisonnier habituel"
+  },
+  "INSIGHTS_RANK_SENSITIVITY": {
+    "EN": "Rank sensitivity",
+    "DE": "Sensitivität des Rangs",
+    "FR": "Sensibilité du rang"
+  },
+  "INSIGHTS_EXPLAIN_RANK_SENSITIVITY": {
+    "EN": "A country can move several ranking positions even when its own price barely changes, if neighbouring countries report very similar values. This checks the price gap to the country immediately above and below in the ranking.",
+    "DE": "Ein Land kann im Ranking mehrere Positionen wechseln, selbst wenn sich sein eigener Preis kaum ändert, sofern benachbarte Länder sehr ähnliche Werte melden. Hier wird der Preisabstand zum unmittelbar über- und untergeordneten Land geprüft.",
+    "FR": "Un pays peut changer de plusieurs positions dans le classement même si son propre prix varie à peine, si des pays voisins déclarent des valeurs très proches. Ceci vérifie l'écart de prix avec le pays immédiatement au-dessus et au-dessous dans le classement."
+  },
+  "INSIGHTS_RANK_SENSITIVE": {
+    "EN": "The exact rank is sensitive: neighbouring countries report very similar prices",
+    "DE": "Der genaue Rang ist sensibel: benachbarte Länder melden sehr ähnliche Preise",
+    "FR": "Le rang exact est sensible : les pays voisins déclarent des prix très proches"
+  },
+  "INSIGHTS_RANK_NOT_SENSITIVE": {
+    "EN": "The rank is not sensitive to small price movements",
+    "DE": "Der Rang reagiert nicht empfindlich auf kleine Preisbewegungen",
+    "FR": "Le rang n'est pas sensible à de faibles variations de prix"
+  },
+  "INSIGHTS_GAP_ABOVE": {
+    "EN": "Gap to rank above",
+    "DE": "Abstand zum Rang darüber",
+    "FR": "Écart avec le rang supérieur"
+  },
+  "INSIGHTS_GAP_BELOW": {
+    "EN": "Gap to rank below",
+    "DE": "Abstand zum Rang darunter",
+    "FR": "Écart avec le rang inférieur"
+  },
+  "INSIGHTS_EUROPE_SNAPSHOT": {
+    "EN": "Europe at a glance",
+    "DE": "Europa auf einen Blick",
+    "FR": "L'Europe en un coup d'œil"
+  },
+  "INSIGHTS_EXPLAIN_EUROPE_SNAPSHOT": {
+    "EN": "How many comparable reporting countries saw prices rise, fall, or stay broadly stable over the last year, and whether the spread between countries is widening or narrowing.",
+    "DE": "Wie viele vergleichbare berichtende Länder im letzten Jahr steigende, fallende oder weitgehend stabile Preise verzeichneten, und ob sich die Spanne zwischen den Ländern vergrößert oder verkleinert.",
+    "FR": "Le nombre de pays déclarants comparables ayant connu une hausse, une baisse ou une stabilité globale des prix au cours de la dernière année, et si l'écart entre pays se creuse ou se réduit."
+  },
+  "INSIGHTS_RISING_COUNTRIES": {
+    "EN": "countries rising",
+    "DE": "Länder mit steigenden Preisen",
+    "FR": "pays en hausse"
+  },
+  "INSIGHTS_FALLING_COUNTRIES": {
+    "EN": "countries falling",
+    "DE": "Länder mit fallenden Preisen",
+    "FR": "pays en baisse"
+  },
+  "INSIGHTS_STABLE_COUNTRIES": {
+    "EN": "countries broadly stable",
+    "DE": "Länder weitgehend stabil",
+    "FR": "pays globalement stables"
+  },
+  "INSIGHTS_DISPERSION": {
+    "EN": "Cross-country dispersion",
+    "DE": "Länderübergreifende Streuung",
+    "FR": "Dispersion entre pays"
+  },
+  "INSIGHTS_CONVERGING": {
+    "EN": "Converging",
+    "DE": "Annähernd",
+    "FR": "Convergence"
+  },
+  "INSIGHTS_DIVERGING": {
+    "EN": "Diverging",
+    "DE": "Auseinanderlaufend",
+    "FR": "Divergence"
+  },
+  "INSIGHTS_DISPERSION_STABLE": {
+    "EN": "Broadly unchanged",
+    "DE": "Weitgehend unverändert",
+    "FR": "Globalement inchangée"
+  },
+  "INSIGHTS_TOP_MOVERS": {
+    "EN": "Largest movements",
+    "DE": "Größte Bewegungen",
+    "FR": "Mouvements les plus importants"
+  },
+  "INSIGHTS_PERSISTENT_POSITION": {
+    "EN": "Persistent position",
+    "DE": "Beständige Position",
+    "FR": "Position persistante"
+  },
+  "INSIGHTS_EXPLAIN_PERSISTENT_POSITION": {
+    "EN": "Checks whether the country has consistently been in the highest- or lowest-price quartile over the last few years, rather than only in the current period.",
+    "DE": "Prüft, ob sich das Land in den letzten Jahren durchgehend im höchsten oder niedrigsten Preisquartil befand, und nicht nur im aktuellen Zeitraum.",
+    "FR": "Vérifie si le pays s'est constamment situé dans le quartile de prix le plus élevé ou le plus bas au cours des dernières années, et pas seulement sur la période actuelle."
+  },
+  "INSIGHTS_PERSISTENTLY_HIGH": {
+    "EN": "Persistently in the highest-price quartile",
+    "DE": "Durchgehend im höchsten Preisquartil",
+    "FR": "Constamment dans le quartile de prix le plus élevé"
+  },
+  "INSIGHTS_PERSISTENTLY_LOW": {
+    "EN": "Persistently in the lowest-price quartile",
+    "DE": "Durchgehend im niedrigsten Preisquartil",
+    "FR": "Constamment dans le quartile de prix le plus bas"
+  },
+  "INSIGHTS_NOT_PERSISTENT": {
+    "EN": "No persistent quartile pattern over the recent window",
+    "DE": "Kein durchgehendes Quartilsmuster im jüngsten Zeitfenster",
+    "FR": "Aucun schéma de quartile persistant sur la période récente"
+  },
+  "INSIGHTS_BAND_PATTERN": {
+    "EN": "Consumption-band pattern",
+    "DE": "Verbrauchsband-Muster",
+    "FR": "Profil par tranche de consommation"
+  },
+  "INSIGHTS_EXPLAIN_BAND_PATTERN": {
+    "EN": "Orders all available consumption bands from lowest to highest consumption to see whether the unit price rises, falls, or stays flat as consumption increases.",
+    "DE": "Ordnet alle verfügbaren Verbrauchsbänder vom niedrigsten zum höchsten Verbrauch, um zu sehen, ob der Stückpreis mit steigendem Verbrauch steigt, sinkt oder gleich bleibt.",
+    "FR": "Classe toutes les tranches de consommation disponibles de la plus basse à la plus haute afin de voir si le prix unitaire augmente, diminue ou reste stable à mesure que la consommation augmente."
+  },
+  "INSIGHTS_BAND_PREMIUM": {
+    "EN": "Selected vs reference band",
+    "DE": "Ausgewähltes vs. Referenzband",
+    "FR": "Tranche sélectionnée vs tranche de référence"
+  },
+  "INSIGHTS_PATTERN_INCREASING": {
+    "EN": "Unit price increases with consumption",
+    "DE": "Der Stückpreis steigt mit dem Verbrauch",
+    "FR": "Le prix unitaire augmente avec la consommation"
+  },
+  "INSIGHTS_PATTERN_DECREASING": {
+    "EN": "Unit price decreases with consumption",
+    "DE": "Der Stückpreis sinkt mit dem Verbrauch",
+    "FR": "Le prix unitaire diminue avec la consommation"
+  },
+  "INSIGHTS_PATTERN_FLAT": {
+    "EN": "Broadly flat across consumption bands",
+    "DE": "Über die Verbrauchsbänder hinweg weitgehend gleich",
+    "FR": "Globalement stable selon les tranches de consommation"
+  },
+  "INSIGHTS_PATTERN_MIXED": {
+    "EN": "Mixed or irregular pattern across bands",
+    "DE": "Gemischtes oder unregelmäßiges Muster über die Bänder hinweg",
+    "FR": "Profil mixte ou irrégulier selon les tranches"
+  },
+  "INSIGHTS_BAND_SPREAD_TITLE": {
+    "EN": "Band spread over time",
+    "DE": "Bandspanne im Zeitverlauf",
+    "FR": "Écart entre tranches dans le temps"
+  },
+  "INSIGHTS_EXPLAIN_BAND_SPREAD": {
+    "EN": "Tracks the price gap between the lowest and highest consumption bands from one year to the next, to see whether that gap is widening or narrowing.",
+    "DE": "Verfolgt den Preisunterschied zwischen dem niedrigsten und dem höchsten Verbrauchsband von einem Jahr zum nächsten, um zu sehen, ob sich dieser Unterschied vergrößert oder verkleinert.",
+    "FR": "Suit l'écart de prix entre la tranche de consommation la plus basse et la plus haute d'une année sur l'autre, afin de voir si cet écart se creuse ou se réduit."
+  },
+  "INSIGHTS_SPREAD_WIDENED": {
+    "EN": "Spread widened",
+    "DE": "Spanne hat sich vergrößert",
+    "FR": "L'écart s'est creusé"
+  },
+  "INSIGHTS_SPREAD_NARROWED": {
+    "EN": "Spread narrowed",
+    "DE": "Spanne hat sich verkleinert",
+    "FR": "L'écart s'est réduit"
+  },
+  "INSIGHTS_SPREAD_STABLE": {
+    "EN": "Spread broadly unchanged",
+    "DE": "Spanne weitgehend unverändert",
+    "FR": "Écart globalement inchangé"
+  },
+  "INSIGHTS_GLOBAL_COMPONENT": {
+    "EN": "vs official EU composition",
+    "DE": "vs. offizielle EU-Zusammensetzung",
+    "FR": "vs composition officielle de l'UE"
+  },
+  "INSIGHTS_EXPLAIN_GLOBAL_COMPONENT": {
+    "EN": "Compares the share of each component in the selected country's price with its share in the official EU aggregate's price, to see which component differs the most.",
+    "DE": "Vergleicht den Anteil jeder Komponente am Preis des ausgewählten Landes mit ihrem Anteil am Preis des offiziellen EU-Aggregats, um zu sehen, welche Komponente am stärksten abweicht.",
+    "FR": "Compare la part de chaque composante dans le prix du pays sélectionné avec sa part dans le prix de l'agrégat officiel de l'UE, afin d'identifier la composante qui diffère le plus."
+  },
+  "INSIGHTS_MOST_DIVERGENT_COMPONENT": {
+    "EN": "Most divergent component",
+    "DE": "Am stärksten abweichende Komponente",
+    "FR": "Composante la plus divergente"
+  },
+  "INSIGHTS_INFLATION_CONTEXT": {
+    "EN": "Related context: general inflation",
+    "DE": "Verwandter Kontext: allgemeine Inflation",
+    "FR": "Contexte associé : inflation générale"
+  },
+  "INSIGHTS_EXPLAIN_INFLATION": {
+    "EN": "Compares the energy price's annual change with the general consumer-price (HICP) annual rate of change for the same country, aligned to the last month of the semester. This is related context, not a cause-and-effect explanation of the energy-price movement.",
+    "DE": "Vergleicht die jährliche Veränderung des Energiepreises mit der jährlichen Veränderungsrate der allgemeinen Verbraucherpreise (HVPI) für dasselbe Land, ausgerichtet auf den letzten Monat des Halbjahres. Dies ist verwandter Kontext, keine Ursache-Wirkungs-Erklärung der Energiepreisbewegung.",
+    "FR": "Compare la variation annuelle du prix de l'énergie avec le taux de variation annuel de l'indice des prix à la consommation général (IPCH) pour le même pays, aligné sur le dernier mois du semestre. Il s'agit d'un contexte associé, non d'une explication de cause à effet du mouvement du prix de l'énergie."
+  },
+  "INSIGHTS_RELATED_CONTEXT_NOTE": {
+    "EN": "Related context only — an association, not proof of cause and effect.",
+    "DE": "Nur verwandter Kontext – ein Zusammenhang, kein Beweis für Ursache und Wirkung.",
+    "FR": "Contexte associé uniquement — une association, non une preuve de cause à effet."
+  },
+  "INSIGHTS_ENERGY_YOY": {
+    "EN": "Energy price, annual change",
+    "DE": "Energiepreis, jährliche Veränderung",
+    "FR": "Prix de l'énergie, variation annuelle"
+  },
+  "INSIGHTS_HICP_YOY": {
+    "EN": "General inflation (HICP), annual change",
+    "DE": "Allgemeine Inflation (HVPI), jährliche Veränderung",
+    "FR": "Inflation générale (IPCH), variation annuelle"
+  },
+  "INSIGHTS_PROVISIONAL": {
+    "EN": "This is a provisional figure and may be revised.",
+    "DE": "Dies ist ein vorläufiger Wert und kann noch revidiert werden.",
+    "FR": "Il s'agit d'une valeur provisoire susceptible d'être révisée."
+  },
+  "INSIGHTS_ESTIMATED": {
+    "EN": "This figure is estimated.",
+    "DE": "Dieser Wert ist geschätzt.",
+    "FR": "Cette valeur est estimée."
+  },
+  "INSIGHTS_ANOMALY_NEGATIVE": {
+    "EN": "The latest value is negative, which is unusual for this indicator — review before interpreting.",
+    "DE": "Der aktuelle Wert ist negativ, was für diesen Indikator ungewöhnlich ist – vor der Interpretation prüfen.",
+    "FR": "La dernière valeur est négative, ce qui est inhabituel pour cet indicateur — à vérifier avant toute interprétation."
+  },
+  "INSIGHTS_ANOMALY_ZERO": {
+    "EN": "The latest value is exactly zero, which may indicate a data issue.",
+    "DE": "Der aktuelle Wert ist genau null, was auf ein Datenproblem hindeuten kann.",
+    "FR": "La dernière valeur est exactement nulle, ce qui peut indiquer un problème de données."
+  },
+  "INSIGHTS_ANOMALY_IMPLAUSIBLE": {
+    "EN": "The annual change is unusually large and may reflect a data break rather than a genuine price movement.",
+    "DE": "Die jährliche Veränderung ist ungewöhnlich groß und könnte eher auf einen Datenbruch als auf eine echte Preisbewegung hindeuten.",
+    "FR": "La variation annuelle est inhabituellement importante et pourrait refléter une rupture de série plutôt qu'un réel mouvement de prix."
+  },
+  "INSIGHTS_DEVELOPMENT": {
+    "EN": "Development over time",
+    "DE": "Entwicklung im Zeitverlauf",
+    "FR": "Évolution dans le temps"
+  },
   "TWITTER": {
     "EN": "X",
     "DE": "X",

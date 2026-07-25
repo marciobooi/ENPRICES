@@ -1,11 +1,631 @@
+/* Insights view: full-bleed replacement for #charts within #enprices, matching
+   the sizing convention already used for #chart (main.css). The nav header,
+   subnavbar toolbar and footer stay untouched/visible around it. */
 #insightsView {
     width: 97vw;
     min-height: 73vh;
-    padding-top: 3rem;
+    padding: 3rem 1.5rem 2rem;
 }
 
-.insights-view-title {
-    font-size: 1.25rem;
-    color: var(--text-main-color);
-    margin-bottom: 1rem;
+/* #insightsView already provides the panel's horizontal padding, so the title
+   and the rendered .insights-panel line up on the same edge. */
+#insightsViewBody .insights-panel {
+    padding: 0;
+}
+
+.insights-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--nav-color);
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--nav-color);
+}
+
+.insights-panel {
+    padding: 1.25rem 1.5rem;
+}
+
+/* Reuses this app's global focus-visible treatment (btn.css) instead of the
+   donor tool's own outline, so the panel matches the rest of ENPRICES. */
+.insights-panel:focus-visible {
+    outline: 3px solid #000;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px rgba(14, 71, 203, 0.3);
+}
+
+.insights-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-bottom: 0.85rem;
+}
+
+.insights-meta__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 110px;
+    padding: 0.4rem 0.6rem;
+    background: #fff;
+    border: 1px solid #dce3f0;
+    border-radius: 6px;
+}
+
+.insights-meta__label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #4c5563;
+}
+
+.insights-meta__value {
+    font-size: 0.82rem;
+    color: var(--nav-color);
+}
+
+.insights-summary {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #333;
+    background: #eef1fb;
+    border-left: 4px solid var(--nav-color);
+    padding: 0.65rem 0.9rem;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 0.6rem;
+}
+
+.insights-note-list {
+    margin-top: 0.5rem;
+}
+
+.insights-note {
+    font-size: 0.75rem;
+    color: #4c5563;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.insights-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.insights-section {
+    background: #f5f7fc;
+    border-radius: 6px;
+    padding: 1rem 1.25rem 1.25rem;
+    border-left: 4px solid var(--nav-color);
+}
+
+.insights-section__title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.insights-year-label {
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: #4c5563;
+    margin-left: 0.4rem;
+}
+
+/* Metric cards */
+.insights-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 0.85rem;
+}
+
+.insight-card {
+    background: #fff;
+    border: 1px solid #dce3f0;
+    border-radius: 6px;
+    padding: 0.65rem 0.9rem;
+    min-width: 130px;
+    flex: 1 1 130px;
+    max-width: 210px;
+}
+
+.insight-card--positive {
+    border-left: 3px solid #28a745;
+}
+
+.insight-card--negative {
+    border-left: 3px solid #dc3545;
+}
+
+.insight-card__label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #4c5563;
+    margin-bottom: 0.25rem;
+}
+
+.insight-card__value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--nav-color);
+    line-height: 1.2;
+}
+
+.insight-card__sub {
+    font-size: 0.75rem;
+    color: #555;
+    margin-top: 0.2rem;
+}
+
+.insight-card__note {
+    font-size: 0.68rem;
+    color: #4c5563;
+    margin-top: 0.25rem;
+    font-style: italic;
+}
+
+/* Per-card "how is this calculated" disclosure */
+.insight-card__label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+}
+
+.insight-card__info-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #8b95a5;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.insight-card__info-btn:hover,
+.insight-card__info-btn[aria-expanded="true"] {
+    color: var(--nav-color);
+    background: #eef1fb;
+}
+
+.insight-card__calc {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed #dce3f0;
+}
+
+.insight-card__calc-explain {
+    font-size: 0.72rem;
+    color: #4c5563;
+    line-height: 1.4;
+    margin: 0 0 0.35rem;
+}
+
+.insight-card__calc-formula {
+    font-size: 0.72rem;
+    font-family: "Courier New", Courier, monospace;
+    color: var(--nav-color);
+    background: #eef1fb;
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    margin: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.35rem;
+    word-break: break-word;
+}
+
+/* Country-distribution position bar (EU comparison section) */
+.insights-distribution {
+    width: 100%;
+    margin: 0.4rem 0 0.85rem;
+}
+
+.insights-distribution__track {
+    position: relative;
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(to right, #cfe0fb, #dce3f0 50%, #f3d9c8);
+    margin: 0 0.6rem;
+}
+
+.insights-distribution__marker {
+    position: absolute;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--nav-color);
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px var(--nav-color);
+    transform: translate(-50%, -50%);
+}
+
+.insights-distribution__marker--eu {
+    background: #cca300;
+    box-shadow: 0 0 0 1px #cca300;
+    width: 10px;
+    height: 10px;
+}
+
+.insights-distribution__labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: #4c5563;
+    margin-top: 0.3rem;
+}
+
+.insights-distribution__legend {
+    display: flex;
+    gap: 0.9rem;
+    font-size: 0.7rem;
+    color: #4c5563;
+    margin-top: 0.3rem;
+}
+
+.insights-distribution__legend-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+}
+
+/* Stacked composition bar */
+.insights-composition-bar {
+    display: flex;
+    width: 100%;
+    height: 1.6rem;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+    border: 1px solid #dce3f0;
+}
+
+.insights-composition-bar__segment {
+    height: 100%;
+    min-width: 2px;
+}
+
+/* Consumption-band bar chart */
+.insights-band-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    height: 7rem;
+    margin: 0.5rem 0 0.25rem;
+    padding: 0 0.2rem;
+}
+
+.insights-band-bar {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    gap: 0.3rem;
+}
+
+.insights-band-bar__fill {
+    width: 100%;
+    max-width: 2.2rem;
+    background: var(--nav-color);
+    border-radius: 3px 3px 0 0;
+}
+
+.insights-band-bar--selected .insights-band-bar__fill {
+    background: #cca300;
+}
+
+.insights-band-bar__label {
+    font-size: 0.62rem;
+    color: #4c5563;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Rank table (evidence view — reserved for a future ranking breakdown) */
+.insights-rank-table-wrapper {
+    margin-top: 0.5rem;
+    overflow-x: auto;
+}
+
+.insights-rank-table-wrapper:focus-visible {
+    outline: 3px solid #000;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px rgba(14, 71, 203, 0.3);
+    border-radius: 4px;
+}
+
+.insights-rank-table {
+    width: 100%;
+    font-size: 0.83rem;
+}
+
+.insights-rank-table [hidden] {
+    display: none !important;
+}
+
+.insights-rank-table__header--rank,
+.insights-rank-table__cell--rank {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.insights-rank-table__header--numeric,
+.insights-rank-table__cell--numeric {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.insights-rank-table__row--top {
+    background: rgba(14, 71, 203, 0.04);
+}
+
+.insights-rank-table__row--top .insights-rank-table__cell--partner {
+    font-weight: 700;
+}
+
+.insights-rank-table-toggle {
+    margin-top: 0.65rem;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid #b8c6e3;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--nav-color);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.insights-rank-table-toggle:hover,
+.insights-rank-table-toggle:focus-visible {
+    border-color: var(--nav-color);
+    background: #eef1fb;
+    outline: none;
+}
+
+.insights-rank-cards {
+    display: none;
+}
+
+.insights-rank-card {
+    border: 1px solid #dce3f0;
+    border-radius: 6px;
+    background: #fff;
+    padding: 0.75rem 0.8rem;
+}
+
+.insights-rank-card--top {
+    border-left: 3px solid var(--nav-color);
+}
+
+.insights-rank-card__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: baseline;
+    margin-bottom: 0.55rem;
+}
+
+.insights-rank-card__rank {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #4c5563;
+}
+
+.insights-rank-card__partner {
+    color: var(--nav-color);
+    text-align: right;
+}
+
+.insights-rank-card__stats {
+    margin: 0;
+    display: grid;
+    gap: 0.35rem;
+}
+
+.insights-rank-card__stat {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    align-items: baseline;
+}
+
+.insights-rank-card__stat dt {
+    margin: 0;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #4c5563;
+}
+
+.insights-rank-card__stat dd {
+    margin: 0;
+    text-align: right;
+}
+
+/* Mini profile chips (used for the price-composition breakdown) */
+.insights-mini-profile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 0.85rem;
+}
+
+.insights-mini-profile__item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    background: #fff;
+    border: 1px solid #dce3f0;
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
+}
+
+.insights-mini-profile__label {
+    font-size: 0.76rem;
+    color: #4c5563;
+}
+
+.insights-mini-profile__value {
+    font-size: 0.84rem;
+    color: var(--nav-color);
+}
+
+.insights-history-trend {
+    margin-bottom: 0.9rem;
+    padding: 0.75rem 0.85rem;
+    background: #fff;
+    border: 1px solid #dce3f0;
+    border-radius: 6px;
+}
+
+.insights-history-trend__title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #4c5563;
+    margin-bottom: 0.45rem;
+}
+
+.insights-history-trend__meta {
+    margin-left: 0.45rem;
+    font-weight: 400;
+    color: #5f6978;
+}
+
+.insights-sparkline {
+    color: var(--nav-color);
+}
+
+.insights-sparkline__svg {
+    display: block;
+    width: 100%;
+    height: 10rem;
+}
+
+.insights-sparkline__area {
+    fill: rgba(14, 71, 203, 0.12);
+}
+
+.insights-sparkline__line {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 0.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.insights-sparkline__point {
+    fill: #fff;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+.insights-sparkline__point--peak {
+    fill: currentColor;
+    opacity: 0.45;
+    stroke: none;
+}
+
+.insights-sparkline__axis {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: #4c5563;
+    margin-top: 0.15rem;
+}
+
+/* Rank movement pills */
+.insights-rank-movement {
+    margin-top: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #dce3f0;
+}
+
+.insights-rank-movement__label {
+    font-size: 0.78rem;
+    margin-bottom: 0.4rem;
+}
+
+.insights-rank-movement__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.insight-rank-item {
+    font-size: 0.8rem;
+    background: #eef1fb;
+    padding: 0.18rem 0.55rem;
+    border-radius: 3px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.insight-rank-num {
+    font-weight: 700;
+    color: #555;
+    min-width: 1.1em;
+}
+
+.insight-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0 0.3em;
+    border-radius: 2px;
+}
+
+.insight-rank-up { color: #155724; font-weight: 700; }
+.insight-rank-down { color: #8b1e1a; font-weight: 700; }
+.insight-rank-same { color: #4c5563; }
+.insight-rank-new { color: #0b5563; font-weight: 700; }
+
+.insight-stable { color: #155724; font-weight: 700; }
+.insight-changed { color: #8b1e1a; font-weight: 700; }
+
+.insights-no-prev {
+    font-size: 0.85rem;
+    color: #5f6674;
+    font-style: italic;
+    margin: 0;
+}
+
+@media (max-width: 640px) {
+    .insights-rank-table-wrapper {
+        overflow-x: hidden;
+    }
+
+    .insights-rank-table {
+        display: none;
+    }
+
+    .insights-rank-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        width: 100%;
+    }
 }
