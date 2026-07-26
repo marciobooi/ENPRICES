@@ -135,29 +135,11 @@ var insightsRenderNameSpace = (function () {
 
     function card(opts) {
         var hasValue = opts.value !== null && opts.value !== undefined && opts.value !== '';
-        cardIdCounter += 1;
-        var calcId = 'insight-calc-' + cardIdCounter;
-
-        var infoBtn = '<button type="button" class="insight-card__info-btn" aria-expanded="false" aria-controls="' + calcId +
-            '" onclick="toggleInsightCalc(this)" title="' + esc(t('INSIGHTS_HOW_CALCULATED')) + '"><i class="fas fa-info-circle" aria-hidden="true"></i>' +
-            '<span class="sr-only">' + esc(t('INSIGHTS_HOW_CALCULATED')) + '</span></button>';
-
-        var whatText = opts.whatItIs || opts.explanation || t('INSIGHTS_EXPLAIN_LATEST_PRICE');
-        var calcText = opts.calculation || (hasValue ? esc(opts.label) + ' = <strong>' + esc(opts.value) + '</strong>' : 'Derived from Eurostat API dataset');
-        var purposeText = opts.purpose || t('INSIGHTS_EXPLAIN_EU_COMPARISON');
-
-        var detailsHtml = '<p class="insight-card__calc-explain"><strong><i class="fas fa-question-circle" aria-hidden="true"></i> ' + esc(t('INSIGHTS_WHAT_IT_IS')) + ':</strong> ' + esc(whatText) + '</p>' +
-            '<p class="insight-card__calc-formula"><strong><i class="fas fa-calculator" aria-hidden="true"></i> ' + esc(t('INSIGHTS_CALCULATION')) + ':</strong> <span>' + calcText + '</span></p>' +
-            '<p class="insight-card__calc-explain" style="margin-top:0.35rem"><strong><i class="fas fa-bullseye" aria-hidden="true"></i> ' + esc(t('INSIGHTS_PURPOSE')) + ':</strong> ' + esc(purposeText) + '</p>';
-
-        var calcPanel = '<div class="insight-card__calc" id="' + calcId + '" hidden>' + detailsHtml + '</div>';
-
         return '<div class="insight-card">' +
-            '<div class="insight-card__label"><span>' + esc(opts.label) + '</span>' + infoBtn + '</div>' +
+            '<div class="insight-card__label"><span>' + esc(opts.label) + '</span></div>' +
             '<div class="insight-card__value">' + (hasValue ? opts.value : esc(t('INSIGHTS_NOT_AVAILABLE'))) + '</div>' +
             (opts.sub ? '<div class="insight-card__sub">' + opts.sub + '</div>' : '') +
             (opts.note ? '<div class="insight-card__note">' + esc(opts.note) + '</div>' : '') +
-            calcPanel +
             '</div>';
     }
 
@@ -170,10 +152,24 @@ var insightsRenderNameSpace = (function () {
             (absText ? ' (' + esc(absText) + ')' : '');
     }
 
-    function section(titleIcon, titleText, bodyHtml) {
+    function section(titleIcon, titleText, bodyHtml, info) {
         if (!bodyHtml) return '';
+        cardIdCounter += 1;
+        var infoId = 'insight-section-info-' + cardIdCounter;
+
+        var infoBtn = info ? '<button type="button" class="insight-card__info-btn" aria-expanded="false" aria-controls="' + infoId +
+            '" onclick="toggleInsightCalc(this)" title="' + esc(t('INSIGHTS_HOW_CALCULATED')) + '"><i class="fas fa-info-circle" aria-hidden="true"></i>' +
+            '<span class="sr-only">' + esc(t('INSIGHTS_HOW_CALCULATED')) + '</span></button>' : '';
+
+        var infoPanel = info ? '<div class="insight-card__calc" id="' + infoId + '" style="margin-bottom:0.85rem" hidden>' +
+            '<p class="insight-card__calc-explain"><strong><i class="fas fa-question-circle" aria-hidden="true"></i> ' + esc(t('INSIGHTS_WHAT_IT_IS')) + ':</strong> ' + esc(info.whatItIs) + '</p>' +
+            '<p class="insight-card__calc-formula"><strong><i class="fas fa-calculator" aria-hidden="true"></i> ' + esc(t('INSIGHTS_CALCULATION')) + ':</strong> <span>' + info.calculation + '</span></p>' +
+            '<p class="insight-card__calc-explain" style="margin-top:0.35rem"><strong><i class="fas fa-bullseye" aria-hidden="true"></i> ' + esc(t('INSIGHTS_PURPOSE')) + ':</strong> ' + esc(info.purpose) + '</p>' +
+            '</div>' : '';
+
         return '<section class="insights-section">' +
-            '<h3 class="insights-section__title"><i class="fas ' + titleIcon + '" aria-hidden="true"></i> ' + esc(titleText) + '</h3>' +
+            '<h3 class="insights-section__title"><span style="display:flex;align-items:center;gap:0.45rem"><i class="fas ' + titleIcon + '" aria-hidden="true"></i> ' + esc(titleText) + infoBtn + '</span></h3>' +
+            infoPanel +
             bodyHtml +
             '</section>';
     }
@@ -919,23 +915,96 @@ var insightsRenderNameSpace = (function () {
     function render(data) {
         cachedData = data;
         cardIdCounter = 0;
+
+        var priceInfo = {
+            whatItIs: "Official Eurostat unit energy prices and short-term price movements over the latest semester and 1-year period.",
+            calculation: "Latest Price: Eurostat published dataset &bull; Semester Change: (P_S2 − P_S1) / P_S1 × 100 &bull; YoY Change: (P_t − P_t-1y) / P_t-1y × 100",
+            purpose: "Establishes current price levels and monitors short-term tariff momentum."
+        };
+
+        var euInfo = {
+            whatItIs: "Cross-country benchmarking comparing focus country prices against EU27 weighted average, Euro Area, median, and neighboring country ranks.",
+            calculation: "EU Gap %: (P_focus − P_EU27) / P_EU27 × 100 &bull; Country Rank: 1 + Count(P > P_focus) &bull; Median Gap: (P_focus − Median) / Median × 100",
+            purpose: "Evaluates price competitiveness within the European Single Market."
+        };
+
+        var directInfo = {
+            whatItIs: "Bilateral price and component gap analysis between Focus Country A and selected Partner Country B.",
+            calculation: "Price Gap: (P_A − P_B) / P_B × 100 &bull; YoY Growth: YoY_A vs YoY_B &bull; Main Driver: Max( |Component_A − Component_B| )",
+            purpose: "Direct cross-border cost differential and component driver analysis."
+        };
+
+        var historyInfo = {
+            whatItIs: "Historical price trajectory, peak (maximum), minimum, and percentile standing across all published semesters.",
+            calculation: "Peak: Max(P_t) &bull; Minimum: Min(P_t) &bull; Percentile: (Count(P_hist < P_current) + 0.5 × Count(P_hist = P_current)) / N × 100",
+            purpose: "Determines whether current prices are historically elevated or near all-time extremes."
+        };
+
+        var devInfo = {
+            whatItIs: "Advanced trend diagnostics including price momentum, multi-year compound growth (CAGR), volatility, and seasonal S1-to-S2 patterns.",
+            calculation: "Momentum: YoY_t − YoY_t-1 &bull; 5Y CAGR: ((P_t / P_t-5y)^(1/5) − 1) × 100 &bull; Volatility: Standard deviation of 10-semester returns",
+            purpose: "Provides forward-looking trend direction and price stability assessment."
+        };
+
+        var compInfo = {
+            whatItIs: "Breakdown of energy bills into Energy & Supply, Network Grid Tariffs, and Taxes/Levies/VAT.",
+            calculation: "Component Shares: Component_val / Total_price × 100 &bull; Main Driver: Max( |Delta_Component| )",
+            purpose: "Identifies whether bill changes are caused by wholesale commodity markets, grid tariffs, or government taxes."
+        };
+
+        var fiscalInfo = {
+            whatItIs: "Analysis comparing pre-tax price movement vs final consumer price movement.",
+            calculation: "Fiscal Effect = Delta_FinalPrice − Delta_PreTaxPrice",
+            purpose: "Measures government tax policy cushioning vs amplification during price cycles."
+        };
+
+        var ppsInfo = {
+            whatItIs: "Comparison of nominal EUR price rank vs Purchasing Power Standards (PPS) rank.",
+            calculation: "PPS Rank Shift = Rank_EUR − Rank_PPS",
+            purpose: "Assesses real energy bill burden relative to national income and purchasing power."
+        };
+
+        var europeInfo = {
+            whatItIs: "Macro summary of price directions across European countries and Interquartile Range (IQR) dispersion.",
+            calculation: "Counts of rising/falling countries & Dispersion Change = (IQR_latest − IQR_prior) / IQR_prior × 100",
+            purpose: "Evaluates overall European market convergence or divergence."
+        };
+
+        var bandInfo = {
+            whatItIs: "Price structure across volume consumption bands (from small to large consumers).",
+            calculation: "Band Premium = (P_band − P_ref) / P_ref × 100 &bull; Spread = P_highestBand − P_lowestBand",
+            purpose: "Reveals progressive vs volume-discounted tariff design."
+        };
+
+        var inflationInfo = {
+            whatItIs: "Comparison between annual energy price inflation and HICP general consumer price inflation.",
+            calculation: "Inflation Gap = Energy_YoY% − HICP_YoY%",
+            purpose: "Determines if energy prices are driving or moderating general inflation."
+        };
+
+        var qualityInfo = {
+            whatItIs: "Eurostat publication status flags, anomaly safeguards, dataset provenance IDs, and consumer methodology qualifications.",
+            calculation: "Status inspection ('p'/'e'), anomaly validation (P > 0, |YoY%| < 200%), and dataset mapping (nrg_pc_204 vs nrg_pc_204_c)",
+            purpose: "Ensures complete data integrity, reliability, and auditability."
+        };
+
         var html = '<div class="insights-panel" tabindex="-1">' +
             renderToolbar() +
             renderContext(data.context, data.latestPeriod) +
             renderEstimatorAndBandFinder(data) +
             '<div class="insights-sections">' +
-            section('fa-euro-sign', t('INSIGHTS_LATEST_PRICE'), renderPriceCards(data)) +
-            section('fa-globe-europe', t('INSIGHTS_EU_COMPARISON'), renderComparisonCards(data) + renderRankSensitivity(data)) +
-            section('fa-exchange-alt', t('INSIGHTS_DIRECT_COMPARISON'), renderCountryComparisonSection(data)) +
-            section('fa-history', t('INSIGHTS_HISTORICAL_POSITION'), renderHistoryCards(data)) +
-            section('fa-chart-line', t('INSIGHTS_DEVELOPMENT'), renderDevelopment(data)) +
-            section('fa-chart-pie', t('INSIGHTS_COMPOSITION'), renderComposition(data)) +
-            section('fa-balance-scale', t('INSIGHTS_FISCAL_EFFECT'), renderFiscalEffect(data)) +
-            section('fa-coins', t('INSIGHTS_PPS_PERSPECTIVE'), renderPpsPerspective(data)) +
-            section('fa-globe-europe', t('INSIGHTS_EUROPE_SNAPSHOT'), renderEuropeSnapshot(data)) +
-            section('fa-bolt', t('INSIGHTS_BAND_PATTERN'), renderBandSection(data)) +
-            section('fa-chart-bar', t('INSIGHTS_INFLATION_CONTEXT'), renderInflationContext(data)) +
-            section('fa-shield-alt', t('INSIGHTS_DATA_QUALITY_TITLE'), renderDataQuality(data)) +
+            section('fa-euro-sign', t('INSIGHTS_LATEST_PRICE'), renderPriceCards(data), priceInfo) +
+            section('fa-globe-europe', t('INSIGHTS_EU_COMPARISON'), renderComparisonCards(data) + renderRankSensitivity(data), euInfo) +
+            section('fa-exchange-alt', t('INSIGHTS_DIRECT_COMPARISON'), renderCountryComparisonSection(data), directInfo) +
+            section('fa-history', t('INSIGHTS_HISTORICAL_POSITION'), renderHistoryCards(data), historyInfo) +
+            section('fa-chart-line', t('INSIGHTS_DEVELOPMENT'), renderDevelopment(data), devInfo) +
+            section('fa-chart-pie', t('INSIGHTS_COMPOSITION'), renderComposition(data), compInfo) +
+            section('fa-balance-scale', t('INSIGHTS_FISCAL_EFFECT'), renderFiscalEffect(data), fiscalInfo) +
+            section('fa-coins', t('INSIGHTS_PPS_PERSPECTIVE'), renderPpsPerspective(data), ppsInfo) +
+            section('fa-globe-europe', t('INSIGHTS_EUROPE_SNAPSHOT'), renderEuropeSnapshot(data), europeInfo) +
+            section('fa-bolt', t('INSIGHTS_BAND_PATTERN'), renderBandSection(data), bandInfo) +
+            section('fa-chart-bar', t('INSIGHTS_INFLATION_CONTEXT'), renderInflationContext(data), inflationInfo) +
+            section('fa-shield-alt', t('INSIGHTS_DATA_QUALITY_TITLE'), renderDataQuality(data), qualityInfo) +
             '</div>' +
             '</div>';
 
