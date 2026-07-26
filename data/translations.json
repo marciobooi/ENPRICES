@@ -449,6 +449,141 @@
     "DE": "Perzentil",
     "FR": "Centile"
   },
+  "INSIGHTS_COST_ESTIMATOR": {
+    "EN": "Indicative Annual-Cost Estimator",
+    "DE": "Indikativer Jahreskosten-Schätzer",
+    "FR": "Estimateur indicatif du coût annuel"
+  },
+  "INSIGHTS_ANNUAL_CONSUMPTION": {
+    "EN": "Annual consumption",
+    "DE": "Jahresverbrauch",
+    "FR": "Consommation annuelle"
+  },
+  "INSIGHTS_ESTIMATED_COST": {
+    "EN": "Estimated annual energy charge",
+    "DE": "Geschätzte jährliche Energiekosten",
+    "FR": "Coût énergétique annuel estimé"
+  },
+  "INSIGHTS_COST_DISCLAIMER": {
+    "EN": "Indicative energy cost only based on average statistical unit price; actual bills depend on individual supplier offers, contracts, fixed charges, and location.",
+    "DE": "Nur indikative Energiekosten basierend auf dem durchschnittlichen statistischen Einheitspreis; tatsächliche Rechnungen hängen von individuellen Lieferantenangeboten, Verträgen, Festgebühren und Standort ab.",
+    "FR": "Coût énergétique indicatif basé sur le prix unitaire statistique moyen ; les factures réelles dépendent des offres des fournisseurs, des contrats, des frais fixes et de la localisation."
+  },
+  "INSIGHTS_BAND_FINDER": {
+    "EN": "Consumption Band Assistant",
+    "DE": "Verbrauchsband-Assistent",
+    "FR": "Assistant de tranche de consommation"
+  },
+  "INSIGHTS_MATCHING_BAND": {
+    "EN": "Matching band for your consumption",
+    "DE": "Passendes Verbrauchsband für Ihren Verbrauch",
+    "FR": "Tranche correspondant à votre consommation"
+  },
+  "INSIGHTS_SWITCH_BAND": {
+    "EN": "Switch to matching band",
+    "DE": "Zum passenden Verbrauchsband wechseln",
+    "FR": "Passer à la tranche correspondante"
+  },
+  "INSIGHTS_DIRECT_COMPARISON": {
+    "EN": "Direct Country-to-Country Comparison",
+    "DE": "Direkter Ländervergleich",
+    "FR": "Comparaison directe entre pays"
+  },
+  "INSIGHTS_COMPARE_WITH": {
+    "EN": "Compare with country",
+    "DE": "Vergleichen mit Land",
+    "FR": "Comparer avec le pays"
+  },
+  "INSIGHTS_COUNTRY_GAP": {
+    "EN": "Price difference",
+    "DE": "Preisunterschied",
+    "FR": "Écart de prix"
+  },
+  "INSIGHTS_MAIN_GAP_DRIVER": {
+    "EN": "Main component driving the difference",
+    "DE": "Hauptkomponente des Preisunterschieds",
+    "FR": "Composante principale de l'écart"
+  },
+  "INSIGHTS_EXPORT_CSV": {
+    "EN": "Export CSV",
+    "DE": "CSV exportieren",
+    "FR": "Exporter en CSV"
+  },
+  "INSIGHTS_COPY_TEXT": {
+    "EN": "Copy Summary",
+    "DE": "Zusammenfassung kopieren",
+    "FR": "Copier le résumé"
+  },
+  "INSIGHTS_COPIED": {
+    "EN": "Copied to clipboard!",
+    "DE": "In die Zwischenablage kopiert!",
+    "FR": "Copié dans le presse-papiers !"
+  },
+  "INSIGHTS_DATASET_PROVENANCE": {
+    "EN": "Dataset Provenance",
+    "DE": "Datenherkunft",
+    "FR": "Provenance des données"
+  },
+  "INSIGHTS_DATASET_PRICE_NOTE": {
+    "EN": "Prices & trends sourced from bi-annual level dataset",
+    "DE": "Preise & Trends aus dem halbjährlichen Preisniveau-Datensatz",
+    "FR": "Prix et tendances issus du jeu de données semestriel"
+  },
+  "INSIGHTS_DATASET_COMPONENT_NOTE": {
+    "EN": "Component breakdown sourced from annual detailed dataset",
+    "DE": "Komponenten-Aufschlüsselung aus dem jährlichen Detail-Datensatz",
+    "FR": "Décomposition des composantes issue du jeu de données annuel"
+  },
+  "INSIGHTS_DATA_QUALITY_TITLE": {
+    "EN": "Data Quality, Freshness & Provenance",
+    "DE": "Datenqualität, Aktualität & Herkunft",
+    "FR": "Qualité des données, fraîcheur & provenance"
+  },
+  "INSIGHTS_DATA_STATUS": {
+    "EN": "Data Freshness & Flag Status",
+    "DE": "Datenaktualität & Flag-Status",
+    "FR": "Fraîcheur des données & statut"
+  },
+  "INSIGHTS_ANOMALY_CHECK": {
+    "EN": "Data Anomaly Safeguards",
+    "DE": "Datenanomalie-Schutzprüfungen",
+    "FR": "Contrôles d'anomalie des données"
+  },
+  "INSIGHTS_CONSUMER_QUALIFICATION": {
+    "EN": "Consumer Type Qualification Note",
+    "DE": "Verbrauchertyp-Qualifizierungshinweis",
+    "FR": "Note de qualification du type de consommateur"
+  },
+  "INSIGHTS_CONSUMER_QUALIFICATION_DESC": {
+    "EN": "Household and non-household energy prices are collected under distinct Eurostat methodologies. Non-household prices exclude recoverable VAT and apply industrial consumption thresholds, whereas household prices include all non-refundable taxes. Direct cross-comparison between consumer groups is methodologically invalid.",
+    "DE": "Haushalts- und Nicht-Haushalts-Energiepreise werden nach unterschiedlichen Eurostat-Methoden erhoben. Nicht-Haushaltspreise schließen erstattungsfähige MwSt. aus und wenden industrielle Verbrauchsschwellen an, während Haushaltspreise alle nicht erstattungsfähigen Steuern enthalten. Ein direkter Vergleich zwischen den Verbrauchergruppen ist methodisch unzulässig.",
+    "FR": "Les prix de l'énergie pour les ménages et les non-ménages sont collectés selon des méthodologies Eurostat distinctes. Les prix des non-ménages excluent la TVA récupérable et s'appliquent aux seuils de consommation industrielle, tandis que les prix des ménages incluent toutes les taxes non remboursables. La comparaison directe entre groupes de consommateurs est méthodologiquement invalide."
+  },
+  "INSIGHTS_SAFEGUARD_OK": {
+    "EN": "Safeguard check passed: Non-zero, non-negative, plausible price movement.",
+    "DE": "Schutzprüfung bestanden: Ungleich Null, nicht negativ, plausible Preisbewegung.",
+    "FR": "Contrôle de sécurité réussi : non nul, non négatif, variation de prix plausible."
+  },
+  "INSIGHTS_STATUS_NORMAL": {
+    "EN": "Final published figure (no provisional or estimated flags).",
+    "DE": "Endgültige veröffentlichte Zahl (keine vorläufigen oder geschätzten Flags).",
+    "FR": "Chiffre définitif publié (aucun drapeau provisoire ou estimé)."
+  },
+  "INSIGHTS_WHAT_IT_IS": {
+    "EN": "What it is",
+    "DE": "Was es ist",
+    "FR": "Ce que c'est"
+  },
+  "INSIGHTS_CALCULATION": {
+    "EN": "How it is calculated",
+    "DE": "Berechnungsmethode",
+    "FR": "Calcul"
+  },
+  "INSIGHTS_PURPOSE": {
+    "EN": "Purpose & Why it matters",
+    "DE": "Zweck & Bedeutung",
+    "FR": "Objectif & Utilité"
+  },
   "INSIGHTS_HISTORICAL_MIN": {
     "EN": "Historical minimum",
     "DE": "Historisches Minimum",

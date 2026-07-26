@@ -29,8 +29,7 @@ var insightsDataNameSpace = (function () {
   };
 
   // ---------------------------------------------------------------------
-  // Cache (localStorage, not cookies: cookies cap out around 4KB and are
-  // sent on every HTTP request, which is wasteful for these JSON payloads)
+  // Cache (localStorage)
   // ---------------------------------------------------------------------
 
   function readCache(key) {
@@ -88,6 +87,11 @@ var insightsDataNameSpace = (function () {
     const dataset = resolveDataset(REF.product, REF.consumer, false);
     const componentDataset = resolveDataset(REF.product, REF.consumer, true);
     const unitParam = REF.unit === "MWH" ? "KWH" : REF.unit;
+    let time = REF.time;
+    if (time && /^\d{4}$/.test(time)) {
+      time = time + "-S2";
+    }
+
     return {
       geo: getFocusGeo(),
       product: REF.product,
@@ -95,12 +99,8 @@ var insightsDataNameSpace = (function () {
       band: REF.consoms,
       unit: REF.unit,
       unitParam,
-      // Cross-country ranking/benchmarking is only valid in a common expression (quality
-      // rule: never mix EUR/NAT/PPS). NAT is meaningless across countries, so the main
-      // panel always uses EUR regardless of what the user picked on the main chart; PPS
-      // is offered separately as its own dedicated comparison (see rankShift).
       currency: "EUR",
-      time: REF.time,
+      time,
       dataset,
       componentDataset,
       nrgPrc: (codesDataset[componentDataset] && codesDataset[componentDataset].nrg_prc) || []
@@ -125,9 +125,6 @@ var insightsDataNameSpace = (function () {
   }
 
   function buildComponentUrl(ctx, times) {
-    // Component ("_c") datasets have no UNIT dimension at all (always published in their
-    // native unit, normally kWh) — the plain price datasets do. Mirrors chartApiCall()'s
-    // own `!REF.component ? "&unit=..." : ""` branch in js/basics.js.
     let url = baseUrl(ctx.componentDataset) +
       ctx.nrgPrc.map((p) => "&nrg_prc=" + p).join("") +
       "&nrg_cons=" + ctx.band +
@@ -137,8 +134,6 @@ var insightsDataNameSpace = (function () {
     return url;
   }
 
-  // Component values for more than one geo at once (used to compare the focus country's
-  // composition with the official EU aggregate's own composition — 7.8/7.9).
   function buildComponentUrlMultiGeo(ctx, geos, times) {
     let url = baseUrl(ctx.componentDataset) +
       ctx.nrgPrc.map((p) => "&nrg_prc=" + p).join("") +
@@ -149,9 +144,6 @@ var insightsDataNameSpace = (function () {
     return url;
   }
 
-  // All consumption bands for the focus geo, across all available periods, final price
-  // only (I_TAX) — feeds both the band-pattern/premium cards and the band-spread-over-time
-  // card from a single fetch.
   function buildBandUrl(ctx) {
     const bands = (codesDataset[ctx.dataset] && codesDataset[ctx.dataset].consoms) || [ctx.band];
     let url = baseUrl(ctx.dataset) +
@@ -163,10 +155,6 @@ var insightsDataNameSpace = (function () {
     return url;
   }
 
-  // Eurostat's HICP annual rate-of-change dataset (all-items, monthly). Used as "related
-  // context" only (8.2) — an association, never presented as a cause of the energy-price
-  // movement. Aligned to the last month of the relevant semester (June for S1, December
-  // for S2) since HICP has no semester concept of its own.
   function buildHicpUrl(geo, yearMonth) {
     return "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_manr" +
       "?format=JSON&lang=" + (REF.language || "EN") +
@@ -206,8 +194,6 @@ var insightsDataNameSpace = (function () {
     return semesterCode(p.year - 1, p.semester);
   }
 
-  // Component ("_c") datasets are published annually (time codes are plain "YYYY",
-  // no semester suffix) even though the price datasets they break down are bi-annual.
   function periodToYear(code) {
     const p = parsePeriod(code);
     if (p) return String(p.year);
@@ -258,7 +244,7 @@ var insightsDataNameSpace = (function () {
   }
 
   // ---------------------------------------------------------------------
-  // Point / series readers on top of the JSONstat dataset object
+  // Point / series readers
   // ---------------------------------------------------------------------
 
   function readPoint(d, geo, time) {
@@ -271,8 +257,6 @@ var insightsDataNameSpace = (function () {
     return res ? res.value : null;
   }
 
-  // Eurostat observation status flag (e.g. "p" provisional, "e" estimated) for the
-  // freshness/data-quality disclosure.
   function readStatus(d, geo, time) {
     const res = d.Data({ geo, time, tax: "I_TAX" });
     return res ? res.status : null;
@@ -317,7 +301,7 @@ var insightsDataNameSpace = (function () {
   }
 
   // ---------------------------------------------------------------------
-  // 6.8 / 6.9 / 6.10 / 6.11 / 6.12 — cross-country comparison
+  // Cross-country comparison
   // ---------------------------------------------------------------------
 
   function computeCrossCountry(panel, focusGeo) {
@@ -368,7 +352,7 @@ var insightsDataNameSpace = (function () {
   }
 
   // ---------------------------------------------------------------------
-  // 6.13 / 6.14 / 6.15 / 6.16 — historical position
+  // Historical position & Development
   // ---------------------------------------------------------------------
 
   function computeHistoricalPosition(history, latestPeriod) {
@@ -410,17 +394,10 @@ var insightsDataNameSpace = (function () {
     };
   }
 
-  // ---------------------------------------------------------------------
-  // 6.19 / 6.22 — composition + driver of change
-  // ---------------------------------------------------------------------
-
   function computeComposition(componentDataset, ctx, latestPeriod, yoyPeriodCode) {
     const geo = ctx.geo;
     const hasLatest = periodExists(componentDataset, latestPeriod);
     const hasPrior = periodExists(componentDataset, yoyPeriodCode);
-    // The "_c" dataset has no UNIT dimension and is always published per kWh; scale it to
-    // match ctx.unit so composition figures line up with the rest of the panel (which is
-    // already in ctx.unit), same 1000x convention the app uses elsewhere for kWh->MWh.
     const scale = ctx.unit === "MWH" ? 1000 : 1;
     const components = ctx.nrgPrc.map((code) => {
       const latest = hasLatest ? componentDataset.Data({ geo, time: latestPeriod, nrg_prc: code }) : null;
@@ -468,11 +445,6 @@ var insightsDataNameSpace = (function () {
     };
   }
 
-  // ---------------------------------------------------------------------
-  // 6.23 — fiscal cushioning / amplification
-  // ---------------------------------------------------------------------
-
-  // Argument order is (latest, prior) for each pair, matching absoluteChange(prior, latest).
   function computeFiscalEffect(preTaxLatest, preTaxPrior, finalLatest, finalPrior) {
     const deltaPreTax = absoluteChange(preTaxPrior, preTaxLatest);
     const deltaFinal = absoluteChange(finalPrior, finalLatest);
@@ -494,10 +466,6 @@ var insightsDataNameSpace = (function () {
       classification
     };
   }
-
-  // ---------------------------------------------------------------------
-  // 6.29 — EUR vs PPS rank shift
-  // ---------------------------------------------------------------------
 
   function computeRankShift(eurPanel, ppsPanel, focusGeo) {
     const eurByGeo = {};
@@ -526,10 +494,6 @@ var insightsDataNameSpace = (function () {
     };
   }
 
-  // ---------------------------------------------------------------------
-  // 6.5 — short-term momentum (needs a YoY% series, derived from history)
-  // ---------------------------------------------------------------------
-
   function buildYoySeries(history) {
     const byPeriod = {};
     history.forEach((r) => { byPeriod[r.period] = r.value; });
@@ -556,10 +520,6 @@ var insightsDataNameSpace = (function () {
     return { latestYoyPct: latest.yoyPct, previousYoyPct: prev.yoyPct, momentumChange, classification };
   }
 
-  // ---------------------------------------------------------------------
-  // 6.7 — compound annual growth rate
-  // ---------------------------------------------------------------------
-
   function computeCagr(history, years) {
     if (!history.length) return null;
     const latest = history[history.length - 1];
@@ -571,10 +531,6 @@ var insightsDataNameSpace = (function () {
     const cagr = (Math.pow(latest.value / baseRow.value, 1 / years) - 1) * 100;
     return { years, baseValue: baseRow.value, basePeriod: baseRow.period, latestValue: latest.value, latestPeriod: latest.period, cagr };
   }
-
-  // ---------------------------------------------------------------------
-  // 6.17 / 6.18 — consecutive movement + trend reversal
-  // ---------------------------------------------------------------------
 
   function computeConsecutiveMovement(history) {
     if (history.length < 2) return null;
@@ -609,10 +565,6 @@ var insightsDataNameSpace = (function () {
     };
   }
 
-  // ---------------------------------------------------------------------
-  // 6.32 — historical volatility (sample st. dev. of period returns)
-  // ---------------------------------------------------------------------
-
   function computeVolatility(history, windowSize) {
     const win = history.slice(-windowSize);
     if (win.length < 4) return null;
@@ -626,10 +578,6 @@ var insightsDataNameSpace = (function () {
     const variance = returns.reduce((sum, r) => sum + Math.pow(r - mean, 2), 0) / (returns.length - 1);
     return { volatility: Math.sqrt(variance), n: returns.length, windowPeriods: win.length };
   }
-
-  // ---------------------------------------------------------------------
-  // "12. Seasonal pattern" — typical S1->S2 premium and latest deviation from it
-  // ---------------------------------------------------------------------
 
   function computeSeasonalPattern(history) {
     const byYear = {};
@@ -661,14 +609,10 @@ var insightsDataNameSpace = (function () {
     };
   }
 
-  // ---------------------------------------------------------------------
-  // "7. Rank sensitivity" — is the exact rank fragile because neighbours are close?
-  // ---------------------------------------------------------------------
-
   function computeRankSensitivity(panel, focusGeo) {
     const rows = panel
       .filter((r) => AGGREGATE_GEOS.indexOf(r.geo) === -1 && isValid(r.value))
-      .sort((a, b) => b.value - a.value); // descending: rank 1 = highest price
+      .sort((a, b) => b.value - a.value);
     const idx = rows.findIndex((r) => r.geo === focusGeo);
     if (idx === -1) return null;
 
@@ -689,10 +633,6 @@ var insightsDataNameSpace = (function () {
     };
   }
 
-  // ---------------------------------------------------------------------
-  // "14. Data anomaly safeguards"
-  // ---------------------------------------------------------------------
-
   function detectAnomalies(price) {
     const flags = [];
     if (isValid(price.latestValue) && price.latestValue < 0) flags.push("negativePrice");
@@ -700,11 +640,6 @@ var insightsDataNameSpace = (function () {
     if (isValid(price.yoyChangePct) && Math.abs(price.yoyChangePct) >= IMPLAUSIBLE_CHANGE_PERCENT) flags.push("implausibleChange");
     return flags;
   }
-
-  // ---------------------------------------------------------------------
-  // 7.1 / 7.2 / 7.5 / 7.6 — Europe-at-a-glance snapshot (reuses the already-fetched
-  // full geo x time panel, no extra network call)
-  // ---------------------------------------------------------------------
 
   function buildCountryYoyRows(panelDataset, latestPeriod, yoyBeforePeriod) {
     const geos = panelDataset.Dimension("geo").id;
@@ -767,10 +702,6 @@ var insightsDataNameSpace = (function () {
     };
   }
 
-  // ---------------------------------------------------------------------
-  // 7.7 — persistent high/low quartile position over a window of past periods
-  // ---------------------------------------------------------------------
-
   function computePersistentPosition(periodPanels, focusGeo) {
     let topCount = 0, bottomCount = 0, validCount = 0;
     periodPanels.forEach((rows) => {
@@ -795,26 +726,16 @@ var insightsDataNameSpace = (function () {
     };
   }
 
-  // ---------------------------------------------------------------------
-  // 6.24 / 6.25 / 6.26 / 6.28 — consumption-band premium, profile pattern, spread over time
-  // ---------------------------------------------------------------------
-
-  // codesDataset's own `consoms` arrays are NOT reliably ordered low->high (e.g.
-  // nrg_pc_204's list has KWH_GE15000 as its second entry) — exactly the pitfall flagged in
-  // insights.md 2.4 ("don't infer band order from the code text alone... use a canonical
-  // mapping"). Extract the numeric threshold from each code instead, so ordering is correct
-  // regardless of how codesDataset happens to list them.
   function bandSortKey(code) {
     const upper = code.toUpperCase();
     const m = /(\d+)/.exec(upper);
     if (!m) return Number.POSITIVE_INFINITY;
     let key = parseInt(m[1], 10);
-    if (upper.indexOf("_LT") !== -1) key -= 0.5; // "less than N" sorts just below N
+    if (upper.indexOf("_LT") !== -1) key -= 0.5;
     return key;
   }
 
   function computeBandPattern(bandRows, referenceBand, selectedBand) {
-    // TOT_* / aggregate bands aren't part of the bounded low->high consumption profile.
     const boundedRows = bandRows
       .filter((r) => r.band.toUpperCase().indexOf("TOT") === -1 && isValid(r.value))
       .sort((a, b) => bandSortKey(a.band) - bandSortKey(b.band));
@@ -845,7 +766,6 @@ var insightsDataNameSpace = (function () {
   }
 
   function computeBandSpreadOverTime(lowHistory, highHistory) {
-    // lowHistory/highHistory: [{period, value}], same context, only band differs
     const byPeriodLow = {};
     lowHistory.forEach((r) => { byPeriodLow[r.period] = r.value; });
     const spreads = highHistory
@@ -871,10 +791,6 @@ var insightsDataNameSpace = (function () {
     };
   }
 
-  // ---------------------------------------------------------------------
-  // 7.8 / 7.9 — focus country's composition vs the official EU aggregate's own composition
-  // ---------------------------------------------------------------------
-
   function computeGlobalComponentSummary(focusComposition, euComposition) {
     if (!focusComposition.hasData || !euComposition.hasData) return { available: false };
     const byCode = {};
@@ -893,22 +809,11 @@ var insightsDataNameSpace = (function () {
     return { available: true, comparison, mostDivergent: comparison[0] || null };
   }
 
-  // ---------------------------------------------------------------------
-  // "1. What does this mean for me?" — indicative annual-cost estimator
-  // and "2. Consumption-band suitability" — band finder
-  // ---------------------------------------------------------------------
-
   function computeAnnualCost(pricePerUnit, annualConsumption) {
     if (!isValid(pricePerUnit) || !isValid(annualConsumption) || annualConsumption < 0) return null;
     return pricePerUnit * annualConsumption;
   }
 
-  // Parses a consumption-band code into a numeric [lower, upper) range so a user's own
-  // consumption figure can be matched against it. Handles the three shapes actually used
-  // in codesDataset: "..._LTn" (below n), "..._GEn" / "..._LEn" (n and above — the "LE"
-  // spelling is a known naming inconsistency for what is really a "greater-or-equal"
-  // open-ended band, per insights.md 2.4), and "..lower-upper" (bounded range, upper is
-  // inclusive in the code so the matching range extends to upper+1).
   function parseBandBounds(code) {
     const upper = code.toUpperCase();
     if (upper.indexOf("TOT") !== -1) return null;
@@ -930,10 +835,6 @@ var insightsDataNameSpace = (function () {
     return match ? { band: match.band, value: match.value, bounds: match.bounds } : null;
   }
 
-  // ---------------------------------------------------------------------
-  // 8.2 — energy price vs. general inflation (related context, not causation)
-  // ---------------------------------------------------------------------
-
   function computeInflationComparison(hicpDataset, energyYoyPct, month) {
     if (!hicpDataset || !isValid(energyYoyPct)) return null;
     const res = hicpDataset.Data(0);
@@ -942,20 +843,65 @@ var insightsDataNameSpace = (function () {
     return { hicpYoyPct, energyYoyPct, gap: energyYoyPct - hicpYoyPct, month };
   }
 
+  function computeDirectCountryComparison(panelDataset, focusGeo, countryB, componentDataset, ctx, latestPeriod) {
+    if (!countryB || focusGeo === countryB || !panelDataset) return null;
+    const focusVal = readPoint(panelDataset, focusGeo, latestPeriod);
+    const countryBVal = readPoint(panelDataset, countryB, latestPeriod);
+    if (!isValid(focusVal) || !isValid(countryBVal)) return null;
+
+    const gapAbs = focusVal - countryBVal;
+    const gapPct = percentChange(countryBVal, focusVal);
+
+    const yoyCode = yoyPeriod(latestPeriod);
+    const focusYoy = yoyCode ? readPoint(panelDataset, focusGeo, yoyCode) : null;
+    const countryBYoy = yoyCode ? readPoint(panelDataset, countryB, yoyCode) : null;
+    const focusYoyPct = percentChange(focusYoy, focusVal);
+    const countryBYoyPct = percentChange(countryBYoy, countryBVal);
+
+    let componentGaps = [];
+    let mainDriver = null;
+    if (componentDataset && ctx.nrgPrc) {
+      const scale = ctx.unit === "MWH" ? 1000 : 1;
+      const latestYear = periodToYear(latestPeriod);
+      componentGaps = ctx.nrgPrc.map((code) => {
+        const valA = componentDataset.Data({ geo: focusGeo, time: latestYear, nrg_prc: code });
+        const valB = componentDataset.Data({ geo: countryB, time: latestYear, nrg_prc: code });
+        const numA = valA && isValid(valA.value) ? valA.value * scale : null;
+        const numB = valB && isValid(valB.value) ? valB.value * scale : null;
+        const gap = (isValid(numA) && isValid(numB)) ? numA - numB : null;
+        return { code, valA: numA, valB: numB, gap };
+      }).filter((c) => isValid(c.gap));
+
+      if (componentGaps.length) {
+        componentGaps.sort((a, b) => Math.abs(b.gap) - Math.abs(a.gap));
+        mainDriver = componentGaps[0];
+      }
+    }
+
+    return {
+      countryA: focusGeo,
+      countryB,
+      valA: focusVal,
+      valB: countryBVal,
+      gapAbs,
+      gapPct,
+      focusYoyPct,
+      countryBYoyPct,
+      fasterGrowthCountry: (isValid(focusYoyPct) && isValid(countryBYoyPct))
+        ? (focusYoyPct > countryBYoyPct ? focusGeo : countryB)
+        : null,
+      componentGaps,
+      mainDriver
+    };
+  }
+
   // ---------------------------------------------------------------------
   // Orchestration
   // ---------------------------------------------------------------------
 
-  async function computeSelectedViewInsights() {
+  async function computeSelectedViewInsights(options) {
     const ctx = buildContext();
 
-    // REF.time is not trustworthy as "the latest period": it's read from whichever dataset
-    // is currently active on the main chart (js/populateYears.js), and the component ("_c")
-    // dataset is annual while the plain price dataset used here is bi-annual — REF.time can
-    // therefore be in the wrong format entirely (e.g. "2025" instead of "2025-S2") whenever
-    // the user currently has component mode toggled on. Instead, fetch the panel first and
-    // derive the latest period from the data itself, exactly as spec 6.2 defines it
-    // ("latestPeriod = max(period where value is valid")).
     const eurPanelDataset = await fetchDataset(buildPanelUrl(ctx, "EUR"));
     const eurHistoryFull = readHistory(eurPanelDataset, ctx.geo);
     const latestPeriod = eurHistoryFull.length ? eurHistoryFull[eurHistoryFull.length - 1].period : ctx.time;
@@ -970,8 +916,6 @@ var insightsDataNameSpace = (function () {
 
     const [ppsPanelSettled, componentSettled, bandDatasetSettled, hicpDatasetSettled] = await Promise.all([
       fetchDataset(buildPanelUrl(ctx, "PPS")).catch(() => null),
-      // Fetch both the focus geo and EU27_2020 together so the same response can feed both
-      // the focus-country composition and the "vs official EU composition" comparison (7.8/7.9).
       fetchDataset(buildComponentUrlMultiGeo(ctx, [ctx.geo, "EU27_2020"], [latestYear, yoyYear])).catch(() => null),
       fetchDataset(buildBandUrl(ctx)).catch(() => null),
       hicpMonth ? fetchDataset(buildHicpUrl(ctx.geo, hicpMonth)).catch(() => null) : Promise.resolve(null)
@@ -1009,8 +953,6 @@ var insightsDataNameSpace = (function () {
       rankShift = computeRankShift(eurPanelLatest, ppsPanelLatest, ctx.geo);
     }
 
-    // Development: momentum/CAGR/turning points/volatility/seasonality, all derived from the
-    // history already fetched for historicalPosition — no extra network calls.
     const development = {
       momentum: computeMomentum(eurHistory),
       cagr2: computeCagr(eurHistory, 2),
@@ -1027,8 +969,6 @@ var insightsDataNameSpace = (function () {
       yoyChangePct: percentChange(yoyValue, latestValue)
     });
 
-    // Europe-at-a-glance and persistent-position both reuse the full geo x time panel that
-    // was already fetched for the focus country's own history — no extra network calls.
     const countryYoyRows = buildCountryYoyRows(eurPanelDataset, latestPeriod, yoyBefore);
     const europeSnapshot = computeEuropeSnapshot(countryYoyRows);
 
@@ -1056,6 +996,15 @@ var insightsDataNameSpace = (function () {
 
     const inflationComparison = computeInflationComparison(hicpDatasetSettled, percentChange(yoyValue, latestValue), hicpMonth);
 
+    const countryComparison = computeDirectCountryComparison(
+      eurPanelDataset,
+      ctx.geo,
+      options && options.countryB,
+      componentSettled,
+      ctx,
+      latestPeriod
+    );
+
     const latestStatus = hasLatestPeriod ? readStatus(eurPanelDataset, ctx.geo, latestPeriod) : null;
 
     const dataQuality = {
@@ -1071,7 +1020,13 @@ var insightsDataNameSpace = (function () {
       latestStatus,
       isProvisional: latestStatus === "p",
       isEstimated: latestStatus === "e",
-      anomalies
+      anomalies,
+      provenance: {
+        priceDataset: ctx.dataset,
+        componentDataset: ctx.componentDataset,
+        pricePeriod: latestPeriod,
+        componentPeriod: latestYear
+      }
     };
 
     return {
@@ -1104,13 +1059,13 @@ var insightsDataNameSpace = (function () {
       bandPattern,
       bandSpreadOverTime,
       inflationComparison,
+      countryComparison,
       dataQuality
     };
   }
 
   return {
     computeSelectedViewInsights,
-    // exposed for testing/reuse
     percentChange,
     absoluteChange,
     median,
@@ -1138,6 +1093,7 @@ var insightsDataNameSpace = (function () {
     computeAnnualCost,
     parseBandBounds,
     findBandForConsumption,
+    computeDirectCountryComparison,
     bandSortKey,
     parsePeriod,
     semesterCode,

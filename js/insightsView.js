@@ -131,23 +131,26 @@ var insightsRenderNameSpace = (function () {
 
     // ---- card primitive: label + value + context + optional expandable calc -------------
 
+    // ---- card primitive: label + value + context + expandable calc (What it is, Calculation, Purpose) -------------
+
     function card(opts) {
         var hasValue = opts.value !== null && opts.value !== undefined && opts.value !== '';
-        var hasExplain = !!(opts.explanation || opts.calculation);
-        var infoBtn = '';
-        var calcPanel = '';
+        cardIdCounter += 1;
+        var calcId = 'insight-calc-' + cardIdCounter;
 
-        if (hasExplain) {
-            cardIdCounter += 1;
-            var calcId = 'insight-calc-' + cardIdCounter;
-            infoBtn = '<button type="button" class="insight-card__info-btn" aria-expanded="false" aria-controls="' + calcId +
-                '" onclick="toggleInsightCalc(this)"><i class="fas fa-circle-info" aria-hidden="true"></i>' +
-                '<span class="sr-only">' + esc(t('INSIGHTS_HOW_CALCULATED')) + '</span></button>';
-            calcPanel = '<div class="insight-card__calc" id="' + calcId + '" hidden>' +
-                (opts.explanation ? '<p class="insight-card__calc-explain">' + esc(opts.explanation) + '</p>' : '') +
-                (opts.calculation ? '<p class="insight-card__calc-formula"><i class="fas fa-calculator" aria-hidden="true"></i><span>' + opts.calculation + '</span></p>' : '') +
-                '</div>';
-        }
+        var infoBtn = '<button type="button" class="insight-card__info-btn" aria-expanded="false" aria-controls="' + calcId +
+            '" onclick="toggleInsightCalc(this)" title="' + esc(t('INSIGHTS_HOW_CALCULATED')) + '"><i class="fas fa-info-circle" aria-hidden="true"></i>' +
+            '<span class="sr-only">' + esc(t('INSIGHTS_HOW_CALCULATED')) + '</span></button>';
+
+        var whatText = opts.whatItIs || opts.explanation || t('INSIGHTS_EXPLAIN_LATEST_PRICE');
+        var calcText = opts.calculation || (hasValue ? esc(opts.label) + ' = <strong>' + esc(opts.value) + '</strong>' : 'Derived from Eurostat API dataset');
+        var purposeText = opts.purpose || t('INSIGHTS_EXPLAIN_EU_COMPARISON');
+
+        var detailsHtml = '<p class="insight-card__calc-explain"><strong><i class="fas fa-question-circle" aria-hidden="true"></i> ' + esc(t('INSIGHTS_WHAT_IT_IS')) + ':</strong> ' + esc(whatText) + '</p>' +
+            '<p class="insight-card__calc-formula"><strong><i class="fas fa-calculator" aria-hidden="true"></i> ' + esc(t('INSIGHTS_CALCULATION')) + ':</strong> <span>' + calcText + '</span></p>' +
+            '<p class="insight-card__calc-explain" style="margin-top:0.35rem"><strong><i class="fas fa-bullseye" aria-hidden="true"></i> ' + esc(t('INSIGHTS_PURPOSE')) + ':</strong> ' + esc(purposeText) + '</p>';
+
+        var calcPanel = '<div class="insight-card__calc" id="' + calcId + '" hidden>' + detailsHtml + '</div>';
 
         return '<div class="insight-card">' +
             '<div class="insight-card__label"><span>' + esc(opts.label) + '</span>' + infoBtn + '</div>' +
@@ -303,8 +306,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_LATEST_PRICE'),
             value: p.latestValue != null ? esc(formatPrice(p.latestValue, ctx)) : null,
             sub: esc(contextPhrase(ctx)),
-            explanation: t('INSIGHTS_EXPLAIN_LATEST_PRICE'),
-            calculation: latestCalc
+            whatItIs: "The official published unit energy price for the selected country, consumer group, and consumption band.",
+            calculation: latestCalc,
+            purpose: "Establishes current price baseline for tariff evaluation."
         });
 
         var semesterCalc = (p.semesterChangePct != null && p.semesterValue != null)
@@ -314,8 +318,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_SEMESTER_CHANGE'),
             value: p.semesterChangePct != null ? esc(formatPercent(p.semesterChangePct)) : null,
             sub: changeSub(p.semesterChangePct, p.semesterChangeAbs, ctx),
-            explanation: t('INSIGHTS_EXPLAIN_SEMESTER_CHANGE'),
-            calculation: semesterCalc
+            whatItIs: "Percentage price change relative to the preceding 6-month period (S1 vs S2).",
+            calculation: semesterCalc,
+            purpose: "Monitors short-term price momentum and recent tariff adjustments."
         });
 
         var yoyCalc = (p.yoyChangePct != null && p.yoyValue != null)
@@ -325,8 +330,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_YOY_CHANGE'),
             value: p.yoyChangePct != null ? esc(formatPercent(p.yoyChangePct)) : null,
             sub: changeSub(p.yoyChangePct, p.yoyChangeAbs, ctx),
-            explanation: t('INSIGHTS_EXPLAIN_YOY_CHANGE'),
-            calculation: yoyCalc
+            whatItIs: "Percentage price change relative to the same semester of the previous year.",
+            calculation: yoyCalc,
+            purpose: "Measures annual energy price inflation excluding seasonal fluctuations."
         });
 
         return '<div class="insights-cards">' + latestCard + semesterCard + yoyCard + '</div>';
@@ -344,8 +350,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_EU_COMPARISON'),
             value: esc(formatPercent(cc.euGapPct)),
             sub: esc(cc.euGapPct > 0 ? t('INSIGHTS_ABOVE_EU') : (cc.euGapPct < 0 ? t('INSIGHTS_BELOW_EU') : t('INSIGHTS_IN_LINE_EU'))),
-            explanation: t('INSIGHTS_EXPLAIN_EU_COMPARISON'),
-            calculation: euCalc
+            whatItIs: "Percentage gap between focus country price and official weighted EU27 average.",
+            calculation: euCalc,
+            purpose: "Evaluates competitive standing relative to the European Single Market average."
         }) : '';
 
         var rankCalc = cc.rankHigh != null ? esc(String(cc.rankHigh - 1)) + ' ' + esc(t('INSIGHTS_REPORTING_COUNTRIES')) + ' &gt; ' + esc(t(ctx.geo)) + ' &rarr; <strong>' + cc.rankHigh + ' / ' + cc.n + '</strong>' : null;
@@ -356,8 +363,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_COUNTRY_RANK'),
             value: esc(cc.rankHigh + ' / ' + cc.n),
             sub: rankSub,
-            explanation: t('INSIGHTS_EXPLAIN_COUNTRY_RANK'),
-            calculation: rankCalc
+            whatItIs: "Position of focus country ordered from highest (1) to lowest price among reporting countries.",
+            calculation: rankCalc,
+            purpose: "Ranks relative price position among European countries."
         }) : '';
 
         var medianCalc = cc.median != null ? '(' + formatRaw(cc.focusValue, ctx) + ' − ' + formatRaw(cc.median, ctx) + ') / |' + formatRaw(cc.median, ctx) + '| × 100 = <strong>' + esc(formatPercent(cc.medianGapPct)) + '</strong>' : null;
@@ -365,8 +373,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_VS_MEDIAN'),
             value: esc(formatPercent(cc.medianGapPct)),
             sub: esc(formatPrice(cc.median, ctx)),
-            explanation: t('INSIGHTS_EXPLAIN_MEDIAN'),
-            calculation: medianCalc
+            whatItIs: "Percentage price gap relative to the unweighted median country price.",
+            calculation: medianCalc,
+            purpose: "Compares against the median country without large-country weighting bias."
         }) : '';
 
         var cardsHtml = (euCard || rankCard || medianCard) ? '<div class="insights-cards">' + euCard + rankCard + medianCard + '</div>' : '';
@@ -404,19 +413,30 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_HISTORICAL_MAX'),
             value: esc(formatPrice(hp.max, ctx)),
             sub: esc(t('INSIGHTS_PEAK_PERIOD') + ': ' + hp.peakPeriod + (hp.periodsSincePeak != null ? ' (' + hp.periodsSincePeak + ')' : '')),
-            explanation: t('INSIGHTS_EXPLAIN_HISTORICAL')
+            whatItIs: "The highest unit price recorded for the focus country over the full historical observation window.",
+            calculation: "Max(Price_t over all available semesters)",
+            purpose: "Identifies peak energy cost periods and price ceiling bounds."
         });
 
-        var minCard = card({ label: t('INSIGHTS_HISTORICAL_MIN'), value: esc(formatPrice(hp.min, ctx)) });
+        var minCard = card({
+            label: t('INSIGHTS_HISTORICAL_MIN'),
+            value: esc(formatPrice(hp.min, ctx)),
+            whatItIs: "The lowest unit price recorded for the focus country over history.",
+            calculation: "Min(Price_t over all available semesters)",
+            purpose: "Identifies historical baseline cost floor."
+        });
 
         var percentileValue = hp.historicalPercentile != null ? esc(Math.round(hp.historicalPercentile) + '%') : null;
         var percentileCalc = hp.historicalPercentile != null
-            ? esc(t('INSIGHTS_EXPLAIN_HISTORICAL')) : null;
+            ? '(Count(P_hist < P_current) + 0.5 × Count(P_hist = P_current)) / N × 100 = <strong>' + Math.round(hp.historicalPercentile) + '%</strong>'
+            : null;
         var percentileCard = card({
             label: t('INSIGHTS_PERCENTILE'),
             value: percentileValue,
             sub: flags.length ? flags.map(esc).join(' &middot; ') : null,
-            explanation: hp.historicalPercentile != null ? t('INSIGHTS_EXPLAIN_HISTORICAL') : null
+            whatItIs: "Percentage of historical periods where price was lower than the current price.",
+            calculation: percentileCalc,
+            purpose: "Measures historical extremity of current price."
         });
 
         var persistent = data.persistentPosition;
@@ -451,7 +471,9 @@ var insightsRenderNameSpace = (function () {
                 label: t('INSIGHTS_MOMENTUM'),
                 value: esc(t(momentumKeyMap[dev.momentum.classification])),
                 sub: esc(formatPercent(dev.momentum.latestYoyPct)) + ' &rarr; ' + esc(formatPercent(dev.momentum.previousYoyPct)) + ' ' + esc(t('INSIGHTS_YOY_CHANGE')).toLowerCase(),
-                explanation: t('INSIGHTS_EXPLAIN_MOMENTUM')
+                whatItIs: "Classification of price growth rate acceleration or slowdown.",
+                calculation: "YoY_latest (" + formatPercent(dev.momentum.latestYoyPct) + ") − YoY_prev (" + formatPercent(dev.momentum.previousYoyPct) + ")",
+                purpose: "Detects early directional shifts in price growth trends."
             });
         }
         if (dev.cagr5 || dev.cagr2) {
@@ -460,8 +482,9 @@ var insightsRenderNameSpace = (function () {
                 label: dev.cagr5 ? t('INSIGHTS_CAGR_5Y') : t('INSIGHTS_CAGR_2Y'),
                 value: esc(formatPercent(cagr.cagr)),
                 sub: esc(cagr.basePeriod + ' &rarr; ' + cagr.latestPeriod),
-                explanation: t('INSIGHTS_EXPLAIN_CAGR'),
-                calculation: '((' + formatRaw(cagr.latestValue, ctx) + ' / ' + formatRaw(cagr.baseValue, ctx) + ')<sup>1/' + cagr.years + '</sup> − 1) × 100 = <strong>' + esc(formatPercent(cagr.cagr)) + '</strong>'
+                whatItIs: "Compound Annual Growth Rate over the last 2 or 5 years.",
+                calculation: '((' + formatRaw(cagr.latestValue, ctx) + ' / ' + formatRaw(cagr.baseValue, ctx) + ')<sup>1/' + cagr.years + '</sup> − 1) × 100 = <strong>' + esc(formatPercent(cagr.cagr)) + '</strong>',
+                purpose: "Smooths out short-term fluctuations to measure annualized structural price growth."
             });
         }
         if (dev.volatility) {
@@ -469,7 +492,9 @@ var insightsRenderNameSpace = (function () {
                 label: t('INSIGHTS_VOLATILITY'),
                 value: esc(formatNumber(dev.volatility.volatility, 1)) + ' pp',
                 sub: esc(dev.volatility.n + ' ' + t('INSIGHTS_PERIOD').toLowerCase() + '-to-' + t('INSIGHTS_PERIOD').toLowerCase()),
-                explanation: t('INSIGHTS_EXPLAIN_VOLATILITY')
+                whatItIs: "Standard deviation of semester-on-semester percentage returns over 10 semesters.",
+                calculation: "Sqrt( Variance( semester % changes ) )",
+                purpose: "Measures price stability and market volatility risk."
             });
         }
         if (dev.seasonalPattern) {
@@ -481,7 +506,9 @@ var insightsRenderNameSpace = (function () {
                 label: t('INSIGHTS_TYPICAL_S2_PREMIUM'),
                 value: esc(formatPercent(sp.typicalS2Premium)),
                 sub: seasonalNote ? esc(seasonalNote) : esc(sp.sampleYears + ' years'),
-                explanation: t('INSIGHTS_EXPLAIN_SEASONAL')
+                whatItIs: "Typical price premium between semester 1 (S1) and semester 2 (S2) across historical years.",
+                calculation: "Median( (Price_S2 - Price_S1) / Price_S1 × 100 )",
+                purpose: "Evaluates seasonal tariff adjustments and predictability."
             });
         }
 
@@ -538,7 +565,9 @@ var insightsRenderNameSpace = (function () {
                 label: t('INSIGHTS_MOST_DIVERGENT_COMPONENT') + ' (' + t('INSIGHTS_GLOBAL_COMPONENT') + ')',
                 value: esc(t(g.code)),
                 sub: esc(formatNumber(g.focusShare, 1)) + '% ' + esc(t(ctx.geo)) + ' vs ' + esc(formatNumber(g.euShare, 1)) + '% ' + esc(t('EU27_2020')),
-                explanation: t('INSIGHTS_EXPLAIN_GLOBAL_COMPONENT')
+                whatItIs: "The price component showing the largest share percentage divergence from the EU27 average composition.",
+                calculation: "Max( |Share_focus - Share_EU27| )",
+                purpose: "Identifies unique national component cost drivers compared to Europe."
             });
             globalHtml = '<div class="insights-cards">' + globalHtml + '</div>';
         }
@@ -564,12 +593,20 @@ var insightsRenderNameSpace = (function () {
             oppositeDown: 'INSIGHTS_FISCAL_OPPOSITE_DOWN', neutral: 'INSIGHTS_FISCAL_NEUTRAL'
         };
 
-        var preTaxCard = card({ label: t('INSIGHTS_PRETAX_CHANGE'), value: esc(formatPrice(fe.deltaPreTax, ctx)) });
+        var preTaxCard = card({
+            label: t('INSIGHTS_PRETAX_CHANGE'),
+            value: esc(formatPrice(fe.deltaPreTax, ctx)),
+            whatItIs: "Annual price change before taxes and VAT (energy commodity and network tariffs only).",
+            calculation: "Price_preTax_latest − Price_preTax_prior = <strong>" + formatRaw(fe.deltaPreTax, ctx) + "</strong>",
+            purpose: "Isolates market and network cost changes from government tax policy changes."
+        });
+
         var finalCard = card({
             label: t('INSIGHTS_FINAL_CHANGE'),
             value: esc(formatPrice(fe.deltaFinal, ctx)),
-            explanation: t('INSIGHTS_EXPLAIN_FISCAL_EFFECT'),
-            calculation: esc(t('INSIGHTS_FINAL_CHANGE')) + ' (' + formatRaw(fe.deltaFinal, ctx) + ') vs ' + esc(t('INSIGHTS_PRETAX_CHANGE')).toLowerCase() + ' (' + formatRaw(fe.deltaPreTax, ctx) + ')'
+            whatItIs: "Annual price change in final bill including all taxes, levies, and VAT.",
+            calculation: "Price_final_latest − Price_final_prior = <strong>" + formatRaw(fe.deltaFinal, ctx) + "</strong>",
+            purpose: "Evaluates overall consumer bill impact and determines whether fiscal tax intervention cushioned or amplified market price shocks."
         });
 
         return '<div class="insights-cards">' + preTaxCard + finalCard + '</div>' +
@@ -585,13 +622,28 @@ var insightsRenderNameSpace = (function () {
         }
         var classificationKeyMap = { higherInPps: 'INSIGHTS_PPS_HIGHER', lowerInPps: 'INSIGHTS_PPS_LOWER', similar: 'INSIGHTS_PPS_SIMILAR' };
 
-        var eurCard = card({ label: t('INSIGHTS_EUR_RANK'), value: esc(rs.rankEur + ' / ' + rs.cohortSize) });
-        var ppsCard = card({ label: t('INSIGHTS_PPS_RANK'), value: esc(rs.rankPps + ' / ' + rs.cohortSize) });
+        var eurCard = card({
+            label: t('INSIGHTS_EUR_RANK'),
+            value: esc(rs.rankEur + ' / ' + rs.cohortSize),
+            whatItIs: "Country rank based on nominal Euro prices.",
+            calculation: "Rank in EUR panel",
+            purpose: "Nominal price ranking in common currency."
+        });
+
+        var ppsCard = card({
+            label: t('INSIGHTS_PPS_RANK'),
+            value: esc(rs.rankPps + ' / ' + rs.cohortSize),
+            whatItIs: "Country rank based on Purchasing Power Standards (PPS).",
+            calculation: "Rank in PPS panel",
+            purpose: "Real affordability ranking adjusted for national purchasing power and living standards."
+        });
+
         var shiftCard = card({
             label: t('INSIGHTS_RANK_SHIFT'),
             value: esc((rs.shift > 0 ? '+' : '') + rs.shift),
-            explanation: t('INSIGHTS_EXPLAIN_PPS'),
-            calculation: esc(t('INSIGHTS_EUR_RANK')) + ' (' + rs.rankEur + ') − ' + esc(t('INSIGHTS_PPS_RANK')) + ' (' + rs.rankPps + ') = <strong>' + ((rs.shift > 0 ? '+' : '') + rs.shift) + '</strong>'
+            whatItIs: "Difference between nominal EUR rank and purchasing-power PPS rank.",
+            calculation: "Rank_EUR (" + rs.rankEur + ") − Rank_PPS (" + rs.rankPps + ") = <strong>" + ((rs.shift > 0 ? '+' : '') + rs.shift) + "</strong>",
+            purpose: "Reveals whether energy prices are relatively more expensive or cheaper given national income levels."
         });
 
         return '<div class="insights-cards">' + eurCard + ppsCard + shiftCard + '</div>' +
@@ -611,13 +663,18 @@ var insightsRenderNameSpace = (function () {
             sub: snap.dispersionClassification !== 'unknown'
                 ? esc(t(snap.dispersionClassification === 'converging' ? 'INSIGHTS_CONVERGING' : (snap.dispersionClassification === 'diverging' ? 'INSIGHTS_DIVERGING' : 'INSIGHTS_DISPERSION_STABLE')))
                 : null,
-            explanation: t('INSIGHTS_EXPLAIN_EUROPE_SNAPSHOT')
+            whatItIs: "Percentage change in European price dispersion (Interquartile Range IQR) over 1 year.",
+            calculation: "(IQR_latest − IQR_prior) / IQR_prior × 100",
+            purpose: "Measures whether European energy prices are converging or diverging across Member States."
         });
 
         var countsCard = card({
             label: t('INSIGHTS_EUROPE_SNAPSHOT'),
             value: snap.reportingCountries + '/' + snap.totalCountries,
-            sub: esc(snap.rising + ' ' + t('INSIGHTS_RISING_COUNTRIES') + ' &middot; ' + snap.falling + ' ' + t('INSIGHTS_FALLING_COUNTRIES') + ' &middot; ' + snap.stable + ' ' + t('INSIGHTS_STABLE_COUNTRIES'))
+            sub: esc(snap.rising + ' ' + t('INSIGHTS_RISING_COUNTRIES') + ' &middot; ' + snap.falling + ' ' + t('INSIGHTS_FALLING_COUNTRIES') + ' &middot; ' + snap.stable + ' ' + t('INSIGHTS_STABLE_COUNTRIES')),
+            whatItIs: "Count of reporting European countries with rising (>+0.5%), falling (<-0.5%), or stable YoY prices.",
+            calculation: "Counts of YoY price direction across all reporting countries",
+            purpose: "Macro-level snapshot of European price dynamics."
         });
 
         var movers = snap.topRising.slice(0, 3).map(function (r) {
@@ -645,14 +702,17 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_BAND_PREMIUM'),
             value: esc(formatPercent(bp.bandGapPct)),
             sub: esc(t(ctx.band) + ' vs ' + t(bp.referenceBand)),
-            explanation: t('INSIGHTS_EXPLAIN_BAND_PATTERN'),
-            calculation: '(' + formatRaw(bp.selectedValue, ctx) + ' − ' + formatRaw(bp.referenceValue, ctx) + ') / |' + formatRaw(bp.referenceValue, ctx) + '| × 100 = <strong>' + esc(formatPercent(bp.bandGapPct)) + '</strong>'
+            whatItIs: "Percentage gap between selected consumption band price and baseline reference band price.",
+            calculation: '(' + formatRaw(bp.selectedValue, ctx) + ' − ' + formatRaw(bp.referenceValue, ctx) + ') / |' + formatRaw(bp.referenceValue, ctx) + '| × 100 = <strong>' + esc(formatPercent(bp.bandGapPct)) + '</strong>',
+            purpose: "Quantifies tariff volume discounting or premium for smaller/larger consumers."
         }) : '';
 
         var patternCard = card({
             label: t('INSIGHTS_BAND_PATTERN'),
             value: esc(t(patternKeyMap[bp.pattern])),
-            explanation: t('INSIGHTS_EXPLAIN_BAND_PATTERN')
+            whatItIs: "Progression pattern of unit price across consumption volume bands (from low to high volume).",
+            calculation: "Evaluation of monotonicity across ordered consumption bands",
+            purpose: "Reveals progressive vs volume-discounted tariff structures."
         });
 
         var spread = data.bandSpreadOverTime;
@@ -663,7 +723,9 @@ var insightsRenderNameSpace = (function () {
                 label: t('INSIGHTS_BAND_SPREAD_TITLE'),
                 value: esc(formatPrice(spread.latestSpread, ctx)),
                 sub: spread.classification !== 'unavailable' ? esc(t(spreadKeyMap[spread.classification])) : null,
-                explanation: t('INSIGHTS_EXPLAIN_BAND_SPREAD')
+                whatItIs: "Absolute price difference between highest and lowest consumption bands.",
+                calculation: "Price_highestBand − Price_lowestBand = <strong>" + formatRaw(spread.latestSpread, ctx) + "</strong>",
+                purpose: "Monitors tariff gap evolution between small and large energy consumers over time."
             });
         }
 
@@ -675,12 +737,27 @@ var insightsRenderNameSpace = (function () {
     function renderInflationContext(data) {
         var ic = data.inflationComparison;
         if (!ic) return '';
-        var energyCard = card({ label: t('INSIGHTS_ENERGY_YOY'), value: esc(formatPercent(ic.energyYoyPct)) });
-        var hicpCard = card({ label: t('INSIGHTS_HICP_YOY'), value: esc(formatPercent(ic.hicpYoyPct)), sub: esc(ic.month) });
+        var energyCard = card({
+            label: t('INSIGHTS_ENERGY_YOY'),
+            value: esc(formatPercent(ic.energyYoyPct)),
+            whatItIs: "Annual YoY percentage change in focus country energy prices.",
+            calculation: "Energy YoY %",
+            purpose: "Energy component inflation rate."
+        });
+        var hicpCard = card({
+            label: t('INSIGHTS_HICP_YOY'),
+            value: esc(formatPercent(ic.hicpYoyPct)),
+            sub: esc(ic.month),
+            whatItIs: "Harmonised Index of Consumer Prices (HICP) annual inflation rate.",
+            calculation: "HICP RCH_A series rate",
+            purpose: "General consumer price inflation rate benchmark."
+        });
         var gapCard = card({
             label: t('INSIGHTS_INFLATION_CONTEXT'),
             value: esc(formatPercent(ic.gap)) + ' pp',
-            explanation: t('INSIGHTS_EXPLAIN_INFLATION')
+            whatItIs: "Percentage point gap between energy YoY inflation and HICP general inflation.",
+            calculation: "Energy_YoY% (" + formatPercent(ic.energyYoyPct) + ") − HICP_YoY% (" + formatPercent(ic.hicpYoyPct) + ") = <strong>" + formatPercent(ic.gap) + " pp</strong>",
+            purpose: "Determines whether energy prices are driving or moderating general consumer inflation."
         });
         return '<div class="insights-cards">' + energyCard + hicpCard + gapCard + '</div>' +
             '<p class="insights-note"><i class="fas fa-circle-info" aria-hidden="true"></i> ' + esc(t('INSIGHTS_RELATED_CONTEXT_NOTE')) + '</p>';
@@ -688,48 +765,178 @@ var insightsRenderNameSpace = (function () {
 
     // ---- data quality / freshness / anomalies -----------------------------------------------------------
 
+    // ---- data quality / freshness / safeguards / provenance ---------------------------------------------
+
     function renderDataQuality(data) {
         var dq = data.dataQuality;
-        var notes = [];
-        if (dq.focusMissing) notes.push(t('INSIGHTS_QUALITY_FOCUS_MISSING'));
-        if (dq.yoyMissing) notes.push(t('INSIGHTS_QUALITY_YOY_MISSING'));
-        if (dq.benchmarkMissing) notes.push(t('INSIGHTS_QUALITY_BENCHMARK_MISSING'));
-        if (dq.componentDataMissing) notes.push(t('INSIGHTS_QUALITY_COMPONENT_MISSING'));
-        if (dq.insufficientHistory) notes.push(t('INSIGHTS_QUALITY_INSUFFICIENT_HISTORY'));
-        if (dq.reconciliationGap != null && dq.reconciliationGap > 5) notes.push(t('INSIGHTS_QUALITY_RECONCILIATION'));
-        if (dq.isProvisional) notes.push(t('INSIGHTS_PROVISIONAL'));
-        if (dq.isEstimated) notes.push(t('INSIGHTS_ESTIMATED'));
-        (dq.anomalies || []).forEach(function (a) {
-            if (a === 'negativePrice') notes.push(t('INSIGHTS_ANOMALY_NEGATIVE'));
-            if (a === 'zeroPrice') notes.push(t('INSIGHTS_ANOMALY_ZERO'));
-            if (a === 'implausibleChange') notes.push(t('INSIGHTS_ANOMALY_IMPLAUSIBLE'));
-        });
-        if (!notes.length) notes.push(t('INSIGHTS_QUALITY_OK'));
+        var prov = dq.provenance;
+        var ctx = data.context;
 
-        return notes.map(function (n) {
-            return '<div class="insights-note"><i class="fas fa-circle-info" aria-hidden="true"></i> ' + esc(n) + '</div>';
+        var statusText = dq.isProvisional ? t('INSIGHTS_PROVISIONAL')
+            : (dq.isEstimated ? t('INSIGHTS_ESTIMATED') : t('INSIGHTS_STATUS_NORMAL'));
+
+        var statusCard = card({
+            label: t('INSIGHTS_DATA_STATUS'),
+            value: esc(dq.latestStatus ? 'Flag: [' + dq.latestStatus + ']' : 'Final'),
+            sub: esc(statusText),
+            explanation: t('INSIGHTS_PROVISIONAL')
+        });
+
+        var anomalyText = (dq.anomalies && dq.anomalies.length > 0)
+            ? dq.anomalies.map(function (a) { return t('INSIGHTS_ANOMALY_' + a.toUpperCase()); }).join(', ')
+            : t('INSIGHTS_SAFEGUARD_OK');
+
+        var safeguardCard = card({
+            label: t('INSIGHTS_ANOMALY_CHECK'),
+            value: (dq.anomalies && dq.anomalies.length > 0) ? 'Flagged' : 'Passed',
+            sub: esc(anomalyText),
+            explanation: t('INSIGHTS_ANOMALY_CHECK')
+        });
+
+        var provSub = prov ? (
+            esc(t('INSIGHTS_DATASET_PRICE_NOTE')) + ': <strong>' + esc(prov.priceDataset) + '</strong> (' + esc(prov.pricePeriod) + ') &bull; ' +
+            esc(t('INSIGHTS_DATASET_COMPONENT_NOTE')) + ': <strong>' + esc(prov.componentDataset) + '</strong> (' + esc(prov.componentPeriod) + ')'
+        ) : '—';
+
+        var provenanceCard = card({
+            label: t('INSIGHTS_DATASET_PROVENANCE'),
+            value: esc(prov ? prov.priceDataset + ' vs ' + prov.componentDataset : '—'),
+            sub: provSub,
+            explanation: t('INSIGHTS_DATASET_PRICE_NOTE')
+        });
+
+        var consumerQualBox = '<div class="insights-summary" style="margin-top:0.75rem">' +
+            '<strong><i class="fas fa-users" aria-hidden="true"></i> ' + esc(t('INSIGHTS_CONSUMER_QUALIFICATION')) + ' (' + esc(t(ctx.consumer)) + '):</strong> ' +
+            esc(t('INSIGHTS_CONSUMER_QUALIFICATION_DESC')) +
+            '</div>';
+
+        return '<div class="insights-cards">' + statusCard + safeguardCard + provenanceCard + '</div>' + consumerQualBox;
+    }
+
+    // ---- export toolbar & interactive consumer tools ---------------------------------------------------
+
+    function renderToolbar() {
+        return '<div class="insights-toolbar">' +
+            '<div class="insights-toolbar__group">' +
+            '<button type="button" class="insight-btn" onclick="insightsRenderNameSpace.copyText()"><i class="fas fa-copy" aria-hidden="true"></i> <span>' + esc(t('INSIGHTS_COPY_TEXT')) + '</span></button>' +
+            '<button type="button" class="insight-btn" onclick="insightsRenderNameSpace.exportCsv()"><i class="fas fa-file-csv" aria-hidden="true"></i> <span>' + esc(t('INSIGHTS_EXPORT_CSV')) + '</span></button>' +
+            '<button type="button" class="insight-btn" onclick="copyUrl()"><i class="fas fa-share-nodes" aria-hidden="true"></i> <span>' + esc(t('SHARE')) + '</span></button>' +
+            '</div>' +
+            '</div>';
+    }
+
+    function getDefaultConsumption(ctx) {
+        if (ctx.consumer === 'N_HOUSEHOLD') {
+            return ctx.unit === 'GJ_GCV' ? 5000 : (ctx.unit === 'MWH' ? 500 : 500000);
+        }
+        return ctx.unit === 'GJ_GCV' ? 50 : (ctx.unit === 'MWH' ? 3.5 : 3500);
+    }
+
+    function renderEstimatorAndBandFinder(data) {
+        var ctx = data.context;
+        var currentConsumption = userConsumption !== null ? userConsumption : getDefaultConsumption(ctx);
+        var unitName = esc(t('S_' + ctx.unit));
+
+        var cost = insightsDataNameSpace.computeAnnualCost(data.price.latestValue, currentConsumption);
+        var costFormatted = cost !== null ? formatPrice(cost, ctx) : '—';
+        var stepText = formatRaw(currentConsumption, ctx) + ' ' + unitName + ' &times; ' + formatRaw(data.price.latestValue, ctx) + ' ' + unitLabel(ctx);
+
+        var estimatorCard = '<div class="insights-widget-card">' +
+            '<div class="insights-widget-card__title"><i class="fas fa-calculator" aria-hidden="true"></i> ' + esc(t('INSIGHTS_COST_ESTIMATOR')) + '</div>' +
+            '<div class="insights-input-group">' +
+            '<label for="insightConsumptionInput" class="sr-only">' + esc(t('INSIGHTS_ANNUAL_CONSUMPTION')) + '</label>' +
+            '<input type="number" id="insightConsumptionInput" class="insight-input" value="' + currentConsumption + '" step="any" min="0" onchange="insightsRenderNameSpace.onConsumptionChange(this.value)">' +
+            '<span>' + unitName + ' / ' + esc(t('INSIGHTS_PERIOD').toLowerCase()) + '</span>' +
+            '</div>' +
+            '<div class="insights-widget-result">' + esc(t('INSIGHTS_ESTIMATED_COST')) + ': <strong>' + esc(costFormatted) + '</strong></div>' +
+            '<div class="insights-widget-sub">' + stepText + '</div>' +
+            '<p class="insight-card__note" style="margin-top:0.4rem">' + esc(t('INSIGHTS_COST_DISCLAIMER')) + '</p>' +
+            '</div>';
+
+        var bandRows = data.bandPattern ? data.bandPattern.bands : [];
+        var matched = insightsDataNameSpace.findBandForConsumption(bandRows, currentConsumption);
+        var finderSub = matched ? esc(t('INSIGHTS_MATCHING_BAND')) + ': <strong>' + esc(t(matched.band)) + '</strong>' : esc(t('INSIGHTS_NOT_AVAILABLE'));
+        var isCurrent = matched && matched.band === ctx.band;
+
+        var switchBtn = (matched && !isCurrent)
+            ? '<button type="button" class="insight-btn insight-btn--sm" style="margin-top:0.4rem" onclick="insightsRenderNameSpace.switchBand(\'' + matched.band + '\')"><i class="fas fa-exchange-alt" aria-hidden="true"></i> ' + esc(t('INSIGHTS_SWITCH_BAND')) + '</button>'
+            : (isCurrent ? '<span class="insight-badge insight-stable" style="margin-top:0.4rem"><i class="fas fa-check" aria-hidden="true"></i> ' + esc(t('INSIGHTS_BAND')) + ' ' + esc(t('INSIGHTS_STABLE')) + '</span>' : '');
+
+        var finderCard = '<div class="insights-widget-card">' +
+            '<div class="insights-widget-card__title"><i class="fas fa-filter" aria-hidden="true"></i> ' + esc(t('INSIGHTS_BAND_FINDER')) + '</div>' +
+            '<div class="insights-widget-result" style="font-size:0.9rem">' + finderSub + '</div>' +
+            switchBtn +
+            '</div>';
+
+        return '<div class="insights-widget-row">' + estimatorCard + finderCard + '</div>';
+    }
+
+    function renderCountryComparisonSection(data) {
+        var ctx = data.context;
+        var countryList = Object.keys(energyCountries).filter(function (g) {
+            return g !== ctx.geo && g !== 'EU27_2020' && g !== 'EA';
+        });
+
+        var optionsHtml = countryList.map(function (g) {
+            var selected = g === selectedCountryB ? ' selected' : '';
+            return '<option value="' + g + '"' + selected + '>' + esc(t(g)) + ' (' + g + ')</option>';
         }).join('');
+
+        var selectorHtml = '<div class="insights-input-group">' +
+            '<label for="insightCountryBSelect" style="font-size:0.82rem;font-weight:600;color:#4c5563">' + esc(t('INSIGHTS_COMPARE_WITH')) + ':</label>' +
+            '<select id="insightCountryBSelect" class="insight-select" onchange="insightsRenderNameSpace.onCountryBChange(this.value)">' +
+            '<option value="">-- ' + esc(t('INSIGHTS_COMPARE_WITH')) + ' --</option>' +
+            optionsHtml +
+            '</select>' +
+            '</div>';
+
+        var cc = data.countryComparison;
+        var comparisonBody = '';
+        if (cc) {
+            var valACard = card({ label: t(ctx.geo), value: esc(formatPrice(cc.valA, ctx)) });
+            var valBCard = card({ label: t(cc.countryB), value: esc(formatPrice(cc.valB, ctx)) });
+            var gapCard = card({
+                label: t('INSIGHTS_COUNTRY_GAP'),
+                value: esc(formatPercent(cc.gapPct)),
+                sub: esc(formatPrice(cc.gapAbs, ctx)) + ' (' + esc(cc.gapAbs > 0 ? t(ctx.geo) : t(cc.countryB)) + ' ' + esc(t('INSIGHTS_RISING').toLowerCase()) + ')'
+            });
+
+            var driverText = cc.mainDriver ? esc(t('INSIGHTS_MAIN_GAP_DRIVER')) + ': <strong>' + esc(t(cc.mainDriver.code)) + '</strong> (' + esc(formatPrice(cc.mainDriver.gap, ctx)) + ')' : '';
+
+            comparisonBody = '<div class="insights-cards" style="margin-top:0.75rem">' + valACard + valBCard + gapCard + '</div>' +
+                (driverText ? '<p class="insights-summary">' + driverText + '</p>' : '');
+        }
+
+        return selectorHtml + comparisonBody;
     }
 
     // ---- top-level render -------------------------------------------------------------------------------
 
+    var cachedData = null;
+    var userConsumption = null;
+    var selectedCountryB = null;
+
     function render(data) {
+        cachedData = data;
         cardIdCounter = 0;
         var html = '<div class="insights-panel" tabindex="-1">' +
+            renderToolbar() +
             renderContext(data.context, data.latestPeriod) +
+            renderEstimatorAndBandFinder(data) +
             '<div class="insights-sections">' +
             section('fa-euro-sign', t('INSIGHTS_LATEST_PRICE'), renderPriceCards(data)) +
             section('fa-globe-europe', t('INSIGHTS_EU_COMPARISON'), renderComparisonCards(data) + renderRankSensitivity(data)) +
+            section('fa-exchange-alt', t('INSIGHTS_DIRECT_COMPARISON'), renderCountryComparisonSection(data)) +
             section('fa-history', t('INSIGHTS_HISTORICAL_POSITION'), renderHistoryCards(data)) +
             section('fa-chart-line', t('INSIGHTS_DEVELOPMENT'), renderDevelopment(data)) +
             section('fa-chart-pie', t('INSIGHTS_COMPOSITION'), renderComposition(data)) +
             section('fa-balance-scale', t('INSIGHTS_FISCAL_EFFECT'), renderFiscalEffect(data)) +
             section('fa-coins', t('INSIGHTS_PPS_PERSPECTIVE'), renderPpsPerspective(data)) +
-            section('fa-earth-europe', t('INSIGHTS_EUROPE_SNAPSHOT'), renderEuropeSnapshot(data)) +
+            section('fa-globe-europe', t('INSIGHTS_EUROPE_SNAPSHOT'), renderEuropeSnapshot(data)) +
             section('fa-bolt', t('INSIGHTS_BAND_PATTERN'), renderBandSection(data)) +
-            section('fa-chart-simple', t('INSIGHTS_INFLATION_CONTEXT'), renderInflationContext(data)) +
+            section('fa-chart-bar', t('INSIGHTS_INFLATION_CONTEXT'), renderInflationContext(data)) +
+            section('fa-shield-alt', t('INSIGHTS_DATA_QUALITY_TITLE'), renderDataQuality(data)) +
             '</div>' +
-            '<div class="insights-note-list">' + renderDataQuality(data) + '</div>' +
             '</div>';
 
         $('#insightsViewBody').html(html);
@@ -747,8 +954,8 @@ var insightsRenderNameSpace = (function () {
         var requestId = ++currentRequestId;
         renderLoading();
 
-        insightsDataNameSpace.computeSelectedViewInsights().then(function (data) {
-            if (requestId !== currentRequestId) return; // a newer request superseded this one
+        insightsDataNameSpace.computeSelectedViewInsights({ countryB: selectedCountryB }).then(function (data) {
+            if (requestId !== currentRequestId) return;
             render(data);
         }).catch(function (err) {
             if (requestId !== currentRequestId) return;
@@ -757,9 +964,78 @@ var insightsRenderNameSpace = (function () {
         });
     }
 
-    return { load: load };
+    function onConsumptionChange(val) {
+        userConsumption = parseFloat(val);
+        if (cachedData) render(cachedData);
+    }
+
+    function onCountryBChange(val) {
+        selectedCountryB = val;
+        load();
+    }
+
+    function switchBand(newBand) {
+        if (typeof REF !== 'undefined') {
+            REF.consoms = newBand;
+            if (typeof populateConsumption !== 'undefined') {
+                populateConsumption();
+            }
+            load();
+        }
+    }
+
+    function exportCsv() {
+        if (!cachedData) return;
+        var d = cachedData;
+        var rows = [
+            ['Metric', 'Geography', 'Period', 'Value', 'Unit'],
+            ['Latest Price', d.context.geo, d.latestPeriod, d.price.latestValue, d.context.unit],
+            ['YoY Change %', d.context.geo, d.latestPeriod, d.price.yoyChangePct, '%'],
+            ['Semester Change %', d.context.geo, d.latestPeriod, d.price.semesterChangePct, '%'],
+            ['EU Gap %', d.context.geo, d.latestPeriod, d.crossCountry.euGapPct, '%'],
+            ['Country Rank', d.context.geo, d.latestPeriod, d.crossCountry.rankHigh + '/' + d.crossCountry.n, 'rank'],
+            ['Historical Max', d.context.geo, d.historicalPosition ? d.historicalPosition.peakPeriod : '', d.historicalPosition ? d.historicalPosition.max : '', d.context.unit],
+            ['Historical Min', d.context.geo, d.latestPeriod, d.historicalPosition ? d.historicalPosition.min : '', d.context.unit]
+        ];
+
+        var csvContent = 'data:text/csv;charset=utf-8,' + rows.map(function (e) { return e.join(','); }).join('\n');
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement('a');
+        link.setAttribute('href', encodedUri);
+        link.setAttribute('download', 'insights_' + d.context.geo + '_' + d.latestPeriod + '.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function copyText() {
+        if (!cachedData) return;
+        var d = cachedData;
+        var summary = 'ENPRICES Insights Summary (' + d.context.geo + ' - ' + d.latestPeriod + ')\n' +
+            'Product: ' + t(d.context.product) + ' (' + t(d.context.consumer) + ')\n' +
+            'Latest Price: ' + formatPrice(d.price.latestValue, d.context) + '\n' +
+            'YoY Change: ' + formatPercent(d.price.yoyChangePct) + '\n' +
+            'EU Comparison: ' + formatPercent(d.crossCountry.euGapPct) + ' vs EU27 average\n' +
+            'Country Rank: ' + d.crossCountry.rankHigh + ' / ' + d.crossCountry.n + ' reporting countries\n';
+
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(summary).then(function () {
+                alert(t('INSIGHTS_COPIED'));
+            });
+        }
+    }
+
+    return {
+        load: load,
+        onConsumptionChange: onConsumptionChange,
+        onCountryBChange: onCountryBChange,
+        switchBand: switchBand,
+        exportCsv: exportCsv,
+        copyText: copyText
+    };
 })();
 
 function loadInsights() {
     insightsRenderNameSpace.load();
 }
+

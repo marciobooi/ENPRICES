@@ -176,8 +176,8 @@
 .insight-card__label {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.4rem;
+    justify-content: flex-start;
+    gap: 0.35rem;
 }
 
 .insight-card__info-btn {
@@ -185,20 +185,23 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.4rem;
-    height: 1.4rem;
+    width: 1.25rem;
+    height: 1.25rem;
     padding: 0;
-    border: none;
-    background: transparent;
-    color: #8b95a5;
+    border: 1px solid #b8c6e3;
+    background: #eef1fb;
+    color: var(--nav-color);
     cursor: pointer;
     border-radius: 50%;
+    font-size: 0.72rem;
+    transition: all 0.15s ease-in-out;
 }
 
 .insight-card__info-btn:hover,
 .insight-card__info-btn[aria-expanded="true"] {
-    color: var(--nav-color);
-    background: #eef1fb;
+    color: #fff;
+    background: var(--nav-color);
+    border-color: var(--nav-color);
 }
 
 .insight-card__calc {
@@ -629,3 +632,135 @@
         width: 100%;
     }
 }
+
+/* Export Toolbar */
+.insights-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 0.6rem 0.85rem;
+    background: #fff;
+    border: 1px solid #dce3f0;
+    border-radius: 6px;
+}
+
+.insights-toolbar__group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.insight-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--nav-color);
+    background: #eef1fb;
+    border: 1px solid #b8c6e3;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.insight-btn:hover,
+.insight-btn:focus-visible {
+    background: var(--nav-color);
+    color: #fff;
+    border-color: var(--nav-color);
+}
+
+.insight-btn--sm {
+    padding: 0.25rem 0.55rem;
+    font-size: 0.72rem;
+}
+
+/* Estimator & Band Finder widget */
+.insights-widget-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+}
+
+.insights-widget-card {
+    flex: 1 1 280px;
+    background: #fff;
+    border: 1px solid #dce3f0;
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+}
+
+.insights-widget-card__title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #4c5563;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.insights-input-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+}
+
+.insight-input,
+.insight-select {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.82rem;
+    border: 1px solid #b8c6e3;
+    border-radius: 4px;
+    background: #fff;
+    color: #333;
+}
+
+.insight-input:focus,
+.insight-select:focus {
+    outline: none;
+    border-color: var(--nav-color);
+    box-shadow: 0 0 0 3px rgba(14, 71, 203, 0.15);
+}
+
+.insights-widget-result {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--nav-color);
+    margin-top: 0.4rem;
+}
+
+.insights-widget-sub {
+    font-size: 0.72rem;
+    color: #4c5563;
+    margin-top: 0.25rem;
+}
+
+/* Country Direct Comparison */
+.insights-comparison-bar {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #dce3f0;
+}
+
+.insights-provenance-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.7rem;
+    background: #e9ecef;
+    color: #495057;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    margin-right: 0.4rem;
+    margin-bottom: 0.4rem;
+}
+
