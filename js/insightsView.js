@@ -152,27 +152,106 @@ const insightsRenderNameSpace = (function () {
             (absText ? ' (' + esc(absText) + ')' : '');
     }
 
+    function togglePopover(btn, e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        const popover = $(btn).closest('.ecl-popover');
+        const container = popover.find('.ecl-popover__container');
+        const isHidden = container.is('[hidden]') || container.css('display') === 'none';
+
+        // Close any other open popovers
+        $('.ecl-popover__container').attr('hidden', '').css('display', 'none');
+        $('.ecl-popover__toggle').attr('aria-expanded', 'false');
+
+        if (isHidden) {
+            container.removeAttr('hidden').css('display', 'block');
+            $(btn).attr('aria-expanded', 'true');
+        } else {
+            container.attr('hidden', '').css('display', 'none');
+            $(btn).attr('aria-expanded', 'false');
+        }
+    }
+
+    function closePopover(btn, e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        const container = $(btn).closest('.ecl-popover__container');
+        const popover = $(btn).closest('.ecl-popover');
+        container.attr('hidden', '').css('display', 'none');
+        popover.find('.ecl-popover__toggle').attr('aria-expanded', 'false');
+    }
+
     function section(titleIcon, titleText, bodyHtml, info) {
         if (!bodyHtml) return '';
+        cardIdCounter++;
+        const popoverId = 'insight-popover-' + cardIdCounter;
 
-        const infoBtn = info ? '<button type="button" class="insight-card__info-btn" ' +
-            'data-title="' + esc(titleText) + '" ' +
-            'data-what="' + esc(info.whatItIs) + '" ' +
-            'data-calc="' + esc(info.calculation) + '" ' +
-            'data-purpose="' + esc(info.purpose) + '" ' +
-            'onclick="insightsRenderNameSpace.openModal(this)" ' +
-            'title="' + esc(t('INSIGHTS_HOW_CALCULATED')) + '" ' +
-            'aria-label="' + esc(t('INSIGHTS_HOW_CALCULATED')) + ': ' + esc(titleText) + '">' +
-            '<i class="fas fa-info-circle" aria-hidden="true"></i>' +
-            '</button>' : '';
+        let popoverHtml = '';
+        if (info) {
+            const whatHtml = info.whatItIs ? '<div class="insight-popover-card__item" style="margin-bottom:0.6rem"><strong><i class="fas fa-question-circle" aria-hidden="true"></i> ' + esc(t('INSIGHTS_WHAT_IT_IS')) + ':</strong> ' + esc(info.whatItIs) + '</div>' : '';
+            const calcHtml = info.calculation ? '<div class="insight-popover-card__item" style="margin-bottom:0.6rem"><strong><i class="fas fa-calculator" aria-hidden="true"></i> ' + esc(t('INSIGHTS_CALCULATION')) + ':</strong> <span>' + info.calculation + '</span></div>' : '';
+            const purposeHtml = info.purpose ? '<div class="insight-popover-card__item"><strong><i class="fas fa-bullseye" aria-hidden="true"></i> ' + esc(t('INSIGHTS_PURPOSE')) + ':</strong> ' + esc(info.purpose) + '</div>' : '';
+
+            popoverHtml = '<div class="ecl-popover" style="position:relative;display:inline-flex;margin-left:0.5rem;vertical-align:middle">' +
+                '<button class="ecl-button ecl-button--tertiary ecl-popover__toggle" type="button" aria-controls="' + popoverId + '" aria-expanded="false" title="' + esc(t('INSIGHTS_HOW_CALCULATED')) + '" aria-label="' + esc(t('INSIGHTS_HOW_CALCULATED')) + ': ' + esc(titleText) + '" onclick="insightsRenderNameSpace.togglePopover(this, event)">' +
+                '<span class="ecl-button__container">' +
+                '<span class="wt-icon--information-outline ecl-icon ecl-icon--m ecl-button__icon ecl-icon--information-outline" aria-hidden="true" data-ecl-icon></span>' +
+                '</span>' +
+                '</button>' +
+                '<div id="' + popoverId + '" class="ecl-popover__container" hidden style="display:none">' +
+                '<div class="ecl-popover__scrollable">' +
+                '<button class="ecl-button ecl-button--tertiary ecl-button--neutral ecl-popover__close ecl-button--icon-only" type="button" aria-label="' + esc(t('CLOSE') || 'Close') + '" onclick="insightsRenderNameSpace.closePopover(this, event)" style="position:absolute;top:0.5rem;right:0.5rem">' +
+                '<span class="ecl-button__container">' +
+                '<span class="ecl-button__label" data-ecl-label="true">' + esc(t('CLOSE') || 'Close') + '</span>' +
+                '<span class="wt-icon--close ecl-icon ecl-icon--m ecl-button__icon ecl-icon--close" aria-hidden="true" data-ecl-icon></span>' +
+                '</span>' +
+                '</button>' +
+                '<div class="ecl-popover__content">' +
+                '<h4 class="insight-popover-card__title" style="margin-top:0;margin-bottom:0.75rem;font-size:0.95rem;font-weight:700;color:#1e293b"><i class="fas fa-info-circle" aria-hidden="true"></i> ' + esc(titleText) + '</h4>' +
+                whatHtml + calcHtml + purposeHtml +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+        }
 
         return '<section class="insights-section" aria-label="' + esc(titleText) + '">' +
-            '<h3 class="insights-section__title"><span style="display:flex;align-items:center;gap:0.45rem"><i class="fas ' + titleIcon + '" aria-hidden="true"></i> ' + esc(titleText) + infoBtn + '</span></h3>' +
+            '<h3 class="insights-section__title"><span style="display:flex;align-items:center;gap:0.45rem"><i class="fas ' + titleIcon + '" aria-hidden="true"></i> ' + esc(titleText) + popoverHtml + '</span></h3>' +
             bodyHtml +
             '</section>';
     }
 
     // ---- context strip --------------------------------------------------------------------
+
+    const svgArrow = '<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 24 24" enable-background="new 0 0 24 24" focusable="false" aria-hidden="true" class="ecl-icon ecl-icon--s ecl-select__icon-shape ecl-icon--rotate-180"><path d="M18.2 17.147c.2.2.4.3.7.3.3 0 .5-.1.7-.3.4-.4.4-1 0-1.4l-7.1-7.1c-.4-.4-1-.4-1.4 0l-7 7c-.3.4-.3 1 .1 1.4.4.4 1 .4 1.4 0l6.2-6.2 6.4 6.3z"></path></svg>';
+
+    function renderEclSelect(opts) {
+        const id = opts.id;
+        const label = opts.label;
+        const optionsHtml = opts.optionsHtml;
+        const onChange = opts.onChange;
+        const containerClass = opts.containerClass || 'ecl-select__container--l ecl-select__container--checked';
+        const name = opts.name || id;
+
+        return '<div class="insights-meta__item">' +
+            '<div class="ecl-form-group">' +
+            '<label for="' + esc(id) + '" id="' + esc(id) + '-label" class="ecl-form-label">' + esc(label) + '</label>' +
+            '<div class="ecl-select__container ' + esc(containerClass) + '">' +
+            '<p class="sr-only">Your selection will automatically update the view</p>' +
+            '<select class="ecl-select" id="' + esc(id) + '" name="' + esc(name) + '" required="" onchange="' + esc(onChange) + '">' +
+            optionsHtml +
+            '</select>' +
+            '<div class="ecl-select__icon">' +
+            svgArrow +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+    }
 
     function renderContext(ctx, latestPeriod) {
         function item(label, value) {
@@ -187,12 +266,14 @@ const insightsRenderNameSpace = (function () {
             return '<option value="' + g + '"' + selected + '>' + esc(t(g)) + ' (' + g + ')</option>';
         }).join('');
 
-        const focusCountrySelector = '<div class="insights-meta__item">' +
-            '<label for="insightFocusCountrySelect" class="insights-meta__label">' + esc(t('INSIGHTS_FOCUS_COUNTRY')) + ':</label>' +
-            '<select id="insightFocusCountrySelect" class="insight-select insight-select--meta" onchange="insightsRenderNameSpace.switchFocusCountry(this.value)" aria-label="' + esc(t('INSIGHTS_FOCUS_COUNTRY')) + '">' +
-            countryOptions +
-            '</select>' +
-            '</div>';
+        const focusCountrySelector = renderEclSelect({
+            id: 'insightFocusCountrySelect',
+            name: 'focusCountry',
+            label: t('INSIGHTS_FOCUS_COUNTRY'),
+            optionsHtml: countryOptions,
+            onChange: 'insightsRenderNameSpace.switchFocusCountry(this.value)',
+            containerClass: 'ecl-select__container--m'
+        });
 
         return '<div class="insights-meta" role="region" aria-label="' + esc(t('INSIGHTS_GEOGRAPHY')) + ' ' + esc(t('INSIGHTS_CONTEXT')) + '">' +
             focusCountrySelector +
@@ -1087,18 +1168,20 @@ const insightsRenderNameSpace = (function () {
             selectedCountryB = countryList.includes('BE') ? 'BE' : countryList[0];
         }
 
-        const optionsHtml = countryList.map((g) => {
-            const selected = g === selectedCountryB ? ' selected' : '';
-            return '<option value="' + g + '"' + selected + '>' + esc(t(g)) + ' (' + g + ')</option>';
-        }).join('');
+        const optionsHtml = '<option value="">-- ' + esc(t('INSIGHTS_COMPARE_WITH')) + ' --</option>' +
+            countryList.map((g) => {
+                const selected = g === selectedCountryB ? ' selected' : '';
+                return '<option value="' + g + '"' + selected + '>' + esc(t(g)) + ' (' + g + ')</option>';
+            }).join('');
 
-        const selectorHtml = '<div class="insights-input-group">' +
-            '<label for="insightCountryBSelect" style="font-size:0.82rem;font-weight:600;color:#374151">' + esc(t('INSIGHTS_COMPARE_WITH')) + ':</label>' +
-            '<select id="insightCountryBSelect" class="insight-select" onchange="insightsRenderNameSpace.onCountryBChange(this.value)" aria-label="' + esc(t('INSIGHTS_COMPARE_WITH')) + '">' +
-            '<option value="">-- ' + esc(t('INSIGHTS_COMPARE_WITH')) + ' --</option>' +
-            optionsHtml +
-            '</select>' +
-            '</div>';
+        const selectorHtml = renderEclSelect({
+            id: 'insightCountryBSelect',
+            name: 'countryB',
+            label: t('INSIGHTS_COMPARE_WITH') + ' (' + t(ctx.geo) + ' vs.)',
+            optionsHtml: optionsHtml,
+            onChange: 'insightsRenderNameSpace.onCountryBChange(this.value)',
+            containerClass: 'ecl-select__container--m'
+        });
 
         const cc = data.countryComparison;
         let comparisonBody = '';
@@ -1224,6 +1307,13 @@ const insightsRenderNameSpace = (function () {
             '</div>';
 
         $('#insightsViewBody').html(html);
+        if (typeof ECL !== 'undefined' && typeof ECL.autoInit === 'function') {
+            try {
+                ECL.autoInit();
+            } catch (e) {
+                console.warn('[insights] ECL autoInit warning', e);
+            }
+        }
     }
 
     function renderLoading() {
@@ -1318,6 +1408,10 @@ const insightsRenderNameSpace = (function () {
         }
 
         lastActiveElement = btnElem || document.activeElement;
+        if (lastActiveElement && typeof lastActiveElement.setAttribute === 'function') {
+            lastActiveElement.setAttribute('aria-expanded', 'true');
+        }
+
         const title = $(btnElem).attr('data-title') || t('INSIGHTS_HOW_CALCULATED');
         const what = $(btnElem).attr('data-what') || '';
         const calc = $(btnElem).attr('data-calc') || '';
@@ -1327,28 +1421,37 @@ const insightsRenderNameSpace = (function () {
         const rect = btnElem ? btnElem.getBoundingClientRect() : { top: 100, left: 100, bottom: 120, right: 120 };
         const popoverWidth = Math.min(440, window.innerWidth - 32);
 
-        let top = rect.bottom + window.scrollY + 6;
-        let left = rect.left + window.scrollX - 10;
-
+        // Always open to the right side of the info button (or left if near right screen edge)
+        let left = rect.right + window.scrollX + 10;
         if (left + popoverWidth > window.innerWidth + window.scrollX - 16) {
-            left = window.innerWidth + window.scrollX - popoverWidth - 16;
+            left = rect.left + window.scrollX - popoverWidth - 10;
         }
         if (left < window.scrollX + 16) {
             left = window.scrollX + 16;
         }
 
-        const popoverStyle = 'top:' + Math.round(top) + 'px;left:' + Math.round(left) + 'px;width:' + Math.round(popoverWidth) + 'px;';
+        let top = rect.top + window.scrollY - 4;
+        if (top < window.scrollY + 16) {
+            top = window.scrollY + 16;
+        }
+
+        const popoverStyle = 'position:absolute;top:' + Math.round(top) + 'px;left:' + Math.round(left) + 'px;width:' + Math.round(popoverWidth) + 'px;z-index:999999;box-shadow:0 10px 25px -5px rgba(0,0,0,0.25), 0 8px 10px -6px rgba(0,0,0,0.1);';
 
         const popupHtml =
-            '<div class="insight-popover-card" id="insightInfoPopup" style="' + popoverStyle + '" role="dialog" aria-modal="true" aria-labelledby="insightInfoTitle" tabindex="-1">' +
-            '<div class="insight-popover-card__header">' +
-            '<h4 class="insight-popover-card__title" id="insightInfoTitle"><i class="fas fa-info-circle" aria-hidden="true"></i> ' + esc(title) + '</h4>' +
-            '<button type="button" class="insight-popover-card__close" onclick="insightsRenderNameSpace.closeModal()" aria-label="' + esc(closeText) + '">&times;</button>' +
-            '</div>' +
-            '<div class="insight-popover-card__body">' +
-            (what ? '<div class="insight-popover-card__item"><strong><i class="fas fa-question-circle" aria-hidden="true"></i> ' + esc(t('INSIGHTS_WHAT_IT_IS')) + ':</strong> ' + esc(what) + '</div>' : '') +
-            (calc ? '<div class="insight-popover-card__item"><strong><i class="fas fa-calculator" aria-hidden="true"></i> ' + esc(t('INSIGHTS_CALCULATION')) + ':</strong> <span>' + calc + '</span></div>' : '') +
+            '<div class="ecl-popover__container insight-popover-card" id="insightInfoPopup" style="' + popoverStyle + '" role="dialog" aria-modal="true" aria-labelledby="insightInfoTitle" tabindex="-1">' +
+            '<div class="ecl-popover__scrollable">' +
+            '<button type="button" class="ecl-button ecl-button--tertiary ecl-button--neutral ecl-popover__close ecl-button--icon-only" onclick="insightsRenderNameSpace.closeModal()" aria-label="' + esc(closeText) + '">' +
+            '<span class="ecl-button__container">' +
+            '<span class="ecl-button__label" data-ecl-label="true">' + esc(closeText) + '</span>' +
+            '<span class="wt-icon--close ecl-icon ecl-icon--m ecl-button__icon ecl-icon--close" aria-hidden="true" data-ecl-icon></span>' +
+            '</span>' +
+            '</button>' +
+            '<div class="ecl-popover__content">' +
+            '<h4 class="insight-popover-card__title" id="insightInfoTitle" style="margin-top:0;margin-bottom:0.75rem;font-size:0.95rem;font-weight:700;color:#1e293b"><i class="fas fa-info-circle" aria-hidden="true"></i> ' + esc(title) + '</h4>' +
+            (what ? '<div class="insight-popover-card__item" style="margin-bottom:0.6rem"><strong><i class="fas fa-question-circle" aria-hidden="true"></i> ' + esc(t('INSIGHTS_WHAT_IT_IS')) + ':</strong> ' + esc(what) + '</div>' : '') +
+            (calc ? '<div class="insight-popover-card__item" style="margin-bottom:0.6rem"><strong><i class="fas fa-calculator" aria-hidden="true"></i> ' + esc(t('INSIGHTS_CALCULATION')) + ':</strong> <span>' + calc + '</span></div>' : '') +
             (purpose ? '<div class="insight-popover-card__item"><strong><i class="fas fa-bullseye" aria-hidden="true"></i> ' + esc(t('INSIGHTS_PURPOSE')) + ':</strong> ' + esc(purpose) + '</div>' : '') +
+            '</div>' +
             '</div>' +
             '</div>';
 
@@ -1360,7 +1463,7 @@ const insightsRenderNameSpace = (function () {
 
         setTimeout(() => {
             $(document).off('click.insightPopup').on('click.insightPopup', (e) => {
-                if (!$(e.target).closest('#insightInfoPopup, .insight-card__info-btn').length) {
+                if (!$(e.target).closest('#insightInfoPopup, .ecl-popover__toggle, .insight-card__info-btn').length) {
                     closeModal();
                 }
             });
@@ -1383,8 +1486,13 @@ const insightsRenderNameSpace = (function () {
         if (popup.length) {
             popup.fadeOut(100, () => {
                 popup.remove();
-                if (lastActiveElement && typeof lastActiveElement.focus === 'function') {
-                    lastActiveElement.focus();
+                if (lastActiveElement) {
+                    if (typeof lastActiveElement.setAttribute === 'function') {
+                        lastActiveElement.setAttribute('aria-expanded', 'false');
+                    }
+                    if (typeof lastActiveElement.focus === 'function') {
+                        lastActiveElement.focus();
+                    }
                 }
             });
         }
@@ -1418,6 +1526,8 @@ const insightsRenderNameSpace = (function () {
         switchBand,
         exportCsv,
         copyText,
+        togglePopover,
+        closePopover,
         openModal,
         closeModal,
         handleModalOverlayClick

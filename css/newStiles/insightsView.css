@@ -101,6 +101,8 @@
     border-radius: 6px;
     padding: 1rem 1.25rem 1.25rem;
     border-left: 4px solid var(--nav-color);
+    position: relative;
+    overflow: visible;
 }
 
 .insights-section__title {
@@ -111,6 +113,39 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    position: relative;
+    overflow: visible;
+}
+
+.insights-section .ecl-popover {
+    position: relative !important;
+    display: inline-flex !important;
+    vertical-align: middle !important;
+}
+
+.insights-section .ecl-popover__container {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    transform: none !important;
+    margin-top: 0.5rem !important;
+    margin-left: 0 !important;
+    z-index: 9999 !important;
+    width: 380px !important;
+    max-width: 85vw !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+    padding: 1rem !important;
+}
+
+.insights-section .ecl-popover__container[hidden] {
+    display: none !important;
+}
+
+.insights-section .ecl-popover__container:not([hidden]) {
+    display: block !important;
 }
 
 .insights-year-label {
