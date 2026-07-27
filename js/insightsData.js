@@ -82,7 +82,16 @@ var insightsDataNameSpace = (function () {
     return "EU27_2020";
   }
 
-  function buildContext() {
+  function resolveBandForDataset(dataset, requestedBand) {
+    const validBands = (codesDataset[dataset] && codesDataset[dataset].consoms) || [];
+    if (requestedBand && validBands.indexOf(requestedBand) !== -1 && requestedBand.indexOf("TOT_") !== 0) {
+      return requestedBand;
+    }
+    return (codesDataset[dataset] && codesDataset[dataset].defaultConsom) || requestedBand;
+  }
+
+  function buildContext(options) {
+    const focusGeo = (options && options.focusGeo) ? options.focusGeo : getFocusGeo();
     const dataset = resolveDataset(REF.product, REF.consumer, false);
     const componentDataset = resolveDataset(REF.product, REF.consumer, true);
     const unitParam = REF.unit === "MWH" ? "KWH" : REF.unit;
@@ -91,11 +100,16 @@ var insightsDataNameSpace = (function () {
       time = time + "-S2";
     }
 
+    const band = resolveBandForDataset(dataset, REF.consoms);
+    const componentBand = resolveBandForDataset(componentDataset, REF.consoms);
+
     return {
-      geo: getFocusGeo(),
+      geo: focusGeo,
       product: REF.product,
       consumer: REF.consumer,
-      band: REF.consoms,
+      band,
+      componentBand,
+      rawBand: REF.consoms,
       unit: REF.unit,
       unitParam,
       currency: "EUR",
@@ -134,13 +148,28 @@ var insightsDataNameSpace = (function () {
   }
 
   function buildComponentUrlMultiGeo(ctx, geos, times) {
+    const compBand = ctx.componentBand || ctx.band;
     let url = baseUrl(ctx.componentDataset) +
       ctx.nrgPrc.map((p) => "&nrg_prc=" + p).join("") +
-      "&nrg_cons=" + ctx.band +
+      "&nrg_cons=" + compBand +
+      "&unit=" + ctx.unitParam +
       "&currency=" + ctx.currency;
     geos.forEach((g) => { url += "&geo=" + g; });
     times.filter(Boolean).forEach((t) => { url += "&time=" + t; });
     return url;
+  }
+
+  function readCompVal(ds, geo, time, code, ctx) {
+    if (!ds || !time || !code) return null;
+    const query = { geo, time, nrg_prc: code };
+    if (ctx && ctx.unitParam) query.unit = ctx.unitParam;
+    if (ctx && ctx.currency) query.currency = ctx.currency;
+    if (ctx && (ctx.componentBand || ctx.band)) query.nrg_cons = ctx.componentBand || ctx.band;
+    let point = ds.Data(query);
+    if (!point || point.value === undefined) {
+      point = ds.Data({ geo, time, nrg_prc: code });
+    }
+    return (point && isValid(point.value)) ? point.value : null;
   }
 
   function buildBandUrl(ctx) {
@@ -398,18 +427,43 @@ var insightsDataNameSpace = (function () {
     };
   }
 
-  function computeComposition(componentDataset, ctx, latestPeriod, yoyPeriodCode) {
+  function computeComposition(componentDataset, ctx, requestedPeriod, yoyPeriodCode) {
     const geo = ctx.geo;
-    const hasLatest = periodExists(componentDataset, latestPeriod);
-    const hasPrior = periodExists(componentDataset, yoyPeriodCode);
+    const timeDim = (componentDataset && componentDataset.Dimension("time")) ? componentDataset.Dimension("time").id : [];
+    if (!timeDim.length) return { components: [], hasData: false };
+
     const scale = ctx.unit === "MWH" ? 1000 : 1;
+
+    let effectiveLatest = null;
+    let effectivePrior = null;
+
+    let startIdx = timeDim.indexOf(requestedPeriod);
+    if (startIdx === -1) startIdx = timeDim.length - 1;
+
+    for (let i = startIdx; i >= 0; i--) {
+      const year = timeDim[i];
+      const validTest = ctx.nrgPrc.some((code) => {
+        const val = readCompVal(componentDataset, geo, year, code, ctx);
+        return isValid(val);
+      });
+      if (validTest) {
+        effectiveLatest = year;
+        if (i > 0) effectivePrior = timeDim[i - 1];
+        break;
+      }
+    }
+
+    if (!effectiveLatest) return { components: [], hasData: false };
+
+    const hasLatest = periodExists(componentDataset, effectiveLatest);
+    const hasPrior = effectivePrior ? periodExists(componentDataset, effectivePrior) : false;
     const components = ctx.nrgPrc.map((code) => {
-      const latest = hasLatest ? componentDataset.Data({ geo, time: latestPeriod, nrg_prc: code }) : null;
-      const prior = hasPrior ? componentDataset.Data({ geo, time: yoyPeriodCode, nrg_prc: code }) : null;
+      const latestVal = hasLatest ? readCompVal(componentDataset, geo, effectiveLatest, code, ctx) : null;
+      const priorVal = hasPrior ? readCompVal(componentDataset, geo, effectivePrior, code, ctx) : null;
       return {
         code,
-        latest: latest && isValid(latest.value) ? latest.value * scale : null,
-        prior: prior && isValid(prior.value) ? prior.value * scale : null
+        latest: isValid(latestVal) ? latestVal * scale : null,
+        prior: isValid(priorVal) ? priorVal * scale : null
       };
     });
 
@@ -439,6 +493,7 @@ var insightsDataNameSpace = (function () {
     }
 
     return {
+      period: effectiveLatest,
       components: withShares.sort((a, b) => (b.latest || 0) - (a.latest || 0)),
       componentSum,
       mainUpward,
@@ -923,6 +978,100 @@ var insightsDataNameSpace = (function () {
     return { hicpYoyPct, energyYoyPct, gap: energyYoyPct - hicpYoyPct, month };
   }
 
+  const GEO_REGIONS = {
+    "Nordic / Baltic": ["DK", "FI", "SE", "EE", "LV", "LT", "NO", "IS"],
+    "Western Europe": ["BE", "FR", "DE", "LU", "NL", "AT", "IE"],
+    "Southern Europe": ["ES", "PT", "IT", "EL", "CY", "MT"],
+    "Central / Eastern Europe": ["CZ", "HU", "PL", "SK", "BG", "RO", "SI", "HR"]
+  };
+
+  function computeCrisisRecovery(history) {
+    if (!history || history.length < 3) return null;
+    const latest = history[history.length - 1];
+    if (!latest || !isValid(latest.value)) return null;
+
+    const preCrisisRow = history.find((r) => r.period === "2019-S2") || history.find((r) => r.period === "2019-S1");
+    const crisisRows = history.filter((r) => {
+      const year = parseInt(periodToYear(r.period), 10);
+      return year >= 2021 && year <= 2023 && isValid(r.value);
+    });
+
+    if (!crisisRows.length) return null;
+    const peakRow = crisisRows.reduce((max, r) => (r.value > max.value ? r : max), crisisRows[0]);
+
+    const dropFromPeakPct = percentChange(peakRow.value, latest.value);
+    const gapFromPreCrisisPct = preCrisisRow && isValid(preCrisisRow.value)
+      ? percentChange(preCrisisRow.value, latest.value)
+      : null;
+
+    return {
+      latestPeriod: latest.period,
+      latestValue: latest.value,
+      peakPeriod: peakRow.period,
+      peakValue: peakRow.value,
+      dropFromPeakPct,
+      preCrisisPeriod: preCrisisRow ? preCrisisRow.period : null,
+      preCrisisValue: preCrisisRow ? preCrisisRow.value : null,
+      gapFromPreCrisisPct
+    };
+  }
+
+  function computeRegionalBenchmark(eurPanelLatest, focusGeo) {
+    let regionName = null;
+    let regionMembers = null;
+
+    const keys = Object.keys(GEO_REGIONS);
+    for (let i = 0; i < keys.length; i++) {
+      const name = keys[i];
+      const members = GEO_REGIONS[name];
+      if (members.indexOf(focusGeo) !== -1) {
+        regionName = name;
+        regionMembers = members;
+        break;
+      }
+    }
+
+    if (!regionName || !regionMembers) return null;
+
+    const validRegionRows = eurPanelLatest
+      .filter((r) => regionMembers.indexOf(r.geo) !== -1 && isValid(r.value))
+      .sort((a, b) => b.value - a.value);
+
+    if (!validRegionRows.length) return null;
+
+    const focusRowIdx = validRegionRows.findIndex((r) => r.geo === focusGeo);
+    if (focusRowIdx === -1) return null;
+
+    const avgValue = validRegionRows.reduce((acc, r) => acc + r.value, 0) / validRegionRows.length;
+    const focusValue = validRegionRows[focusRowIdx].value;
+    const gapPctFromAvg = percentChange(avgValue, focusValue);
+    const rankInRegion = focusRowIdx + 1;
+
+    return {
+      regionName,
+      regionSize: validRegionRows.length,
+      rankInRegion,
+      avgValue,
+      focusValue,
+      gapPctFromAvg
+    };
+  }
+
+  function computeCrossFuelRatio(currentPriceKwh, oppositePriceKwh, currentProduct) {
+    if (!isValid(currentPriceKwh) || !isValid(oppositePriceKwh) || oppositePriceKwh <= 0) return null;
+    const isElectricity = currentProduct === "6000";
+    const elecPrice = isElectricity ? currentPriceKwh : oppositePriceKwh;
+    const gasPrice = isElectricity ? oppositePriceKwh : currentPriceKwh;
+    const ratio = elecPrice / gasPrice;
+    return {
+      currentProduct,
+      elecPrice,
+      gasPrice,
+      ratio,
+      pctDiff: ((elecPrice - gasPrice) / gasPrice) * 100
+    };
+  }
+
   function computeDirectCountryComparison(panelDataset, focusGeo, countryB, componentDataset, ctx, latestPeriod) {
     if (!countryB || focusGeo === countryB || !panelDataset) return null;
     const focusVal = readPoint(panelDataset, focusGeo, latestPeriod);
@@ -980,11 +1129,14 @@ var insightsDataNameSpace = (function () {
   // ---------------------------------------------------------------------
 
   async function computeSelectedViewInsights(options) {
-    const ctx = buildContext();
+    const ctx = buildContext(options);
 
     const eurPanelDataset = await fetchDataset(buildPanelUrl(ctx, "EUR"));
     const eurHistoryFull = readHistory(eurPanelDataset, ctx.geo);
-    const latestPeriod = eurHistoryFull.length ? eurHistoryFull[eurHistoryFull.length - 1].period : ctx.time;
+    const targetPeriod = (ctx.time && periodExists(eurPanelDataset, ctx.time))
+      ? ctx.time
+      : (eurHistoryFull.length ? eurHistoryFull[eurHistoryFull.length - 1].period : ctx.time);
+    const latestPeriod = targetPeriod;
 
     const semesterBefore = previousSemester(latestPeriod);
     const yoyBefore = yoyPeriod(latestPeriod);
@@ -994,23 +1146,42 @@ var insightsDataNameSpace = (function () {
 
     const hicpMonth = semesterToHicpMonth(latestPeriod);
 
-    const [ppsPanelSettled, componentSettled, bandDatasetSettled, hicpDatasetSettled] = await Promise.all([
+    const oppositeProduct = ctx.product === "6000" ? "4100" : "6000";
+    const oppositeDatasetCode = resolveDataset(oppositeProduct, ctx.consumer, false);
+    const oppositeBand = oppositeProduct === "4100" ? "GJ20-199" : "KWH2500-4999";
+    const oppositeUrl = baseUrl(oppositeDatasetCode) +
+      "&tax=I_TAX&tax=X_TAX" +
+      "&unit=KWH" +
+      "&nrg_cons=" + oppositeBand +
+      "&currency=EUR";
+
+    const [ppsPanelSettled, componentSettled, bandDatasetSettled, hicpDatasetSettled, oppositeDatasetSettled] = await Promise.all([
       fetchDataset(buildPanelUrl(ctx, "PPS")).catch(() => null),
       fetchDataset(buildComponentUrlMultiGeo(ctx, [ctx.geo, "EU27_2020"], [latestYear, yoyYear])).catch(() => null),
       fetchDataset(buildBandUrl(ctx)).catch(() => null),
-      hicpMonth ? fetchDataset(buildHicpUrl(ctx.geo, hicpMonth)).catch(() => null) : Promise.resolve(null)
+      hicpMonth ? fetchDataset(buildHicpUrl(ctx.geo, hicpMonth)).catch(() => null) : Promise.resolve(null),
+      fetchDataset(oppositeUrl).catch(() => null)
     ]);
 
     const hasLatestPeriod = periodExists(eurPanelDataset, latestPeriod);
     const hasSemesterBefore = periodExists(eurPanelDataset, semesterBefore);
     const hasYoyBefore = periodExists(eurPanelDataset, yoyBefore);
 
-    const eurHistory = eurHistoryFull;
+    const eurHistory = eurHistoryFull.filter((r) => r.period <= latestPeriod);
     const eurPanelLatest = hasLatestPeriod ? readCrossCountry(eurPanelDataset, latestPeriod) : [];
 
     const latestValue = hasLatestPeriod ? readPoint(eurPanelDataset, ctx.geo, latestPeriod) : null;
     const semesterValue = hasSemesterBefore ? readPoint(eurPanelDataset, ctx.geo, semesterBefore) : null;
     const yoyValue = hasYoyBefore ? readPoint(eurPanelDataset, ctx.geo, yoyBefore) : null;
+
+    const oppositeValue = (oppositeDatasetSettled && periodExists(oppositeDatasetSettled, latestPeriod))
+      ? readPoint(oppositeDatasetSettled, ctx.geo, latestPeriod)
+      : null;
+    const latestValueKwh = (latestValue !== null && ctx.unit === "MWH") ? latestValue / 1000 : latestValue;
+    const crossFuel = computeCrossFuelRatio(latestValueKwh, oppositeValue, ctx.product);
+
+    const crisisRecovery = computeCrisisRecovery(eurHistory);
+    const regionalBenchmark = computeRegionalBenchmark(eurPanelLatest, ctx.geo);
 
     const crossCountry = computeCrossCountry(eurPanelLatest, ctx.geo);
     const historicalPosition = computeHistoricalPosition(eurHistory, latestPeriod);
@@ -1092,6 +1263,20 @@ var insightsDataNameSpace = (function () {
 
     const latestStatus = hasLatestPeriod ? readStatus(eurPanelDataset, ctx.geo, latestPeriod) : null;
 
+    const compYear = composition.period || latestYear;
+    const valS1 = compYear ? readPoint(eurPanelDataset, ctx.geo, compYear + "-S1") : null;
+    const valS2 = compYear ? readPoint(eurPanelDataset, ctx.geo, compYear + "-S2") : null;
+    let annualAvgPrice = null;
+    if (isValid(valS1) && isValid(valS2)) {
+      annualAvgPrice = (valS1 + valS2) / 2;
+    } else if (isValid(valS1)) {
+      annualAvgPrice = valS1;
+    } else if (isValid(valS2)) {
+      annualAvgPrice = valS2;
+    } else {
+      annualAvgPrice = latestValue;
+    }
+
     const dataQuality = {
       focusMissing: !isValid(latestValue),
       yoyMissing: !isValid(yoyValue) && !!yoyBefore,
@@ -1099,8 +1284,8 @@ var insightsDataNameSpace = (function () {
       benchmarkMissing: !isValid(crossCountry.euValue),
       componentDataMissing: !composition.hasData,
       insufficientHistory: historicalPosition ? historicalPosition.observationCount < 6 : true,
-      reconciliationGap: composition.hasData && isValid(latestValue) && latestValue
-        ? Math.abs(latestValue - composition.componentSum) / Math.abs(latestValue) * 100
+      reconciliationGap: composition.hasData && isValid(annualAvgPrice) && annualAvgPrice
+        ? Math.abs(annualAvgPrice - composition.componentSum) / Math.abs(annualAvgPrice) * 100
         : null,
       latestStatus,
       isProvisional: latestStatus === "p",
@@ -1110,7 +1295,7 @@ var insightsDataNameSpace = (function () {
         priceDataset: ctx.dataset,
         componentDataset: ctx.componentDataset,
         pricePeriod: latestPeriod,
-        componentPeriod: latestYear
+        componentPeriod: compYear
       }
     };
 
@@ -1146,6 +1331,9 @@ var insightsDataNameSpace = (function () {
       bandSpreadOverTime,
       inflationComparison,
       countryComparison,
+      crossFuel,
+      crisisRecovery,
+      regionalBenchmark,
       dataQuality
     };
   }
@@ -1170,6 +1358,19 @@ var insightsDataNameSpace = (function () {
     computeSeasonalPattern,
     computeRankSensitivity,
     detectAnomalies,
+    computeEuropeSnapshot,
+    computePersistentPosition,
+    computeBandPattern,
+    computeBandSpreadOverTime,
+    computeGlobalComponentSummary,
+    computeInflationComparison,
+    computeAnnualCost,
+    parseBandBounds,
+    findBandForConsumption,
+    computeDirectCountryComparison,
+    computeCrisisRecovery,
+    computeRegionalBenchmark,
+    computeCrossFuelRatio,
     computeEuropeSnapshot,
     computePersistentPosition,
     computeBandPattern,

@@ -1449,6 +1449,46 @@
     "DE": "Geben Sie den Jahresverbrauch Ihres Unternehmens ein (z. B. aus der Energieabrechnung), um die jährlichen Ausgaben zu schätzen und Ihre Eurostat-Verbrauchsklasse zu ermitteln.",
     "FR": "Entrez la consommation annuelle de votre entreprise (par ex. sur vos relevés d'énergie) pour estimer vos dépenses annuelles et identifier votre tranche Eurostat."
   },
+  "INSIGHTS_CROSS_FUEL_RATIO": {
+    "EN": "Electricity vs Gas price ratio",
+    "DE": "Preisverhältnis Strom zu Gas",
+    "FR": "Ratio de prix Électricité vs Gaz"
+  },
+  "INSIGHTS_WHAT_CROSS_FUEL": {
+    "EN": "Compares the cost per kWh of electricity against gas for the same consumer group.",
+    "DE": "Vergleicht die Kosten pro kWh Strom mit Gas für dieselbe Verbrauchergruppe.",
+    "FR": "Compare le coût par kWh d'électricité et de gaz pour le même groupe de consommateurs."
+  },
+  "INSIGHTS_CRISIS_RECOVERY": {
+    "EN": "Crisis Peak & Recovery",
+    "DE": "Krisenspitze & Erholung",
+    "FR": "Pic de crise & Reprise"
+  },
+  "INSIGHTS_WHAT_CRISIS_RECOVERY": {
+    "EN": "Tracks current price relative to the 2021–2023 Energy Crisis peak and 2019 pre-crisis baseline.",
+    "DE": "Misst den aktuellen Preis im Vergleich zur Energie-Krisenspitze (2021–2023) und dem 2019er Vorkrisenniveau.",
+    "FR": "Compare le prix actuel au pic de la crise énergétique (2021-2023) et à la référence d'avant-crise (2019)."
+  },
+  "INSIGHTS_REGIONAL_RANK": {
+    "EN": "Regional Rank",
+    "DE": "Regionale Platzierung",
+    "FR": "Rang régional"
+  },
+  "INSIGHTS_WHAT_REGIONAL_RANK": {
+    "EN": "Position of the focus country within its geographic region.",
+    "DE": "Position des Fokuslandes innerhalb seiner geografischen Region.",
+    "FR": "Position du pays cible au sein de sa région géographique."
+  },
+  "INSIGHTS_PPS_EU_BASELINE_NOTE": {
+    "EN": "PPS ranking benchmarks individual Member States against the EU baseline.",
+    "DE": "Das KKS-Ranking vergleicht die einzelnen Mitgliedstaaten mit dem EU-Basiswert.",
+    "FR": "Le classement SPA compare les États membres individuels à la référence de l'UE."
+  },
+  "INSIGHTS_COMPONENT_ANNUAL_NOTE": {
+    "EN": "Note: Eurostat component breakdown datasets provide annual averages. Component shares are calculated relative to the annual average price.",
+    "DE": "Hinweis: Eurostat-Komponenten-Datensätze liefern Jahresdurchschnitte. Komponentenanteile werden im Verhältnis zum Jahresdurchschnittspreis berechnet.",
+    "FR": "Remarque : Les jeux de données de ventilation Eurostat fournissent des moyennes annuelles. Les parts des composants sont calculées par rapport au prix moyen annuel."
+  },
   "INSIGHTS_VOLATILITY": {
     "EN": "Recent volatility",
     "DE": "Jüngste Volatilität",

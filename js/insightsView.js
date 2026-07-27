@@ -284,7 +284,7 @@ const insightsRenderNameSpace = (function () {
             item(t('INSIGHTS_PERIOD'), latestPeriod) +
             item(t('INSIGHTS_PRODUCT'), t(ctx.product)) +
             item(t('INSIGHTS_CONSUMER'), t(ctx.consumer)) +
-            item(t('INSIGHTS_BAND'), t(ctx.band)) +
+            item(t('INSIGHTS_BAND'), t(ctx.rawBand || ctx.band)) +
             item(t('INSIGHTS_PRICE_EXPRESSION'), unitLabel(ctx)) +
             '</div>';
     }
@@ -370,12 +370,12 @@ const insightsRenderNameSpace = (function () {
 
         const isEuFocus = ctx.geo === 'EU27_2020';
         const focusPct = pct(cc.focusValue);
-        const focusMarker = '<div class="insights-distribution__marker insights-distribution__marker--focus" style="left:' + focusPct.toFixed(1) + '%" title="' + esc(t(ctx.geo)) + ': ' + esc(formatPrice(cc.focusValue, ctx)) + '"></div>';
+        const focusMarker = '<div class="insights-distribution__marker insights-distribution__marker--focus" style="left:' + focusPct.toFixed(1) + '%" role="img" aria-label="' + esc(t(ctx.geo)) + ': ' + esc(formatPrice(cc.focusValue, ctx)) + '" title="' + esc(t(ctx.geo)) + ': ' + esc(formatPrice(cc.focusValue, ctx)) + '"></div>';
 
         let euMarker = '';
         if (cc.euValue != null && !isEuFocus) {
             const euPct = pct(cc.euValue);
-            euMarker = '<div class="insights-distribution__marker insights-distribution__marker--eu" style="left:' + euPct.toFixed(1) + '%" title="' + esc(t('EU27_2020')) + ': ' + esc(formatPrice(cc.euValue, ctx)) + '"></div>';
+            euMarker = '<div class="insights-distribution__marker insights-distribution__marker--eu" style="left:' + euPct.toFixed(1) + '%" role="img" aria-label="' + esc(t('EU27_2020')) + ': ' + esc(formatPrice(cc.euValue, ctx)) + '" title="' + esc(t('EU27_2020')) + ': ' + esc(formatPrice(cc.euValue, ctx)) + '"></div>';
         }
 
         const minGeoLabel = cc.minGeo ? ' (' + esc(t(cc.minGeo)) + ')' : '';
@@ -489,7 +489,22 @@ const insightsRenderNameSpace = (function () {
             purpose: t('INSIGHTS_PURPOSE_YOY_CHANGE')
         });
 
-        return '<div class="insights-cards">' + latestCard + semesterCard + yoyCard + '</div>';
+        let crossFuelCard = '';
+        if (data.crossFuel) {
+            const cf = data.crossFuel;
+            const currentLabel = cf.currentProduct === '6000' ? 'Electricity' : 'Gas';
+            const oppLabel = cf.currentProduct === '6000' ? 'Gas' : 'Electricity';
+            crossFuelCard = card({
+                label: t('INSIGHTS_CROSS_FUEL_RATIO'),
+                value: esc(formatNumber(cf.ratio, 2) + '×'),
+                sub: esc(currentLabel + ' vs ' + oppLabel + ' (' + formatPercent(cf.pctDiff) + ')'),
+                whatItIs: t('INSIGHTS_WHAT_CROSS_FUEL'),
+                calculation: 'Elec: ' + formatNumber(cf.elecPrice, 4) + ' €/kWh vs Gas: ' + formatNumber(cf.gasPrice, 4) + ' €/kWh',
+                purpose: 'Measures cross-commodity energy price parity.'
+            });
+        }
+
+        return '<div class="insights-cards">' + latestCard + semesterCard + yoyCard + crossFuelCard + '</div>';
     }
 
     // ---- EU comparison / rank / median ----------------------------------------------------------
@@ -538,7 +553,20 @@ const insightsRenderNameSpace = (function () {
             purpose: t('INSIGHTS_PURPOSE_MEDIAN_GAP')
         }) : '';
 
-        const cardsHtml = (euCard || rankCard || medianCard) ? '<div class="insights-cards">' + euCard + rankCard + medianCard + '</div>' : '';
+        let regionalCard = '';
+        if (data.regionalBenchmark && !isEuFocus) {
+            const rb = data.regionalBenchmark;
+            regionalCard = card({
+                label: t('INSIGHTS_REGIONAL_RANK') + ' (' + esc(rb.regionName) + ')',
+                value: esc(rb.rankInRegion + ' / ' + rb.regionSize),
+                sub: esc(formatPercent(rb.gapPctFromAvg)) + ' vs ' + esc(rb.regionName) + ' avg',
+                whatItIs: t('INSIGHTS_WHAT_REGIONAL_RANK'),
+                calculation: 'Focus: ' + formatPrice(rb.focusValue, ctx) + ' vs Region Avg: ' + formatPrice(rb.avgValue, ctx),
+                purpose: 'Benchmarks country against geographic neighbors.'
+            });
+        }
+
+        const cardsHtml = (euCard || rankCard || medianCard || regionalCard) ? '<div class="insights-cards">' + euCard + rankCard + medianCard + regionalCard + '</div>' : '';
         return renderDistribution(cc, ctx) + cardsHtml;
     }
 
@@ -736,6 +764,18 @@ const insightsRenderNameSpace = (function () {
                 whatItIs: t('INSIGHTS_WHAT_LONG_TERM_AVG') || "Compares the latest price with the arithmetic mean of all available historical semesters.",
                 calculation: "(Price_latest − Mean(Price_hist)) / Mean(Price_hist) × 100 = <strong>" + formatPercent(lta.diffPct) + "</strong>",
                 purpose: "Identifies structural elevation or discount relative to the country's long-term historical price baseline."
+            });
+        }
+        if (data.crisisRecovery) {
+            const cr = data.crisisRecovery;
+            const preSub = cr.gapFromPreCrisisPct != null ? formatPercent(cr.gapFromPreCrisisPct) + ' vs 2019 baseline' : '';
+            longCards += card({
+                label: t('INSIGHTS_CRISIS_RECOVERY'),
+                value: esc(formatPercent(cr.dropFromPeakPct)) + ' vs Peak',
+                sub: esc(preSub),
+                whatItIs: t('INSIGHTS_WHAT_CRISIS_RECOVERY'),
+                calculation: 'Peak (' + esc(cr.peakPeriod) + '): ' + formatPrice(cr.peakValue, ctx) + ' → Current (' + esc(cr.latestPeriod) + '): ' + formatPrice(cr.latestValue, ctx),
+                purpose: 'Tracks price normalization post-2022 energy crisis.'
             });
         }
         if (dev.cagr10) {
@@ -993,10 +1033,17 @@ const insightsRenderNameSpace = (function () {
             globalHtml = '<div class="insights-cards">' + globalHtml + '</div>';
         }
 
+        let noteHtml = '';
+        if (comp.period) {
+            noteHtml = '<p class="insight-card__note" style="margin-top:0.4rem; font-size:0.8rem; color:#334155;">' +
+                esc(t('INSIGHTS_COMPONENT_ANNUAL_NOTE')) +
+                '</p>';
+        }
+
         return donut + bar +
             '<div class="insights-mini-profile">' + rows + '</div>' +
             '<p class="insights-summary" title="' + esc(t('INSIGHTS_EXPLAIN_MAIN_DRIVER')) + '">' + esc(driverText) + '</p>' +
-            globalHtml;
+            globalHtml + noteHtml;
     }
 
     // ---- fiscal effect ----------------------------------------------------------------------------
@@ -1037,6 +1084,10 @@ const insightsRenderNameSpace = (function () {
     // ---- PPS perspective -----------------------------------------------------------------------------
 
     function renderPpsPerspective(data) {
+        const ctx = data.context;
+        if (ctx.geo === 'EU27_2020') {
+            return '<p class="insights-summary">' + esc(t('INSIGHTS_PPS_EU_BASELINE_NOTE') || 'PPS ranking benchmarks individual Member States against the EU baseline.') + '</p>';
+        }
         const rs = data.rankShift;
         if (!rs || !rs.available) {
             return '<p class="insights-no-prev">' + esc(t('INSIGHTS_PPS_UNAVAILABLE')) + '</p>';
@@ -1236,17 +1287,7 @@ const insightsRenderNameSpace = (function () {
         return '<div class="insights-cards">' + statusCard + safeguardCard + provenanceCard + '</div>' + datasetReconciliationBox + consumerQualBox;
     }
 
-    // ---- export toolbar & interactive consumer tools ---------------------------------------------------
-
-    function renderToolbar() {
-        return '<div class="insights-toolbar" role="toolbar" aria-label="' + esc(t('INSIGHTS_TOOLBAR') || 'Insights Actions') + '">' +
-            '<div class="insights-toolbar__group">' +
-            '<button type="button" class="insight-btn" onclick="insightsRenderNameSpace.copyText()" aria-label="' + esc(t('INSIGHTS_COPY_TEXT')) + '"><i class="fas fa-copy" aria-hidden="true"></i> <span>' + esc(t('INSIGHTS_COPY_TEXT')) + '</span></button>' +
-            '<button type="button" class="insight-btn" onclick="insightsRenderNameSpace.exportCsv()" aria-label="' + esc(t('INSIGHTS_EXPORT_CSV')) + '"><i class="fas fa-file-csv" aria-hidden="true"></i> <span>' + esc(t('INSIGHTS_EXPORT_CSV')) + '</span></button>' +
-            '<button type="button" class="insight-btn" onclick="copyUrl()" aria-label="' + esc(t('SHARE')) + '"><i class="fas fa-share-nodes" aria-hidden="true"></i> <span>' + esc(t('SHARE')) + '</span></button>' +
-            '</div>' +
-            '</div>';
-    }
+ 
 
     function getDefaultConsumption(ctx) {
         if (ctx.consumer === 'N_HOUSEHOLD') {
@@ -1345,9 +1386,15 @@ const insightsRenderNameSpace = (function () {
 
     // ---- top-level render -------------------------------------------------------------------------------
 
-    let cachedData = null;
-    let userConsumption = null;
     let selectedCountryB = null;
+    let selectedFocusGeo = null;
+    let userConsumption = null;
+    let cachedData = null;
+
+    function switchFocusCountry(newGeo) {
+        selectedFocusGeo = newGeo;
+        load();
+    }
 
     function render(data) {
         cachedData = data;
@@ -1433,7 +1480,6 @@ const insightsRenderNameSpace = (function () {
         const compP = (data.composition && data.composition.period) ? ' (' + esc(data.composition.period) + ')' : pLabel;
 
         const html = '<div class="insights-panel" tabindex="-1">' +
-            renderToolbar() +
             renderContext(data.context, data.latestPeriod) +
             '<div class="insights-sections">' +
             section('fa-exchange-alt', t('INSIGHTS_DIRECT_COMPARISON') + pLabel, renderCountryComparisonSection(data), directInfo) +
@@ -1476,7 +1522,9 @@ const insightsRenderNameSpace = (function () {
         const requestId = ++currentRequestId;
         renderLoading();
 
-        insightsDataNameSpace.computeSelectedViewInsights({ countryB: selectedCountryB }).then((data) => {
+        const focusGeo = selectedFocusGeo || (typeof REF !== 'undefined' && REF.geos && REF.geos[0]) || 'EU27_2020';
+
+        insightsDataNameSpace.computeSelectedViewInsights({ focusGeo, countryB: selectedCountryB }).then((data) => {
             if (requestId !== currentRequestId) return;
             render(data);
         }).catch((err) => {
@@ -1650,19 +1698,6 @@ const insightsRenderNameSpace = (function () {
     function handleModalOverlayClick(e) {
         if (e.target && e.target.id === 'insightInfoModal') {
             closeModal();
-        }
-    }
-
-    function switchFocusCountry(newGeo) {
-        if (typeof REF !== 'undefined') {
-            REF.geos = [newGeo];
-            if (typeof populateCountries !== 'undefined') {
-                populateCountries();
-            }
-            if (typeof updateChart !== 'undefined') {
-                updateChart();
-            }
-            load();
         }
     }
 

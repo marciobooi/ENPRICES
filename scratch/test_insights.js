@@ -227,6 +227,49 @@ test('computeDirectCountryComparison', () => {
   assert.ok(res.gapPct > 0);
 });
 
+// 7. Advanced Analytical Insights Expansion
+test('computeCrisisRecovery', () => {
+  const history = [
+    { period: '2019-S2', value: 0.20 },
+    { period: '2020-S1', value: 0.21 },
+    { period: '2021-S1', value: 0.25 },
+    { period: '2022-S2', value: 0.40 }, // Peak
+    { period: '2023-S1', value: 0.35 },
+    { period: '2024-S2', value: 0.28 }  // Latest
+  ];
+  const res = insightsDataNameSpace.computeCrisisRecovery(history);
+  assert.ok(res !== null);
+  assert.strictEqual(res.peakPeriod, '2022-S2');
+  assert.strictEqual(res.peakValue, 0.40);
+  assert.strictEqual(res.preCrisisPeriod, '2019-S2');
+  assert.ok(Math.abs(res.dropFromPeakPct - (-30)) < 1e-9);
+  assert.ok(Math.abs(res.gapFromPreCrisisPct - 40) < 1e-9);
+});
+
+test('computeRegionalBenchmark', () => {
+  const eurPanelLatest = [
+    { geo: 'DE', value: 0.35 },
+    { geo: 'FR', value: 0.25 },
+    { geo: 'BE', value: 0.30 },
+    { geo: 'NL', value: 0.20 },
+    { geo: 'LU', value: 0.15 },
+    { geo: 'AT', value: 0.25 },
+    { geo: 'IE', value: 0.30 }
+  ];
+  const res = insightsDataNameSpace.computeRegionalBenchmark(eurPanelLatest, 'FR');
+  assert.ok(res !== null);
+  assert.strictEqual(res.regionName, 'Western Europe');
+  assert.strictEqual(res.regionSize, 7);
+  assert.strictEqual(res.rankInRegion, 4);
+});
+
+test('computeCrossFuelRatio', () => {
+  const res = insightsDataNameSpace.computeCrossFuelRatio(0.30, 0.10, '6000');
+  assert.ok(res !== null);
+  assert.ok(Math.abs(res.ratio - 3) < 1e-9);
+  assert.ok(Math.abs(res.pctDiff - 200) < 1e-9);
+});
+
 console.log('--------------------------------------------------');
 console.log(`TOTAL TESTS: ${passed + failed} | PASSED: ${passed} | FAILED: ${failed}`);
 console.log('--------------------------------------------------');
