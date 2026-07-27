@@ -1,3 +1,5 @@
+var lastPopoverClosedTime = 0;
+
 function openInsightsView() {
     $('#charts').addClass('d-none');
     $('#insightsView').removeClass('d-none');
@@ -16,10 +18,21 @@ function openInsightsView() {
         closeBtn.focus();
     }
 
-    $(document).on('keydown.insightsView', (event) => {
-        if (event.key === 'Escape' || event.key === 'Esc') {
-            if ($('#insightInfoPopup').length) {
-                return; // Popover info card takes precedence on Escape
+    $(document).off('keydown.insightsView').on('keydown.insightsView', (event) => {
+        if (event.key === 'Escape' || event.key === 'Esc' || event.keyCode === 27) {
+            const activePopovers = $('.ecl-popover__container:visible, #insightInfoPopup, .insight-popover-card, #insightInfoModal');
+            if (activePopovers.length > 0 || (Date.now() - lastPopoverClosedTime < 300)) {
+                const visibleSectionPopovers = $('.ecl-popover__container:visible').not('#insightInfoPopup');
+                if (visibleSectionPopovers.length > 0) {
+                    visibleSectionPopovers.attr('hidden', '').css('display', 'none');
+                    $('.ecl-popover__toggle').attr('aria-expanded', 'false');
+                    lastPopoverClosedTime = Date.now();
+                }
+                event.preventDefault();
+                if (typeof event.stopImmediatePropagation === 'function') {
+                    event.stopImmediatePropagation();
+                }
+                return;
             }
             event.preventDefault();
             closeInsightsView();
@@ -183,6 +196,7 @@ const insightsRenderNameSpace = (function () {
             e.preventDefault();
             e.stopPropagation();
         }
+        lastPopoverClosedTime = Date.now();
         const container = $(btn).closest('.ecl-popover__container');
         const popover = $(btn).closest('.ecl-popover');
         container.attr('hidden', '').css('display', 'none');
@@ -1665,8 +1679,8 @@ const insightsRenderNameSpace = (function () {
             });
         }, 10);
 
-        $(document).off('keydown.insightPopup').on('keydown.insightPopup', (e) => {
-            if (e.key === 'Escape' || e.keyCode === 27) {
+        const handlePopupEscape = (e) => {
+            if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
                 e.preventDefault();
                 e.stopPropagation();
                 if (typeof e.stopImmediatePropagation === 'function') {
@@ -1674,10 +1688,20 @@ const insightsRenderNameSpace = (function () {
                 }
                 closeModal();
             }
-        });
+        };
+
+        window.addEventListener('keydown', handlePopupEscape, true);
+        activePopupEscapeHandler = handlePopupEscape;
     }
 
+    let activePopupEscapeHandler = null;
+
     function closeModal() {
+        lastPopoverClosedTime = Date.now();
+        if (activePopupEscapeHandler) {
+            window.removeEventListener('keydown', activePopupEscapeHandler, true);
+            activePopupEscapeHandler = null;
+        }
         const popup = $('#insightInfoPopup');
         if (popup.length) {
             popup.fadeOut(100, () => {
