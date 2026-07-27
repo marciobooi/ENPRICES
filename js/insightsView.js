@@ -189,48 +189,84 @@ var insightsRenderNameSpace = (function () {
 
     // ---- SVG sparkline (historical trend) --------------------------------------------------
 
-    function renderSparkline(history) {
+    // ---- SVG sparkline (historical trend) --------------------------------------------------
+
+    // ---- SVG sparkline (historical trend) --------------------------------------------------
+
+    function renderSparkline(history, ctx) {
         if (!history || history.length < 2) return '';
-        var width = 320, height = 90, padding = 8;
+        var width = 800, height = 320;
+        var paddingX = 40, paddingY = 28;
+
         var values = history.map(function (r) { return r.value; });
         var min = Math.min.apply(null, values);
         var max = Math.max.apply(null, values);
+        var avg = values.reduce(function (a, b) { return a + b; }, 0) / values.length;
         var range = (max - min) || 1;
-        var stepX = (width - padding * 2) / (history.length - 1);
+
+        var stepX = (width - paddingX * 2) / (history.length - 1);
+        var yScale = function (val) {
+            return paddingY + (1 - (val - min) / range) * (height - paddingY * 2);
+        };
 
         var points = history.map(function (r, i) {
             return {
-                x: padding + i * stepX,
-                y: height - padding - ((r.value - min) / range) * (height - padding * 2)
+                x: paddingX + i * stepX,
+                y: yScale(r.value),
+                value: r.value,
+                period: r.period
             };
         });
 
-        var linePath = points.map(function (p, i) { return (i === 0 ? 'M' : 'L') + p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' ');
+        var linePath = points.map(function (p, i) {
+            return (i === 0 ? 'M' : 'L') + p.x.toFixed(1) + ',' + p.y.toFixed(1);
+        }).join(' ');
+
         var lastX = points[points.length - 1].x.toFixed(1);
         var firstX = points[0].x.toFixed(1);
-        var baseline = (height - padding).toFixed(1);
+        var baseline = (height - paddingY).toFixed(1);
         var areaPath = linePath + ' L' + lastX + ',' + baseline + ' L' + firstX + ',' + baseline + ' Z';
 
-        var peakIndex = values.indexOf(max);
-        var markers = points.map(function (p, i) {
-            var isLast = i === points.length - 1;
-            var isPeak = i === peakIndex;
-            if (!isLast && !isPeak) return '';
-            var cls = isPeak && !isLast ? 'insights-sparkline__point insights-sparkline__point--peak' : 'insights-sparkline__point';
-            var r = isLast ? 3.5 : 5;
-            return '<circle class="' + cls + '" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + r + '"></circle>';
-        }).join('');
+        var yMax = yScale(max);
+        var yMin = yScale(min);
+        var yAvg = yScale(avg);
+
+        var peakPoint = points[values.indexOf(max)];
+        var minPoint = points[values.indexOf(min)];
+        var lastPoint = points[points.length - 1];
+
+        var maxLine = '<line class="insights-sparkline__ref-line insights-sparkline__ref-line--max" x1="' + paddingX + '" y1="' + yMax.toFixed(1) + '" x2="' + (width - paddingX) + '" y2="' + yMax.toFixed(1) + '"></line>';
+        var avgLine = '<line class="insights-sparkline__ref-line insights-sparkline__ref-line--avg" x1="' + paddingX + '" y1="' + yAvg.toFixed(1) + '" x2="' + (width - paddingX) + '" y2="' + yAvg.toFixed(1) + '"></line>';
+        var minLine = '<line class="insights-sparkline__ref-line insights-sparkline__ref-line--min" x1="' + paddingX + '" y1="' + yMin.toFixed(1) + '" x2="' + (width - paddingX) + '" y2="' + yMin.toFixed(1) + '"></line>';
+
+        var maxMarker = '<circle class="insights-sparkline__marker insights-sparkline__marker--max" cx="' + peakPoint.x.toFixed(1) + '" cy="' + peakPoint.y.toFixed(1) + '" r="6"></circle>';
+        var minMarker = '<circle class="insights-sparkline__marker insights-sparkline__marker--min" cx="' + minPoint.x.toFixed(1) + '" cy="' + minPoint.y.toFixed(1) + '" r="6"></circle>';
+        var lastMarker = '<circle class="insights-sparkline__marker insights-sparkline__marker--latest" cx="' + lastPoint.x.toFixed(1) + '" cy="' + lastPoint.y.toFixed(1) + '" r="6"></circle>';
+
+        var maxText = '<text class="insights-sparkline__label insights-sparkline__label--max" x="' + Math.min(width - 80, Math.max(80, peakPoint.x)).toFixed(1) + '" y="' + Math.max(16, yMax - 8).toFixed(1) + '" text-anchor="middle">Max: ' + esc(formatPrice(max, ctx)) + '</text>';
+        var minText = '<text class="insights-sparkline__label insights-sparkline__label--min" x="' + Math.min(width - 80, Math.max(80, minPoint.x)).toFixed(1) + '" y="' + Math.min(height - 6, yMin + 18).toFixed(1) + '" text-anchor="middle">Min: ' + esc(formatPrice(min, ctx)) + '</text>';
+        var avgText = '<text class="insights-sparkline__label insights-sparkline__label--avg" x="' + (width - paddingX - 6) + '" y="' + (yAvg - 6).toFixed(1) + '" text-anchor="end">Avg: ' + esc(formatPrice(avg, ctx)) + '</text>';
 
         var svg = '<svg class="insights-sparkline__svg" viewBox="0 0 ' + width + ' ' + height + '" preserveAspectRatio="none" aria-hidden="true">' +
             '<path class="insights-sparkline__area" d="' + areaPath + '"></path>' +
-            '<path class="insights-sparkline__line" d="' + linePath + '"></path>' + markers + '</svg>';
+            maxLine + avgLine + minLine +
+            '<path class="insights-sparkline__line" d="' + linePath + '"></path>' +
+            maxMarker + minMarker + lastMarker +
+            maxText + minText + avgText +
+            '</svg>';
+
+        var legend = '<div class="insights-sparkline__legend">' +
+            '<span><span class="insights-sparkline__legend-dot" style="background:#dc2626"></span><strong>Max:</strong> ' + esc(formatPrice(max, ctx)) + ' (' + esc(peakPoint.period) + ')</span>' +
+            '<span><span class="insights-sparkline__legend-dot" style="background:#2563eb;border-top:1px dashed #2563eb"></span><strong>Avg:</strong> ' + esc(formatPrice(avg, ctx)) + '</span>' +
+            '<span><span class="insights-sparkline__legend-dot" style="background:#16a34a"></span><strong>Min:</strong> ' + esc(formatPrice(min, ctx)) + ' (' + esc(minPoint.period) + ')</span>' +
+            '</div>';
 
         var axis = '<div class="insights-sparkline__axis"><span>' + esc(history[0].period) + '</span><span>' + esc(history[history.length - 1].period) + '</span></div>';
 
         return '<div class="insights-history-trend">' +
             '<div class="insights-history-trend__title">' + esc(t('INSIGHTS_HISTORICAL_POSITION')) +
-            '<span class="insights-history-trend__meta">(' + history.length + ')</span></div>' +
-            '<div class="insights-sparkline">' + svg + axis + '</div>' +
+            '<span class="insights-history-trend__meta">(' + history.length + ' ' + esc(t('INSIGHTS_PERIOD')).toLowerCase() + 's)</span></div>' +
+            '<div class="insights-sparkline">' + svg + axis + legend + '</div>' +
             '</div>';
     }
 
@@ -439,7 +475,7 @@ var insightsRenderNameSpace = (function () {
                 ' (' + persistent.validPeriods + ' ' + esc(t('INSIGHTS_PERIOD')).toLowerCase() + 's)</p>';
         }
 
-        return renderSparkline(data.eurHistoryForChart) +
+        return renderSparkline(data.eurHistoryForChart, ctx) +
             '<div class="insights-cards">' + peakCard + minCard + percentileCard + '</div>' +
             persistentNote;
     }
