@@ -558,6 +558,11 @@ const insightsRenderNameSpace = (function () {
 
     // ---- historical position ------------------------------------------------------------------
 
+    function getHistorySeries(data) {
+        if (!data) return [];
+        return data.history || data.eurHistoryForChart || [];
+    }
+
     function renderHistoryCards(data) {
         const ctx = data.context;
         const hp = data.historicalPosition;
@@ -569,7 +574,10 @@ const insightsRenderNameSpace = (function () {
         if (hp.isNewLow) flags.push(t('INSIGHTS_NEW_LOW'));
         else if (hp.nearLow) flags.push(t('INSIGHTS_NEAR_LOW'));
 
-        const histRangeLabel = (data.history && data.history.length) ? ' (' + esc(data.history[0].period) + ' – ' + esc(data.latestPeriod) + ')' : '';
+        const historySeries = getHistorySeries(data);
+        const histStart = historySeries.length ? historySeries[0].period : null;
+        const histEnd = historySeries.length ? historySeries[historySeries.length - 1].period : data.latestPeriod;
+        const histRangeLabel = (histStart && histEnd && histStart !== histEnd) ? ' (' + esc(histStart) + ' – ' + esc(histEnd) + ')' : (data.latestPeriod ? ' (' + esc(data.latestPeriod) + ')' : '');
 
         const peakCard = card({
             label: t('INSIGHTS_HISTORICAL_MAX') + histRangeLabel,
@@ -621,6 +629,12 @@ const insightsRenderNameSpace = (function () {
         const dev = data.development;
         if (!dev) return '';
         const ctx = data.context;
+        const p = data.price;
+        const historySeries = getHistorySeries(data);
+        const histStart = historySeries.length ? historySeries[0].period : null;
+        const histEnd = historySeries.length ? historySeries[historySeries.length - 1].period : data.latestPeriod;
+        const histRangeLabel = (histStart && histEnd && histStart !== histEnd) ? ' (' + esc(histStart) + ' – ' + esc(histEnd) + ')' : (data.latestPeriod ? ' (' + esc(data.latestPeriod) + ')' : '');
+
         let cards = '';
 
         if (dev.momentum) {
@@ -629,8 +643,9 @@ const insightsRenderNameSpace = (function () {
                 fallingAccelerating: 'INSIGHTS_FALLING_ACCELERATING', fallingSlowing: 'INSIGHTS_FALLING_SLOWING',
                 reversal: 'INSIGHTS_REVERSAL', stableYoy: 'INSIGHTS_STABLE_YOY'
             };
+            const momentumRange = (p && p.yoyPeriod) ? ' (' + esc(p.yoyPeriod) + ' – ' + esc(data.latestPeriod) + ')' : '';
             cards += card({
-                label: t('INSIGHTS_MOMENTUM'),
+                label: t('INSIGHTS_MOMENTUM') + momentumRange,
                 value: esc(t(momentumKeyMap[dev.momentum.classification])),
                 sub: esc(formatPercent(dev.momentum.latestYoyPct)) + ' &rarr; ' + esc(formatPercent(dev.momentum.previousYoyPct)) + ' ' + esc(t('INSIGHTS_YOY_CHANGE')).toLowerCase(),
                 whatItIs: t('INSIGHTS_WHAT_MOMENTUM'),
@@ -640,8 +655,9 @@ const insightsRenderNameSpace = (function () {
         }
         if (dev.cagr5 || dev.cagr2) {
             const cagr = dev.cagr5 || dev.cagr2;
+            const cagrRange = (cagr && cagr.basePeriod) ? ' (' + esc(cagr.basePeriod) + ' – ' + esc(cagr.latestPeriod || data.latestPeriod) + ')' : '';
             cards += card({
-                label: dev.cagr5 ? t('INSIGHTS_CAGR_5Y') : t('INSIGHTS_CAGR_2Y'),
+                label: (dev.cagr5 ? t('INSIGHTS_CAGR_5Y') : t('INSIGHTS_CAGR_2Y')) + cagrRange,
                 value: esc(formatPercent(cagr.cagr)),
                 sub: esc(cagr.basePeriod + ' &rarr; ' + cagr.latestPeriod),
                 whatItIs: t('INSIGHTS_WHAT_CAGR'),
@@ -651,7 +667,7 @@ const insightsRenderNameSpace = (function () {
         }
         if (dev.volatility) {
             cards += card({
-                label: t('INSIGHTS_VOLATILITY'),
+                label: t('INSIGHTS_VOLATILITY') + histRangeLabel,
                 value: esc(formatNumber(dev.volatility.volatility, 1)) + ' pp',
                 sub: esc(dev.volatility.n + ' ' + t('INSIGHTS_PERIOD').toLowerCase() + '-to-' + t('INSIGHTS_PERIOD').toLowerCase()),
                 whatItIs: t('INSIGHTS_WHAT_VOLATILITY'),
@@ -665,7 +681,7 @@ const insightsRenderNameSpace = (function () {
                 ? (Math.abs(sp.deviation) > 3 ? t('INSIGHTS_SEASONALLY_UNUSUAL') : t('INSIGHTS_SEASONALLY_TYPICAL'))
                 : null;
             cards += card({
-                label: t('INSIGHTS_TYPICAL_S2_PREMIUM'),
+                label: t('INSIGHTS_TYPICAL_S2_PREMIUM') + histRangeLabel,
                 value: esc(formatPercent(sp.typicalS2Premium)),
                 sub: seasonalNote ? esc(seasonalNote) : esc(sp.sampleYears + ' years'),
                 whatItIs: t('INSIGHTS_WHAT_SEASONAL'),
@@ -1296,7 +1312,10 @@ const insightsRenderNameSpace = (function () {
         };
 
         const pLabel = data.latestPeriod ? ' (' + esc(data.latestPeriod) + ')' : '';
-        const hRange = (data.history && data.history.length) ? ' (' + esc(data.history[0].period) + ' – ' + esc(data.latestPeriod) + ')' : pLabel;
+        const historySeries = getHistorySeries(data);
+        const histStart = historySeries.length ? historySeries[0].period : null;
+        const histEnd = historySeries.length ? historySeries[historySeries.length - 1].period : data.latestPeriod;
+        const hRange = (histStart && histEnd && histStart !== histEnd) ? ' (' + esc(histStart) + ' – ' + esc(histEnd) + ')' : pLabel;
         const compP = (data.composition && data.composition.period) ? ' (' + esc(data.composition.period) + ')' : pLabel;
 
         const html = '<div class="insights-panel" tabindex="-1">' +

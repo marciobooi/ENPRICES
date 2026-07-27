@@ -1050,6 +1050,7 @@ var insightsDataNameSpace = (function () {
       },
       crossCountry,
       historicalPosition,
+      history: eurHistory,
       eurHistoryForChart: eurHistory,
       composition,
       euComposition,
