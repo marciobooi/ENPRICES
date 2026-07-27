@@ -551,6 +551,133 @@ var insightsRenderNameSpace = (function () {
         return (cards ? '<div class="insights-cards">' + cards + '</div>' : '') + movementNote;
     }
 
+    // ---- SVG Infographics (Doughnut Charts & Comparison Bar Charts) -----------------------------
+
+    function renderDoughnutChart(components, latestPrice, ctx) {
+        if (!components || !components.length) return '';
+        var radius = 54;
+        var circumference = 2 * Math.PI * radius;
+        var offset = 0;
+
+        var totalShare = components.reduce(function (acc, c) { return acc + (c.share || 0); }, 0) || 100;
+
+        var circles = components.map(function (c) {
+            var share = c.share || 0;
+            var pct = share / totalShare;
+            var dashLen = pct * circumference;
+            var gapLen = circumference - dashLen;
+            var color = (typeof colors !== 'undefined' && colors[c.code]) || '#0E47CB';
+
+            var circleSvg = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" ' +
+                'stroke="' + color + '" stroke-width="22" ' +
+                'stroke-dasharray="' + dashLen.toFixed(2) + ' ' + gapLen.toFixed(2) + '" ' +
+                'stroke-dashoffset="' + (-offset).toFixed(2) + '"></circle>';
+
+            offset += dashLen;
+            return circleSvg;
+        }).join('');
+
+        var priceText = latestPrice != null ? esc(formatPrice(latestPrice, ctx)) : '—';
+
+        var legendItems = components.map(function (c) {
+            var color = (typeof colors !== 'undefined' && colors[c.code]) || '#0E47CB';
+            return '<div class="insights-donut-legend__item">' +
+                '<span class="insights-donut-legend__badge">' +
+                '<span class="insights-donut-legend__dot" style="background:' + color + '"></span>' +
+                '<span>' + esc(t(c.code)) + '</span>' +
+                '</span>' +
+                '<strong>' + esc(formatNumber(c.share, 1)) + '%</strong>' +
+                '</div>';
+        }).join('');
+
+        var svg = '<svg class="insights-donut-svg" viewBox="0 0 145 145" aria-hidden="true">' +
+            '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#f1f5f9" stroke-width="22"></circle>' +
+            circles +
+            '</svg>';
+
+        return '<div class="insights-donut-container">' +
+            '<div class="insights-donut-chart">' +
+            svg +
+            '<div class="insights-donut-center">' +
+            '<div class="insights-donut-center__val">' + priceText + '</div>' +
+            '<div class="insights-donut-center__lbl">' + esc(t('INSIGHTS_TOTAL_PRICE') || 'Total') + '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="insights-donut-legend">' + legendItems + '</div>' +
+            '</div>';
+    }
+
+    function renderEuropeDonut(snap) {
+        if (!snap || !snap.reportingCountries) return '';
+        var total = snap.reportingCountries;
+        if (!total) return '';
+
+        var radius = 54;
+        var circumference = 2 * Math.PI * radius;
+
+        var risingPct = snap.rising / total;
+        var fallingPct = snap.falling / total;
+        var stablePct = snap.stable / total;
+
+        var risingDash = risingPct * circumference;
+        var fallingDash = fallingPct * circumference;
+        var stableDash = stablePct * circumference;
+
+        var offset1 = risingDash;
+        var offset2 = risingDash + fallingDash;
+
+        var circleRising = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#dc2626" stroke-width="20" stroke-dasharray="' + risingDash.toFixed(2) + ' ' + (circumference - risingDash).toFixed(2) + '" stroke-dashoffset="0"></circle>';
+        var circleFalling = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#16a34a" stroke-width="20" stroke-dasharray="' + fallingDash.toFixed(2) + ' ' + (circumference - fallingDash).toFixed(2) + '" stroke-dashoffset="' + (-offset1).toFixed(2) + '"></circle>';
+        var circleStable = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#2563eb" stroke-width="20" stroke-dasharray="' + stableDash.toFixed(2) + ' ' + (circumference - stableDash).toFixed(2) + '" stroke-dashoffset="' + (-offset2).toFixed(2) + '"></circle>';
+
+        var svg = '<svg class="insights-donut-svg" viewBox="0 0 145 145" aria-hidden="true">' +
+            '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#f1f5f9" stroke-width="20"></circle>' +
+            circleRising + circleFalling + circleStable +
+            '</svg>';
+
+        var legendItems =
+            '<div class="insights-donut-legend__item"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#dc2626"></span><span>' + esc(t('INSIGHTS_RISING_COUNTRIES')) + '</span></span><strong>' + snap.rising + '</strong></div>' +
+            '<div class="insights-donut-legend__item"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#16a34a"></span><span>' + esc(t('INSIGHTS_FALLING_COUNTRIES')) + '</span></span><strong>' + snap.falling + '</strong></div>' +
+            '<div class="insights-donut-legend__item"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#2563eb"></span><span>' + esc(t('INSIGHTS_STABLE_COUNTRIES')) + '</span></span><strong>' + snap.stable + '</strong></div>';
+
+        return '<div class="insights-donut-container">' +
+            '<div class="insights-donut-chart">' +
+            svg +
+            '<div class="insights-donut-center">' +
+            '<div class="insights-donut-center__val">' + snap.reportingCountries + '/' + snap.totalCountries + '</div>' +
+            '<div class="insights-donut-center__lbl">Reporting</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="insights-donut-legend">' + legendItems + '</div>' +
+            '</div>';
+    }
+
+    function renderComparisonBarChart(cc, ctx) {
+        if (!cc || cc.valA == null || cc.valB == null) return '';
+        var maxVal = Math.max(cc.valA, cc.valB) || 1;
+
+        var pctA = Math.max(5, (cc.valA / maxVal) * 100);
+        var pctB = Math.max(5, (cc.valB / maxVal) * 100);
+
+        return '<div class="insights-comparison-barchart">' +
+            '<div class="insights-comparison-barchart__title">' + esc(t('INSIGHTS_DIRECT_COMPARISON')) + ' (' + unitLabel(ctx) + ')</div>' +
+            '<div class="insights-comparison-barchart__row">' +
+            '<span class="insights-comparison-barchart__label">' + esc(t(ctx.geo)) + '</span>' +
+            '<div class="insights-comparison-barchart__track">' +
+            '<div class="insights-comparison-barchart__fill" style="width:' + pctA.toFixed(1) + '%;background:var(--nav-color)"></div>' +
+            '</div>' +
+            '<span class="insights-comparison-barchart__value">' + esc(formatPrice(cc.valA, ctx)) + '</span>' +
+            '</div>' +
+            '<div class="insights-comparison-barchart__row">' +
+            '<span class="insights-comparison-barchart__label">' + esc(t(cc.countryB)) + '</span>' +
+            '<div class="insights-comparison-barchart__track">' +
+            '<div class="insights-comparison-barchart__fill" style="width:' + pctB.toFixed(1) + '%;background:#06D7FF"></div>' +
+            '</div>' +
+            '<span class="insights-comparison-barchart__value">' + esc(formatPrice(cc.valB, ctx)) + '</span>' +
+            '</div>' +
+            '</div>';
+    }
+
     // ---- composition ----------------------------------------------------------------------------
 
     function renderComposition(data) {
@@ -561,6 +688,7 @@ var insightsRenderNameSpace = (function () {
         }
 
         var validComponents = comp.components.filter(function (c) { return c.latest != null; });
+        var donut = renderDoughnutChart(validComponents, data.price.latestValue, ctx);
         var bar = renderCompositionBar(validComponents);
 
         var rows = validComponents.map(function (c) {
@@ -599,7 +727,7 @@ var insightsRenderNameSpace = (function () {
             globalHtml = '<div class="insights-cards">' + globalHtml + '</div>';
         }
 
-        return bar +
+        return donut + bar +
             '<div class="insights-mini-profile">' + rows + '</div>' +
             '<p class="insights-summary" title="' + esc(t('INSIGHTS_EXPLAIN_MAIN_DRIVER')) + '">' + esc(driverText) + '</p>' +
             globalHtml;
@@ -684,6 +812,8 @@ var insightsRenderNameSpace = (function () {
         var ctx = data.context;
         if (!snap || !snap.reportingCountries) return '';
 
+        var donut = renderEuropeDonut(snap);
+
         var directionCard = card({
             label: t('INSIGHTS_DISPERSION'),
             value: snap.dispersionChangePct != null ? esc(formatPercent(snap.dispersionChangePct)) : null,
@@ -695,22 +825,14 @@ var insightsRenderNameSpace = (function () {
             purpose: "Measures whether European energy prices are converging or diverging across Member States."
         });
 
-        var countsCard = card({
-            label: t('INSIGHTS_EUROPE_SNAPSHOT'),
-            value: snap.reportingCountries + '/' + snap.totalCountries,
-            sub: esc(snap.rising + ' ' + t('INSIGHTS_RISING_COUNTRIES') + ' &middot; ' + snap.falling + ' ' + t('INSIGHTS_FALLING_COUNTRIES') + ' &middot; ' + snap.stable + ' ' + t('INSIGHTS_STABLE_COUNTRIES')),
-            whatItIs: "Count of reporting European countries with rising (>+0.5%), falling (<-0.5%), or stable YoY prices.",
-            calculation: "Counts of YoY price direction across all reporting countries",
-            purpose: "Macro-level snapshot of European price dynamics."
-        });
-
         var movers = snap.topRising.slice(0, 3).map(function (r) {
             return '<span class="insight-rank-item"><span class="insight-rank-up">▲</span> ' + esc(t(r.geo)) + ' ' + esc(formatPercent(r.yoyPct)) + '</span>';
         }).concat(snap.topFalling.slice(0, 3).map(function (r) {
             return '<span class="insight-rank-item"><span class="insight-rank-down">▼</span> ' + esc(t(r.geo)) + ' ' + esc(formatPercent(r.yoyPct)) + '</span>';
         })).join(' ');
 
-        return '<div class="insights-cards">' + countsCard + directionCard + '</div>' +
+        return donut +
+            '<div class="insights-cards">' + directionCard + '</div>' +
             (movers ? '<div class="insights-rank-movement"><div class="insights-rank-movement__label">' + esc(t('INSIGHTS_TOP_MOVERS')) + '</div>' +
                 '<div class="insights-rank-movement__items">' + movers + '</div></div>' : '');
     }
@@ -920,6 +1042,7 @@ var insightsRenderNameSpace = (function () {
         var cc = data.countryComparison;
         var comparisonBody = '';
         if (cc) {
+            var barChart = renderComparisonBarChart(cc, ctx);
             var valACard = card({ label: t(ctx.geo), value: esc(formatPrice(cc.valA, ctx)) });
             var valBCard = card({ label: t(cc.countryB), value: esc(formatPrice(cc.valB, ctx)) });
             var gapCard = card({
@@ -930,7 +1053,7 @@ var insightsRenderNameSpace = (function () {
 
             var driverText = cc.mainDriver ? esc(t('INSIGHTS_MAIN_GAP_DRIVER')) + ': <strong>' + esc(t(cc.mainDriver.code)) + '</strong> (' + esc(formatPrice(cc.mainDriver.gap, ctx)) + ')' : '';
 
-            comparisonBody = '<div class="insights-cards" style="margin-top:0.75rem">' + valACard + valBCard + gapCard + '</div>' +
+            comparisonBody = barChart + '<div class="insights-cards">' + valACard + valBCard + gapCard + '</div>' +
                 (driverText ? '<p class="insights-summary">' + driverText + '</p>' : '');
         }
 

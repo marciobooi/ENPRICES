@@ -904,3 +904,144 @@
     gap: 0.3rem;
 }
 
+/* SVG Donut & Bar Infographics */
+.insights-donut-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1.25rem;
+    padding: 0.85rem 1rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 0.85rem;
+}
+
+.insights-donut-chart {
+    position: relative;
+    width: 145px;
+    height: 145px;
+    flex-shrink: 0;
+}
+
+.insights-donut-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.insights-donut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+}
+
+.insights-donut-center__val {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--nav-color);
+    line-height: 1.15;
+}
+
+.insights-donut-center__lbl {
+    font-size: 0.62rem;
+    color: #64748b;
+    margin-top: 0.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.insights-donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    flex: 1 1 180px;
+    min-width: 180px;
+}
+
+.insights-donut-legend__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #334155;
+    padding: 0.25rem 0.4rem;
+    border-radius: 4px;
+    background: #f8fafc;
+}
+
+.insights-donut-legend__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.insights-donut-legend__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+/* Dual Comparison Bar Chart Infographic */
+.insights-comparison-barchart {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.85rem;
+}
+
+.insights-comparison-barchart__title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 0.75rem;
+}
+
+.insights-comparison-barchart__row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.6rem;
+}
+
+.insights-comparison-barchart__label {
+    width: 110px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #1e293b;
+    flex-shrink: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.insights-comparison-barchart__track {
+    flex: 1;
+    height: 1.4rem;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+}
+
+.insights-comparison-barchart__fill {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.insights-comparison-barchart__value {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--nav-color);
+    width: 80px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
