@@ -282,7 +282,7 @@ class TooltipManager {
    * Initialize tooltips for all qualifying buttons
    */
   enable() {
-    const buttons = document.querySelectorAll("button[title], button[aria-label]");
+    const buttons = document.querySelectorAll("button[title], button[aria-label], [title].insights-distribution__marker, [title].insights-composition-bar__segment, [title].insights-band-bar, [title].insights-donut-legend__item, [title].insights-mini-profile__item, [title][data-snapshot-trend]");
 
     // Add global ESC key listener (only once)
     if (!this.escListenerAdded) {

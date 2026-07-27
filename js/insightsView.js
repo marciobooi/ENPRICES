@@ -410,7 +410,7 @@ const insightsRenderNameSpace = (function () {
         const segments = components.map((c) => {
             const pct = ((c.latest || 0) / total) * 100;
             const color = (typeof colors !== 'undefined' && colors[c.code]) || '#0E47CB';
-            return '<div class="insights-composition-bar__segment" style="width:' + pct.toFixed(1) + '%;background:' + color + '" title="' + esc(t(c.code)) + ': ' + pct.toFixed(1) + '%"></div>';
+            return '<div class="insights-composition-bar__segment" data-component-code="' + esc(c.code) + '" style="width:' + pct.toFixed(1) + '%;background:' + color + '" title="' + esc(t(c.code)) + ': ' + pct.toFixed(1) + '%" onmouseenter="insightsRenderNameSpace.highlightComponent(\'' + esc(c.code) + '\')" onmouseleave="insightsRenderNameSpace.unhighlightComponent()"></div>';
         }).join('');
 
         return '<div class="insights-composition-bar" aria-hidden="true">' + segments + '</div>';
@@ -701,10 +701,13 @@ const insightsRenderNameSpace = (function () {
             const gapLen = circumference - dashLen;
             const color = (typeof colors !== 'undefined' && colors[c.code]) || '#0E47CB';
 
-            const circleSvg = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" ' +
+            const circleSvg = '<circle class="insights-donut-circle" data-component-code="' + esc(c.code) + '" cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" ' +
                 'stroke="' + color + '" stroke-width="22" ' +
                 'stroke-dasharray="' + dashLen.toFixed(2) + ' ' + gapLen.toFixed(2) + '" ' +
-                'stroke-dashoffset="' + (-offset).toFixed(2) + '"></circle>';
+                'stroke-dashoffset="' + (-offset).toFixed(2) + '" ' +
+                'title="' + esc(t(c.code)) + ': ' + esc(formatNumber(c.share, 1)) + '%" ' +
+                'onmouseenter="insightsRenderNameSpace.highlightComponent(\'' + esc(c.code) + '\')" ' +
+                'onmouseleave="insightsRenderNameSpace.unhighlightComponent()"></circle>';
 
             offset += dashLen;
             return circleSvg;
@@ -714,7 +717,7 @@ const insightsRenderNameSpace = (function () {
 
         const legendItems = components.map((c) => {
             const color = (typeof colors !== 'undefined' && colors[c.code]) || '#0E47CB';
-            return '<div class="insights-donut-legend__item">' +
+            return '<div class="insights-donut-legend__item" data-component-code="' + esc(c.code) + '" title="' + esc(t(c.code)) + ': ' + esc(formatNumber(c.share, 1)) + '%" onmouseenter="insightsRenderNameSpace.highlightComponent(\'' + esc(c.code) + '\')" onmouseleave="insightsRenderNameSpace.unhighlightComponent()" style="cursor:pointer">' +
                 '<span class="insights-donut-legend__badge">' +
                 '<span class="insights-donut-legend__dot" style="background:' + color + '"></span>' +
                 '<span>' + esc(t(c.code)) + '</span>' +
@@ -759,9 +762,9 @@ const insightsRenderNameSpace = (function () {
         const offset1 = risingDash;
         const offset2 = risingDash + fallingDash;
 
-        const circleRising = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#b91c1c" stroke-width="20" stroke-dasharray="' + risingDash.toFixed(2) + ' ' + (circumference - risingDash).toFixed(2) + '" stroke-dashoffset="0"></circle>';
-        const circleFalling = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#15803d" stroke-width="20" stroke-dasharray="' + fallingDash.toFixed(2) + ' ' + (circumference - fallingDash).toFixed(2) + '" stroke-dashoffset="' + (-offset1).toFixed(2) + '"></circle>';
-        const circleStable = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#1d4ed8" stroke-width="20" stroke-dasharray="' + stableDash.toFixed(2) + ' ' + (circumference - stableDash).toFixed(2) + '" stroke-dashoffset="' + (-offset2).toFixed(2) + '"></circle>';
+        const circleRising = '<circle class="insights-donut-circle" data-snapshot-trend="rising" cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#b91c1c" stroke-width="20" stroke-dasharray="' + risingDash.toFixed(2) + ' ' + (circumference - risingDash).toFixed(2) + '" stroke-dashoffset="0" title="' + esc(t('INSIGHTS_RISING_COUNTRIES')) + ': ' + snap.rising + ' (' + (risingPct * 100).toFixed(1) + '%)" onmouseenter="insightsRenderNameSpace.highlightSnapshotTrend(\'rising\')" onmouseleave="insightsRenderNameSpace.unhighlightSnapshotTrend()"></circle>';
+        const circleFalling = '<circle class="insights-donut-circle" data-snapshot-trend="falling" cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#15803d" stroke-width="20" stroke-dasharray="' + fallingDash.toFixed(2) + ' ' + (circumference - fallingDash).toFixed(2) + '" stroke-dashoffset="' + (-offset1).toFixed(2) + '" title="' + esc(t('INSIGHTS_FALLING_COUNTRIES')) + ': ' + snap.falling + ' (' + (fallingPct * 100).toFixed(1) + '%)" onmouseenter="insightsRenderNameSpace.highlightSnapshotTrend(\'falling\')" onmouseleave="insightsRenderNameSpace.unhighlightSnapshotTrend()"></circle>';
+        const circleStable = '<circle class="insights-donut-circle" data-snapshot-trend="stable" cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#1d4ed8" stroke-width="20" stroke-dasharray="' + stableDash.toFixed(2) + ' ' + (circumference - stableDash).toFixed(2) + '" stroke-dashoffset="' + (-offset2).toFixed(2) + '" title="' + esc(t('INSIGHTS_STABLE_COUNTRIES')) + ': ' + snap.stable + ' (' + (stablePct * 100).toFixed(1) + '%)" onmouseenter="insightsRenderNameSpace.highlightSnapshotTrend(\'stable\')" onmouseleave="insightsRenderNameSpace.unhighlightSnapshotTrend()"></circle>';
 
         const svg = '<svg class="insights-donut-svg" viewBox="0 0 145 145" aria-hidden="true" role="img">' +
             '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#f1f5f9" stroke-width="20"></circle>' +
@@ -769,9 +772,9 @@ const insightsRenderNameSpace = (function () {
             '</svg>';
 
         const legendItems =
-            '<div class="insights-donut-legend__item"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#b91c1c"></span><span>' + esc(t('INSIGHTS_RISING_COUNTRIES')) + '</span></span><strong>' + snap.rising + '</strong></div>' +
-            '<div class="insights-donut-legend__item"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#15803d"></span><span>' + esc(t('INSIGHTS_FALLING_COUNTRIES')) + '</span></span><strong>' + snap.falling + '</strong></div>' +
-            '<div class="insights-donut-legend__item"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#1d4ed8"></span><span>' + esc(t('INSIGHTS_STABLE_COUNTRIES')) + '</span></span><strong>' + snap.stable + '</strong></div>';
+            '<div class="insights-donut-legend__item" data-snapshot-trend="rising" title="' + esc(t('INSIGHTS_RISING_COUNTRIES')) + ': ' + snap.rising + ' (' + (risingPct * 100).toFixed(1) + '%)" onmouseenter="insightsRenderNameSpace.highlightSnapshotTrend(\'rising\')" onmouseleave="insightsRenderNameSpace.unhighlightSnapshotTrend()" style="cursor:pointer"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#b91c1c"></span><span>' + esc(t('INSIGHTS_RISING_COUNTRIES')) + '</span></span><strong>' + snap.rising + '</strong></div>' +
+            '<div class="insights-donut-legend__item" data-snapshot-trend="falling" title="' + esc(t('INSIGHTS_FALLING_COUNTRIES')) + ': ' + snap.falling + ' (' + (fallingPct * 100).toFixed(1) + '%)" onmouseenter="insightsRenderNameSpace.highlightSnapshotTrend(\'falling\')" onmouseleave="insightsRenderNameSpace.unhighlightSnapshotTrend()" style="cursor:pointer"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#15803d"></span><span>' + esc(t('INSIGHTS_FALLING_COUNTRIES')) + '</span></span><strong>' + snap.falling + '</strong></div>' +
+            '<div class="insights-donut-legend__item" data-snapshot-trend="stable" title="' + esc(t('INSIGHTS_STABLE_COUNTRIES')) + ': ' + snap.stable + ' (' + (stablePct * 100).toFixed(1) + '%)" onmouseenter="insightsRenderNameSpace.highlightSnapshotTrend(\'stable\')" onmouseleave="insightsRenderNameSpace.unhighlightSnapshotTrend()" style="cursor:pointer"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#1d4ed8"></span><span>' + esc(t('INSIGHTS_STABLE_COUNTRIES')) + '</span></span><strong>' + snap.stable + '</strong></div>';
 
         return '<div class="insights-donut-container" role="region" aria-label="' + esc(t('INSIGHTS_EUROPE_SNAPSHOT')) + '">' +
             '<div class="insights-donut-chart">' +
@@ -826,7 +829,7 @@ const insightsRenderNameSpace = (function () {
 
         const rows = validComponents.map((c) => {
             const color = (typeof colors !== 'undefined' && colors[c.code]) || '#0E47CB';
-            return '<div class="insights-mini-profile__item">' +
+            return '<div class="insights-mini-profile__item" data-component-code="' + esc(c.code) + '" title="' + esc(t(c.code)) + ': ' + esc(formatPrice(c.latest, ctx)) + '" onmouseenter="insightsRenderNameSpace.highlightComponent(\'' + esc(c.code) + '\')" onmouseleave="insightsRenderNameSpace.unhighlightComponent()" style="cursor:pointer">' +
                 '<span class="insights-mini-profile__label"><i class="fas fa-square" style="color:' + color + ';font-size:0.6rem;margin-right:0.3rem" aria-hidden="true"></i>' + esc(t(c.code)) + '</span>' +
                 '<span class="insights-mini-profile__value">' + esc(formatPrice(c.latest, ctx)) +
                 (c.share != null ? ' (' + esc(formatNumber(c.share, 1)) + '%)' : '') + '</span>' +
@@ -1318,6 +1321,9 @@ const insightsRenderNameSpace = (function () {
                 console.warn('[insights] ECL autoInit warning', e);
             }
         }
+        if (typeof enableTooltips === 'function') {
+            enableTooltips();
+        }
     }
 
     function renderLoading() {
@@ -1522,6 +1528,74 @@ const insightsRenderNameSpace = (function () {
         }
     }
 
+    function highlightComponent(code) {
+        if (!code) return;
+        $('[data-component-code]').each(function() {
+            const itemCode = $(this).attr('data-component-code');
+            if (itemCode === code) {
+                $(this).addClass('is-highlighted').css({
+                    'opacity': '1',
+                    'filter': 'brightness(1.15)',
+                    'stroke-width': $(this).is('circle') ? '26' : '',
+                    'font-weight': '700',
+                    'transition': 'all 0.15s ease'
+                });
+            } else {
+                $(this).addClass('is-dimmed').css({
+                    'opacity': '0.3',
+                    'filter': 'grayscale(0.3)',
+                    'stroke-width': $(this).is('circle') ? '22' : '',
+                    'font-weight': '',
+                    'transition': 'all 0.15s ease'
+                });
+            }
+        });
+    }
+
+    function unhighlightComponent() {
+        $('[data-component-code]').removeClass('is-highlighted is-dimmed').css({
+            'opacity': '',
+            'filter': '',
+            'stroke-width': '',
+            'font-weight': '',
+            'transition': ''
+        });
+    }
+
+    function highlightSnapshotTrend(trend) {
+        if (!trend) return;
+        $('[data-snapshot-trend]').each(function() {
+            const tVal = $(this).attr('data-snapshot-trend');
+            if (tVal === trend) {
+                $(this).addClass('is-highlighted').css({
+                    'opacity': '1',
+                    'filter': 'brightness(1.15)',
+                    'stroke-width': $(this).is('circle') ? '25' : '',
+                    'font-weight': '700',
+                    'transition': 'all 0.15s ease'
+                });
+            } else {
+                $(this).addClass('is-dimmed').css({
+                    'opacity': '0.3',
+                    'filter': 'grayscale(0.3)',
+                    'stroke-width': $(this).is('circle') ? '20' : '',
+                    'font-weight': '',
+                    'transition': 'all 0.15s ease'
+                });
+            }
+        });
+    }
+
+    function unhighlightSnapshotTrend() {
+        $('[data-snapshot-trend]').removeClass('is-highlighted is-dimmed').css({
+            'opacity': '',
+            'filter': '',
+            'stroke-width': '',
+            'font-weight': '',
+            'transition': ''
+        });
+    }
+
     return {
         load,
         onConsumptionChange,
@@ -1534,6 +1608,10 @@ const insightsRenderNameSpace = (function () {
         closePopover,
         openModal,
         closeModal,
+        highlightComponent,
+        unhighlightComponent,
+        highlightSnapshotTrend,
+        unhighlightSnapshotTrend,
         handleModalOverlayClick
     };
 })();
