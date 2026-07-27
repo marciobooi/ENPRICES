@@ -1489,6 +1489,36 @@
     "DE": "Hinweis: Eurostat-Komponenten-Datensätze liefern Jahresdurchschnitte. Komponentenanteile werden im Verhältnis zum Jahresdurchschnittspreis berechnet.",
     "FR": "Remarque : Les jeux de données de ventilation Eurostat fournissent des moyennes annuelles. Les parts des composants sont calculées par rapport au prix moyen annuel."
   },
+  "INSIGHTS_AFFORDABILITY_BURDEN": {
+    "EN": "Energy Affordability Burden",
+    "DE": "Belastung der Energieerschwinglichkeit",
+    "FR": "Fardeau de l'abordabilité de l'énergie"
+  },
+  "INSIGHTS_BURDEN_HIGH": {
+    "EN": "High Energy Burden",
+    "DE": "Hohe Energiebelastung",
+    "FR": "Fardeau énergétique élevé"
+  },
+  "INSIGHTS_BURDEN_MODERATE": {
+    "EN": "Moderate Energy Burden",
+    "DE": "Moderate Energiebelastung",
+    "FR": "Fardeau énergétique modéré"
+  },
+  "INSIGHTS_BURDEN_LOW": {
+    "EN": "Low Energy Burden",
+    "DE": "Geringe Energiebelastung",
+    "FR": "Faible fardeau énergétique"
+  },
+  "INSIGHTS_WHAT_AFFORDABILITY": {
+    "EN": "Evaluates household and business purchasing power burden relative to national income levels.",
+    "DE": "Bewertet die Kaufkraftbelastung von Haushalten und Unternehmen im Verhältnis zum nationalen Einkommensniveau.",
+    "FR": "Évalue le fardeau du pouvoir d'achat des ménages et des entreprises par rapport aux niveaux de revenu nationaux."
+  },
+  "INSIGHTS_PURPOSE_AFFORDABILITY": {
+    "EN": "Categorizes price level severity adjusted for purchasing power standard (PPS).",
+    "DE": "Kategorisiert die Preisniveauschwere bereinigt um Kaufkraftstandards (KKS).",
+    "FR": "Catégorise la sévérité du niveau des prix ajustée aux standards de pouvoir d'achat (SPA)."
+  },
   "INSIGHTS_VOLATILITY": {
     "EN": "Recent volatility",
     "DE": "Jüngste Volatilität",

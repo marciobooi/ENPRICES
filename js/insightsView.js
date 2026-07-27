@@ -1171,7 +1171,30 @@ const insightsRenderNameSpace = (function () {
             purpose: t('INSIGHTS_PURPOSE_RANK_SHIFT')
         });
 
-        return '<div class="insights-cards">' + eurCard + ppsCard + shiftCard + '</div>' +
+        let burdenKey = 'INSIGHTS_BURDEN_MODERATE';
+        let burdenClass = '';
+        if (rs.cohortSize > 0) {
+            const ppsPctile = rs.rankPps / rs.cohortSize;
+            if (ppsPctile <= 0.25) {
+                burdenKey = 'INSIGHTS_BURDEN_HIGH';
+                burdenClass = 'negative';
+            } else if (ppsPctile >= 0.75) {
+                burdenKey = 'INSIGHTS_BURDEN_LOW';
+                burdenClass = 'positive';
+            }
+        }
+
+        const affordabilityCard = card({
+            label: t('INSIGHTS_AFFORDABILITY_BURDEN'),
+            value: esc(t(burdenKey)),
+            sub: esc(t('INSIGHTS_PPS_RANK') + ': ' + rs.rankPps + ' / ' + rs.cohortSize),
+            whatItIs: t('INSIGHTS_WHAT_AFFORDABILITY'),
+            calculation: "Percentile(Rank_PPS = " + rs.rankPps + " / " + rs.cohortSize + ")",
+            purpose: t('INSIGHTS_PURPOSE_AFFORDABILITY'),
+            modifier: burdenClass
+        });
+
+        return '<div class="insights-cards">' + eurCard + ppsCard + shiftCard + affordabilityCard + '</div>' +
             '<p class="insights-summary">' + esc(t(classificationKeyMap[rs.classification] || 'INSIGHTS_PPS_SIMILAR')) + '</p>';
     }
 
