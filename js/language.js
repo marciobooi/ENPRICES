@@ -93,6 +93,16 @@ var languageNameSpace = {
 
     enprices();
 
+    if (typeof isInsightsViewOpen === 'function' && isInsightsViewOpen()) {
+      $('#charts').addClass('d-none');
+      $('#menu, #menuSwitch, .menuSwitch').addClass('d-none');
+      $('#chartBtns').children().not('#closeInsightsWrapper').addClass('d-none');
+      $('#closeInsightsWrapper').removeClass('d-none');
+      if (typeof insightsRenderNameSpace !== 'undefined' && insightsRenderNameSpace.load) {
+        insightsRenderNameSpace.load();
+      }
+    }
+
     ECL.autoInit();
   },
 };

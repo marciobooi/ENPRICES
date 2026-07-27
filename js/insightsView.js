@@ -46,6 +46,10 @@ function closeInsightsView() {
     $(document).off('keydown.insightsView');
 }
 
+function isInsightsViewOpen() {
+    return $('#insightsView').length > 0 && !$('#insightsView').hasClass('d-none');
+}
+
 // Per-card "how is this calculated" disclosure. Global because it's wired via inline onclick on dynamically generated markup.
 function toggleInsightCalc(btn) {
     const panelId = btn.getAttribute('aria-controls');
