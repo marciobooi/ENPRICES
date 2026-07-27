@@ -1435,7 +1435,6 @@ const insightsRenderNameSpace = (function () {
         const html = '<div class="insights-panel" tabindex="-1">' +
             renderToolbar() +
             renderContext(data.context, data.latestPeriod) +
-            renderEstimatorAndBandFinder(data) +
             '<div class="insights-sections">' +
             section('fa-exchange-alt', t('INSIGHTS_DIRECT_COMPARISON') + pLabel, renderCountryComparisonSection(data), directInfo) +
             section('fa-euro-sign', t('INSIGHTS_LATEST_PRICE') + pLabel, renderPriceCards(data), priceInfo) +
