@@ -271,6 +271,51 @@ const insightsRenderNameSpace = (function () {
             '</div>';
     }
 
+    const COUNTRY_GROUPS = [
+        { key: 'AGGREGATE', codes: ['EU27_2020', 'EA'] },
+        { key: 'EUCTR', codes: ['BE', 'BG', 'CZ', 'DK', 'DE', 'EE', 'IE', 'EL', 'ES', 'FR', 'HR', 'IT', 'CY', 'LV', 'LT', 'LU', 'HU', 'MT', 'NL', 'AT', 'PL', 'PT', 'RO', 'SI', 'SK', 'FI', 'SE'] },
+        { key: 'EFTA', codes: ['IS', 'LI', 'NO'] },
+        { key: 'ENLARGEMENT', codes: ['BA', 'ME', 'MD', 'MK', 'GE', 'AL', 'RS', 'TR', 'UA', 'XK'] }
+    ];
+
+    function buildGroupedCountryOptions(selectedCode, excludeCodes) {
+        const excludes = excludeCodes || [];
+        const allAvailable = Object.keys(typeof energyCountries !== 'undefined' ? energyCountries : {});
+        const assigned = {};
+        let html = '';
+
+        COUNTRY_GROUPS.forEach(function(group) {
+            const validCodes = group.codes.filter(function(c) {
+                return allAvailable.indexOf(c) !== -1 && excludes.indexOf(c) === -1;
+            });
+            if (validCodes.length > 0) {
+                validCodes.forEach(function(c) { assigned[c] = true; });
+                const labelText = esc(t(group.key));
+                html += '<optgroup label="' + labelText + '">';
+                validCodes.forEach(function(c) {
+                    const sel = c === selectedCode ? ' selected' : '';
+                    html += '<option value="' + c + '"' + sel + '>' + esc(t(c)) + ' (' + c + ')</option>';
+                });
+                html += '</optgroup>';
+            }
+        });
+
+        const otherCodes = allAvailable.filter(function(c) {
+            return !assigned[c] && excludes.indexOf(c) === -1;
+        });
+        if (otherCodes.length > 0) {
+            const labelText = esc(t('OTHERCTR'));
+            html += '<optgroup label="' + labelText + '">';
+            otherCodes.forEach(function(c) {
+                const sel = c === selectedCode ? ' selected' : '';
+                html += '<option value="' + c + '"' + sel + '>' + esc(t(c)) + ' (' + c + ')</option>';
+            });
+            html += '</optgroup>';
+        }
+
+        return html;
+    }
+
     function renderContext(ctx, latestPeriod) {
         function item(label, value) {
             if (!value) return '';
@@ -278,17 +323,11 @@ const insightsRenderNameSpace = (function () {
                 '<span class="insights-meta__value">' + esc(value) + '</span></div>';
         }
 
-        const countryList = Object.keys(typeof energyCountries !== 'undefined' ? energyCountries : {});
-        const countryOptions = countryList.map((g) => {
-            const selected = g === ctx.geo ? ' selected' : '';
-            return '<option value="' + g + '"' + selected + '>' + esc(t(g)) + ' (' + g + ')</option>';
-        }).join('');
-
         const focusCountrySelector = renderEclSelect({
             id: 'insightFocusCountrySelect',
             name: 'focusCountry',
             label: t('INSIGHTS_FOCUS_COUNTRY'),
-            optionsHtml: countryOptions,
+            optionsHtml: buildGroupedCountryOptions(ctx.geo),
             onChange: 'insightsRenderNameSpace.switchFocusCountry(this.value)',
             containerClass: 'ecl-select__container--m'
         });
@@ -1363,10 +1402,7 @@ const insightsRenderNameSpace = (function () {
         }
 
         const optionsHtml = '<option value="">-- ' + esc(t('INSIGHTS_COMPARE_WITH')) + ' --</option>' +
-            countryList.map((g) => {
-                const selected = g === selectedCountryB ? ' selected' : '';
-                return '<option value="' + g + '"' + selected + '>' + esc(t(g)) + ' (' + g + ')</option>';
-            }).join('');
+            buildGroupedCountryOptions(selectedCountryB, [ctx.geo, 'EU27_2020', 'EA']);
 
         const selectorHtml = renderEclSelect({
             id: 'insightCountryBSelect',
