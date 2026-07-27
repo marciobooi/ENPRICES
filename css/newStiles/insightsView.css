@@ -97,19 +97,21 @@
 }
 
 .insights-section {
-    background: #f5f7fc;
-    border-radius: 6px;
-    padding: 1rem 1.25rem 1.25rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem 1.5rem;
     border-left: 4px solid var(--nav-color);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
     position: relative;
     overflow: visible;
 }
 
 .insights-section__title {
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: #1f2937;
-    margin: 0 0 1rem;
+    color: #0f172a;
+    margin: 0 0 1.25rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -131,13 +133,13 @@
     margin-top: 0.5rem !important;
     margin-left: 0 !important;
     z-index: 9999 !important;
-    width: 380px !important;
-    max-width: 85vw !important;
+    width: 420px !important;
+    max-width: 88vw !important;
     background: #ffffff !important;
     border: 1px solid #cbd5e1 !important;
     border-radius: 8px !important;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
-    padding: 1rem !important;
+    box-shadow: 0 12px 28px -5px rgba(15, 23, 42, 0.22), 0 8px 12px -6px rgba(15, 23, 42, 0.12) !important;
+    padding: 1.25rem 1.5rem !important;
 }
 
 .insights-section .ecl-popover__container[hidden] {
@@ -146,6 +148,12 @@
 
 .insights-section .ecl-popover__container:not([hidden]) {
     display: block !important;
+}
+
+.insights-section .ecl-popover__close {
+    position: absolute !important;
+    top: 0.75rem !important;
+    right: 0.75rem !important;
 }
 
 .insights-year-label {
@@ -541,6 +549,10 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     margin: 0 0 0.85rem;
+}
+
+.insights-sections .ecl-popover__container:before{
+    display: none;
 }
 
 .insights-mini-profile__item {

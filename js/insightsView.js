@@ -192,9 +192,9 @@ const insightsRenderNameSpace = (function () {
 
         let popoverHtml = '';
         if (info) {
-            const whatHtml = info.whatItIs ? '<div class="insight-popover-card__item" style="margin-bottom:0.6rem"><strong><i class="fas fa-question-circle" aria-hidden="true"></i> ' + esc(t('INSIGHTS_WHAT_IT_IS')) + ':</strong> ' + esc(info.whatItIs) + '</div>' : '';
-            const calcHtml = info.calculation ? '<div class="insight-popover-card__item" style="margin-bottom:0.6rem"><strong><i class="fas fa-calculator" aria-hidden="true"></i> ' + esc(t('INSIGHTS_CALCULATION')) + ':</strong> <span>' + info.calculation + '</span></div>' : '';
-            const purposeHtml = info.purpose ? '<div class="insight-popover-card__item"><strong><i class="fas fa-bullseye" aria-hidden="true"></i> ' + esc(t('INSIGHTS_PURPOSE')) + ':</strong> ' + esc(info.purpose) + '</div>' : '';
+            const whatHtml = info.whatItIs ? '<div class="insight-popover-card__item" style="margin-bottom:0.75rem;line-height:1.5;font-size:0.875rem;color:#334155"><strong><i class="fas fa-question-circle" aria-hidden="true" style="color:#0284c7"></i> ' + esc(t('INSIGHTS_WHAT_IT_IS')) + ':</strong> ' + esc(info.whatItIs) + '</div>' : '';
+            const calcHtml = info.calculation ? '<div class="insight-popover-card__item" style="margin-bottom:0.75rem;line-height:1.5;font-size:0.875rem;color:#334155"><strong><i class="fas fa-calculator" aria-hidden="true" style="color:#0284c7"></i> ' + esc(t('INSIGHTS_CALCULATION')) + ':</strong> <span>' + info.calculation + '</span></div>' : '';
+            const purposeHtml = info.purpose ? '<div class="insight-popover-card__item" style="line-height:1.5;font-size:0.875rem;color:#334155"><strong><i class="fas fa-bullseye" aria-hidden="true" style="color:#0284c7"></i> ' + esc(t('INSIGHTS_PURPOSE')) + ':</strong> ' + esc(info.purpose) + '</div>' : '';
 
             popoverHtml = '<div class="ecl-popover" style="position:relative;display:inline-flex;margin-left:0.5rem;vertical-align:middle">' +
                 '<button class="ecl-button ecl-button--tertiary ecl-popover__toggle" type="button" aria-controls="' + popoverId + '" aria-expanded="false" title="' + esc(t('INSIGHTS_HOW_CALCULATED')) + '" aria-label="' + esc(t('INSIGHTS_HOW_CALCULATED')) + ': ' + esc(titleText) + '" onclick="insightsRenderNameSpace.togglePopover(this, event)">' +
@@ -204,14 +204,14 @@ const insightsRenderNameSpace = (function () {
                 '</button>' +
                 '<div id="' + popoverId + '" class="ecl-popover__container" hidden style="display:none">' +
                 '<div class="ecl-popover__scrollable">' +
-                '<button class="ecl-button ecl-button--tertiary ecl-button--neutral ecl-popover__close ecl-button--icon-only" type="button" aria-label="' + esc(t('CLOSE') || 'Close') + '" onclick="insightsRenderNameSpace.closePopover(this, event)" style="position:absolute;top:0.5rem;right:0.5rem">' +
+                '<button class="ecl-button ecl-button--tertiary ecl-button--neutral ecl-popover__close ecl-button--icon-only" type="button" aria-label="' + esc(t('CLOSE') || 'Close') + '" onclick="insightsRenderNameSpace.closePopover(this, event)">' +
                 '<span class="ecl-button__container">' +
-                '<span class="ecl-button__label" data-ecl-label="true">' + esc(t('CLOSE') || 'Close') + '</span>' +
+                '<span class="sr-only ecl-u-sr-only" data-ecl-label="true">' + esc(t('CLOSE') || 'Close') + '</span>' +
                 '<span class="wt-icon--close ecl-icon ecl-icon--m ecl-button__icon ecl-icon--close" aria-hidden="true" data-ecl-icon></span>' +
                 '</span>' +
                 '</button>' +
                 '<div class="ecl-popover__content">' +
-                '<h4 class="insight-popover-card__title" style="margin-top:0;margin-bottom:0.75rem;font-size:0.95rem;font-weight:700;color:#1e293b"><i class="fas fa-info-circle" aria-hidden="true"></i> ' + esc(titleText) + '</h4>' +
+                '<h4 class="insight-popover-card__title" style="margin-top:0;margin-bottom:0.85rem;font-size:0.95rem;font-weight:700;color:#0f172a;border-bottom:1px solid #e2e8f0;padding-bottom:0.5rem"><i class="fas fa-info-circle" aria-hidden="true" style="color:#0284c7"></i> ' + esc(titleText) + '</h4>' +
                 whatHtml + calcHtml + purposeHtml +
                 '</div>' +
                 '</div>' +
