@@ -919,45 +919,20 @@
     "DE": "Leitet den korrekten Quervergleich zwischen halbjährlicher Trendverfolgung und jährlicher Analyse der Kostenursachen.",
     "FR": "Guide le recoupement correct entre le suivi des tendances semestrielles et l'analyse annuelle des facteurs de coût."
   },
-  "INSIGHTS_EXPLAIN_LATEST_PRICE": {
-    "EN": "Official Eurostat unit energy prices and short-term price movements over the latest semester and 1-year period.",
-    "DE": "Offizielle Eurostat-Stückpreise für Energie und kurzfristige Preisentwicklungen über das letzte Semester und den 1-Jahres-Zeitraum.",
-    "FR": "Prix unitaires officiels de l'énergie Eurostat et mouvements de prix à court terme sur le dernier semestre et sur un an."
-  },
-  "INSIGHTS_EXPLAIN_EU_COMPARISON": {
-    "EN": "Cross-country benchmarking comparing focus country prices against EU27 weighted average, Euro Area, median, and neighboring country ranks.",
-    "DE": "Länderübergreifendes Benchmarking der Preise des Fokuslandes mit dem gewichteten EU27-Durchschnitt, dem Euroraum, dem Median und den Nachbarländern.",
-    "FR": "Évaluation comparative entre pays comparant les prix du pays cible avec la moyenne pondérée de l'UE27, la zone euro, la médiane et le rang des pays voisins."
-  },
   "INSIGHTS_EXPLAIN_COUNTRY_COMPARISON": {
     "EN": "Bilateral price and component gap analysis between Focus Country A and selected Partner Country B.",
     "DE": "Bilaterale Preis- und Komponentenabstands-Analyse zwischen Fokusland A und Partnerland B.",
     "FR": "Analyse bilatérale des prix et des écarts de composantes entre le pays cible A et le pays partenaire sélectionné B."
-  },
-  "INSIGHTS_EXPLAIN_HISTORICAL": {
-    "EN": "Historical price trajectory, peak (maximum), minimum, and percentile standing across all published semesters.",
-    "DE": "Historischer Preisverlauf, Höchst- (Maximum) und Tiefststand (Minimum) sowie Prozentrang-Position über alle veröffentlichten Semester.",
-    "FR": "Trajectoire historique des prix, pic (maximum), minimum et position en percentile sur tous les semestres publiés."
   },
   "INSIGHTS_EXPLAIN_DEVELOPMENT": {
     "EN": "Advanced trend diagnostics including price momentum, multi-year compound growth (CAGR), volatility, and seasonal S1-to-S2 patterns.",
     "DE": "Erweiterte Trenddiagnose einschließlich Preisdynamik, mehrjährigem kumuliertem Wachstum (CAGR), Volatilität und saisonalen Musters.",
     "FR": "Diagnostics avancés de tendance comprenant la dynamique des prix, le taux de croissance annuel composé (CAGR), la volatilité et les schémas saisonniers S1-S2."
   },
-  "INSIGHTS_EXPLAIN_COMPOSITION": {
-    "EN": "Breakdown of energy bills into Energy & Supply, Network Grid Tariffs, and Taxes/Levies/VAT.",
-    "DE": "Aufschlüsselung der Energierechnungen in Energie & Lieferung, Netztarife und Steuern/Abgaben/MwSt.",
-    "FR": "Ventilation des factures d'énergie entre Énergie & Fourniture, Tarifs de réseau et Taxes/Redevances/TVA."
-  },
   "INSIGHTS_EXPLAIN_FISCAL": {
     "EN": "Analysis comparing pre-tax price movement vs final consumer price movement.",
     "DE": "Analyse des Preises vor Steuern im Vergleich zur Preisbewegung der Endverbraucher.",
     "FR": "Analyse comparant la variation du prix hors taxes par rapport à la variation du prix final payé par le consommateur."
-  },
-  "INSIGHTS_EXPLAIN_PPS": {
-    "EN": "Comparison of nominal EUR price rank vs Purchasing Power Standards (PPS) rank.",
-    "DE": "Vergleich des nominalen Preises in EUR mit dem Rang nach Kaufkraftstandards (KKS/PPS).",
-    "FR": "Comparaison du rang nominal des prix en EUR avec le rang selon les standards de pouvoir d'achat (SPA/PPS)."
   },
   "INSIGHTS_EXPLAIN_EUROPE": {
     "EN": "Macro summary of price directions across European countries and Interquartile Range (IQR) dispersion.",
@@ -1223,11 +1198,6 @@
     "EN": "What this shows",
     "DE": "Was dies zeigt",
     "FR": "Ce que cela montre"
-  },
-  "INSIGHTS_CALCULATION": {
-    "EN": "Calculation",
-    "DE": "Berechnung",
-    "FR": "Calcul"
   },
   "INSIGHTS_EXPLAIN_LATEST_PRICE": {
     "EN": "The most recent available price for the product, consumer type, consumption band and geography selected above, including all taxes and levies.",
