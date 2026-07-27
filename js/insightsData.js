@@ -604,12 +604,88 @@ var insightsDataNameSpace = (function () {
     const years = Object.keys(byYear).map(Number).sort((a, b) => a - b);
     const latestYear = years[years.length - 1];
     const latestDiff = latestYear !== undefined ? percentChange(byYear[latestYear].s1, byYear[latestYear].s2) : null;
+    const latestSemester = history[history.length - 1];
 
     return {
-      typicalS2Premium,
+      typicalS2Premium: median(diffs),
       sampleYears: diffs.length,
-      latestDiff: isValid(latestDiff) ? latestDiff : null,
-      deviation: isValid(latestDiff) ? latestDiff - typicalS2Premium : null
+      latestSemester: latestSemester ? latestSemester.semester : null,
+      deviation: latestSemester && median(diffs) !== null ? latestDiff - median(diffs) : null
+    };
+  }
+
+  function computeLifetimeGrowth(history) {
+    if (!history || history.length < 2) return null;
+    const first = history[0];
+    const latest = history[history.length - 1];
+    if (!isValid(first.value) || !isValid(latest.value) || first.value <= 0) return null;
+    const changePct = percentChange(first.value, latest.value);
+    const multiplier = latest.value / first.value;
+    return {
+      firstPeriod: first.period,
+      firstValue: first.value,
+      latestPeriod: latest.period,
+      latestValue: latest.value,
+      changePct,
+      multiplier
+    };
+  }
+
+  function computeLongTermAverage(history) {
+    if (!history || !history.length) return null;
+    const validRows = history.filter((r) => isValid(r.value));
+    if (!validRows.length) return null;
+    const sum = validRows.reduce((acc, r) => acc + r.value, 0);
+    const avg = sum / validRows.length;
+    const latest = validRows[validRows.length - 1];
+    const diffPct = percentChange(avg, latest.value);
+    return {
+      avgValue: avg,
+      latestValue: latest.value,
+      diffPct,
+      count: validRows.length,
+      startPeriod: validRows[0].period,
+      endPeriod: latest.period
+    };
+  }
+
+  function computeHistoricalSpikesAndDrops(history) {
+    if (!history || history.length < 2) return null;
+    let maxSpike = null;
+    let maxDrop = null;
+
+    for (let i = 1; i < history.length; i++) {
+      const prior = history[i - 1];
+      const curr = history[i];
+      if (!isValid(prior.value) || !isValid(curr.value) || prior.value <= 0) continue;
+      const pct = percentChange(prior.value, curr.value);
+      if (pct === null) continue;
+
+      if (!maxSpike || pct > maxSpike.changePct) {
+        maxSpike = { period: curr.period, priorPeriod: prior.period, changePct: pct, fromVal: prior.value, toVal: curr.value };
+      }
+      if (!maxDrop || pct < maxDrop.changePct) {
+        maxDrop = { period: curr.period, priorPeriod: prior.period, changePct: pct, fromVal: prior.value, toVal: curr.value };
+      }
+    }
+
+    return { maxSpike, maxDrop };
+  }
+
+  function computeHighRegimeShare(history) {
+    if (!history || history.length < 5) return null;
+    const validValues = history.map((r) => r.value).filter(isValid);
+    if (!validValues.length) return null;
+    const sorted = validValues.slice().sort((a, b) => a - b);
+    const p80Index = Math.floor(sorted.length * 0.8);
+    const p80Value = sorted[p80Index];
+    const countAbove80 = validValues.filter((v) => v >= p80Value).length;
+    const sharePct = (countAbove80 / validValues.length) * 100;
+    return {
+      p80Value,
+      countAbove80,
+      totalCount: validValues.length,
+      sharePct
     };
   }
 
@@ -961,6 +1037,11 @@ var insightsDataNameSpace = (function () {
       momentum: computeMomentum(eurHistory),
       cagr2: computeCagr(eurHistory, 2),
       cagr5: computeCagr(eurHistory, 5),
+      cagr10: computeCagr(eurHistory, 10),
+      lifetimeGrowth: computeLifetimeGrowth(eurHistory),
+      longTermAverage: computeLongTermAverage(eurHistory),
+      spikesAndDrops: computeHistoricalSpikesAndDrops(eurHistory),
+      highRegimeShare: computeHighRegimeShare(eurHistory),
       trendReversal: computeTrendReversal(eurHistory),
       consecutiveMovement: computeConsecutiveMovement(eurHistory),
       volatility: computeVolatility(eurHistory, VOLATILITY_WINDOW),

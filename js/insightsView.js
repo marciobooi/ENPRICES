@@ -610,22 +610,27 @@ const insightsRenderNameSpace = (function () {
         });
 
         const persistent = data.persistentPosition;
-        let persistentNote = '';
+        let persistentCard = '';
         if (persistent) {
             const persistentText = persistent.persistentlyHigh ? t('INSIGHTS_PERSISTENTLY_HIGH')
                 : (persistent.persistentlyLow ? t('INSIGHTS_PERSISTENTLY_LOW') : t('INSIGHTS_NOT_PERSISTENT'));
-            persistentNote = '<p class="insights-summary"><strong>' + esc(t('INSIGHTS_PERSISTENT_POSITION')) + ':</strong> ' + esc(persistentText) +
-                ' (' + persistent.validPeriods + ' ' + esc(t('INSIGHTS_PERIOD')).toLowerCase() + 's)</p>';
+            persistentCard = card({
+                label: t('INSIGHTS_PERSISTENT_POSITION') + histRangeLabel,
+                value: esc(persistentText),
+                sub: esc(persistent.validPeriods + ' ' + t('INSIGHTS_PERIOD').toLowerCase() + 's evaluated'),
+                whatItIs: t('INSIGHTS_WHAT_HIST_PERCENTILE'),
+                calculation: "Quartile(Price_t) over past " + persistent.validPeriods + " semesters",
+                purpose: t('INSIGHTS_PURPOSE_HIST_PERCENTILE')
+            });
         }
 
-        return renderSparkline(data.eurHistoryForChart, ctx) +
-            '<div class="insights-cards">' + peakCard + minCard + percentileCard + '</div>' +
-            persistentNote;
+        return renderSparkline(historySeries, ctx) +
+            '<div class="insights-cards">' + peakCard + minCard + percentileCard + persistentCard + '</div>';
     }
 
     // ---- development over time (momentum / cagr / reversal / volatility / seasonal) --------------
 
-    function renderDevelopment(data) {
+    function renderDevelopment(data, devInfo) {
         const dev = data.development;
         if (!dev) return '';
         const ctx = data.context;
@@ -635,7 +640,8 @@ const insightsRenderNameSpace = (function () {
         const histEnd = historySeries.length ? historySeries[historySeries.length - 1].period : data.latestPeriod;
         const histRangeLabel = (histStart && histEnd && histStart !== histEnd) ? ' (' + esc(histStart) + ' – ' + esc(histEnd) + ')' : (data.latestPeriod ? ' (' + esc(data.latestPeriod) + ')' : '');
 
-        let cards = '';
+        let shortCards = '';
+        let longCards = '';
 
         if (dev.momentum) {
             const momentumKeyMap = {
@@ -644,29 +650,41 @@ const insightsRenderNameSpace = (function () {
                 reversal: 'INSIGHTS_REVERSAL', stableYoy: 'INSIGHTS_STABLE_YOY'
             };
             const momentumRange = (p && p.yoyPeriod) ? ' (' + esc(p.yoyPeriod) + ' – ' + esc(data.latestPeriod) + ')' : '';
-            cards += card({
+            shortCards += card({
                 label: t('INSIGHTS_MOMENTUM') + momentumRange,
                 value: esc(t(momentumKeyMap[dev.momentum.classification])),
-                sub: esc(formatPercent(dev.momentum.latestYoyPct)) + ' &rarr; ' + esc(formatPercent(dev.momentum.previousYoyPct)) + ' ' + esc(t('INSIGHTS_YOY_CHANGE')).toLowerCase(),
+                sub: esc(formatPercent(dev.momentum.latestYoyPct)) + ' → ' + esc(formatPercent(dev.momentum.previousYoyPct)) + ' ' + esc(t('INSIGHTS_YOY_CHANGE')).toLowerCase(),
                 whatItIs: t('INSIGHTS_WHAT_MOMENTUM'),
                 calculation: "YoY_latest (" + formatPercent(dev.momentum.latestYoyPct) + ") − YoY_prev (" + formatPercent(dev.momentum.previousYoyPct) + ")",
                 purpose: t('INSIGHTS_PURPOSE_MOMENTUM')
             });
         }
-        if (dev.cagr5 || dev.cagr2) {
-            const cagr = dev.cagr5 || dev.cagr2;
-            const cagrRange = (cagr && cagr.basePeriod) ? ' (' + esc(cagr.basePeriod) + ' – ' + esc(cagr.latestPeriod || data.latestPeriod) + ')' : '';
-            cards += card({
-                label: (dev.cagr5 ? t('INSIGHTS_CAGR_5Y') : t('INSIGHTS_CAGR_2Y')) + cagrRange,
+        if (dev.cagr5) {
+            const cagr = dev.cagr5;
+            const cagrRange = cagr.basePeriod ? ' (' + esc(cagr.basePeriod) + ' – ' + esc(cagr.latestPeriod || data.latestPeriod) + ')' : '';
+            shortCards += card({
+                label: t('INSIGHTS_CAGR_5Y') + cagrRange,
                 value: esc(formatPercent(cagr.cagr)),
-                sub: esc(cagr.basePeriod + ' &rarr; ' + cagr.latestPeriod),
+                sub: esc(cagr.basePeriod + ' → ' + cagr.latestPeriod),
+                whatItIs: t('INSIGHTS_WHAT_CAGR'),
+                calculation: '((' + formatRaw(cagr.latestValue, ctx) + ' / ' + formatRaw(cagr.baseValue, ctx) + ')<sup>1/' + cagr.years + '</sup> − 1) × 100 = <strong>' + esc(formatPercent(cagr.cagr)) + '</strong>',
+                purpose: t('INSIGHTS_PURPOSE_CAGR')
+            });
+        }
+        if (dev.cagr2) {
+            const cagr = dev.cagr2;
+            const cagrRange = cagr.basePeriod ? ' (' + esc(cagr.basePeriod) + ' – ' + esc(cagr.latestPeriod || data.latestPeriod) + ')' : '';
+            shortCards += card({
+                label: t('INSIGHTS_CAGR_2Y') + cagrRange,
+                value: esc(formatPercent(cagr.cagr)),
+                sub: esc(cagr.basePeriod + ' → ' + cagr.latestPeriod),
                 whatItIs: t('INSIGHTS_WHAT_CAGR'),
                 calculation: '((' + formatRaw(cagr.latestValue, ctx) + ' / ' + formatRaw(cagr.baseValue, ctx) + ')<sup>1/' + cagr.years + '</sup> − 1) × 100 = <strong>' + esc(formatPercent(cagr.cagr)) + '</strong>',
                 purpose: t('INSIGHTS_PURPOSE_CAGR')
             });
         }
         if (dev.volatility) {
-            cards += card({
+            shortCards += card({
                 label: t('INSIGHTS_VOLATILITY') + histRangeLabel,
                 value: esc(formatNumber(dev.volatility.volatility, 1)) + ' pp',
                 sub: esc(dev.volatility.n + ' ' + t('INSIGHTS_PERIOD').toLowerCase() + '-to-' + t('INSIGHTS_PERIOD').toLowerCase()),
@@ -675,12 +693,104 @@ const insightsRenderNameSpace = (function () {
                 purpose: t('INSIGHTS_PURPOSE_VOLATILITY')
             });
         }
+        if (dev.consecutiveMovement && dev.consecutiveMovement.count > 1) {
+            const moveKey = dev.consecutiveMovement.direction === 'increase' ? 'INSIGHTS_CONSECUTIVE_INCREASE' : 'INSIGHTS_CONSECUTIVE_DECREASE';
+            shortCards += card({
+                label: t('INSIGHTS_CONSECUTIVE_MOVEMENT') + histRangeLabel,
+                value: esc(dev.consecutiveMovement.count + ' ' + t('INSIGHTS_PERIOD').toLowerCase() + 's'),
+                sub: esc(t(moveKey)),
+                whatItIs: "Measures uninterrupted consecutive semestrial price increases or decreases across the dataset.",
+                calculation: "Count( consecutive sign(Price_t - Price_{t-1}) )",
+                purpose: "Identifies persistent multi-period price momentum and directional inertia."
+            });
+        }
+        if (dev.trendReversal && dev.trendReversal.reversal) {
+            shortCards += card({
+                label: t('INSIGHTS_TREND_REVERSAL') + histRangeLabel,
+                value: esc(t('INSIGHTS_REVERSAL_DETECTED') || 'Trend Reversal'),
+                sub: "Direction shifted after sustained movement",
+                whatItIs: "Detects whether price movement reversed direction compared to prior consecutive periods.",
+                calculation: "Sign(YoY_latest) != Sign(YoY_prior)",
+                purpose: "Highlights market inflection points and trend turnarounds over time."
+            });
+        }
+        if (dev.lifetimeGrowth) {
+            const lg = dev.lifetimeGrowth;
+            const lgRange = ' (' + esc(lg.firstPeriod) + ' – ' + esc(lg.latestPeriod) + ')';
+            longCards += card({
+                label: (t('INSIGHTS_LIFETIME_GROWTH') || 'Lifetime Price Growth') + lgRange,
+                value: esc(formatPercent(lg.changePct)) + ' (' + esc(formatNumber(lg.multiplier, 1)) + '×)',
+                sub: esc(t('INSIGHTS_PERIOD') + ' ' + lg.firstPeriod + ': ' + formatPrice(lg.firstValue, ctx)),
+                whatItIs: t('INSIGHTS_WHAT_LIFETIME_GROWTH') || "Calculates the total cumulative percentage change and multiplier from dataset inception to the latest period.",
+                calculation: "((Price_latest − Price_first) / Price_first) × 100 = <strong>" + formatPercent(lg.changePct) + "</strong> (" + formatNumber(lg.multiplier, 1) + "×)",
+                purpose: "Evaluates the long-horizon cumulative energy price growth across the full available dataset."
+            });
+        }
+        if (dev.longTermAverage) {
+            const lta = dev.longTermAverage;
+            const ltaRange = ' (' + esc(lta.startPeriod) + ' – ' + esc(lta.endPeriod) + ')';
+            longCards += card({
+                label: (t('INSIGHTS_LONG_TERM_AVG') || 'vs. Long-Term Average') + ltaRange,
+                value: esc(formatPercent(lta.diffPct)),
+                sub: esc('Historical Mean: ' + formatPrice(lta.avgValue, ctx)),
+                whatItIs: t('INSIGHTS_WHAT_LONG_TERM_AVG') || "Compares the latest price with the arithmetic mean of all available historical semesters.",
+                calculation: "(Price_latest − Mean(Price_hist)) / Mean(Price_hist) × 100 = <strong>" + formatPercent(lta.diffPct) + "</strong>",
+                purpose: "Identifies structural elevation or discount relative to the country's long-term historical price baseline."
+            });
+        }
+        if (dev.cagr10) {
+            const cagr = dev.cagr10;
+            const cagrRange = cagr.basePeriod ? ' (' + esc(cagr.basePeriod) + ' – ' + esc(cagr.latestPeriod || data.latestPeriod) + ')' : '';
+            longCards += card({
+                label: (t('INSIGHTS_CAGR_10Y') || '10-Year CAGR') + cagrRange,
+                value: esc(formatPercent(cagr.cagr)),
+                sub: esc(cagr.basePeriod + ' → ' + cagr.latestPeriod),
+                whatItIs: t('INSIGHTS_WHAT_CAGR_10Y') || "The 10-year compound annual growth rate across a full decade of semester price data.",
+                calculation: '((' + formatRaw(cagr.latestValue, ctx) + ' / ' + formatRaw(cagr.baseValue, ctx) + ')<sup>1/10</sup> − 1) × 100 = <strong>' + esc(formatPercent(cagr.cagr)) + '</strong>',
+                purpose: t('INSIGHTS_PURPOSE_CAGR')
+            });
+        }
+        if (dev.spikesAndDrops) {
+            if (dev.spikesAndDrops.maxSpike) {
+                const s = dev.spikesAndDrops.maxSpike;
+                longCards += card({
+                    label: (t('INSIGHTS_HISTORICAL_SPIKE') || 'Largest Historical Spike') + histRangeLabel,
+                    value: esc(formatPercent(s.changePct)),
+                    sub: esc(s.priorPeriod + ' → ' + s.period + ' (' + formatPrice(s.toVal, ctx) + ')'),
+                    whatItIs: t('INSIGHTS_WHAT_HISTORICAL_SPIKE') || "Identifies the single largest semestrial percentage price increase in the historical record.",
+                    calculation: "Max( (Price_t − Price_{t-1}) / Price_{t-1} × 100 ) = <strong>" + formatPercent(s.changePct) + "</strong>",
+                    purpose: "Quantifies maximum historical semestrial upward price shock."
+                });
+            }
+            if (dev.spikesAndDrops.maxDrop) {
+                const d = dev.spikesAndDrops.maxDrop;
+                longCards += card({
+                    label: (t('INSIGHTS_HISTORICAL_DROP') || 'Largest Historical Drop') + histRangeLabel,
+                    value: esc(formatPercent(d.changePct)),
+                    sub: esc(d.priorPeriod + ' → ' + d.period + ' (' + formatPrice(d.toVal, ctx) + ')'),
+                    whatItIs: t('INSIGHTS_WHAT_HISTORICAL_DROP') || "Identifies the single largest semestrial percentage price decrease in the historical record.",
+                    calculation: "Min( (Price_t − Price_{t-1}) / Price_{t-1} × 100 ) = <strong>" + formatPercent(d.changePct) + "</strong>",
+                    purpose: "Quantifies maximum historical semestrial price relief."
+                });
+            }
+        }
+        if (dev.highRegimeShare) {
+            const hr = dev.highRegimeShare;
+            longCards += card({
+                label: (t('INSIGHTS_HIGH_REGIME_TENURE') || 'High-Tier Regime Tenure') + histRangeLabel,
+                value: esc(formatPercent(hr.sharePct)),
+                sub: esc(hr.countAbove80 + ' of ' + hr.totalCount + ' semesters in 80th+ percentile'),
+                whatItIs: t('INSIGHTS_WHAT_HIGH_REGIME') || "Measures the proportion of historical semesters spent in the highest 20% price tier.",
+                calculation: "Count(Price_t >= P80) / TotalSemesters × 100 = <strong>" + formatPercent(hr.sharePct) + "</strong>",
+                purpose: "Measures historical frequency of high-energy-cost price regimes."
+            });
+        }
         if (dev.seasonalPattern) {
             const sp = dev.seasonalPattern;
             const seasonalNote = sp.deviation != null
                 ? (Math.abs(sp.deviation) > 3 ? t('INSIGHTS_SEASONALLY_UNUSUAL') : t('INSIGHTS_SEASONALLY_TYPICAL'))
                 : null;
-            cards += card({
+            shortCards += card({
                 label: t('INSIGHTS_TYPICAL_S2_PREMIUM') + histRangeLabel,
                 value: esc(formatPercent(sp.typicalS2Premium)),
                 sub: seasonalNote ? esc(seasonalNote) : esc(sp.sampleYears + ' years'),
@@ -690,16 +800,18 @@ const insightsRenderNameSpace = (function () {
             });
         }
 
-        let movementNote = '';
-        if (dev.consecutiveMovement && dev.consecutiveMovement.count > 1) {
-            const moveKey = dev.consecutiveMovement.direction === 'increase' ? 'INSIGHTS_CONSECUTIVE_INCREASE' : 'INSIGHTS_CONSECUTIVE_DECREASE';
-            movementNote += '<p class="insights-summary">' + dev.consecutiveMovement.count + ' ' + esc(t(moveKey)) + '.</p>';
+        let html = '';
+        if (shortCards) {
+            html += section('fa-chart-line', (t('INSIGHTS_RECENT_TRENDS') || 'Recent trends & momentum') + histRangeLabel, '<div class="insights-cards">' + shortCards + '</div>', devInfo);
         }
-        if (dev.trendReversal && dev.trendReversal.reversal) {
-            movementNote += '<p class="insights-summary"><i class="fas fa-arrow-right-arrow-left" aria-hidden="true"></i> ' + esc(t('INSIGHTS_TREND_REVERSAL')) + '.</p>';
+        if (longCards) {
+            html += section('fa-calendar-alt', (t('INSIGHTS_LONG_TERM_CONTEXT') || 'Long-term historical context') + histRangeLabel, '<div class="insights-cards">' + longCards + '</div>', {
+                whatItIs: "Analyzes extreme values and long-horizon price evolution across the full dataset.",
+                calculation: "Various multi-year and historical statistical calculations.",
+                purpose: "Provides structural historical context beyond recent fluctuations."
+            });
         }
-
-        return (cards ? '<div class="insights-cards">' + cards + '</div>' : '') + movementNote;
+        return html;
     }
 
     // ---- SVG Infographics (Doughnut Charts & Comparison Bar Charts) -----------------------------
@@ -868,7 +980,7 @@ const insightsRenderNameSpace = (function () {
 
         const globalSummary = data.globalComponentSummary;
         let globalHtml = '';
-        if (globalSummary && globalSummary.available && globalSummary.mostDivergent) {
+        if (globalSummary && globalSummary.available && globalSummary.mostDivergent && ctx.geo !== 'EU27_2020') {
             const g = globalSummary.mostDivergent;
             globalHtml = card({
                 label: t('INSIGHTS_MOST_DIVERGENT_COMPONENT') + ' (' + t('INSIGHTS_GLOBAL_COMPONENT') + ')',
@@ -1152,8 +1264,10 @@ const insightsRenderNameSpace = (function () {
         const costFormatted = cost !== null ? formatPrice(cost, ctx) : '—';
         const stepText = formatRaw(currentConsumption, ctx) + ' ' + unitName + ' &times; ' + formatRaw(data.price.latestValue, ctx) + ' ' + unitLabel(ctx);
 
+        const descKey = ctx.consumer === 'N_HOUSEHOLD' ? 'INSIGHTS_COST_ESTIMATOR_DESC_NH' : 'INSIGHTS_COST_ESTIMATOR_DESC_HH';
         const estimatorCard = '<div class="insights-widget-card" role="region" aria-label="' + esc(t('INSIGHTS_COST_ESTIMATOR')) + '">' +
             '<div class="insights-widget-card__title"><i class="fas fa-calculator" aria-hidden="true"></i> ' + esc(t('INSIGHTS_COST_ESTIMATOR')) + '</div>' +
+            '<p class="insight-card__note" style="margin-top:0.4rem; margin-bottom:1rem; font-size:0.85rem; color:var(--ecl-color-grey-100, #555);">' + esc(t(descKey)) + '</p>' +
             '<div class="insights-input-group">' +
             '<label for="insightConsumptionInput" class="insights-input-label">' + esc(t('INSIGHTS_ANNUAL_CONSUMPTION')) + ':</label>' +
             '<input type="number" id="insightConsumptionInput" class="insight-input" value="' + currentConsumption + '" step="any" min="0" onchange="insightsRenderNameSpace.onConsumptionChange(this.value)" aria-label="' + esc(t('INSIGHTS_ANNUAL_CONSUMPTION')) + '">' +
@@ -1327,7 +1441,7 @@ const insightsRenderNameSpace = (function () {
             section('fa-euro-sign', t('INSIGHTS_LATEST_PRICE') + pLabel, renderPriceCards(data), priceInfo) +
             section('fa-globe-europe', t('INSIGHTS_EU_COMPARISON') + pLabel, renderComparisonCards(data) + renderRankSensitivity(data), euInfo) +
             section('fa-history', t('INSIGHTS_HISTORICAL_POSITION') + hRange, renderHistoryCards(data), historyInfo) +
-            section('fa-chart-line', t('INSIGHTS_DEVELOPMENT') + hRange, renderDevelopment(data), devInfo) +
+            renderDevelopment(data, devInfo) +
             section('fa-chart-pie', t('INSIGHTS_COMPOSITION') + compP, renderComposition(data), compInfo) +
             section('fa-balance-scale', t('INSIGHTS_FISCAL_EFFECT') + pLabel, renderFiscalEffect(data), fiscalInfo) +
             section('fa-coins', t('INSIGHTS_PPS_PERSPECTIVE') + pLabel, renderPpsPerspective(data), ppsInfo) +
@@ -1542,7 +1656,7 @@ const insightsRenderNameSpace = (function () {
 
     function switchFocusCountry(newGeo) {
         if (typeof REF !== 'undefined') {
-            REF.geo = newGeo;
+            REF.geos = [newGeo];
             if (typeof populateCountries !== 'undefined') {
                 populateCountries();
             }

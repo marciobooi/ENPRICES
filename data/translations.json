@@ -1349,6 +1349,16 @@
     "DE": "Trendwende",
     "FR": "Retournement de tendance"
   },
+  "INSIGHTS_REVERSAL_DETECTED": {
+    "EN": "Trend reversal detected",
+    "DE": "Trendwende erkannt",
+    "FR": "Retournement de tendance détecté"
+  },
+  "INSIGHTS_CONSECUTIVE_MOVEMENT": {
+    "EN": "Consecutive trend streak",
+    "DE": "Aufeinanderfolgender Trend-Streak",
+    "FR": "Série de tendances consécutives"
+  },
   "INSIGHTS_CONSECUTIVE_INCREASE": {
     "EN": "consecutive semester increases",
     "DE": "aufeinanderfolgende Halbjahresanstiege",
@@ -1358,6 +1368,86 @@
     "EN": "consecutive semester decreases",
     "DE": "aufeinanderfolgende Halbjahresrückgänge",
     "FR": "baisses semestrielles consécutives"
+  },
+  "INSIGHTS_LIFETIME_GROWTH": {
+    "EN": "Lifetime Price Growth",
+    "DE": "Lebenslanges Preiswachstum",
+    "FR": "Croissance des prix à vie"
+  },
+  "INSIGHTS_LONG_TERM_AVG": {
+    "EN": "vs. Long-Term Average",
+    "DE": "vs. Langfristiger Durchschnitt",
+    "FR": "vs. Moyenne à long terme"
+  },
+  "INSIGHTS_HISTORICAL_SPIKE": {
+    "EN": "Largest Historical Spike",
+    "DE": "Größter historischer Anstieg",
+    "FR": "Plus forte hausse historique"
+  },
+  "INSIGHTS_HISTORICAL_DROP": {
+    "EN": "Largest Historical Drop",
+    "DE": "Größter historischer Rückgang",
+    "FR": "Plus forte baisse historique"
+  },
+  "INSIGHTS_CAGR_10Y": {
+    "EN": "10-Year CAGR",
+    "DE": "10-Jahres-CAGR",
+    "FR": "TCAC sur 10 ans"
+  },
+  "INSIGHTS_HIGH_REGIME_TENURE": {
+    "EN": "High-Tier Regime Tenure",
+    "DE": "Verweildauer im Hochpreisregime",
+    "FR": "Durée du régime de prix élevés"
+  },
+  "INSIGHTS_WHAT_LIFETIME_GROWTH": {
+    "EN": "Calculates the total cumulative percentage change and multiplier from dataset inception to the latest period.",
+    "DE": "Berechnet die gesamte kumulative prozentuale Veränderung und den Multiplikator vom Beginn des Datensatzes bis zur letzten Periode.",
+    "FR": "Calcule la variation en pourcentage cumulée totale et le multiplicateur de la création de l'ensemble de données à la période la plus récente."
+  },
+  "INSIGHTS_WHAT_LONG_TERM_AVG": {
+    "EN": "Compares the latest price with the arithmetic mean of all available historical semesters.",
+    "DE": "Vergleicht den aktuellen Preis mit dem arithmetischen Mittel aller verfügbaren historischen Semester.",
+    "FR": "Compare le prix le plus récent avec la moyenne arithmétique de tous les semestres historiques disponibles."
+  },
+  "INSIGHTS_WHAT_HISTORICAL_SPIKE": {
+    "EN": "Identifies the single largest semestrial percentage price increase in the historical record.",
+    "DE": "Identifiziert den größten prozentualen Preisanstieg pro Semester im historischen Datensatz.",
+    "FR": "Identifie la plus forte augmentation en pourcentage des prix semestriels de l'histoire des données."
+  },
+  "INSIGHTS_WHAT_HISTORICAL_DROP": {
+    "EN": "Identifies the single largest semestrial percentage price decrease in the historical record.",
+    "DE": "Identifiziert den größten prozentualen Preisrückgang pro Semester im historischen Datensatz.",
+    "FR": "Identifie la plus forte baisse en pourcentage des prix semestriels de l'histoire des données."
+  },
+  "INSIGHTS_WHAT_CAGR_10Y": {
+    "EN": "The 10-year compound annual growth rate across a full decade of semester price data.",
+    "DE": "Die 10-jährige durchschnittliche jährliche Wachstumsrate (CAGR) über ein ganzes Jahrzehnt von Semesterpreisdaten.",
+    "FR": "Le taux de croissance annuel composé sur 10 ans sur une décennie complète de données de prix semestriels."
+  },
+  "INSIGHTS_WHAT_HIGH_REGIME": {
+    "EN": "Measures the proportion of historical semesters spent in the highest 20% price tier.",
+    "DE": "Misst den Anteil der historischen Semester, die im höchsten 20%-Preisniveau verbracht wurden.",
+    "FR": "Mesure la proportion de semestres historiques passés dans la tranche de prix la plus élevée de 20 %."
+  },
+  "INSIGHTS_RECENT_TRENDS": {
+    "EN": "Recent trends & momentum",
+    "DE": "Aktuelle Trends & Dynamik",
+    "FR": "Tendances récentes & dynamique"
+  },
+  "INSIGHTS_LONG_TERM_CONTEXT": {
+    "EN": "Long-term historical context",
+    "DE": "Langfristiger historischer Kontext",
+    "FR": "Contexte historique à long terme"
+  },
+  "INSIGHTS_COST_ESTIMATOR_DESC_HH": {
+    "EN": "Enter your annual consumption (e.g. from your household utility bill) to estimate your yearly cost and find your Eurostat consumption band.",
+    "DE": "Geben Sie Ihren Jahresverbrauch ein (z. B. aus Ihrer Strom-/Gasrechnung), um Ihre jährlichen Kosten zu schätzen und Ihre Eurostat-Verbrauchsklasse zu ermitteln.",
+    "FR": "Entrez votre consommation annuelle (par ex. sur votre facture d'électricité/gaz) pour estimer votre coût annuel et trouver votre tranche de consommation Eurostat."
+  },
+  "INSIGHTS_COST_ESTIMATOR_DESC_NH": {
+    "EN": "Enter your business's annual consumption (e.g. from energy statements) to estimate annual expenditure and identify your Eurostat consumption band.",
+    "DE": "Geben Sie den Jahresverbrauch Ihres Unternehmens ein (z. B. aus der Energieabrechnung), um die jährlichen Ausgaben zu schätzen und Ihre Eurostat-Verbrauchsklasse zu ermitteln.",
+    "FR": "Entrez la consommation annuelle de votre entreprise (par ex. sur vos relevés d'énergie) pour estimer vos dépenses annuelles et identifier votre tranche Eurostat."
   },
   "INSIGHTS_VOLATILITY": {
     "EN": "Recent volatility",
