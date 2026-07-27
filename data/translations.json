@@ -364,10 +364,110 @@
     "DE": "Preisausdruck",
     "FR": "Expression du prix"
   },
+  "INSIGHTS_FOCUS_COUNTRY": {
+    "EN": "Focus country",
+    "DE": "Fokusland",
+    "FR": "Pays cible"
+  },
+  "INSIGHTS_PARTNER_COUNTRY": {
+    "EN": "Compared country",
+    "DE": "Vergleichsland",
+    "FR": "Pays comparé"
+  },
   "INSIGHTS_LATEST_PRICE": {
     "EN": "Latest price",
     "DE": "Aktueller Preis",
     "FR": "Dernier prix"
+  },
+  "INSIGHTS_TOTAL_PRICE": {
+    "EN": "Total price",
+    "DE": "Gesamtpreis",
+    "FR": "Prix total"
+  },
+  "INSIGHTS_TREND": {
+    "EN": "Trend",
+    "DE": "Trend",
+    "FR": "Tendance"
+  },
+  "INSIGHTS_DISTRIBUTION": {
+    "EN": "Distribution",
+    "DE": "Verteilung",
+    "FR": "Distribution"
+  },
+  "INSIGHTS_TOOLBAR": {
+    "EN": "Insights actions",
+    "DE": "Insights-Aktionen",
+    "FR": "Actions des données"
+  },
+  "INSIGHTS_CALC_LATEST_PRICE": {
+    "EN": "Latest Price: Eurostat published dataset &bull; Semester Change: (P_S2 − P_S1) / P_S1 × 100 &bull; YoY Change: (P_t − P_t-1y) / P_t-1y × 100",
+    "DE": "Aktueller Preis: Veröffentlichter Eurostat-Datensatz &bull; Halbjahresveränderung: (P_S2 − P_S1) / P_S1 × 100 &bull; Vorjahresveränderung: (P_t − P_t-1y) / P_t-1y × 100",
+    "FR": "Dernier prix: Jeu de données Eurostat &bull; Variation semestrielle: (P_S2 − P_S1) / P_S1 × 100 &bull; Variation annuelle: (P_t − P_t-1y) / P_t-1y × 100"
+  },
+  "INSIGHTS_CALC_EU_COMPARISON": {
+    "EN": "EU Gap %: (P_focus − P_EU27) / P_EU27 × 100 &bull; Country Rank: 1 + Count(P > P_focus) &bull; Median Gap: (P_focus − Median) / Median × 100",
+    "DE": "EU-Abweichung %: (P_focus − P_EU27) / P_EU27 × 100 &bull; Länderrang: 1 + Anzahl(P > P_focus) &bull; Median-Abweichung: (P_focus − Median) / Median × 100",
+    "FR": "Écart UE %: (P_focus − P_EU27) / P_EU27 × 100 &bull; Rang du pays: 1 + Compte(P > P_focus) &bull; Écart médian: (P_focus − Médiane) / Médiane × 100"
+  },
+  "INSIGHTS_CALC_COUNTRY_COMPARISON": {
+    "EN": "Price Gap: (P_A − P_B) / P_B × 100 &bull; YoY Growth: YoY_A vs YoY_B &bull; Main Driver: Max( |Component_A − Component_B| )",
+    "DE": "Preisunterschied: (P_A − P_B) / P_B × 100 &bull; Vorjahreswachstum: YoY_A vs. YoY_B &bull; Haupttreiber: Max( |Komponente_A − Komponente_B| )",
+    "FR": "Écart de prix: (P_A − P_B) / P_B × 100 &bull; Croissance annuelle: YoY_A vs YoY_B &bull; Facteur principal: Max( |Composante_A − Composante_B| )"
+  },
+  "INSIGHTS_CALC_HISTORICAL": {
+    "EN": "Peak: Max(P_t) &bull; Minimum: Min(P_t) &bull; Percentile: (Count(P_hist < P_current) + 0.5 × Count(P_hist = P_current)) / N × 100",
+    "DE": "Höchstwert: Max(P_t) &bull; Tiefstwert: Min(P_t) &bull; Perzentil: (Anzahl(P_hist < P_aktuell) + 0.5 × Anzahl(P_hist = P_aktuell)) / N × 100",
+    "FR": "Pic: Max(P_t) &bull; Minimum: Min(P_t) &bull; Percentile: (Compte(P_hist < P_actuel) + 0.5 × Compte(P_hist = P_actuel)) / N × 100"
+  },
+  "INSIGHTS_CALC_DEVELOPMENT": {
+    "EN": "Momentum: YoY_t − YoY_t-1 &bull; 5Y CAGR: ((P_t / P_t-5y)^(1/5) − 1) × 100 &bull; Volatility: Standard deviation of 10-semester returns",
+    "DE": "Dynamik: YoY_t − YoY_t-1 &bull; 5J CAGR: ((P_t / P_t-5j)^(1/5) − 1) × 100 &bull; Volatilität: Standardabweichung von 10 Halbjahresrenditen",
+    "FR": "Dynamique: YoY_t − YoY_t-1 &bull; CAGR 5 ans: ((P_t / P_t-5ans)^(1/5) − 1) × 100 &bull; Volatilité: Écart-type des rendements sur 10 semestres"
+  },
+  "INSIGHTS_CALC_COMPOSITION": {
+    "EN": "Component Shares: Component_val / Total_price × 100 &bull; Main Driver: Max( |Delta_Component| )",
+    "DE": "Komponentenanteile: Komponentenwert / Gesamtpreis × 100 &bull; Haupttreiber: Max( |Delta_Komponente| )",
+    "FR": "Parts de composantes: Valeur_composante / Prix_total × 100 &bull; Facteur principal: Max( |Delta_Composante| )"
+  },
+  "INSIGHTS_CALC_FISCAL": {
+    "EN": "Fiscal Effect = Delta_FinalPrice − Delta_PreTaxPrice",
+    "DE": "Steuereffekt = Delta_Endpreis − Delta_Nettopreis",
+    "FR": "Effet fiscal = Delta_PrixFinal − Delta_PrixHorsTaxes"
+  },
+  "INSIGHTS_CALC_PPS": {
+    "EN": "PPS Rank Shift = Rank_EUR − Rank_PPS",
+    "DE": "KKS-Rangverschiebung = Rang_EUR − Rang_KKS",
+    "FR": "Écart de rang SPA = Rang_EUR − Rang_SPA"
+  },
+  "INSIGHTS_CALC_EUROPE": {
+    "EN": "Counts of rising/falling countries & Dispersion Change = (IQR_latest − IQR_prior) / IQR_prior × 100",
+    "DE": "Anzahl steigender/fallender Länder & Streuungsveränderung = (IQR_aktuell − IQR_vorher) / IQR_vorher × 100",
+    "FR": "Comptes des pays en hausse/baisse & Variation de dispersion = (IQR_récent − IQR_antérieur) / IQR_antérieur × 100"
+  },
+  "INSIGHTS_CALC_BAND": {
+    "EN": "Band Premium = (P_band − P_ref) / P_ref × 100 &bull; Spread = P_highestBand − P_lowestBand",
+    "DE": "Bandaufschlag = (P_band − P_ref) / P_ref × 100 &bull; Spreizung = P_höchstesBand − P_niedrigstesBand",
+    "FR": "Prime de tranche = (P_tranche − P_ref) / P_ref × 100 &bull; Écart = P_tranchePlusHaute − P_tranchePlusBasse"
+  },
+  "INSIGHTS_CALC_HICP": {
+    "EN": "Inflation Gap = Energy_YoY% − HICP_YoY%",
+    "DE": "Inflationsabstand = Energie_YoY% − HVPI_YoY%",
+    "FR": "Écart d'inflation = Énergie_YoY% − IPCH_YoY%"
+  },
+  "INSIGHTS_CALC_PROVENANCE": {
+    "EN": "Status inspection ('p'/'e'), anomaly validation (P > 0, |YoY%| < 200%), and dataset mapping",
+    "DE": "Statusprüfung ('p'/'e'), Anomalieüberprüfung (P > 0, |YoY%| < 200%) und Datensatz-Zuordnung",
+    "FR": "Inspection du statut ('p'/'e'), validation des anomalies (P > 0, |YoY%| < 200%) et cartographie des jeux de données"
+  },
+  "INSIGHTS_CALC_RANK_EUR": {
+    "EN": "Rank in EUR panel",
+    "DE": "Rang im EUR-Panel",
+    "FR": "Rang dans le panneau EUR"
+  },
+  "INSIGHTS_CALC_RANK_PPS": {
+    "EN": "Rank in PPS panel",
+    "DE": "Rang im KKS-Panel",
+    "FR": "Rang dans le panneau SPA"
   },
   "INSIGHTS_SEMESTER_CHANGE": {
     "EN": "Semester-on-semester",

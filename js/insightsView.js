@@ -1,6 +1,7 @@
 function openInsightsView() {
     $('#charts').addClass('d-none');
     $('#insightsView').removeClass('d-none');
+    $('#menu, #menuSwitch, .menuSwitch').addClass('d-none');
 
     $('#chartBtns').children().not('#closeInsightsWrapper').addClass('d-none');
     $('#closeInsightsWrapper').removeClass('d-none');
@@ -17,6 +18,9 @@ function openInsightsView() {
 
     $(document).on('keydown.insightsView', (event) => {
         if (event.key === 'Escape' || event.key === 'Esc') {
+            if ($('#insightInfoPopup').length) {
+                return; // Popover info card takes precedence on Escape
+            }
             event.preventDefault();
             closeInsightsView();
         }
@@ -28,6 +32,7 @@ function openInsightsView() {
 function closeInsightsView() {
     $('#insightsView').addClass('d-none');
     $('#charts').removeClass('d-none');
+    $('#menu, #menuSwitch, .menuSwitch').removeClass('d-none');
 
     $('#chartBtns').children().removeClass('d-none');
     $('#closeInsightsWrapper').addClass('d-none');
@@ -155,10 +160,13 @@ const insightsRenderNameSpace = (function () {
             'data-what="' + esc(info.whatItIs) + '" ' +
             'data-calc="' + esc(info.calculation) + '" ' +
             'data-purpose="' + esc(info.purpose) + '" ' +
-            'onclick="insightsRenderNameSpace.openModal(this)" title="' + esc(t('INSIGHTS_HOW_CALCULATED')) + '"><i class="fas fa-info-circle" aria-hidden="true"></i>' +
-            '<span class="sr-only">' + esc(t('INSIGHTS_HOW_CALCULATED')) + '</span></button>' : '';
+            'onclick="insightsRenderNameSpace.openModal(this)" ' +
+            'title="' + esc(t('INSIGHTS_HOW_CALCULATED')) + '" ' +
+            'aria-label="' + esc(t('INSIGHTS_HOW_CALCULATED')) + ': ' + esc(titleText) + '">' +
+            '<i class="fas fa-info-circle" aria-hidden="true"></i>' +
+            '</button>' : '';
 
-        return '<section class="insights-section">' +
+        return '<section class="insights-section" aria-label="' + esc(titleText) + '">' +
             '<h3 class="insights-section__title"><span style="display:flex;align-items:center;gap:0.45rem"><i class="fas ' + titleIcon + '" aria-hidden="true"></i> ' + esc(titleText) + infoBtn + '</span></h3>' +
             bodyHtml +
             '</section>';
@@ -172,8 +180,22 @@ const insightsRenderNameSpace = (function () {
             return '<div class="insights-meta__item"><span class="insights-meta__label">' + esc(label) + '</span>' +
                 '<span class="insights-meta__value">' + esc(value) + '</span></div>';
         }
-        return '<div class="insights-meta">' +
-            item(t('INSIGHTS_GEOGRAPHY'), t(ctx.geo)) +
+
+        const countryList = Object.keys(typeof energyCountries !== 'undefined' ? energyCountries : {});
+        const countryOptions = countryList.map((g) => {
+            const selected = g === ctx.geo ? ' selected' : '';
+            return '<option value="' + g + '"' + selected + '>' + esc(t(g)) + ' (' + g + ')</option>';
+        }).join('');
+
+        const focusCountrySelector = '<div class="insights-meta__item">' +
+            '<label for="insightFocusCountrySelect" class="insights-meta__label">' + esc(t('INSIGHTS_FOCUS_COUNTRY')) + ':</label>' +
+            '<select id="insightFocusCountrySelect" class="insight-select insight-select--meta" onchange="insightsRenderNameSpace.switchFocusCountry(this.value)" aria-label="' + esc(t('INSIGHTS_FOCUS_COUNTRY')) + '">' +
+            countryOptions +
+            '</select>' +
+            '</div>';
+
+        return '<div class="insights-meta" role="region" aria-label="' + esc(t('INSIGHTS_GEOGRAPHY')) + ' ' + esc(t('INSIGHTS_CONTEXT')) + '">' +
+            focusCountrySelector +
             item(t('INSIGHTS_PERIOD'), latestPeriod) +
             item(t('INSIGHTS_PRODUCT'), t(ctx.product)) +
             item(t('INSIGHTS_CONSUMER'), t(ctx.consumer)) +
@@ -232,7 +254,7 @@ const insightsRenderNameSpace = (function () {
         const minText = '<text class="insights-sparkline__label insights-sparkline__label--min" x="' + Math.min(width - 80, Math.max(80, minPoint.x)).toFixed(1) + '" y="' + Math.min(height - 6, yMin + 18).toFixed(1) + '" text-anchor="middle">Min: ' + esc(formatPrice(min, ctx)) + '</text>';
         const avgText = '<text class="insights-sparkline__label insights-sparkline__label--avg" x="' + (width - paddingX - 6) + '" y="' + (yAvg - 6).toFixed(1) + '" text-anchor="end">Avg: ' + esc(formatPrice(avg, ctx)) + '</text>';
 
-        const svg = '<svg class="insights-sparkline__svg" viewBox="0 0 ' + width + ' ' + height + '" preserveAspectRatio="none" aria-hidden="true">' +
+        const svg = '<svg class="insights-sparkline__svg" viewBox="0 0 ' + width + ' ' + height + '" preserveAspectRatio="none" aria-hidden="true" role="img">' +
             '<path class="insights-sparkline__area" d="' + areaPath + '"></path>' +
             maxLine + avgLine + minLine +
             '<path class="insights-sparkline__line" d="' + linePath + '"></path>' +
@@ -241,14 +263,14 @@ const insightsRenderNameSpace = (function () {
             '</svg>';
 
         const legend = '<div class="insights-sparkline__legend">' +
-            '<span><span class="insights-sparkline__legend-dot" style="background:#dc2626"></span><strong>Max:</strong> ' + esc(formatPrice(max, ctx)) + ' (' + esc(peakPoint.period) + ')</span>' +
-            '<span><span class="insights-sparkline__legend-dot" style="background:#2563eb;border-top:1px dashed #2563eb"></span><strong>Avg:</strong> ' + esc(formatPrice(avg, ctx)) + '</span>' +
-            '<span><span class="insights-sparkline__legend-dot" style="background:#16a34a"></span><strong>Min:</strong> ' + esc(formatPrice(min, ctx)) + ' (' + esc(minPoint.period) + ')</span>' +
+            '<span><span class="insights-sparkline__legend-dot" style="background:#b91c1c"></span><strong>Max:</strong> ' + esc(formatPrice(max, ctx)) + ' (' + esc(peakPoint.period) + ')</span>' +
+            '<span><span class="insights-sparkline__legend-dot" style="background:#1d4ed8;border-top:1px dashed #1d4ed8"></span><strong>Avg:</strong> ' + esc(formatPrice(avg, ctx)) + '</span>' +
+            '<span><span class="insights-sparkline__legend-dot" style="background:#15803d"></span><strong>Min:</strong> ' + esc(formatPrice(min, ctx)) + ' (' + esc(minPoint.period) + ')</span>' +
             '</div>';
 
         const axis = '<div class="insights-sparkline__axis"><span>' + esc(history[0].period) + '</span><span>' + esc(history[history.length - 1].period) + '</span></div>';
 
-        return '<div class="insights-history-trend">' +
+        return '<div class="insights-history-trend" role="region" aria-label="' + esc(t('INSIGHTS_HISTORICAL_POSITION')) + ' ' + esc(t('INSIGHTS_TREND')) + '">' +
             '<div class="insights-history-trend__title">' + esc(t('INSIGHTS_HISTORICAL_POSITION')) +
             '<span class="insights-history-trend__meta">(' + history.length + ' ' + esc(t('INSIGHTS_PERIOD')).toLowerCase() + 's)</span></div>' +
             '<div class="insights-sparkline">' + svg + axis + legend + '</div>' +
@@ -261,24 +283,34 @@ const insightsRenderNameSpace = (function () {
         if (!cc || cc.focusValue == null || cc.min == null || cc.max == null || cc.max === cc.min) return '';
         const pct = (v) => Math.max(0, Math.min(100, ((v - cc.min) / (cc.max - cc.min)) * 100));
 
+        const isEuFocus = ctx.geo === 'EU27_2020';
         const focusPct = pct(cc.focusValue);
         const focusMarker = '<div class="insights-distribution__marker insights-distribution__marker--focus" style="left:' + focusPct.toFixed(1) + '%" title="' + esc(t(ctx.geo)) + ': ' + esc(formatPrice(cc.focusValue, ctx)) + '"></div>';
 
         let euMarker = '';
-        if (cc.euValue != null) {
+        if (cc.euValue != null && !isEuFocus) {
             const euPct = pct(cc.euValue);
             euMarker = '<div class="insights-distribution__marker insights-distribution__marker--eu" style="left:' + euPct.toFixed(1) + '%" title="' + esc(t('EU27_2020')) + ': ' + esc(formatPrice(cc.euValue, ctx)) + '"></div>';
         }
 
-        return '<div class="insights-distribution">' +
+        const minGeoLabel = cc.minGeo ? ' (' + esc(t(cc.minGeo)) + ')' : '';
+        const maxGeoLabel = cc.maxGeo ? ' (' + esc(t(cc.maxGeo)) + ')' : '';
+
+        const legendHtml = isEuFocus ? (
+            '<span><span class="insights-distribution__legend-dot" style="background:var(--nav-color)"></span>' + esc(t('EU27_2020')) + ' (' + esc(formatPrice(cc.euValue || cc.focusValue, ctx)) + ')</span>'
+        ) : (
+            '<span><span class="insights-distribution__legend-dot" style="background:var(--nav-color)"></span>' + esc(t(ctx.geo)) + ' (' + esc(formatPrice(cc.focusValue, ctx)) + ')</span>' +
+            (cc.euValue != null ? '<span><span class="insights-distribution__legend-dot" style="background:#92400e"></span>' + esc(t('EU27_2020')) + ' (' + esc(formatPrice(cc.euValue, ctx)) + ')</span>' : '')
+        );
+
+        return '<div class="insights-distribution" role="region" aria-label="' + esc(t('INSIGHTS_EU_COMPARISON')) + ' ' + esc(t('INSIGHTS_DISTRIBUTION')) + '">' +
             '<div class="insights-distribution__track">' + focusMarker + euMarker + '</div>' +
             '<div class="insights-distribution__labels">' +
-            '<span>Min: ' + esc(formatPrice(cc.min, ctx)) + ' (' + esc(t(cc.minGeo)) + ')</span>' +
-            '<span>Max: ' + esc(formatPrice(cc.max, ctx)) + ' (' + esc(t(cc.maxGeo)) + ')</span>' +
+            '<span>Min: ' + esc(formatPrice(cc.min, ctx)) + minGeoLabel + '</span>' +
+            '<span>Max: ' + esc(formatPrice(cc.max, ctx)) + maxGeoLabel + '</span>' +
             '</div>' +
             '<div class="insights-distribution__legend">' +
-            '<span><span class="insights-distribution__legend-dot" style="background:var(--nav-color)"></span>' + esc(t(ctx.geo)) + ' (' + esc(formatPrice(cc.focusValue, ctx)) + ')</span>' +
-            (cc.euValue != null ? '<span><span class="insights-distribution__legend-dot" style="background:#cca300"></span>' + esc(t('EU27_2020')) + ' (' + esc(formatPrice(cc.euValue, ctx)) + ')</span>' : '') +
+            legendHtml +
             '</div>' +
             '</div>';
     }
@@ -296,7 +328,7 @@ const insightsRenderNameSpace = (function () {
             return '<div class="insights-composition-bar__segment" style="width:' + pct.toFixed(1) + '%;background:' + color + '" title="' + esc(t(c.code)) + ': ' + pct.toFixed(1) + '%"></div>';
         }).join('');
 
-        return '<div class="insights-composition-bar">' + segments + '</div>';
+        return '<div class="insights-composition-bar" aria-hidden="true">' + segments + '</div>';
     }
 
     // ---- consumption-band bar chart ---------------------------------------------------------
@@ -326,7 +358,7 @@ const insightsRenderNameSpace = (function () {
                 '</div>';
         }).join('');
 
-        return '<div class="insights-band-bars">' + bars + '</div>';
+        return '<div class="insights-band-bars" role="region" aria-label="' + esc(t('INSIGHTS_BAND_PATTERN')) + '">' + bars + '</div>';
     }
 
     // ---- key price highlights (latest price / 6m change / 1y change) ----------------------
@@ -382,8 +414,10 @@ const insightsRenderNameSpace = (function () {
         const cc = data.crossCountry;
         if (!cc || cc.focusValue == null) return '';
 
-        const euCalc = cc.euValue != null ? '(' + formatRaw(cc.focusValue, ctx) + ' − ' + formatRaw(cc.euValue, ctx) + ') / |' + formatRaw(cc.euValue, ctx) + '| × 100 = <strong>' + esc(formatPercent(cc.euGapPct)) + '</strong>' : null;
-        const euCard = cc.euValue != null ? card({
+        const isEuFocus = ctx.geo === 'EU27_2020';
+
+        const euCalc = (cc.euValue != null && !isEuFocus) ? '(' + formatRaw(cc.focusValue, ctx) + ' − ' + formatRaw(cc.euValue, ctx) + ') / |' + formatRaw(cc.euValue, ctx) + '| × 100 = <strong>' + esc(formatPercent(cc.euGapPct)) + '</strong>' : null;
+        const euCard = (cc.euValue != null && !isEuFocus) ? card({
             label: t('INSIGHTS_EU_COMPARISON'),
             value: esc(formatPercent(cc.euGapPct)),
             sub: esc(cc.euGapPct > 0 ? t('INSIGHTS_ABOVE_EU') : (cc.euGapPct < 0 ? t('INSIGHTS_BELOW_EU') : t('INSIGHTS_IN_LINE_EU'))),
@@ -396,7 +430,7 @@ const insightsRenderNameSpace = (function () {
         const rankSub = cc.rankHigh != null
             ? esc(t('INSIGHTS_REPORTING_COUNTRIES')) + (cc.outlier === 'high' || cc.outlier === 'low' ? ' &middot; ' + esc(t(cc.outlier === 'high' ? 'INSIGHTS_OUTLIER_HIGH' : 'INSIGHTS_OUTLIER_LOW')) : '')
             : null;
-        const rankCard = cc.rankHigh != null ? card({
+        const rankCard = (cc.rankHigh != null && !isEuFocus) ? card({
             label: t('INSIGHTS_COUNTRY_RANK'),
             value: esc(cc.rankHigh + ' / ' + cc.n),
             sub: rankSub,
@@ -405,11 +439,15 @@ const insightsRenderNameSpace = (function () {
             purpose: t('INSIGHTS_PURPOSE_RANK')
         }) : '';
 
+        const medianLabel = isEuFocus ? 'EU27 vs. Country Median' : t('INSIGHTS_VS_MEDIAN');
+        const medianSub = isEuFocus
+            ? esc(t('EU27_2020')) + ' (' + formatPrice(cc.euValue || cc.focusValue, ctx) + ') vs. Median (' + formatPrice(cc.median, ctx) + ')'
+            : esc(formatPrice(cc.median, ctx));
         const medianCalc = cc.median != null ? '(' + formatRaw(cc.focusValue, ctx) + ' − ' + formatRaw(cc.median, ctx) + ') / |' + formatRaw(cc.median, ctx) + '| × 100 = <strong>' + esc(formatPercent(cc.medianGapPct)) + '</strong>' : null;
         const medianCard = cc.median != null ? card({
-            label: t('INSIGHTS_VS_MEDIAN'),
+            label: medianLabel,
             value: esc(formatPercent(cc.medianGapPct)),
-            sub: esc(formatPrice(cc.median, ctx)),
+            sub: medianSub,
             whatItIs: t('INSIGHTS_WHAT_MEDIAN_GAP'),
             calculation: medianCalc,
             purpose: t('INSIGHTS_PURPOSE_MEDIAN_GAP')
@@ -600,12 +638,12 @@ const insightsRenderNameSpace = (function () {
                 '</div>';
         }).join('');
 
-        const svg = '<svg class="insights-donut-svg" viewBox="0 0 145 145" aria-hidden="true">' +
+        const svg = '<svg class="insights-donut-svg" viewBox="0 0 145 145" aria-hidden="true" role="img">' +
             '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#f1f5f9" stroke-width="22"></circle>' +
             circles +
             '</svg>';
 
-        return '<div class="insights-donut-container">' +
+        return '<div class="insights-donut-container" role="region" aria-label="' + esc(t('INSIGHTS_COMPOSITION')) + '">' +
             '<div class="insights-donut-chart">' +
             svg +
             '<div class="insights-donut-center">' +
@@ -636,21 +674,21 @@ const insightsRenderNameSpace = (function () {
         const offset1 = risingDash;
         const offset2 = risingDash + fallingDash;
 
-        const circleRising = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#dc2626" stroke-width="20" stroke-dasharray="' + risingDash.toFixed(2) + ' ' + (circumference - risingDash).toFixed(2) + '" stroke-dashoffset="0"></circle>';
-        const circleFalling = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#16a34a" stroke-width="20" stroke-dasharray="' + fallingDash.toFixed(2) + ' ' + (circumference - fallingDash).toFixed(2) + '" stroke-dashoffset="' + (-offset1).toFixed(2) + '"></circle>';
-        const circleStable = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#2563eb" stroke-width="20" stroke-dasharray="' + stableDash.toFixed(2) + ' ' + (circumference - stableDash).toFixed(2) + '" stroke-dashoffset="' + (-offset2).toFixed(2) + '"></circle>';
+        const circleRising = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#b91c1c" stroke-width="20" stroke-dasharray="' + risingDash.toFixed(2) + ' ' + (circumference - risingDash).toFixed(2) + '" stroke-dashoffset="0"></circle>';
+        const circleFalling = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#15803d" stroke-width="20" stroke-dasharray="' + fallingDash.toFixed(2) + ' ' + (circumference - fallingDash).toFixed(2) + '" stroke-dashoffset="' + (-offset1).toFixed(2) + '"></circle>';
+        const circleStable = '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#1d4ed8" stroke-width="20" stroke-dasharray="' + stableDash.toFixed(2) + ' ' + (circumference - stableDash).toFixed(2) + '" stroke-dashoffset="' + (-offset2).toFixed(2) + '"></circle>';
 
-        const svg = '<svg class="insights-donut-svg" viewBox="0 0 145 145" aria-hidden="true">' +
+        const svg = '<svg class="insights-donut-svg" viewBox="0 0 145 145" aria-hidden="true" role="img">' +
             '<circle cx="72.5" cy="72.5" r="' + radius + '" fill="transparent" stroke="#f1f5f9" stroke-width="20"></circle>' +
             circleRising + circleFalling + circleStable +
             '</svg>';
 
         const legendItems =
-            '<div class="insights-donut-legend__item"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#dc2626"></span><span>' + esc(t('INSIGHTS_RISING_COUNTRIES')) + '</span></span><strong>' + snap.rising + '</strong></div>' +
-            '<div class="insights-donut-legend__item"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#16a34a"></span><span>' + esc(t('INSIGHTS_FALLING_COUNTRIES')) + '</span></span><strong>' + snap.falling + '</strong></div>' +
-            '<div class="insights-donut-legend__item"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#2563eb"></span><span>' + esc(t('INSIGHTS_STABLE_COUNTRIES')) + '</span></span><strong>' + snap.stable + '</strong></div>';
+            '<div class="insights-donut-legend__item"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#b91c1c"></span><span>' + esc(t('INSIGHTS_RISING_COUNTRIES')) + '</span></span><strong>' + snap.rising + '</strong></div>' +
+            '<div class="insights-donut-legend__item"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#15803d"></span><span>' + esc(t('INSIGHTS_FALLING_COUNTRIES')) + '</span></span><strong>' + snap.falling + '</strong></div>' +
+            '<div class="insights-donut-legend__item"><span class="insights-donut-legend__badge"><span class="insights-donut-legend__dot" style="background:#1d4ed8"></span><span>' + esc(t('INSIGHTS_STABLE_COUNTRIES')) + '</span></span><strong>' + snap.stable + '</strong></div>';
 
-        return '<div class="insights-donut-container">' +
+        return '<div class="insights-donut-container" role="region" aria-label="' + esc(t('INSIGHTS_EUROPE_SNAPSHOT')) + '">' +
             '<div class="insights-donut-chart">' +
             svg +
             '<div class="insights-donut-center">' +
@@ -669,7 +707,7 @@ const insightsRenderNameSpace = (function () {
         const pctA = Math.max(5, (cc.valA / maxVal) * 100);
         const pctB = Math.max(5, (cc.valB / maxVal) * 100);
 
-        return '<div class="insights-comparison-barchart">' +
+        return '<div class="insights-comparison-barchart" role="region" aria-label="' + esc(t('INSIGHTS_DIRECT_COMPARISON')) + '">' +
             '<div class="insights-comparison-barchart__title">' + esc(t('INSIGHTS_DIRECT_COMPARISON')) + ' (' + unitLabel(ctx) + ')</div>' +
             '<div class="insights-comparison-barchart__row">' +
             '<span class="insights-comparison-barchart__label">' + esc(t(ctx.geo)) + '</span>' +
@@ -681,7 +719,7 @@ const insightsRenderNameSpace = (function () {
             '<div class="insights-comparison-barchart__row">' +
             '<span class="insights-comparison-barchart__label">' + esc(t(cc.countryB)) + '</span>' +
             '<div class="insights-comparison-barchart__track">' +
-            '<div class="insights-comparison-barchart__fill" style="width:' + pctB.toFixed(1) + '%;background:#06D7FF"></div>' +
+            '<div class="insights-comparison-barchart__fill" style="width:' + pctB.toFixed(1) + '%;background:#0284c7"></div>' +
             '</div>' +
             '<span class="insights-comparison-barchart__value">' + esc(formatPrice(cc.valB, ctx)) + '</span>' +
             '</div>' +
@@ -791,7 +829,7 @@ const insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_EUR_RANK'),
             value: esc(rs.rankEur + ' / ' + rs.cohortSize),
             whatItIs: t('INSIGHTS_WHAT_EUR_RANK'),
-            calculation: "Rank in EUR panel",
+            calculation: t('INSIGHTS_CALC_RANK_EUR'),
             purpose: t('INSIGHTS_PURPOSE_EUR_RANK')
         });
 
@@ -799,7 +837,7 @@ const insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_PPS_RANK'),
             value: esc(rs.rankPps + ' / ' + rs.cohortSize),
             whatItIs: t('INSIGHTS_WHAT_PPS_RANK'),
-            calculation: "Rank in PPS panel",
+            calculation: t('INSIGHTS_CALC_RANK_PPS'),
             purpose: t('INSIGHTS_PURPOSE_PPS_RANK')
         });
 
@@ -983,11 +1021,11 @@ const insightsRenderNameSpace = (function () {
     // ---- export toolbar & interactive consumer tools ---------------------------------------------------
 
     function renderToolbar() {
-        return '<div class="insights-toolbar">' +
+        return '<div class="insights-toolbar" role="toolbar" aria-label="' + esc(t('INSIGHTS_TOOLBAR') || 'Insights Actions') + '">' +
             '<div class="insights-toolbar__group">' +
-            '<button type="button" class="insight-btn" onclick="insightsRenderNameSpace.copyText()"><i class="fas fa-copy" aria-hidden="true"></i> <span>' + esc(t('INSIGHTS_COPY_TEXT')) + '</span></button>' +
-            '<button type="button" class="insight-btn" onclick="insightsRenderNameSpace.exportCsv()"><i class="fas fa-file-csv" aria-hidden="true"></i> <span>' + esc(t('INSIGHTS_EXPORT_CSV')) + '</span></button>' +
-            '<button type="button" class="insight-btn" onclick="copyUrl()"><i class="fas fa-share-nodes" aria-hidden="true"></i> <span>' + esc(t('SHARE')) + '</span></button>' +
+            '<button type="button" class="insight-btn" onclick="insightsRenderNameSpace.copyText()" aria-label="' + esc(t('INSIGHTS_COPY_TEXT')) + '"><i class="fas fa-copy" aria-hidden="true"></i> <span>' + esc(t('INSIGHTS_COPY_TEXT')) + '</span></button>' +
+            '<button type="button" class="insight-btn" onclick="insightsRenderNameSpace.exportCsv()" aria-label="' + esc(t('INSIGHTS_EXPORT_CSV')) + '"><i class="fas fa-file-csv" aria-hidden="true"></i> <span>' + esc(t('INSIGHTS_EXPORT_CSV')) + '</span></button>' +
+            '<button type="button" class="insight-btn" onclick="copyUrl()" aria-label="' + esc(t('SHARE')) + '"><i class="fas fa-share-nodes" aria-hidden="true"></i> <span>' + esc(t('SHARE')) + '</span></button>' +
             '</div>' +
             '</div>';
     }
@@ -1008,11 +1046,11 @@ const insightsRenderNameSpace = (function () {
         const costFormatted = cost !== null ? formatPrice(cost, ctx) : '—';
         const stepText = formatRaw(currentConsumption, ctx) + ' ' + unitName + ' &times; ' + formatRaw(data.price.latestValue, ctx) + ' ' + unitLabel(ctx);
 
-        const estimatorCard = '<div class="insights-widget-card">' +
+        const estimatorCard = '<div class="insights-widget-card" role="region" aria-label="' + esc(t('INSIGHTS_COST_ESTIMATOR')) + '">' +
             '<div class="insights-widget-card__title"><i class="fas fa-calculator" aria-hidden="true"></i> ' + esc(t('INSIGHTS_COST_ESTIMATOR')) + '</div>' +
             '<div class="insights-input-group">' +
-            '<label for="insightConsumptionInput" class="sr-only">' + esc(t('INSIGHTS_ANNUAL_CONSUMPTION')) + '</label>' +
-            '<input type="number" id="insightConsumptionInput" class="insight-input" value="' + currentConsumption + '" step="any" min="0" onchange="insightsRenderNameSpace.onConsumptionChange(this.value)">' +
+            '<label for="insightConsumptionInput" class="insights-input-label">' + esc(t('INSIGHTS_ANNUAL_CONSUMPTION')) + ':</label>' +
+            '<input type="number" id="insightConsumptionInput" class="insight-input" value="' + currentConsumption + '" step="any" min="0" onchange="insightsRenderNameSpace.onConsumptionChange(this.value)" aria-label="' + esc(t('INSIGHTS_ANNUAL_CONSUMPTION')) + '">' +
             '<span>' + unitName + ' / ' + esc(t('INSIGHTS_PERIOD').toLowerCase()) + '</span>' +
             '</div>' +
             '<div class="insights-widget-result">' + esc(t('INSIGHTS_ESTIMATED_COST')) + ': <strong>' + esc(costFormatted) + '</strong></div>' +
@@ -1026,10 +1064,10 @@ const insightsRenderNameSpace = (function () {
         const isCurrent = matched && matched.band === ctx.band;
 
         const switchBtn = (matched && !isCurrent)
-            ? '<button type="button" class="insight-btn insight-btn--sm" style="margin-top:0.4rem" onclick="insightsRenderNameSpace.switchBand(\'' + matched.band + '\')"><i class="fas fa-exchange-alt" aria-hidden="true"></i> ' + esc(t('INSIGHTS_SWITCH_BAND')) + '</button>'
+            ? '<button type="button" class="insight-btn insight-btn--sm" style="margin-top:0.4rem" onclick="insightsRenderNameSpace.switchBand(\'' + matched.band + '\')" aria-label="' + esc(t('INSIGHTS_SWITCH_BAND')) + '"><i class="fas fa-exchange-alt" aria-hidden="true"></i> ' + esc(t('INSIGHTS_SWITCH_BAND')) + '</button>'
             : (isCurrent ? '<span class="insight-badge insight-stable" style="margin-top:0.4rem"><i class="fas fa-check" aria-hidden="true"></i> ' + esc(t('INSIGHTS_BAND')) + ' ' + esc(t('INSIGHTS_STABLE')) + '</span>' : '');
 
-        const finderCard = '<div class="insights-widget-card">' +
+        const finderCard = '<div class="insights-widget-card" role="region" aria-label="' + esc(t('INSIGHTS_BAND_FINDER')) + '">' +
             '<div class="insights-widget-card__title"><i class="fas fa-filter" aria-hidden="true"></i> ' + esc(t('INSIGHTS_BAND_FINDER')) + '</div>' +
             '<div class="insights-widget-result" style="font-size:0.9rem">' + finderSub + '</div>' +
             switchBtn +
@@ -1044,14 +1082,19 @@ const insightsRenderNameSpace = (function () {
             return g !== ctx.geo && g !== 'EU27_2020' && g !== 'EA';
         });
 
+        // Set default partner country if none selected yet
+        if (!selectedCountryB && countryList.length > 0) {
+            selectedCountryB = countryList.includes('BE') ? 'BE' : countryList[0];
+        }
+
         const optionsHtml = countryList.map((g) => {
             const selected = g === selectedCountryB ? ' selected' : '';
             return '<option value="' + g + '"' + selected + '>' + esc(t(g)) + ' (' + g + ')</option>';
         }).join('');
 
         const selectorHtml = '<div class="insights-input-group">' +
-            '<label for="insightCountryBSelect" style="font-size:0.82rem;font-weight:600;color:#4c5563">' + esc(t('INSIGHTS_COMPARE_WITH')) + ':</label>' +
-            '<select id="insightCountryBSelect" class="insight-select" onchange="insightsRenderNameSpace.onCountryBChange(this.value)">' +
+            '<label for="insightCountryBSelect" style="font-size:0.82rem;font-weight:600;color:#374151">' + esc(t('INSIGHTS_COMPARE_WITH')) + ':</label>' +
+            '<select id="insightCountryBSelect" class="insight-select" onchange="insightsRenderNameSpace.onCountryBChange(this.value)" aria-label="' + esc(t('INSIGHTS_COMPARE_WITH')) + '">' +
             '<option value="">-- ' + esc(t('INSIGHTS_COMPARE_WITH')) + ' --</option>' +
             optionsHtml +
             '</select>' +
@@ -1061,8 +1104,8 @@ const insightsRenderNameSpace = (function () {
         let comparisonBody = '';
         if (cc) {
             const barChart = renderComparisonBarChart(cc, ctx);
-            const valACard = card({ label: t(ctx.geo), value: esc(formatPrice(cc.valA, ctx)) });
-            const valBCard = card({ label: t(cc.countryB), value: esc(formatPrice(cc.valB, ctx)) });
+            const valACard = card({ label: t('INSIGHTS_FOCUS_COUNTRY') + ': ' + t(ctx.geo), value: esc(formatPrice(cc.valA, ctx)) });
+            const valBCard = card({ label: t('INSIGHTS_PARTNER_COUNTRY') + ': ' + t(cc.countryB), value: esc(formatPrice(cc.valB, ctx)) });
             const gapCard = card({
                 label: t('INSIGHTS_COUNTRY_GAP'),
                 value: esc(formatPercent(cc.gapPct)),
@@ -1090,73 +1133,73 @@ const insightsRenderNameSpace = (function () {
 
         const priceInfo = {
             whatItIs: t('INSIGHTS_EXPLAIN_LATEST_PRICE'),
-            calculation: "Latest Price: Eurostat published dataset &bull; Semester Change: (P_S2 − P_S1) / P_S1 × 100 &bull; YoY Change: (P_t − P_t-1y) / P_t-1y × 100",
+            calculation: t('INSIGHTS_CALC_LATEST_PRICE'),
             purpose: t('INSIGHTS_PURPOSE_LATEST_PRICE')
         };
 
         const euInfo = {
             whatItIs: t('INSIGHTS_EXPLAIN_EU_COMPARISON'),
-            calculation: "EU Gap %: (P_focus − P_EU27) / P_EU27 × 100 &bull; Country Rank: 1 + Count(P > P_focus) &bull; Median Gap: (P_focus − Median) / Median × 100",
+            calculation: t('INSIGHTS_CALC_EU_COMPARISON'),
             purpose: t('INSIGHTS_PURPOSE_EU_GAP')
         };
 
         const directInfo = {
             whatItIs: t('INSIGHTS_EXPLAIN_COUNTRY_COMPARISON'),
-            calculation: "Price Gap: (P_A − P_B) / P_B × 100 &bull; YoY Growth: YoY_A vs YoY_B &bull; Main Driver: Max( |Component_A − Component_B| )",
+            calculation: t('INSIGHTS_CALC_COUNTRY_COMPARISON'),
             purpose: t('INSIGHTS_PURPOSE_RANK')
         };
 
         const historyInfo = {
             whatItIs: t('INSIGHTS_EXPLAIN_HISTORICAL'),
-            calculation: "Peak: Max(P_t) &bull; Minimum: Min(P_t) &bull; Percentile: (Count(P_hist < P_current) + 0.5 × Count(P_hist = P_current)) / N × 100",
+            calculation: t('INSIGHTS_CALC_HISTORICAL'),
             purpose: t('INSIGHTS_PURPOSE_HIST_MAX')
         };
 
         const devInfo = {
             whatItIs: t('INSIGHTS_EXPLAIN_DEVELOPMENT'),
-            calculation: "Momentum: YoY_t − YoY_t-1 &bull; 5Y CAGR: ((P_t / P_t-5y)^(1/5) − 1) × 100 &bull; Volatility: Standard deviation of 10-semester returns",
+            calculation: t('INSIGHTS_CALC_DEVELOPMENT'),
             purpose: t('INSIGHTS_PURPOSE_MOMENTUM')
         };
 
         const compInfo = {
             whatItIs: t('INSIGHTS_EXPLAIN_COMPOSITION'),
-            calculation: "Component Shares: Component_val / Total_price × 100 &bull; Main Driver: Max( |Delta_Component| )",
+            calculation: t('INSIGHTS_CALC_COMPOSITION'),
             purpose: t('INSIGHTS_PURPOSE_PRETAX')
         };
 
         const fiscalInfo = {
             whatItIs: t('INSIGHTS_EXPLAIN_FISCAL'),
-            calculation: "Fiscal Effect = Delta_FinalPrice − Delta_PreTaxPrice",
+            calculation: t('INSIGHTS_CALC_FISCAL'),
             purpose: t('INSIGHTS_PURPOSE_FINAL')
         };
 
         const ppsInfo = {
             whatItIs: t('INSIGHTS_EXPLAIN_PPS'),
-            calculation: "PPS Rank Shift = Rank_EUR − Rank_PPS",
+            calculation: t('INSIGHTS_CALC_PPS'),
             purpose: t('INSIGHTS_PURPOSE_RANK_SHIFT')
         };
 
         const europeInfo = {
             whatItIs: t('INSIGHTS_EXPLAIN_EUROPE'),
-            calculation: "Counts of rising/falling countries & Dispersion Change = (IQR_latest − IQR_prior) / IQR_prior × 100",
+            calculation: t('INSIGHTS_CALC_EUROPE'),
             purpose: t('INSIGHTS_PURPOSE_DISPERSION')
         };
 
         const bandInfo = {
             whatItIs: t('INSIGHTS_EXPLAIN_BAND'),
-            calculation: "Band Premium = (P_band − P_ref) / P_ref × 100 &bull; Spread = P_highestBand − P_lowestBand",
+            calculation: t('INSIGHTS_CALC_BAND'),
             purpose: t('INSIGHTS_PURPOSE_BAND_PATTERN')
         };
 
         const inflationInfo = {
             whatItIs: t('INSIGHTS_EXPLAIN_HICP'),
-            calculation: "Inflation Gap = Energy_YoY% − HICP_YoY%",
+            calculation: t('INSIGHTS_CALC_HICP'),
             purpose: t('INSIGHTS_PURPOSE_INFLATION_GAP')
         };
 
         const qualityInfo = {
             whatItIs: t('INSIGHTS_EXPLAIN_PROVENANCE'),
-            calculation: "Status inspection ('p'/'e'), anomaly validation (P > 0, |YoY%| < 200%), and dataset mapping",
+            calculation: t('INSIGHTS_CALC_PROVENANCE'),
             purpose: t('INSIGHTS_PURPOSE_PROVENANCE')
         };
 
@@ -1165,9 +1208,9 @@ const insightsRenderNameSpace = (function () {
             renderContext(data.context, data.latestPeriod) +
             renderEstimatorAndBandFinder(data) +
             '<div class="insights-sections">' +
+            section('fa-exchange-alt', t('INSIGHTS_DIRECT_COMPARISON'), renderCountryComparisonSection(data), directInfo) +
             section('fa-euro-sign', t('INSIGHTS_LATEST_PRICE'), renderPriceCards(data), priceInfo) +
             section('fa-globe-europe', t('INSIGHTS_EU_COMPARISON'), renderComparisonCards(data) + renderRankSensitivity(data), euInfo) +
-            section('fa-exchange-alt', t('INSIGHTS_DIRECT_COMPARISON'), renderCountryComparisonSection(data), directInfo) +
             section('fa-history', t('INSIGHTS_HISTORICAL_POSITION'), renderHistoryCards(data), historyInfo) +
             section('fa-chart-line', t('INSIGHTS_DEVELOPMENT'), renderDevelopment(data), devInfo) +
             section('fa-chart-pie', t('INSIGHTS_COMPOSITION'), renderComposition(data), compInfo) +
@@ -1282,7 +1325,7 @@ const insightsRenderNameSpace = (function () {
         const closeText = t('CLOSE') || 'Close';
 
         const rect = btnElem ? btnElem.getBoundingClientRect() : { top: 100, left: 100, bottom: 120, right: 120 };
-        const popoverWidth = Math.min(420, window.innerWidth - 32);
+        const popoverWidth = Math.min(440, window.innerWidth - 32);
 
         let top = rect.bottom + window.scrollY + 6;
         let left = rect.left + window.scrollX - 10;
@@ -1297,9 +1340,9 @@ const insightsRenderNameSpace = (function () {
         const popoverStyle = 'top:' + Math.round(top) + 'px;left:' + Math.round(left) + 'px;width:' + Math.round(popoverWidth) + 'px;';
 
         const popupHtml =
-            '<div class="insight-popover-card" id="insightInfoPopup" style="' + popoverStyle + '" role="region" aria-label="' + esc(title) + '" tabindex="-1">' +
+            '<div class="insight-popover-card" id="insightInfoPopup" style="' + popoverStyle + '" role="dialog" aria-modal="true" aria-labelledby="insightInfoTitle" tabindex="-1">' +
             '<div class="insight-popover-card__header">' +
-            '<h4 class="insight-popover-card__title"><i class="fas fa-info-circle" aria-hidden="true"></i> ' + esc(title) + '</h4>' +
+            '<h4 class="insight-popover-card__title" id="insightInfoTitle"><i class="fas fa-info-circle" aria-hidden="true"></i> ' + esc(title) + '</h4>' +
             '<button type="button" class="insight-popover-card__close" onclick="insightsRenderNameSpace.closeModal()" aria-label="' + esc(closeText) + '">&times;</button>' +
             '</div>' +
             '<div class="insight-popover-card__body">' +
@@ -1354,10 +1397,24 @@ const insightsRenderNameSpace = (function () {
         }
     }
 
+    function switchFocusCountry(newGeo) {
+        if (typeof REF !== 'undefined') {
+            REF.geo = newGeo;
+            if (typeof populateCountries !== 'undefined') {
+                populateCountries();
+            }
+            if (typeof updateChart !== 'undefined') {
+                updateChart();
+            }
+            load();
+        }
+    }
+
     return {
         load,
         onConsumptionChange,
         onCountryBChange,
+        switchFocusCountry,
         switchBand,
         exportCsv,
         copyText,

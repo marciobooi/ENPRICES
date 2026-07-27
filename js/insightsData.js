@@ -311,6 +311,9 @@ var insightsDataNameSpace = (function () {
     const euValue = (panel.find((r) => r.geo === "EU27_2020") || {}).value;
     const eaValue = (panel.find((r) => r.geo === "EA") || {}).value;
 
+    const minRow = countryRows.find((r) => r.value === values[0]);
+    const maxRow = countryRows.find((r) => r.value === values[values.length - 1]);
+
     const med = median(values);
     let rankHigh = null, rankLow = null, percentile = null, outlier = "unknown";
     if (isValid(focusValue) && n > 0) {
@@ -343,6 +346,8 @@ var insightsDataNameSpace = (function () {
       medianGapPct: percentChange(med, focusValue),
       min: values.length ? values[0] : null,
       max: values.length ? values[values.length - 1] : null,
+      minGeo: minRow ? minRow.geo : null,
+      maxGeo: maxRow ? maxRow.geo : null,
       rankHigh,
       rankLow,
       percentile,
