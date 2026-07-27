@@ -333,9 +333,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_LATEST_PRICE'),
             value: p.latestValue != null ? esc(formatPrice(p.latestValue, ctx)) : null,
             sub: esc(contextPhrase(ctx)),
-            whatItIs: "The official published unit energy price for the selected country, consumer group, and consumption band.",
+            whatItIs: t('INSIGHTS_WHAT_LATEST_PRICE'),
             calculation: latestCalc,
-            purpose: "Establishes current price baseline for tariff evaluation."
+            purpose: t('INSIGHTS_PURPOSE_LATEST_PRICE')
         });
 
         var semesterCalc = (p.semesterChangePct != null && p.semesterValue != null)
@@ -345,9 +345,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_SEMESTER_CHANGE'),
             value: p.semesterChangePct != null ? esc(formatPercent(p.semesterChangePct)) : null,
             sub: changeSub(p.semesterChangePct, p.semesterChangeAbs, ctx),
-            whatItIs: "Percentage price change relative to the preceding 6-month period (S1 vs S2).",
+            whatItIs: t('INSIGHTS_WHAT_SEMESTER_CHANGE'),
             calculation: semesterCalc,
-            purpose: "Monitors short-term price momentum and recent tariff adjustments."
+            purpose: t('INSIGHTS_PURPOSE_SEMESTER_CHANGE')
         });
 
         var yoyCalc = (p.yoyChangePct != null && p.yoyValue != null)
@@ -357,9 +357,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_YOY_CHANGE'),
             value: p.yoyChangePct != null ? esc(formatPercent(p.yoyChangePct)) : null,
             sub: changeSub(p.yoyChangePct, p.yoyChangeAbs, ctx),
-            whatItIs: "Percentage price change relative to the same semester of the previous year.",
+            whatItIs: t('INSIGHTS_WHAT_YOY_CHANGE'),
             calculation: yoyCalc,
-            purpose: "Measures annual energy price inflation excluding seasonal fluctuations."
+            purpose: t('INSIGHTS_PURPOSE_YOY_CHANGE')
         });
 
         return '<div class="insights-cards">' + latestCard + semesterCard + yoyCard + '</div>';
@@ -377,9 +377,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_EU_COMPARISON'),
             value: esc(formatPercent(cc.euGapPct)),
             sub: esc(cc.euGapPct > 0 ? t('INSIGHTS_ABOVE_EU') : (cc.euGapPct < 0 ? t('INSIGHTS_BELOW_EU') : t('INSIGHTS_IN_LINE_EU'))),
-            whatItIs: "Percentage gap between focus country price and official weighted EU27 average.",
+            whatItIs: t('INSIGHTS_WHAT_EU_GAP'),
             calculation: euCalc,
-            purpose: "Evaluates competitive standing relative to the European Single Market average."
+            purpose: t('INSIGHTS_PURPOSE_EU_GAP')
         }) : '';
 
         var rankCalc = cc.rankHigh != null ? esc(String(cc.rankHigh - 1)) + ' ' + esc(t('INSIGHTS_REPORTING_COUNTRIES')) + ' &gt; ' + esc(t(ctx.geo)) + ' &rarr; <strong>' + cc.rankHigh + ' / ' + cc.n + '</strong>' : null;
@@ -390,9 +390,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_COUNTRY_RANK'),
             value: esc(cc.rankHigh + ' / ' + cc.n),
             sub: rankSub,
-            whatItIs: "Position of focus country ordered from highest (1) to lowest price among reporting countries.",
+            whatItIs: t('INSIGHTS_WHAT_RANK'),
             calculation: rankCalc,
-            purpose: "Ranks relative price position among European countries."
+            purpose: t('INSIGHTS_PURPOSE_RANK')
         }) : '';
 
         var medianCalc = cc.median != null ? '(' + formatRaw(cc.focusValue, ctx) + ' − ' + formatRaw(cc.median, ctx) + ') / |' + formatRaw(cc.median, ctx) + '| × 100 = <strong>' + esc(formatPercent(cc.medianGapPct)) + '</strong>' : null;
@@ -400,9 +400,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_VS_MEDIAN'),
             value: esc(formatPercent(cc.medianGapPct)),
             sub: esc(formatPrice(cc.median, ctx)),
-            whatItIs: "Percentage price gap relative to the unweighted median country price.",
+            whatItIs: t('INSIGHTS_WHAT_MEDIAN_GAP'),
             calculation: medianCalc,
-            purpose: "Compares against the median country without large-country weighting bias."
+            purpose: t('INSIGHTS_PURPOSE_MEDIAN_GAP')
         }) : '';
 
         var cardsHtml = (euCard || rankCard || medianCard) ? '<div class="insights-cards">' + euCard + rankCard + medianCard + '</div>' : '';
@@ -440,17 +440,17 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_HISTORICAL_MAX'),
             value: esc(formatPrice(hp.max, ctx)),
             sub: esc(t('INSIGHTS_PEAK_PERIOD') + ': ' + hp.peakPeriod + (hp.periodsSincePeak != null ? ' (' + hp.periodsSincePeak + ')' : '')),
-            whatItIs: "The highest unit price recorded for the focus country over the full historical observation window.",
+            whatItIs: t('INSIGHTS_WHAT_HIST_MAX'),
             calculation: "Max(Price_t over all available semesters)",
-            purpose: "Identifies peak energy cost periods and price ceiling bounds."
+            purpose: t('INSIGHTS_PURPOSE_HIST_MAX')
         });
 
         var minCard = card({
             label: t('INSIGHTS_HISTORICAL_MIN'),
             value: esc(formatPrice(hp.min, ctx)),
-            whatItIs: "The lowest unit price recorded for the focus country over history.",
+            whatItIs: t('INSIGHTS_WHAT_HIST_MIN'),
             calculation: "Min(Price_t over all available semesters)",
-            purpose: "Identifies historical baseline cost floor."
+            purpose: t('INSIGHTS_PURPOSE_HIST_MIN')
         });
 
         var percentileValue = hp.historicalPercentile != null ? esc(Math.round(hp.historicalPercentile) + '%') : null;
@@ -461,9 +461,9 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_PERCENTILE'),
             value: percentileValue,
             sub: flags.length ? flags.map(esc).join(' &middot; ') : null,
-            whatItIs: "Percentage of historical periods where price was lower than the current price.",
+            whatItIs: t('INSIGHTS_WHAT_HIST_PERCENTILE'),
             calculation: percentileCalc,
-            purpose: "Measures historical extremity of current price."
+            purpose: t('INSIGHTS_PURPOSE_HIST_PERCENTILE')
         });
 
         var persistent = data.persistentPosition;
@@ -498,9 +498,9 @@ var insightsRenderNameSpace = (function () {
                 label: t('INSIGHTS_MOMENTUM'),
                 value: esc(t(momentumKeyMap[dev.momentum.classification])),
                 sub: esc(formatPercent(dev.momentum.latestYoyPct)) + ' &rarr; ' + esc(formatPercent(dev.momentum.previousYoyPct)) + ' ' + esc(t('INSIGHTS_YOY_CHANGE')).toLowerCase(),
-                whatItIs: "Classification of price growth rate acceleration or slowdown.",
+                whatItIs: t('INSIGHTS_WHAT_MOMENTUM'),
                 calculation: "YoY_latest (" + formatPercent(dev.momentum.latestYoyPct) + ") − YoY_prev (" + formatPercent(dev.momentum.previousYoyPct) + ")",
-                purpose: "Detects early directional shifts in price growth trends."
+                purpose: t('INSIGHTS_PURPOSE_MOMENTUM')
             });
         }
         if (dev.cagr5 || dev.cagr2) {
@@ -509,9 +509,9 @@ var insightsRenderNameSpace = (function () {
                 label: dev.cagr5 ? t('INSIGHTS_CAGR_5Y') : t('INSIGHTS_CAGR_2Y'),
                 value: esc(formatPercent(cagr.cagr)),
                 sub: esc(cagr.basePeriod + ' &rarr; ' + cagr.latestPeriod),
-                whatItIs: "Compound Annual Growth Rate over the last 2 or 5 years.",
+                whatItIs: t('INSIGHTS_WHAT_CAGR'),
                 calculation: '((' + formatRaw(cagr.latestValue, ctx) + ' / ' + formatRaw(cagr.baseValue, ctx) + ')<sup>1/' + cagr.years + '</sup> − 1) × 100 = <strong>' + esc(formatPercent(cagr.cagr)) + '</strong>',
-                purpose: "Smooths out short-term fluctuations to measure annualized structural price growth."
+                purpose: t('INSIGHTS_PURPOSE_CAGR')
             });
         }
         if (dev.volatility) {
@@ -519,9 +519,9 @@ var insightsRenderNameSpace = (function () {
                 label: t('INSIGHTS_VOLATILITY'),
                 value: esc(formatNumber(dev.volatility.volatility, 1)) + ' pp',
                 sub: esc(dev.volatility.n + ' ' + t('INSIGHTS_PERIOD').toLowerCase() + '-to-' + t('INSIGHTS_PERIOD').toLowerCase()),
-                whatItIs: "Standard deviation of semester-on-semester percentage returns over 10 semesters.",
+                whatItIs: t('INSIGHTS_WHAT_VOLATILITY'),
                 calculation: "Sqrt( Variance( semester % changes ) )",
-                purpose: "Measures price stability and market volatility risk."
+                purpose: t('INSIGHTS_PURPOSE_VOLATILITY')
             });
         }
         if (dev.seasonalPattern) {
@@ -533,9 +533,9 @@ var insightsRenderNameSpace = (function () {
                 label: t('INSIGHTS_TYPICAL_S2_PREMIUM'),
                 value: esc(formatPercent(sp.typicalS2Premium)),
                 sub: seasonalNote ? esc(seasonalNote) : esc(sp.sampleYears + ' years'),
-                whatItIs: "Typical price premium between semester 1 (S1) and semester 2 (S2) across historical years.",
+                whatItIs: t('INSIGHTS_WHAT_SEASONAL'),
                 calculation: "Median( (Price_S2 - Price_S1) / Price_S1 × 100 )",
-                purpose: "Evaluates seasonal tariff adjustments and predictability."
+                purpose: t('INSIGHTS_PURPOSE_SEASONAL')
             });
         }
 
@@ -751,17 +751,17 @@ var insightsRenderNameSpace = (function () {
         var preTaxCard = card({
             label: t('INSIGHTS_PRETAX_CHANGE'),
             value: esc(formatPrice(fe.deltaPreTax, ctx)),
-            whatItIs: "Annual price change before taxes and VAT (energy commodity and network tariffs only).",
+            whatItIs: t('INSIGHTS_WHAT_PRETAX'),
             calculation: "Price_preTax_latest − Price_preTax_prior = <strong>" + formatRaw(fe.deltaPreTax, ctx) + "</strong>",
-            purpose: "Isolates market and network cost changes from government tax policy changes."
+            purpose: t('INSIGHTS_PURPOSE_PRETAX')
         });
 
         var finalCard = card({
             label: t('INSIGHTS_FINAL_CHANGE'),
             value: esc(formatPrice(fe.deltaFinal, ctx)),
-            whatItIs: "Annual price change in final bill including all taxes, levies, and VAT.",
+            whatItIs: t('INSIGHTS_WHAT_FINAL'),
             calculation: "Price_final_latest − Price_final_prior = <strong>" + formatRaw(fe.deltaFinal, ctx) + "</strong>",
-            purpose: "Evaluates overall consumer bill impact and determines whether fiscal tax intervention cushioned or amplified market price shocks."
+            purpose: t('INSIGHTS_PURPOSE_FINAL')
         });
 
         return '<div class="insights-cards">' + preTaxCard + finalCard + '</div>' +
@@ -780,25 +780,25 @@ var insightsRenderNameSpace = (function () {
         var eurCard = card({
             label: t('INSIGHTS_EUR_RANK'),
             value: esc(rs.rankEur + ' / ' + rs.cohortSize),
-            whatItIs: "Country rank based on nominal Euro prices.",
+            whatItIs: t('INSIGHTS_WHAT_EUR_RANK'),
             calculation: "Rank in EUR panel",
-            purpose: "Nominal price ranking in common currency."
+            purpose: t('INSIGHTS_PURPOSE_EUR_RANK')
         });
 
         var ppsCard = card({
             label: t('INSIGHTS_PPS_RANK'),
             value: esc(rs.rankPps + ' / ' + rs.cohortSize),
-            whatItIs: "Country rank based on Purchasing Power Standards (PPS).",
+            whatItIs: t('INSIGHTS_WHAT_PPS_RANK'),
             calculation: "Rank in PPS panel",
-            purpose: "Real affordability ranking adjusted for national purchasing power and living standards."
+            purpose: t('INSIGHTS_PURPOSE_PPS_RANK')
         });
 
         var shiftCard = card({
             label: t('INSIGHTS_RANK_SHIFT'),
             value: esc((rs.shift > 0 ? '+' : '') + rs.shift),
-            whatItIs: "Difference between nominal EUR rank and purchasing-power PPS rank.",
+            whatItIs: t('INSIGHTS_WHAT_RANK_SHIFT'),
             calculation: "Rank_EUR (" + rs.rankEur + ") − Rank_PPS (" + rs.rankPps + ") = <strong>" + ((rs.shift > 0 ? '+' : '') + rs.shift) + "</strong>",
-            purpose: "Reveals whether energy prices are relatively more expensive or cheaper given national income levels."
+            purpose: t('INSIGHTS_PURPOSE_RANK_SHIFT')
         });
 
         return '<div class="insights-cards">' + eurCard + ppsCard + shiftCard + '</div>' +
@@ -820,9 +820,9 @@ var insightsRenderNameSpace = (function () {
             sub: snap.dispersionClassification !== 'unknown'
                 ? esc(t(snap.dispersionClassification === 'converging' ? 'INSIGHTS_CONVERGING' : (snap.dispersionClassification === 'diverging' ? 'INSIGHTS_DIVERGING' : 'INSIGHTS_DISPERSION_STABLE')))
                 : null,
-            whatItIs: "Percentage change in European price dispersion (Interquartile Range IQR) over 1 year.",
+            whatItIs: t('INSIGHTS_WHAT_DISPERSION'),
             calculation: "(IQR_latest − IQR_prior) / IQR_prior × 100",
-            purpose: "Measures whether European energy prices are converging or diverging across Member States."
+            purpose: t('INSIGHTS_PURPOSE_DISPERSION')
         });
 
         var movers = snap.topRising.slice(0, 3).map(function (r) {
@@ -851,17 +851,17 @@ var insightsRenderNameSpace = (function () {
             label: t('INSIGHTS_BAND_PREMIUM'),
             value: esc(formatPercent(bp.bandGapPct)),
             sub: esc(t(ctx.band) + ' vs ' + t(bp.referenceBand)),
-            whatItIs: "Percentage gap between selected consumption band price and baseline reference band price.",
+            whatItIs: t('INSIGHTS_WHAT_BAND_PREMIUM'),
             calculation: '(' + formatRaw(bp.selectedValue, ctx) + ' − ' + formatRaw(bp.referenceValue, ctx) + ') / |' + formatRaw(bp.referenceValue, ctx) + '| × 100 = <strong>' + esc(formatPercent(bp.bandGapPct)) + '</strong>',
-            purpose: "Quantifies tariff volume discounting or premium for smaller/larger consumers."
+            purpose: t('INSIGHTS_PURPOSE_BAND_PREMIUM')
         }) : '';
 
         var patternCard = card({
             label: t('INSIGHTS_BAND_PATTERN'),
             value: esc(t(patternKeyMap[bp.pattern])),
-            whatItIs: "Progression pattern of unit price across consumption volume bands (from low to high volume).",
+            whatItIs: t('INSIGHTS_WHAT_BAND_PATTERN'),
             calculation: "Evaluation of monotonicity across ordered consumption bands",
-            purpose: "Reveals progressive vs volume-discounted tariff structures."
+            purpose: t('INSIGHTS_PURPOSE_BAND_PATTERN')
         });
 
         var spread = data.bandSpreadOverTime;
@@ -872,9 +872,9 @@ var insightsRenderNameSpace = (function () {
                 label: t('INSIGHTS_BAND_SPREAD_TITLE'),
                 value: esc(formatPrice(spread.latestSpread, ctx)),
                 sub: spread.classification !== 'unavailable' ? esc(t(spreadKeyMap[spread.classification])) : null,
-                whatItIs: "Absolute price difference between highest and lowest consumption bands.",
+                whatItIs: t('INSIGHTS_WHAT_BAND_PREMIUM'),
                 calculation: "Price_highestBand − Price_lowestBand = <strong>" + formatRaw(spread.latestSpread, ctx) + "</strong>",
-                purpose: "Monitors tariff gap evolution between small and large energy consumers over time."
+                purpose: t('INSIGHTS_PURPOSE_BAND_PREMIUM')
             });
         }
 
@@ -889,24 +889,24 @@ var insightsRenderNameSpace = (function () {
         var energyCard = card({
             label: t('INSIGHTS_ENERGY_YOY'),
             value: esc(formatPercent(ic.energyYoyPct)),
-            whatItIs: "Annual YoY percentage change in focus country energy prices.",
+            whatItIs: t('INSIGHTS_WHAT_HICP_ENERGY'),
             calculation: "Energy YoY %",
-            purpose: "Energy component inflation rate."
+            purpose: t('INSIGHTS_PURPOSE_HICP_ENERGY')
         });
         var hicpCard = card({
             label: t('INSIGHTS_HICP_YOY'),
             value: esc(formatPercent(ic.hicpYoyPct)),
             sub: esc(ic.month),
-            whatItIs: "Harmonised Index of Consumer Prices (HICP) annual inflation rate.",
+            whatItIs: t('INSIGHTS_WHAT_HICP_ALL'),
             calculation: "HICP RCH_A series rate",
-            purpose: "General consumer price inflation rate benchmark."
+            purpose: t('INSIGHTS_PURPOSE_HICP_ALL')
         });
         var gapCard = card({
             label: t('INSIGHTS_INFLATION_CONTEXT'),
             value: esc(formatPercent(ic.gap)) + ' pp',
-            whatItIs: "Percentage point gap between energy YoY inflation and HICP general inflation.",
+            whatItIs: t('INSIGHTS_WHAT_INFLATION_GAP'),
             calculation: "Energy_YoY% (" + formatPercent(ic.energyYoyPct) + ") − HICP_YoY% (" + formatPercent(ic.hicpYoyPct) + ") = <strong>" + formatPercent(ic.gap) + " pp</strong>",
-            purpose: "Determines whether energy prices are driving or moderating general consumer inflation."
+            purpose: t('INSIGHTS_PURPOSE_INFLATION_GAP')
         });
         return '<div class="insights-cards">' + energyCard + hicpCard + gapCard + '</div>' +
             '<p class="insights-note"><i class="fas fa-circle-info" aria-hidden="true"></i> ' + esc(t('INSIGHTS_RELATED_CONTEXT_NOTE')) + '</p>';
@@ -947,19 +947,29 @@ var insightsRenderNameSpace = (function () {
             esc(t('INSIGHTS_DATASET_COMPONENT_NOTE')) + ': <strong>' + esc(prov.componentDataset) + '</strong> (' + esc(prov.componentPeriod) + ')'
         ) : '—';
 
+        var priceDs = prov ? prov.priceDataset : 'nrg_pc_204';
+        var compDs = prov ? prov.componentDataset : 'nrg_pc_204_c';
+
         var provenanceCard = card({
             label: t('INSIGHTS_DATASET_PROVENANCE'),
-            value: esc(prov ? prov.priceDataset + ' vs ' + prov.componentDataset : '—'),
+            value: esc(priceDs + ' vs ' + compDs),
             sub: provSub,
-            explanation: t('INSIGHTS_DATASET_PRICE_NOTE')
+            whatItIs: "Methodological reconciliation between bi-annual total prices (" + priceDs + ": S1 & S2) and annual disaggregated component breakdowns (" + compDs + ": Energy, Network, Taxes).",
+            calculation: priceDs + " (Bi-annual total) vs " + compDs + " (Annual structural components: Energy + Network + Taxes)",
+            purpose: "Guides proper cross-referencing between bi-annual trend tracking and annual structural cost driver analysis."
         });
 
-        var consumerQualBox = '<div class="insights-summary" style="margin-top:0.75rem">' +
+        var datasetReconciliationBox = '<div class="insights-summary" style="margin-top:0.75rem">' +
+            '<strong><i class="fas fa-database" aria-hidden="true"></i> Dataset Reconciliation (' + esc(priceDs) + ' vs ' + esc(compDs) + '):</strong> ' +
+            '<span>' + esc(priceDs) + ' tracks bi-annual price trends (S1 & S2), while ' + esc(compDs) + ' disaggregates annual structural cost drivers (Energy, Network, Taxes). Use ' + esc(priceDs) + ' for short-term price momentum and ' + esc(compDs) + ' to explain structural tariff shifts. Minor discrepancies in component sums occur due to national volume weighting and policy support cost allocations.</span>' +
+            '</div>';
+
+        var consumerQualBox = '<div class="insights-summary" style="margin-top:0.5rem">' +
             '<strong><i class="fas fa-users" aria-hidden="true"></i> ' + esc(t('INSIGHTS_CONSUMER_QUALIFICATION')) + ' (' + esc(t(ctx.consumer)) + '):</strong> ' +
             esc(t('INSIGHTS_CONSUMER_QUALIFICATION_DESC')) +
             '</div>';
 
-        return '<div class="insights-cards">' + statusCard + safeguardCard + provenanceCard + '</div>' + consumerQualBox;
+        return '<div class="insights-cards">' + statusCard + safeguardCard + provenanceCard + '</div>' + datasetReconciliationBox + consumerQualBox;
     }
 
     // ---- export toolbar & interactive consumer tools ---------------------------------------------------
@@ -1071,75 +1081,75 @@ var insightsRenderNameSpace = (function () {
         cardIdCounter = 0;
 
         var priceInfo = {
-            whatItIs: "Official Eurostat unit energy prices and short-term price movements over the latest semester and 1-year period.",
+            whatItIs: t('INSIGHTS_EXPLAIN_LATEST_PRICE'),
             calculation: "Latest Price: Eurostat published dataset &bull; Semester Change: (P_S2 − P_S1) / P_S1 × 100 &bull; YoY Change: (P_t − P_t-1y) / P_t-1y × 100",
-            purpose: "Establishes current price levels and monitors short-term tariff momentum."
+            purpose: t('INSIGHTS_PURPOSE_LATEST_PRICE')
         };
 
         var euInfo = {
-            whatItIs: "Cross-country benchmarking comparing focus country prices against EU27 weighted average, Euro Area, median, and neighboring country ranks.",
+            whatItIs: t('INSIGHTS_EXPLAIN_EU_COMPARISON'),
             calculation: "EU Gap %: (P_focus − P_EU27) / P_EU27 × 100 &bull; Country Rank: 1 + Count(P > P_focus) &bull; Median Gap: (P_focus − Median) / Median × 100",
-            purpose: "Evaluates price competitiveness within the European Single Market."
+            purpose: t('INSIGHTS_PURPOSE_EU_GAP')
         };
 
         var directInfo = {
-            whatItIs: "Bilateral price and component gap analysis between Focus Country A and selected Partner Country B.",
+            whatItIs: t('INSIGHTS_EXPLAIN_COUNTRY_COMPARISON'),
             calculation: "Price Gap: (P_A − P_B) / P_B × 100 &bull; YoY Growth: YoY_A vs YoY_B &bull; Main Driver: Max( |Component_A − Component_B| )",
-            purpose: "Direct cross-border cost differential and component driver analysis."
+            purpose: t('INSIGHTS_PURPOSE_RANK')
         };
 
         var historyInfo = {
-            whatItIs: "Historical price trajectory, peak (maximum), minimum, and percentile standing across all published semesters.",
+            whatItIs: t('INSIGHTS_EXPLAIN_HISTORICAL'),
             calculation: "Peak: Max(P_t) &bull; Minimum: Min(P_t) &bull; Percentile: (Count(P_hist < P_current) + 0.5 × Count(P_hist = P_current)) / N × 100",
-            purpose: "Determines whether current prices are historically elevated or near all-time extremes."
+            purpose: t('INSIGHTS_PURPOSE_HIST_MAX')
         };
 
         var devInfo = {
-            whatItIs: "Advanced trend diagnostics including price momentum, multi-year compound growth (CAGR), volatility, and seasonal S1-to-S2 patterns.",
+            whatItIs: t('INSIGHTS_EXPLAIN_DEVELOPMENT'),
             calculation: "Momentum: YoY_t − YoY_t-1 &bull; 5Y CAGR: ((P_t / P_t-5y)^(1/5) − 1) × 100 &bull; Volatility: Standard deviation of 10-semester returns",
-            purpose: "Provides forward-looking trend direction and price stability assessment."
+            purpose: t('INSIGHTS_PURPOSE_MOMENTUM')
         };
 
         var compInfo = {
-            whatItIs: "Breakdown of energy bills into Energy & Supply, Network Grid Tariffs, and Taxes/Levies/VAT.",
+            whatItIs: t('INSIGHTS_EXPLAIN_COMPOSITION'),
             calculation: "Component Shares: Component_val / Total_price × 100 &bull; Main Driver: Max( |Delta_Component| )",
-            purpose: "Identifies whether bill changes are caused by wholesale commodity markets, grid tariffs, or government taxes."
+            purpose: t('INSIGHTS_PURPOSE_PRETAX')
         };
 
         var fiscalInfo = {
-            whatItIs: "Analysis comparing pre-tax price movement vs final consumer price movement.",
+            whatItIs: t('INSIGHTS_EXPLAIN_FISCAL'),
             calculation: "Fiscal Effect = Delta_FinalPrice − Delta_PreTaxPrice",
-            purpose: "Measures government tax policy cushioning vs amplification during price cycles."
+            purpose: t('INSIGHTS_PURPOSE_FINAL')
         };
 
         var ppsInfo = {
-            whatItIs: "Comparison of nominal EUR price rank vs Purchasing Power Standards (PPS) rank.",
+            whatItIs: t('INSIGHTS_EXPLAIN_PPS'),
             calculation: "PPS Rank Shift = Rank_EUR − Rank_PPS",
-            purpose: "Assesses real energy bill burden relative to national income and purchasing power."
+            purpose: t('INSIGHTS_PURPOSE_RANK_SHIFT')
         };
 
         var europeInfo = {
-            whatItIs: "Macro summary of price directions across European countries and Interquartile Range (IQR) dispersion.",
+            whatItIs: t('INSIGHTS_EXPLAIN_EUROPE'),
             calculation: "Counts of rising/falling countries & Dispersion Change = (IQR_latest − IQR_prior) / IQR_prior × 100",
-            purpose: "Evaluates overall European market convergence or divergence."
+            purpose: t('INSIGHTS_PURPOSE_DISPERSION')
         };
 
         var bandInfo = {
-            whatItIs: "Price structure across volume consumption bands (from small to large consumers).",
+            whatItIs: t('INSIGHTS_EXPLAIN_BAND'),
             calculation: "Band Premium = (P_band − P_ref) / P_ref × 100 &bull; Spread = P_highestBand − P_lowestBand",
-            purpose: "Reveals progressive vs volume-discounted tariff design."
+            purpose: t('INSIGHTS_PURPOSE_BAND_PATTERN')
         };
 
         var inflationInfo = {
-            whatItIs: "Comparison between annual energy price inflation and HICP general consumer price inflation.",
+            whatItIs: t('INSIGHTS_EXPLAIN_HICP'),
             calculation: "Inflation Gap = Energy_YoY% − HICP_YoY%",
-            purpose: "Determines if energy prices are driving or moderating general inflation."
+            purpose: t('INSIGHTS_PURPOSE_INFLATION_GAP')
         };
 
         var qualityInfo = {
-            whatItIs: "Eurostat publication status flags, anomaly safeguards, dataset provenance IDs, and consumer methodology qualifications.",
-            calculation: "Status inspection ('p'/'e'), anomaly validation (P > 0, |YoY%| < 200%), and dataset mapping (nrg_pc_204 vs nrg_pc_204_c)",
-            purpose: "Ensures complete data integrity, reliability, and auditability."
+            whatItIs: t('INSIGHTS_EXPLAIN_PROVENANCE'),
+            calculation: "Status inspection ('p'/'e'), anomaly validation (P > 0, |YoY%| < 200%), and dataset mapping",
+            purpose: t('INSIGHTS_PURPOSE_PROVENANCE')
         };
 
         var html = '<div class="insights-panel" tabindex="-1">' +

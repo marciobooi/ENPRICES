@@ -569,6 +569,316 @@
     "DE": "Endgültige veröffentlichte Zahl (keine vorläufigen oder geschätzten Flags).",
     "FR": "Chiffre définitif publié (aucun drapeau provisoire ou estimé)."
   },
+  "INSIGHTS_WHAT_LATEST_PRICE": {
+    "EN": "The official published unit energy price for the selected country, consumer group, and consumption band.",
+    "DE": "Der offiziell veröffentlichte Energie-Stückpreis für das ausgewählte Land, die Verbrauchergruppe und das Verbrauchsband.",
+    "FR": "Le prix unitaire officiel de l'énergie publié pour le pays, le groupe de consommateurs et la tranche de consommation sélectionnés."
+  },
+  "INSIGHTS_PURPOSE_LATEST_PRICE": {
+    "EN": "Establishes current price baseline.",
+    "DE": "Legt die aktuelle Preisbasis fest.",
+    "FR": "Établit le niveau de prix actuel."
+  },
+  "INSIGHTS_WHAT_SEMESTER_CHANGE": {
+    "EN": "Percentage price change relative to the preceding 6-month period (S1 vs S2).",
+    "DE": "Prozentuale Preisänderung gegenüber dem vorangegangenen 6-Monats-Zeitraum (S1 vs S2).",
+    "FR": "Variation pourcentage du prix par rapport au semestre précédent (S1 vs S2)."
+  },
+  "INSIGHTS_PURPOSE_SEMESTER_CHANGE": {
+    "EN": "Monitors short-term semester-on-semester tariff momentum.",
+    "DE": "Überwacht die kurzfristige Tarifdynamik von Semester zu Semester.",
+    "FR": "Surveille la dynamique des tarifs à court terme d'un semestre à l'autre."
+  },
+  "INSIGHTS_WHAT_YOY_CHANGE": {
+    "EN": "Percentage price change relative to the same semester of the previous year.",
+    "DE": "Prozentuale Preisänderung gegenüber dem gleichen Semester des Vorjahres.",
+    "FR": "Variation pourcentage du prix par rapport au même semestre de l'année précédente."
+  },
+  "INSIGHTS_PURPOSE_YOY_CHANGE": {
+    "EN": "Evaluates annual inflation/deflation rate eliminating seasonal effects.",
+    "DE": "Bewertet die jährliche Inflations-/Deflationsrate unter Ausschaltung von Saisoneffekten.",
+    "FR": "Évalue le taux d'inflation/déflation annuel en éliminant les effets saisonniers."
+  },
+  "INSIGHTS_WHAT_EU_GAP": {
+    "EN": "Percentage gap between focus country price and official weighted EU27 average.",
+    "DE": "Prozentuale Abweichung zwischen dem Preis des Fokuslandes und dem gewichteten EU27-Durchschnitt.",
+    "FR": "Écart en pourcentage entre le prix du pays cible et la moyenne pondérée de l'UE27."
+  },
+  "INSIGHTS_PURPOSE_EU_GAP": {
+    "EN": "Measures national price competitiveness relative to the European benchmark.",
+    "DE": "Misst die nationale Preiswettbewerbsfähigkeit im Vergleich zum europäischen Benchmark.",
+    "FR": "Mesure la compétitivité nationale des prix par rapport à la référence européenne."
+  },
+  "INSIGHTS_WHAT_RANK": {
+    "EN": "Position of focus country ordered from highest (1) to lowest price among reporting countries.",
+    "DE": "Position des Fokuslandes, geordnet vom höchsten (1) zum niedrigsten Preis aller berichterstattenden Länder.",
+    "FR": "Classement du pays cible du prix le plus élevé (1) au plus bas parmi les pays déclarants."
+  },
+  "INSIGHTS_PURPOSE_RANK": {
+    "EN": "Identifies national ranking in the European price hierarchy.",
+    "DE": "Identifiziert die nationale Rangfolge in der europäischen Preishierarchie.",
+    "FR": "Identifie le rang national dans la hiérarchie européenne des prix."
+  },
+  "INSIGHTS_WHAT_MEDIAN_GAP": {
+    "EN": "Percentage price gap relative to the unweighted median country price.",
+    "DE": "Prozentualer Preisabstand im Vergleich zum ungewichteten Medianpreis der Länder.",
+    "FR": "Écart de prix en pourcentage par rapport au prix médian non pondéré des pays."
+  },
+  "INSIGHTS_PURPOSE_MEDIAN_GAP": {
+    "EN": "Compares focus country to the middle-performing European country.",
+    "DE": "Vergleicht das Fokusland mit dem europäischen Mittelfeld.",
+    "FR": "Compare le pays cible au pays européen situé au milieu de la distribution."
+  },
+  "INSIGHTS_WHAT_HIST_MAX": {
+    "EN": "The highest unit price recorded for the focus country over the full historical observation window.",
+    "DE": "Der höchste verzeichnete Stückpreis für das Fokusland über den gesamten historischen Beobachtungszeitraum.",
+    "FR": "Le prix unitaire le plus élevé enregistré pour le pays cible sur toute la période d'observation."
+  },
+  "INSIGHTS_PURPOSE_HIST_MAX": {
+    "EN": "Identifies peak energy cost periods and price ceiling bounds.",
+    "DE": "Identifiziert Höchstpreisphasen und Obergrenzen.",
+    "FR": "Identifie les périodes de pointe et les plafonds de prix."
+  },
+  "INSIGHTS_WHAT_HIST_MIN": {
+    "EN": "The lowest unit price recorded for the focus country over history.",
+    "DE": "Der niedrigste verzeichnete Stückpreis für das Fokusland in der Geschichte.",
+    "FR": "Le prix unitaire le plus bas enregistré pour le pays cible au fil de l'histoire."
+  },
+  "INSIGHTS_PURPOSE_HIST_MIN": {
+    "EN": "Identifies historical baseline cost floor.",
+    "DE": "Identifiziert die historische Untergrenze.",
+    "FR": "Identifie le plancher de prix historique."
+  },
+  "INSIGHTS_WHAT_HIST_PERCENTILE": {
+    "EN": "Percentage of historical periods where price was lower than the current price.",
+    "DE": "Prozentualer Anteil der historischen Perioden, in denen der Preis niedriger war als der aktuelle Preis.",
+    "FR": "Pourcentage des périodes historiques où le prix était inférieur au prix actuel."
+  },
+  "INSIGHTS_PURPOSE_HIST_PERCENTILE": {
+    "EN": "Measures historical extremity of current price.",
+    "DE": "Misst die historische Extremität des aktuellen Preises.",
+    "FR": "Mesure le caractère extrême historique du prix actuel."
+  },
+  "INSIGHTS_WHAT_MOMENTUM": {
+    "EN": "Classification of price growth rate acceleration or slowdown.",
+    "DE": "Klassifizierung der Beschleunigung oder Verlangsamung der Preiswachstumsrate.",
+    "FR": "Classification de l'accélération ou du ralentissement du taux de croissance des prix."
+  },
+  "INSIGHTS_PURPOSE_MOMENTUM": {
+    "EN": "Detects changing price dynamics before trend reversals appear in annual numbers.",
+    "DE": "Erkennt sich ändernde Preisdynamiken, bevor sich Trendwenden in den Jahreszahlen zeigen.",
+    "FR": "Détecte l'évolution de la dynamique des prix avant que les renversements de tendance ne se traduisent dans les chiffres annuels."
+  },
+  "INSIGHTS_WHAT_CAGR": {
+    "EN": "Compound Annual Growth Rate over the last 2 or 5 years.",
+    "DE": "Durchschnittliche jährliche Wachstumsrate (CAGR) über die letzten 2 oder 5 Jahre.",
+    "FR": "Taux de croissance annuel composé (CAGR) sur les 2 ou 5 dernières années."
+  },
+  "INSIGHTS_PURPOSE_CAGR": {
+    "EN": "Smooths short-term semester spikes to reveal long-term structural trend slope.",
+    "DE": "Glättet kurzfristige Spitzen, um den langfristigen strukturellen Trend aufzuzeigen.",
+    "FR": "Lisse les pics à court terme pour révéler la tendance structurelle à long terme."
+  },
+  "INSIGHTS_WHAT_VOLATILITY": {
+    "EN": "Standard deviation of semester-on-semester percentage returns over 10 semesters.",
+    "DE": "Standardabweichung der prozentualen Erträge von Semester zu Semester über 10 Semester.",
+    "FR": "Écart-type des variations en pourcentage d'un semestre à l'autre sur 10 semestres."
+  },
+  "INSIGHTS_PURPOSE_VOLATILITY": {
+    "EN": "Quantifies price instability and consumer tariff uncertainty.",
+    "DE": "Quantifiziert die Preisinstabilität und die Unsicherheit der Verbrauchertarife.",
+    "FR": "Quantifie l'instabilité des prix et l'incertitude des tarifs."
+  },
+  "INSIGHTS_WHAT_SEASONAL": {
+    "EN": "Typical price premium between semester 1 (S1) and semester 2 (S2) across historical years.",
+    "DE": "Typischer Preisaufschlag zwischen Semester 1 (S1) und Semester 2 (S2) über die Jahre.",
+    "FR": "Écart de prix typique entre le semestre 1 (S1) et le semestre 2 (S2) au fil des ans."
+  },
+  "INSIGHTS_PURPOSE_SEASONAL": {
+    "EN": "Identifies recurrent winter vs summer tariff patterns.",
+    "DE": "Identifiziert wiederkehrende Winter- vs. Sommer-Tarifmuster.",
+    "FR": "Identifie les structures tarifaires récurrentes hiver vs été."
+  },
+  "INSIGHTS_WHAT_PRETAX": {
+    "EN": "Annual price change before taxes and VAT (energy commodity and network tariffs only).",
+    "DE": "Jährliche Preisänderung vor Steuern und MwSt. (nur Energie- und Netztarife).",
+    "FR": "Variation annuelle du prix hors taxes et TVA (composantes énergie et réseau uniquement)."
+  },
+  "INSIGHTS_PURPOSE_PRETAX": {
+    "EN": "Isolates market and network cost changes from government tax policy changes.",
+    "DE": "Isoliert Markt- und Netzkostenänderungen von staatlichen Steueränderungen.",
+    "FR": "Isole les variations de coûts de marché et de réseau des modifications fiscales gouvernementales."
+  },
+  "INSIGHTS_WHAT_FINAL": {
+    "EN": "Annual price change in final bill including all taxes, levies, and VAT.",
+    "DE": "Jährliche Preisänderung der Endrechnung einschließlich aller Steuern, Abgaben und MwSt.",
+    "FR": "Variation annuelle du prix de la facture finale comprenant toutes les taxes, redevances et TVA."
+  },
+  "INSIGHTS_PURPOSE_FINAL": {
+    "EN": "Evaluates overall consumer bill impact and determines whether fiscal tax intervention cushioned or amplified market price shocks.",
+    "DE": "Bewertet die Auswirkungen auf die Verbraucherrechnung und stellt fest, ob staatliche Eingriffe Preisschocks abgefedert oder verstärkt haben.",
+    "FR": "Évalue l'impact global sur la facture des consommateurs et détermine si l'intervention fiscale a amorti ou amplifié les chocs de prix."
+  },
+  "INSIGHTS_WHAT_EUR_RANK": {
+    "EN": "Country rank based on nominal Euro prices.",
+    "DE": "Länderrang basierend auf nominalen Preisen in Euro.",
+    "FR": "Rang du pays basé sur les prix nominaux en euros."
+  },
+  "INSIGHTS_PURPOSE_EUR_RANK": {
+    "EN": "Establishes raw nominal price hierarchy across Europe.",
+    "DE": "Ermittelt die rohe nominale Preishierarchie in Europa.",
+    "FR": "Établit la hiérarchie brute des prix nominaux en Europe."
+  },
+  "INSIGHTS_WHAT_PPS_RANK": {
+    "EN": "Country rank based on Purchasing Power Standards (PPS).",
+    "DE": "Länderrang basierend auf Kaufkraftstandards (KKS/PPS).",
+    "FR": "Rang du pays basé sur les standards de pouvoir d'achat (SPA/PPS)."
+  },
+  "INSIGHTS_PURPOSE_PPS_RANK": {
+    "EN": "Measures national energy price affordability adjusted for general price levels.",
+    "DE": "Misst die Erschwinglichkeit von Energie bereinigt um das allgemeine Preisniveau.",
+    "FR": "Mesure l'accessibilité financière de l'énergie ajustée selon le niveau général des prix."
+  },
+  "INSIGHTS_WHAT_RANK_SHIFT": {
+    "EN": "Difference between nominal EUR rank and purchasing-power PPS rank.",
+    "DE": "Differenz zwischen dem nominalen EUR-Rang und dem KKS/PPS-Kaufkraft-Rang.",
+    "FR": "Différence entre le rang EUR nominal et le rang SPA en pouvoir d'achat."
+  },
+  "INSIGHTS_PURPOSE_RANK_SHIFT": {
+    "EN": "Reveals whether energy prices are relatively more expensive or cheaper given national income levels.",
+    "DE": "Zeigt, ob Energie gemessen am nationalen Einkommen relativ teurer oder günstiger ist.",
+    "FR": "Révèle si l'énergie est relativement plus chère ou moins chère par rapport au niveau de revenu national."
+  },
+  "INSIGHTS_WHAT_DISPERSION": {
+    "EN": "Percentage change in European price dispersion (Interquartile Range IQR) over 1 year.",
+    "DE": "Prozentuale Änderung der europäischen Preisstreuung (Interquartilabstand IQR) über 1 Jahr.",
+    "FR": "Variation en pourcentage de la dispersion des prix européens (écart interquartile IQR) sur 1 an."
+  },
+  "INSIGHTS_PURPOSE_DISPERSION": {
+    "EN": "Measures whether European energy prices are converging or diverging across Member States.",
+    "DE": "Misst, ob die europäischen Energiepreise zwischen den Mitgliedstaaten konvergieren oder divergieren.",
+    "FR": "Mesure si les prix européens de l'énergie convergent ou divergent entre les États membres."
+  },
+  "INSIGHTS_WHAT_BAND_PREMIUM": {
+    "EN": "Percentage gap between selected consumption band price and baseline reference band price.",
+    "DE": "Prozentualer Abstand zwischen dem Preis der gewählten Verbrauchsklasse und dem Referenzpreis.",
+    "FR": "Écart en pourcentage entre le prix de la tranche sélectionnée et le prix de référence."
+  },
+  "INSIGHTS_PURPOSE_BAND_PREMIUM": {
+    "EN": "Quantifies tariff volume discounting or premium for smaller/larger consumers.",
+    "DE": "Quantifiziert Mengenrabatte oder Aufschläge für kleinere/größere Verbraucher.",
+    "FR": "Quantifie les remises sur volume tarifaire ou le surcoût pour les consommateurs plus petits/grands."
+  },
+  "INSIGHTS_WHAT_BAND_PATTERN": {
+    "EN": "Progression pattern of unit price across consumption volume bands (from low to high volume).",
+    "DE": "Progressionsmuster des Stückpreises über verschiedene Verbrauchsklassen hinweg.",
+    "FR": "Structure de progression du prix unitaire entre les différentes tranches de consommation."
+  },
+  "INSIGHTS_PURPOSE_BAND_PATTERN": {
+    "EN": "Reveals progressive vs volume-discounted tariff structures.",
+    "DE": "Zeigt progressive vs. mengenrabattierte Tarifstrukturen auf.",
+    "FR": "Révèle des structures tarifaires progressives ou dégressives selon le volume."
+  },
+  "INSIGHTS_WHAT_HICP_ENERGY": {
+    "EN": "Annual YoY percentage change in focus country energy prices.",
+    "DE": "Jährliche prozentuale Änderung der Energiepreise des Fokuslandes im Jahresvergleich.",
+    "FR": "Variation annuelle en pourcentage des prix de l'énergie dans le pays cible."
+  },
+  "INSIGHTS_PURPOSE_HICP_ENERGY": {
+    "EN": "Tracks direct retail energy component of the consumer price index.",
+    "DE": "Verfolgt die direkte Energiekomponente des Verbraucherpreisindex.",
+    "FR": "Suit la composante énergie directe de l'indice des prix à la consommation."
+  },
+  "INSIGHTS_WHAT_HICP_ALL": {
+    "EN": "Harmonised Index of Consumer Prices (HICP) annual inflation rate.",
+    "DE": "Harmonisierter Verbraucherpreisindex (HVPI) jährliche Inflationsrate.",
+    "FR": "Taux d'inflation annuel de l'indice des prix à la consommation harmonisé (IPCH)."
+  },
+  "INSIGHTS_PURPOSE_HICP_ALL": {
+    "EN": "Measures general macroeconomic basket inflation across all goods and services.",
+    "DE": "Misst die allgemeine makroökonomische Inflation über alle Waren und Dienstleistungen.",
+    "FR": "Mesure l'inflation macroéconomique globale sur l'ensemble des biens et services."
+  },
+  "INSIGHTS_WHAT_INFLATION_GAP": {
+    "EN": "Percentage point gap between energy YoY inflation and HICP general inflation.",
+    "DE": "Prozentpunkteabstand zwischen der Energie-Inflation und der allgemeinen HVPI-Inflation.",
+    "FR": "Écart en points de pourcentage entre l'inflation de l'énergie et l'inflation générale IPCH."
+  },
+  "INSIGHTS_PURPOSE_INFLATION_GAP": {
+    "EN": "Determines whether energy costs are driving up overall consumer inflation or buffering cost-of-living pressures.",
+    "DE": "Stellt fest, ob Energiekosten die allgemeine Verbraucherinflation treiben oder den Lebenshaltungsdruck dämpfen.",
+    "FR": "Détermine si les coûts de l'énergie tirent l'inflation globale vers le haut ou s'ils l'atténuent."
+  },
+  "INSIGHTS_WHAT_PROVENANCE": {
+    "EN": "Methodological reconciliation between bi-annual total prices and annual disaggregated component breakdowns.",
+    "DE": "Methodischer Abgleich zwischen halbjährlichen Gesamtpreisen und jährlichen aufgeschlüsselten Komponenten.",
+    "FR": "Rapprochement méthodologique entre les prix totaux semestriels et les ventilations annuelles des composantes."
+  },
+  "INSIGHTS_PURPOSE_PROVENANCE": {
+    "EN": "Guides proper cross-referencing between bi-annual trend tracking and annual structural cost driver analysis.",
+    "DE": "Leitet den korrekten Quervergleich zwischen halbjährlicher Trendverfolgung und jährlicher Analyse der Kostenursachen.",
+    "FR": "Guide le recoupement correct entre le suivi des tendances semestrielles et l'analyse annuelle des facteurs de coût."
+  },
+  "INSIGHTS_EXPLAIN_LATEST_PRICE": {
+    "EN": "Official Eurostat unit energy prices and short-term price movements over the latest semester and 1-year period.",
+    "DE": "Offizielle Eurostat-Stückpreise für Energie und kurzfristige Preisentwicklungen über das letzte Semester und den 1-Jahres-Zeitraum.",
+    "FR": "Prix unitaires officiels de l'énergie Eurostat et mouvements de prix à court terme sur le dernier semestre et sur un an."
+  },
+  "INSIGHTS_EXPLAIN_EU_COMPARISON": {
+    "EN": "Cross-country benchmarking comparing focus country prices against EU27 weighted average, Euro Area, median, and neighboring country ranks.",
+    "DE": "Länderübergreifendes Benchmarking der Preise des Fokuslandes mit dem gewichteten EU27-Durchschnitt, dem Euroraum, dem Median und den Nachbarländern.",
+    "FR": "Évaluation comparative entre pays comparant les prix du pays cible avec la moyenne pondérée de l'UE27, la zone euro, la médiane et le rang des pays voisins."
+  },
+  "INSIGHTS_EXPLAIN_COUNTRY_COMPARISON": {
+    "EN": "Bilateral price and component gap analysis between Focus Country A and selected Partner Country B.",
+    "DE": "Bilaterale Preis- und Komponentenabstands-Analyse zwischen Fokusland A und Partnerland B.",
+    "FR": "Analyse bilatérale des prix et des écarts de composantes entre le pays cible A et le pays partenaire sélectionné B."
+  },
+  "INSIGHTS_EXPLAIN_HISTORICAL": {
+    "EN": "Historical price trajectory, peak (maximum), minimum, and percentile standing across all published semesters.",
+    "DE": "Historischer Preisverlauf, Höchst- (Maximum) und Tiefststand (Minimum) sowie Prozentrang-Position über alle veröffentlichten Semester.",
+    "FR": "Trajectoire historique des prix, pic (maximum), minimum et position en percentile sur tous les semestres publiés."
+  },
+  "INSIGHTS_EXPLAIN_DEVELOPMENT": {
+    "EN": "Advanced trend diagnostics including price momentum, multi-year compound growth (CAGR), volatility, and seasonal S1-to-S2 patterns.",
+    "DE": "Erweiterte Trenddiagnose einschließlich Preisdynamik, mehrjährigem kumuliertem Wachstum (CAGR), Volatilität und saisonalen Musters.",
+    "FR": "Diagnostics avancés de tendance comprenant la dynamique des prix, le taux de croissance annuel composé (CAGR), la volatilité et les schémas saisonniers S1-S2."
+  },
+  "INSIGHTS_EXPLAIN_COMPOSITION": {
+    "EN": "Breakdown of energy bills into Energy & Supply, Network Grid Tariffs, and Taxes/Levies/VAT.",
+    "DE": "Aufschlüsselung der Energierechnungen in Energie & Lieferung, Netztarife und Steuern/Abgaben/MwSt.",
+    "FR": "Ventilation des factures d'énergie entre Énergie & Fourniture, Tarifs de réseau et Taxes/Redevances/TVA."
+  },
+  "INSIGHTS_EXPLAIN_FISCAL": {
+    "EN": "Analysis comparing pre-tax price movement vs final consumer price movement.",
+    "DE": "Analyse des Preises vor Steuern im Vergleich zur Preisbewegung der Endverbraucher.",
+    "FR": "Analyse comparant la variation du prix hors taxes par rapport à la variation du prix final payé par le consommateur."
+  },
+  "INSIGHTS_EXPLAIN_PPS": {
+    "EN": "Comparison of nominal EUR price rank vs Purchasing Power Standards (PPS) rank.",
+    "DE": "Vergleich des nominalen Preises in EUR mit dem Rang nach Kaufkraftstandards (KKS/PPS).",
+    "FR": "Comparaison du rang nominal des prix en EUR avec le rang selon les standards de pouvoir d'achat (SPA/PPS)."
+  },
+  "INSIGHTS_EXPLAIN_EUROPE": {
+    "EN": "Macro summary of price directions across European countries and Interquartile Range (IQR) dispersion.",
+    "DE": "Makro-Zusammenfassung der Preisentwicklungen in den europäischen Ländern und der Interquartilabstands-Streuung (IQR).",
+    "FR": "Aperçu macroéconomique des orientations de prix dans les pays européens et dispersion de l'écart interquartile (IQR)."
+  },
+  "INSIGHTS_EXPLAIN_BAND": {
+    "EN": "Price structure across volume consumption bands (from small to large consumers).",
+    "DE": "Preisstruktur über die verschiedenen Verbrauchsvolumenklassen (von kleinen bis zu großen Verbrauchern).",
+    "FR": "Structure des prix entre les tranches de consommation de volume (des petits aux grands consommateurs)."
+  },
+  "INSIGHTS_EXPLAIN_HICP": {
+    "EN": "Comparison between annual energy price inflation and HICP general consumer price inflation.",
+    "DE": "Vergleich zwischen der jährlichen Energiepreisinflation und der allgemeinen HVPI-Verbraucherpreisinflation.",
+    "FR": "Comparaison entre l'inflation annuelle des prix de l'énergie et l'inflation générale des prix à la consommation IPCH."
+  },
+  "INSIGHTS_EXPLAIN_PROVENANCE": {
+    "EN": "Eurostat publication status flags, anomaly safeguards, dataset provenance IDs, and consumer methodology qualifications.",
+    "DE": "Eurostat-Veröffentlichungsstatus-Flags, Anomalie-Schutzmaßnahmen, Datensatz-Herkunfts-IDs und Qualifikationen der Verbrauchermethodik.",
+    "FR": "Indicateurs de statut de publication Eurostat, garanties contre les anomalies, identifiants de provenance des données et qualifications méthodologiques."
+  },
   "INSIGHTS_WHAT_IT_IS": {
     "EN": "What it is",
     "DE": "Was es ist",
