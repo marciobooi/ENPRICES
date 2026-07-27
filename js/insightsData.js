@@ -77,8 +77,7 @@ var insightsDataNameSpace = (function () {
   function getFocusGeo() {
     if (REF.chartGeo) return REF.chartGeo;
     if (Array.isArray(REF.geos) && REF.geos.length) {
-      const individual = REF.geos.find((g) => AGGREGATE_GEOS.indexOf(g) === -1);
-      return individual || REF.geos[0];
+      return REF.geos[0];
     }
     return "EU27_2020";
   }

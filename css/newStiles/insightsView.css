@@ -764,3 +764,77 @@
     margin-bottom: 0.4rem;
 }
 
+/* Lightweight Inline Popup Card attached to (i) button */
+.insight-popover-card {
+    position: absolute;
+    z-index: 100000;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.18), 0 4px 6px -2px rgba(0, 0, 0, 0.08);
+    max-width: 440px;
+    width: calc(100vw - 32px);
+    padding: 0.85rem 1rem;
+    animation: popupCardSlide 0.15s ease-out;
+}
+
+@keyframes popupCardSlide {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.insight-popover-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.65rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.insight-popover-card__title {
+    margin: 0;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--nav-color);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.insight-popover-card__close {
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: #64748b;
+    cursor: pointer;
+    padding: 0 0.3rem;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+}
+
+.insight-popover-card__close:hover {
+    color: #0f172a;
+    background: #f1f5f9;
+}
+
+.insight-popover-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.insight-popover-card__item {
+    font-size: 0.82rem;
+    color: #334155;
+    line-height: 1.45;
+}
+
+.insight-popover-card__item strong {
+    color: var(--nav-color);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+

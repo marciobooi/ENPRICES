@@ -154,22 +154,17 @@ var insightsRenderNameSpace = (function () {
 
     function section(titleIcon, titleText, bodyHtml, info) {
         if (!bodyHtml) return '';
-        cardIdCounter += 1;
-        var infoId = 'insight-section-info-' + cardIdCounter;
 
-        var infoBtn = info ? '<button type="button" class="insight-card__info-btn" aria-expanded="false" aria-controls="' + infoId +
-            '" onclick="toggleInsightCalc(this)" title="' + esc(t('INSIGHTS_HOW_CALCULATED')) + '"><i class="fas fa-info-circle" aria-hidden="true"></i>' +
+        var infoBtn = info ? '<button type="button" class="insight-card__info-btn" ' +
+            'data-title="' + esc(titleText) + '" ' +
+            'data-what="' + esc(info.whatItIs) + '" ' +
+            'data-calc="' + esc(info.calculation) + '" ' +
+            'data-purpose="' + esc(info.purpose) + '" ' +
+            'onclick="insightsRenderNameSpace.openModal(this)" title="' + esc(t('INSIGHTS_HOW_CALCULATED')) + '"><i class="fas fa-info-circle" aria-hidden="true"></i>' +
             '<span class="sr-only">' + esc(t('INSIGHTS_HOW_CALCULATED')) + '</span></button>' : '';
-
-        var infoPanel = info ? '<div class="insight-card__calc" id="' + infoId + '" style="margin-bottom:0.85rem" hidden>' +
-            '<p class="insight-card__calc-explain"><strong><i class="fas fa-question-circle" aria-hidden="true"></i> ' + esc(t('INSIGHTS_WHAT_IT_IS')) + ':</strong> ' + esc(info.whatItIs) + '</p>' +
-            '<p class="insight-card__calc-formula"><strong><i class="fas fa-calculator" aria-hidden="true"></i> ' + esc(t('INSIGHTS_CALCULATION')) + ':</strong> <span>' + info.calculation + '</span></p>' +
-            '<p class="insight-card__calc-explain" style="margin-top:0.35rem"><strong><i class="fas fa-bullseye" aria-hidden="true"></i> ' + esc(t('INSIGHTS_PURPOSE')) + ':</strong> ' + esc(info.purpose) + '</p>' +
-            '</div>' : '';
 
         return '<section class="insights-section">' +
             '<h3 class="insights-section__title"><span style="display:flex;align-items:center;gap:0.45rem"><i class="fas ' + titleIcon + '" aria-hidden="true"></i> ' + esc(titleText) + infoBtn + '</span></h3>' +
-            infoPanel +
             bodyHtml +
             '</section>';
     }
@@ -1094,13 +1089,104 @@ var insightsRenderNameSpace = (function () {
         }
     }
 
+    var lastActiveElement = null;
+
+    function openModal(btnElem) {
+        if ($('#insightInfoPopup').length) {
+            closeModal();
+            if (lastActiveElement === btnElem) return;
+        }
+
+        lastActiveElement = btnElem || document.activeElement;
+        var title = $(btnElem).attr('data-title') || t('INSIGHTS_HOW_CALCULATED');
+        var what = $(btnElem).attr('data-what') || '';
+        var calc = $(btnElem).attr('data-calc') || '';
+        var purpose = $(btnElem).attr('data-purpose') || '';
+        var closeText = t('CLOSE') || 'Close';
+
+        var rect = btnElem ? btnElem.getBoundingClientRect() : { top: 100, left: 100, bottom: 120, right: 120 };
+        var popoverWidth = Math.min(420, window.innerWidth - 32);
+        
+        var top = rect.bottom + window.scrollY + 6;
+        var left = rect.left + window.scrollX - 10;
+
+        if (left + popoverWidth > window.innerWidth + window.scrollX - 16) {
+            left = window.innerWidth + window.scrollX - popoverWidth - 16;
+        }
+        if (left < window.scrollX + 16) {
+            left = window.scrollX + 16;
+        }
+
+        var popoverStyle = 'top:' + Math.round(top) + 'px;left:' + Math.round(left) + 'px;width:' + Math.round(popoverWidth) + 'px;';
+
+        var popupHtml =
+            '<div class="insight-popover-card" id="insightInfoPopup" style="' + popoverStyle + '" role="region" aria-label="' + esc(title) + '" tabindex="-1">' +
+            '<div class="insight-popover-card__header">' +
+            '<h4 class="insight-popover-card__title"><i class="fas fa-info-circle" aria-hidden="true"></i> ' + esc(title) + '</h4>' +
+            '<button type="button" class="insight-popover-card__close" onclick="insightsRenderNameSpace.closeModal()" aria-label="' + esc(closeText) + '">&times;</button>' +
+            '</div>' +
+            '<div class="insight-popover-card__body">' +
+            (what ? '<div class="insight-popover-card__item"><strong><i class="fas fa-question-circle" aria-hidden="true"></i> ' + esc(t('INSIGHTS_WHAT_IT_IS')) + ':</strong> ' + esc(what) + '</div>' : '') +
+            (calc ? '<div class="insight-popover-card__item"><strong><i class="fas fa-calculator" aria-hidden="true"></i> ' + esc(t('INSIGHTS_CALCULATION')) + ':</strong> <span>' + calc + '</span></div>' : '') +
+            (purpose ? '<div class="insight-popover-card__item"><strong><i class="fas fa-bullseye" aria-hidden="true"></i> ' + esc(t('INSIGHTS_PURPOSE')) + ':</strong> ' + esc(purpose) + '</div>' : '') +
+            '</div>' +
+            '</div>';
+
+        $('#insightInfoPopup').remove();
+        $('body').append(popupHtml);
+
+        var popupElem = $('#insightInfoPopup');
+        popupElem.focus();
+
+        setTimeout(function () {
+            $(document).off('click.insightPopup').on('click.insightPopup', function (e) {
+                if (!$(e.target).closest('#insightInfoPopup, .insight-card__info-btn').length) {
+                    closeModal();
+                }
+            });
+        }, 10);
+
+        $(document).off('keydown.insightPopup').on('keydown.insightPopup', function (e) {
+            if (e.key === 'Escape' || e.keyCode === 27) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (typeof e.stopImmediatePropagation === 'function') {
+                    e.stopImmediatePropagation();
+                }
+                closeModal();
+            }
+        });
+    }
+
+    function closeModal() {
+        var popup = $('#insightInfoPopup');
+        if (popup.length) {
+            popup.fadeOut(100, function () {
+                popup.remove();
+                if (lastActiveElement && typeof lastActiveElement.focus === 'function') {
+                    lastActiveElement.focus();
+                }
+            });
+        }
+        $(document).off('keydown.insightPopup click.insightPopup');
+    }
+
+    function handleModalOverlayClick(e) {
+        if (e.target && e.target.id === 'insightInfoModal') {
+            closeModal();
+        }
+    }
+
     return {
         load: load,
         onConsumptionChange: onConsumptionChange,
         onCountryBChange: onCountryBChange,
         switchBand: switchBand,
         exportCsv: exportCsv,
-        copyText: copyText
+        copyText: copyText,
+        openModal: openModal,
+        closeModal: closeModal,
+        handleModalOverlayClick: handleModalOverlayClick
     };
 })();
 
