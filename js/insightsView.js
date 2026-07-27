@@ -457,7 +457,7 @@ const insightsRenderNameSpace = (function () {
             ? esc(t(ctx.geo)) + ', ' + esc(data.latestPeriod) + ' = <strong>' + formatRaw(p.latestValue, ctx) + '</strong> ' + unitLabel(ctx)
             : null;
         const latestCard = card({
-            label: t('INSIGHTS_LATEST_PRICE'),
+            label: t('INSIGHTS_LATEST_PRICE') + (data.latestPeriod ? ' (' + esc(data.latestPeriod) + ')' : ''),
             value: p.latestValue != null ? esc(formatPrice(p.latestValue, ctx)) : null,
             sub: esc(contextPhrase(ctx)),
             whatItIs: t('INSIGHTS_WHAT_LATEST_PRICE'),
@@ -469,7 +469,7 @@ const insightsRenderNameSpace = (function () {
             ? '(' + formatRaw(p.latestValue, ctx) + ' − ' + formatRaw(p.semesterValue, ctx) + ') / |' + formatRaw(p.semesterValue, ctx) + '| × 100 = <strong>' + esc(formatPercent(p.semesterChangePct)) + '</strong>'
             : null;
         const semesterCard = card({
-            label: t('INSIGHTS_SEMESTER_CHANGE'),
+            label: t('INSIGHTS_SEMESTER_CHANGE') + (p.semesterPeriod ? ' (' + esc(p.semesterPeriod) + ' – ' + esc(data.latestPeriod) + ')' : ''),
             value: p.semesterChangePct != null ? esc(formatPercent(p.semesterChangePct)) : null,
             sub: changeSub(p.semesterChangePct, p.semesterChangeAbs, ctx),
             whatItIs: t('INSIGHTS_WHAT_SEMESTER_CHANGE'),
@@ -481,7 +481,7 @@ const insightsRenderNameSpace = (function () {
             ? '(' + formatRaw(p.latestValue, ctx) + ' − ' + formatRaw(p.yoyValue, ctx) + ') / |' + formatRaw(p.yoyValue, ctx) + '| × 100 = <strong>' + esc(formatPercent(p.yoyChangePct)) + '</strong>'
             : null;
         const yoyCard = card({
-            label: t('INSIGHTS_YOY_CHANGE'),
+            label: t('INSIGHTS_YOY_CHANGE') + (p.yoyPeriod ? ' (' + esc(p.yoyPeriod) + ' – ' + esc(data.latestPeriod) + ')' : ''),
             value: p.yoyChangePct != null ? esc(formatPercent(p.yoyChangePct)) : null,
             sub: changeSub(p.yoyChangePct, p.yoyChangeAbs, ctx),
             whatItIs: t('INSIGHTS_WHAT_YOY_CHANGE'),
@@ -503,7 +503,7 @@ const insightsRenderNameSpace = (function () {
 
         const euCalc = (cc.euValue != null && !isEuFocus) ? '(' + formatRaw(cc.focusValue, ctx) + ' − ' + formatRaw(cc.euValue, ctx) + ') / |' + formatRaw(cc.euValue, ctx) + '| × 100 = <strong>' + esc(formatPercent(cc.euGapPct)) + '</strong>' : null;
         const euCard = (cc.euValue != null && !isEuFocus) ? card({
-            label: t('INSIGHTS_EU_COMPARISON'),
+            label: t('INSIGHTS_EU_COMPARISON') + (data.latestPeriod ? ' (' + esc(data.latestPeriod) + ')' : ''),
             value: esc(formatPercent(cc.euGapPct)),
             sub: esc(cc.euGapPct > 0 ? t('INSIGHTS_ABOVE_EU') : (cc.euGapPct < 0 ? t('INSIGHTS_BELOW_EU') : t('INSIGHTS_IN_LINE_EU'))),
             whatItIs: t('INSIGHTS_WHAT_EU_GAP'),
@@ -516,7 +516,7 @@ const insightsRenderNameSpace = (function () {
             ? esc(t('INSIGHTS_REPORTING_COUNTRIES')) + (cc.outlier === 'high' || cc.outlier === 'low' ? ' &middot; ' + esc(t(cc.outlier === 'high' ? 'INSIGHTS_OUTLIER_HIGH' : 'INSIGHTS_OUTLIER_LOW')) : '')
             : null;
         const rankCard = (cc.rankHigh != null && !isEuFocus) ? card({
-            label: t('INSIGHTS_COUNTRY_RANK'),
+            label: t('INSIGHTS_COUNTRY_RANK') + (data.latestPeriod ? ' (' + esc(data.latestPeriod) + ')' : ''),
             value: esc(cc.rankHigh + ' / ' + cc.n),
             sub: rankSub,
             whatItIs: t('INSIGHTS_WHAT_RANK'),
@@ -530,7 +530,7 @@ const insightsRenderNameSpace = (function () {
             : esc(formatPrice(cc.median, ctx));
         const medianCalc = cc.median != null ? '(' + formatRaw(cc.focusValue, ctx) + ' − ' + formatRaw(cc.median, ctx) + ') / |' + formatRaw(cc.median, ctx) + '| × 100 = <strong>' + esc(formatPercent(cc.medianGapPct)) + '</strong>' : null;
         const medianCard = cc.median != null ? card({
-            label: medianLabel,
+            label: medianLabel + (data.latestPeriod ? ' (' + esc(data.latestPeriod) + ')' : ''),
             value: esc(formatPercent(cc.medianGapPct)),
             sub: medianSub,
             whatItIs: t('INSIGHTS_WHAT_MEDIAN_GAP'),
@@ -569,8 +569,10 @@ const insightsRenderNameSpace = (function () {
         if (hp.isNewLow) flags.push(t('INSIGHTS_NEW_LOW'));
         else if (hp.nearLow) flags.push(t('INSIGHTS_NEAR_LOW'));
 
+        const histRangeLabel = (data.history && data.history.length) ? ' (' + esc(data.history[0].period) + ' – ' + esc(data.latestPeriod) + ')' : '';
+
         const peakCard = card({
-            label: t('INSIGHTS_HISTORICAL_MAX'),
+            label: t('INSIGHTS_HISTORICAL_MAX') + histRangeLabel,
             value: esc(formatPrice(hp.max, ctx)),
             sub: esc(t('INSIGHTS_PEAK_PERIOD') + ': ' + hp.peakPeriod + (hp.periodsSincePeak != null ? ' (' + hp.periodsSincePeak + ')' : '')),
             whatItIs: t('INSIGHTS_WHAT_HIST_MAX'),
@@ -579,7 +581,7 @@ const insightsRenderNameSpace = (function () {
         });
 
         const minCard = card({
-            label: t('INSIGHTS_HISTORICAL_MIN'),
+            label: t('INSIGHTS_HISTORICAL_MIN') + histRangeLabel,
             value: esc(formatPrice(hp.min, ctx)),
             whatItIs: t('INSIGHTS_WHAT_HIST_MIN'),
             calculation: "Min(Price_t over all available semesters)",
@@ -591,7 +593,7 @@ const insightsRenderNameSpace = (function () {
             ? '(Count(P_hist < P_current) + 0.5 × Count(P_hist = P_current)) / N × 100 = <strong>' + Math.round(hp.historicalPercentile) + '%</strong>'
             : null;
         const percentileCard = card({
-            label: t('INSIGHTS_PERCENTILE'),
+            label: t('INSIGHTS_PERCENTILE') + histRangeLabel,
             value: percentileValue,
             sub: flags.length ? flags.map(esc).join(' &middot; ') : null,
             whatItIs: t('INSIGHTS_WHAT_HIST_PERCENTILE'),
@@ -1293,23 +1295,27 @@ const insightsRenderNameSpace = (function () {
             purpose: t('INSIGHTS_PURPOSE_PROVENANCE')
         };
 
+        const pLabel = data.latestPeriod ? ' (' + esc(data.latestPeriod) + ')' : '';
+        const hRange = (data.history && data.history.length) ? ' (' + esc(data.history[0].period) + ' – ' + esc(data.latestPeriod) + ')' : pLabel;
+        const compP = (data.composition && data.composition.period) ? ' (' + esc(data.composition.period) + ')' : pLabel;
+
         const html = '<div class="insights-panel" tabindex="-1">' +
             renderToolbar() +
             renderContext(data.context, data.latestPeriod) +
             renderEstimatorAndBandFinder(data) +
             '<div class="insights-sections">' +
-            section('fa-exchange-alt', t('INSIGHTS_DIRECT_COMPARISON'), renderCountryComparisonSection(data), directInfo) +
-            section('fa-euro-sign', t('INSIGHTS_LATEST_PRICE'), renderPriceCards(data), priceInfo) +
-            section('fa-globe-europe', t('INSIGHTS_EU_COMPARISON'), renderComparisonCards(data) + renderRankSensitivity(data), euInfo) +
-            section('fa-history', t('INSIGHTS_HISTORICAL_POSITION'), renderHistoryCards(data), historyInfo) +
-            section('fa-chart-line', t('INSIGHTS_DEVELOPMENT'), renderDevelopment(data), devInfo) +
-            section('fa-chart-pie', t('INSIGHTS_COMPOSITION'), renderComposition(data), compInfo) +
-            section('fa-balance-scale', t('INSIGHTS_FISCAL_EFFECT'), renderFiscalEffect(data), fiscalInfo) +
-            section('fa-coins', t('INSIGHTS_PPS_PERSPECTIVE'), renderPpsPerspective(data), ppsInfo) +
-            section('fa-globe-europe', t('INSIGHTS_EUROPE_SNAPSHOT'), renderEuropeSnapshot(data), europeInfo) +
-            section('fa-bolt', t('INSIGHTS_BAND_PATTERN'), renderBandSection(data), bandInfo) +
-            section('fa-chart-bar', t('INSIGHTS_INFLATION_CONTEXT'), renderInflationContext(data), inflationInfo) +
-            section('fa-shield-alt', t('INSIGHTS_DATA_QUALITY_TITLE'), renderDataQuality(data), qualityInfo) +
+            section('fa-exchange-alt', t('INSIGHTS_DIRECT_COMPARISON') + pLabel, renderCountryComparisonSection(data), directInfo) +
+            section('fa-euro-sign', t('INSIGHTS_LATEST_PRICE') + pLabel, renderPriceCards(data), priceInfo) +
+            section('fa-globe-europe', t('INSIGHTS_EU_COMPARISON') + pLabel, renderComparisonCards(data) + renderRankSensitivity(data), euInfo) +
+            section('fa-history', t('INSIGHTS_HISTORICAL_POSITION') + hRange, renderHistoryCards(data), historyInfo) +
+            section('fa-chart-line', t('INSIGHTS_DEVELOPMENT') + hRange, renderDevelopment(data), devInfo) +
+            section('fa-chart-pie', t('INSIGHTS_COMPOSITION') + compP, renderComposition(data), compInfo) +
+            section('fa-balance-scale', t('INSIGHTS_FISCAL_EFFECT') + pLabel, renderFiscalEffect(data), fiscalInfo) +
+            section('fa-coins', t('INSIGHTS_PPS_PERSPECTIVE') + pLabel, renderPpsPerspective(data), ppsInfo) +
+            section('fa-globe-europe', t('INSIGHTS_EUROPE_SNAPSHOT') + pLabel, renderEuropeSnapshot(data), europeInfo) +
+            section('fa-bolt', t('INSIGHTS_BAND_PATTERN') + pLabel, renderBandSection(data), bandInfo) +
+            section('fa-chart-bar', t('INSIGHTS_INFLATION_CONTEXT') + pLabel, renderInflationContext(data), inflationInfo) +
+            section('fa-shield-alt', t('INSIGHTS_DATA_QUALITY_TITLE') + pLabel, renderDataQuality(data), qualityInfo) +
             '</div>' +
             '</div>';
 
