@@ -74,3 +74,16 @@ const dataNameSpace = {
 };
 
 const REF = dataNameSpace.ref;
+
+// enprices.html?accessibility shows the accessibility statement instead of the tool
+function isAccessibilityMode() {
+  return new URLSearchParams(window.location.search).has("accessibility");
+}
+
+function showAccessibilityView() {
+  $('#enprices > #charts, #allContainer, #insightsView, #menu, #menuSwitch, .menuSwitch').addClass('d-none');
+  $('#accessibilityView').removeClass('d-none');
+  $('.a11y-back-link').attr('href', `?language=${REF.language}`);
+  $('#skip-to-content').attr('href', '#a11y-statement-title');
+  document.title = 'Accessibility statement - Energy prices - Eurostat';
+}

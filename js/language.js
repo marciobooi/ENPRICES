@@ -72,6 +72,13 @@ var languageNameSpace = {
 
     removeComponents();
     buildComponents();
+
+    if (isAccessibilityMode()) {
+      languageNameSpace.initLanguage(REF.language);
+      showAccessibilityView();
+      return;
+    }
+
     initenprices();
     languageNameSpace.initLanguage(REF.language);
 

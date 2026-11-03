@@ -8,6 +8,17 @@ $( document ).ready(function() {
 
 languageNameSpace.initLanguage(REF.language);
 
+if (isAccessibilityMode()) {
+  if (typeof globanManager !== 'undefined') {
+    globanManager.init();
+  }
+  if (typeof cckManager !== 'undefined') {
+    cckManager.regenerate(REF.language);
+  }
+  showAccessibilityView();
+  return;
+}
+
 // Initialize GLOBAN after language is set
 if (typeof globanManager !== 'undefined') {
   globanManager.init();
@@ -27,18 +38,25 @@ hideForIframe();
 })
 
 function buildComponents() {
-  const components = [
-    { instance: new SubNavbar(), target: '#subnavbar-container' },
-    { instance: new Footer(), target: '#componentFooter' },
-    { instance: new Navbar(), target: '#navbar-container' },
-    { instance: new FloatingChartControls(), target: '#componentFooter' },
-  ];
+  const components = isAccessibilityMode()
+    ? [
+        { instance: new Footer(), target: '#componentFooter' },
+        { instance: new Navbar(), target: '#navbar-container' },
+      ]
+    : [
+        { instance: new SubNavbar(), target: '#subnavbar-container' },
+        { instance: new Footer(), target: '#componentFooter' },
+        { instance: new Navbar(), target: '#navbar-container' },
+        { instance: new FloatingChartControls(), target: '#componentFooter' },
+      ];
 
   components.forEach(({ instance, target }) => {
     instance.addToDOM(target);
   });
 
-  populateDropdownData();
+  if (!isAccessibilityMode()) {
+    populateDropdownData();
+  }
 }
 
 function removeComponents() {
