@@ -361,6 +361,57 @@
   margin: 0;
 }
 
+.component-toggle {
+  display: flex;
+  min-height: 3.5rem;
+  align-items: center;
+}
+
+.component-toggle label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #262b38;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.component-toggle input {
+  width: 2.75rem;
+  height: 1.5rem;
+  accent-color: #0e47cb;
+}
+
+.energy-chart {
+  min-height: 28rem;
+}
+
+.energy-data {
+  margin-top: 1.5rem;
+}
+
+.energy-data summary {
+  width: fit-content;
+  color: #0e47cb;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.energy-table {
+  margin-top: 1rem;
+}
+
+/* ECL has no class for figures: right-aligned and tabular so the columns line up */
+.energy-table__number {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.energy-table__name {
+  font-weight: 700;
+  text-align: start;
+}
+
 /* ECL select: decorative caret (the real control is the native select / toggle button) */
 .ecl-select__icon {
   pointer-events: none;
@@ -1049,8 +1100,9 @@
 
 /* Main content (page and embedded view) */
 .tool-content {
-  width: min(100% - 3rem, 72rem);
-  margin: 1.5rem auto;
+  /* The chart uses the whole width of the page, as in the original tool */
+  width: calc(100% - 2rem);
+  margin: 1rem auto;
 }
 
 .tool-content__selection {
@@ -1136,3 +1188,367 @@
   margin: 0;
 }
 
+/* Charts opened by a click on a country's bar */
+.energy-chart--clickable .highcharts-point {
+  cursor: pointer;
+}
+
+.energy-data__country {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* The band chosen in the menu */
+.energy-table .ecl-table__row[aria-current='true'] .ecl-table__cell {
+  font-weight: 700;
+}
+
+/* Controls under the main chart */
+.chart-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  margin-block: 1rem;
+}
+
+
+.chart-controls .ecl-form-group {
+  margin: 0;
+}
+
+/* Insights: country selectors and the yearly cost calculator */
+.insights-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.insights-controls .ecl-form-group {
+  /* ECL form groups have no intrinsic width: give each select a real one, so they cannot overlap */
+  flex: 0 0 18rem;
+  max-width: 100%;
+  margin: 0;
+}
+
+.insights-cost {
+  margin-top: 1rem;
+  max-width: 28rem;
+}
+
+
+/* The chart is plain: Webtools' own frame, toolbar and menu are not shown */
+.energy-chart .wt-charts--toolbar {
+  display: none;
+}
+
+.energy-chart .wtCharts,
+.energy-chart .wt-charts {
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* Tooltip table of the original tool */
+.table_component {
+  min-width: 12rem;
+  border: 1px dotted #dededf;
+  border-collapse: collapse;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
+  background: #fff;
+}
+
+.table_component th {
+  padding: 5px;
+  border: 1px dotted #dededf;
+  background-color: #515560;
+  color: #fff;
+  text-align: center;
+}
+
+.table_component td {
+  padding: 5px;
+  border: 1px dotted #dededf;
+  background: #fff;
+  color: #000;
+}
+
+.table_component .TOTAL {
+  font-weight: 700;
+}
+
+.table_component .tooltipUnit {
+  font-size: 0.6rem;
+}
+
+/* Top bar buttons while a country is open: views | downloads | close */
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toolbar-group + .toolbar-group {
+  margin-left: 1.5rem;
+}
+
+.toolbar-actions .round-button[aria-pressed='true']:not(:disabled) {
+  box-shadow: none;
+}
+
+/* The menu has three controls per row, as in the original tool */
+@media (min-width: 64rem) {
+  .tool-menu-links {
+    flex: 1 1 100%;
+  }
+
+  .tool-menu-filters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem 2rem;
+    /* A row of its own under the links. The form groups have no intrinsic width, so the grid needs a real one. */
+    flex: 1 1 100%;
+    max-width: 64rem;
+  }
+
+  .tool-menu-filters .ecl-form-group {
+    flex: none;
+    min-width: 0;
+    max-width: none;
+  }
+}
+
+/* The button of the view that is showing looks like a hovered one: white, with a blue icon and border */
+.toolbar-actions .round-button[aria-pressed='true'],
+.floating-controls .round-button[aria-pressed='true'] {
+  background-color: #fff;
+  border-color: #0e47cb;
+  color: #0e47cb;
+}
+
+/* ===== Floating bar of the main chart: a small dock that can be moved ===== */
+.floating-controls {
+  --dock-border: #d7dbe6;
+  --dock-ink: #262b38;
+  --dock-muted: #5b6272;
+  /* At the top right of the chart, in the free space above the bars; it stays in view while the page scrolls */
+  position: sticky;
+  top: 0.75rem;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  width: fit-content;
+  max-width: calc(100% - 2rem);
+  /* The negative bottom margin lets the bar sit over the top of the chart instead of pushing it down */
+  margin: 0.75rem 1rem -4.25rem auto;
+  padding: 0.375rem 0.75rem 0.375rem 0.25rem;
+  background: #fff;
+  border: 1px solid var(--dock-border);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgb(14 71 203 / 8%), 0 10px 28px rgb(14 71 203 / 16%);
+}
+
+/* Smaller round buttons keep the bar narrow */
+.floating-controls .round-button {
+  --round-button-size: 2.5rem;
+  --round-button-icon-size: 1.25rem;
+}
+
+/* Over a table the bar takes its own space, so it never hides the caption */
+.floating-controls--inflow {
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width: 48rem) {
+  .floating-controls {
+    margin: 0.75rem auto;
+  }
+}
+
+.floating-controls--dragging {
+  cursor: grabbing;
+  user-select: none;
+  box-shadow: 0 2px 4px rgb(14 71 203 / 12%), 0 18px 40px rgb(14 71 203 / 28%);
+}
+
+.floating-controls--grabbed {
+  outline: 3px solid #0e47cb;
+  outline-offset: 3px;
+}
+
+.floating-controls__handle {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  width: 1.5rem;
+  min-height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--dock-muted);
+  cursor: grab;
+  touch-action: none;
+}
+
+.floating-controls__handle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.floating-controls__handle:hover {
+  background: #eef1fb;
+  color: #0e47cb;
+}
+
+.floating-controls__handle:focus-visible {
+  outline: 3px solid #0e47cb;
+  outline-offset: 1px;
+}
+
+.floating-controls__handle[aria-pressed='true'] {
+  background: #0e47cb;
+  color: #fff;
+  cursor: grabbing;
+}
+
+.floating-controls__switches {
+  display: grid;
+  grid-template-columns: max-content auto max-content;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+}
+
+.floating-controls__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* A thin rule between the switches and the buttons */
+.floating-controls__switches + .floating-controls__buttons {
+  padding-left: 1rem;
+  border-left: 1px solid var(--dock-border);
+}
+
+@media (max-width: 40rem) {
+  .floating-controls__switches + .floating-controls__buttons {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+/* Switch with a label on each side, as in the original tool; both rows share the same columns */
+.switch-row {
+  display: contents;
+}
+
+.switch-row__label {
+  color: var(--dock-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.switch-row__label:first-child {
+  text-align: right;
+}
+
+.switch-row__label--on {
+  color: var(--dock-ink);
+  font-weight: 700;
+}
+
+.switch {
+  appearance: none;
+  position: relative;
+  width: 2.5rem;
+  height: 1.375rem;
+  margin: 0;
+  border: 0;
+  border-radius: 1rem;
+  background: #aab1c0;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+  transition: transform 0.15s;
+}
+
+.switch:checked {
+  background: #0e47cb;
+}
+
+.switch:checked::after {
+  transform: translateX(1.125rem);
+}
+
+.switch:focus-visible {
+  outline: 3px solid #0e47cb;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch,
+  .switch::after {
+    transition: none;
+  }
+}
+
+
+/* Tucked away: only the handle is left, as a tab against the right edge of the window */
+.floating-controls--collapsed {
+  margin-right: 0;
+  padding: 0.375rem 0.375rem 0.375rem 0.25rem;
+  border-right: 0;
+  border-radius: 1rem 0 0 1rem;
+  box-shadow: -4px 4px 16px rgb(14 71 203 / 14%);
+}
+
+.floating-controls--collapsed .floating-controls__handle {
+  width: 1.75rem;
+}
+
+@media (max-width: 48rem) {
+  .floating-controls--collapsed {
+    margin-left: auto;
+  }
+}
+
+/* The order menu: a check in blue marks the current order */
+.sort-menu__check {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #0e47cb;
+}
+
+.sort-menu__check .toolbar-icon {
+  display: block;
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke-width: 2.5;
+}
+
+.sort-menu__option[aria-current='true'] {
+  font-weight: 700;
+}

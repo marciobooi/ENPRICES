@@ -12,6 +12,10 @@ interface DownloadMenuProps {
    * (the image entries only need the chart on screen, see `downloadConfig.imageTarget`).
    */
   getTable?: () => DownloadTable
+  /** The entries to offer (default: `downloadConfig.formats`). */
+  formats?: readonly DownloadFormat[]
+  /** Name of the button (default: `download.label`). */
+  label?: string
 }
 
 /**
@@ -20,7 +24,7 @@ interface DownloadMenuProps {
  * works for any chart library, Webtools' Highcharts wrapper included, with no export module or licence needed.
  * Focus stays in the menu while it is open; Escape or a click outside closes it.
  */
-export function DownloadMenu({ getTable }: DownloadMenuProps) {
+export function DownloadMenu({ getTable, formats: offered, label }: DownloadMenuProps) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -28,7 +32,7 @@ export function DownloadMenu({ getTable }: DownloadMenuProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
 
-  const formats = downloadConfig.formats.filter((format) => format !== 'excel' || getTable)
+  const formats = (offered ?? downloadConfig.formats).filter((format) => format !== 'excel' || getTable)
 
   const close = (returnFocus: boolean) => {
     // Unmount first (releases the focus trap), then move focus back to the download button.
@@ -74,7 +78,7 @@ export function DownloadMenu({ getTable }: DownloadMenuProps) {
       <RoundButton
         id="download-button"
         icon="download"
-        label={t('download.label')}
+        label={label ?? t('download.label')}
         aria-haspopup="true"
         aria-expanded={open}
         aria-controls={open ? 'download-popover' : undefined}
@@ -86,7 +90,7 @@ export function DownloadMenu({ getTable }: DownloadMenuProps) {
           ref={popoverRef}
           className="share-popover download-popover"
           role="group"
-          aria-label={t('download.label')}
+          aria-label={label ?? t('download.label')}
         >
           <ul className="share-popover__list">
             {formats.map((format) => (

@@ -1,5 +1,5 @@
 {
-  "brand": "Eurostat tools",
+  "brand": "Energy prices",
   "navigation": {
     "skip": "Skip to main content",
     "label": "Main navigation",
@@ -17,30 +17,95 @@
     "filters": "Filters"
   },
   "filters": {
+    "product": "Fuel",
+    "consumer": "Consumer",
+    "band": "Consumption",
     "unit": "Unit",
+    "time": "Year",
+    "chart": "Chart type",
+    "breakdown": "Price breakdown",
+    "order": "Select countries order",
+    "percentage": "Display values",
     "geo": "Countries"
   },
+  "products": {
+    "4100": "Natural gas",
+    "6000": "Electricity"
+  },
+  "consumers": {
+    "HOUSEHOLD": "Household consumers",
+    "N_HOUSEHOLD": "Non-household consumers"
+  },
+  "bands": {
+    "TOT_GJ": "All bands : Consumption of GJ",
+    "GJ_LT20": "Band D1 : Consumption < 20 GJ",
+    "GJ20-199": "Band D2 : 20 GJ < Consumption < 200 GJ",
+    "GJ_GE200": "Band D3 : Consumption > 200 GJ",
+    "GJ_LT1000": "Band I1: Consumption < 1000 GJ",
+    "GJ1000-9999": "Band I2: 1,000 GJ < Consumption <10,000 GJ",
+    "GJ10000-99999": "Band I3: 10,000 GJ < Consumption <100,000 GJ",
+    "GJ100000-999999": "Band I4: 100,000 GJ < Consumption <1,000,000 GJ",
+    "GJ1000000-3999999": "Band I5: 1,000,000 GJ < Consumption <4,000,000 GJ",
+    "GJ_GE4000000": "Band I6: Consumption > 4,000,000 GJ",
+    "TOT_KWH": "All bands : Consumption of kWh",
+    "KWH_LT1000": "Band DA : Consumption < 1 000 kWh",
+    "KWH1000-2499": "Band DB : 1 000 kWh < Consumption < 2 500 kWh",
+    "KWH2500-4999": "Band DC : 2 500 kWh < Consumption < 5 000 kWh",
+    "KWH5000-14999": "Band DD : 5 000 kWh < Consumption < 15 000 kWh",
+    "KWH_LE15000": "Band DE : Consumption > 15 000 kWh",
+    "TOT_MWH": "All bands: MWh",
+    "MWH_LE149999": "All bands: up to 149,999 MWh",
+    "MWH_LT20": "Band IA : Consumption < 20 MWh",
+    "MWH20-499": "Band IB : 20 MWh < Consumption < 500 MWh",
+    "MWH500-1999": "Band IC : 500 MWh < Consumption < 2 000 MWh",
+    "MWH2000-19999": "Band ID : 2 000 MWh < Consumption < 20 000 MWh",
+    "MWH20000-69999": "Band IE : 20 000 MWh < Consumption < 70 000 MWh",
+    "MWH70000-149999": "Band IF : 70 000 MWh < Consumption < 150 000 MWh",
+    "MWH_GE150000": "Band IG : Consumption > 150 000 MWh",
+    "KWH_GE15000": "Band DE: Consumption for 15 000 kWh or over"
+  },
+  "breakdowns": {
+    "total": "Total price",
+    "components": "Show detailed breakdown"
+  },
+  "orders": {
+    "proto": "Protocol country order",
+    "alfa": "Alphabetically country order",
+    "asc": "Ascending data values",
+    "desc": "Descending data values"
+  },
+  "percentageModes": {
+    "value": "Price",
+    "percentage": "Percentage"
+  },
+  "componentModes": {
+    "label": "Price data",
+    "show": "Show components",
+    "hide": "Hide components"
+  },
   "multiSelect": {
-    "placeholder": "Select options",
+    "placeholder": "Select an item",
     "selectAll": "Select all",
     "clearAll": "Clear all",
     "close": "Close",
-    "search": "Search",
+    "search": "Enter keyword",
     "noResults": "No results found",
     "selected": "Selected:",
-    "optionsAvailable": "Options available:"
+    "optionsAvailable": "Options available:",
+    "allSelected": "All selected"
   },
   "form": {
     "required": "(required)"
   },
   "countryGroups": {
     "aggregates": "Aggregates",
-    "eu": "European Union",
+    "eu": "EU countries",
     "efta": "EFTA countries",
-    "enlargement": "Enlargement and neighbouring countries"
+    "enlargement": "Enlargement countries"
   },
   "countries": {
-    "EU27_2020": "European Union - 27 countries (from 2020)",
+    "EU27_2020": "European Union (27 countries)",
+    "EA": "Euro area (19 countries)",
     "BE": "Belgium",
     "BG": "Bulgaria",
     "CZ": "Czechia",
@@ -77,16 +142,33 @@
     "RS": "Serbia",
     "TR": "Türkiye",
     "BA": "Bosnia and Herzegovina",
-    "XK": "Kosovo*",
+    "XK": "Kosovo (UN SCR 1244/99)",
     "MD": "Moldova",
     "UA": "Ukraine",
     "GE": "Georgia"
   },
   "units": {
-    "T_HAB": "Tonnes per capita",
-    "THS_T": "Thousand tonnes",
-    "MIO_T": "Million tonnes",
-    "G_T": "Gigatonnes"
+    "KWH": "Kilowatt-hour (kWh)",
+    "MWH": "Megawatt-hour (MWh)",
+    "GJ_GCV": "Gigajoule (GJ, GCV)"
+  },
+  "periods": {},
+  "taxComponents": {
+    "NRG_SUP": "Energy and supply",
+    "NETC": "Network costs",
+    "TAX_FEE_LEV_CHRG": "Taxes fees levies and charges",
+    "VAT": "Value added tax - VAT",
+    "TAX_RNW": "Renewable taxes",
+    "TAX_CAP": "Capacity taxes",
+    "TAX_ENV": "Environmental taxes",
+    "TAX_NUC": "Nuclear taxes",
+    "TAX_FEE_LEV_CHRG_ALLOW": "Taxes, fees, levies and charges allowances",
+    "TAX_RNW_ALLOW": "Renewable taxes allowances",
+    "TAX_CAP_ALLOW": "Capacity taxes allowances",
+    "TAX_ENV_ALLOW": "Environmental taxes allowances",
+    "TAX_NUC_ALLOW": "Nuclear taxes allowances",
+    "ALLOW_OTH": "Other allowances",
+    "OTH": "Other"
   },
   "indicators": {
     "DE": "Domestic extraction",
@@ -98,42 +180,56 @@
   "tour": {
     "start": "Take a tour",
     "next": "Next",
-    "previous": "Previous",
-    "done": "Done",
+    "previous": "Back",
+    "done": "Close",
     "close": "Close tour",
     "progress": "{{current}} of {{total}}",
     "welcomeTitle": "Introduction",
-    "welcomeDescription": "Welcome to the tutorial of the {{tool}} visualisation tool. This guided tour will show you the main ways of interacting with the tool.",
-    "languageTitle": "Choose your language",
-    "languageDescription": "Switch the tool between English, French and German.",
-    "menuTitle": "Navigate",
-    "menuDescription": "Open the menu to move between the sections of the tool.",
+    "welcomeDescription": "Welcome to the tutorial of Eurostat's Energy Prices visualisation Tool. This guided tour will show you the main ways of interacting with the tool.",
+    "languageTitle": "Change Language",
+    "languageDescription": "Use this option to change the language of the tool. It supports English, French, and German.",
+    "menuTitle": "Menu",
+    "menuDescription": "In addition to the bar options, the tool contains a menu for additional features. Click on the menu icon to customize the chart. Click next to learn about the menu options.",
     "insightsTitle": "Insights",
     "insightsDescription": "Open a summary of the data shown in this view.",
-    "shareTitle": "Share",
-    "shareDescription": "Share this tool on social networks, by e-mail, or copy its link.",
-    "downloadTitle": "Download",
-    "downloadDescription": "Download the chart as an image, or its data as an Excel file.",
+    "shareTitle": "End of Tour",
+    "shareDescription": "If you find this visualisation tool useful, please show your support by sharing it with others on X, Facebook, email, and LinkedIn. Thank you!",
+    "downloadTitle": "Download Options",
+    "downloadDescription": "Click here to download chart or data.",
     "toolTitle": "Current view",
     "toolDescription": "The title and subtitle describe what you are looking at.",
     "replayTitle": "Replay the tour",
     "replayDescription": "Use this button whenever you want to see this tour again.",
     "contentTitle": "Your content",
-    "contentDescription": "The charts and data of the tool appear here."
+    "contentDescription": "The charts and data of the tool appear here.",
+    "chartTitle": "Chart",
+    "chartDescription": "The height of these bars represents the prices that customers pay for gas or electricity. By clicking on them, you can further disaggregate them into sub-categories or explore other statistics such as time graphs, pie charts, or bar charts to compare different consumption levels for the selected country.",
+    "tableTitle": "Table Feature",
+    "tableDescription": "Use this option to change the chart to a table format.",
+    "orderTitle": "Order the Chart",
+    "orderDescription": "Use this option to change the order of the chart elements.",
+    "aggregatesTitle": "Aggregates Feature",
+    "aggregatesDescription": "Use this option to add or remove aggregates from the chart.",
+    "componentsTitle": "Components",
+    "componentsDescription": "Use this option to change to components mode.",
+    "detailsTitle": "Details",
+    "detailsDescription": "Use this option to see in details.",
+    "embedTitle": "Embed",
+    "embedDescription": "Use this button to embed the chart in other tools or websites."
   },
   "subnav": {
-    "title": "Example title",
-    "subtitle": "Example subtitle",
-    "menuItem1": "Menu item 1",
-    "menuItem2": "Menu item 2",
-    "menuItem3": "Menu item 3"
+    "title": "Energy prices",
+    "subtitle": "Electricity and natural gas prices",
+    "menuItem1": "Energy price chart",
+    "menuItem2": "Eurostat data browser",
+    "metadata": "Metadata (opens in a new tab)"
   },
   "footer": {
     "label": "Footer navigation",
     "backToTop": "Back to top",
     "privacy": "Privacy policy",
     "legal": "Legal notice",
-    "cookies": "Cookies",
+    "cookies": "Cookies policy",
     "accessibility": "Accessibility"
   },
   "loading": {
@@ -142,7 +238,7 @@
   "insights": {
     "open": "Global insights",
     "close": "Close",
-    "title": "Global insights",
+    "title": "Energy prices insights",
     "kicker": "Tool overview",
     "heading": "Indicators at a glance",
     "intro": "This view summarises the data of the tool. Values keep their original units and should not be compared directly across different units.",
@@ -167,12 +263,166 @@
     "takeawaysTitle": "Key takeaways",
     "takeaway1": "{{countries}} countries in {{groups}} groups are available in this view.",
     "takeaway2": "{{units}} units are configured: do not compare values across different units.",
-    "takeaway3": "Replace this example content with the insights of your own tool."
+    "takeaway3": "Compare total prices and tax components across countries and periods.",
+    "focusLabel": "Country or area",
+    "noData": "There is no data to analyse with the selected filters.",
+    "noValue": "No price is available for {{country}} in {{period}}.",
+    "kpiPrice": "Price, {{period}}",
+    "kpiRank": "Rank (1 = highest)",
+    "kpiYear": "Change over one year",
+    "kpiEu": "Against the EU",
+    "position": {
+      "title": "Position among countries",
+      "rank": "Ranks {{rank}} of {{n}} countries, where 1 is the highest price.",
+      "percentile": "More expensive than {{percent}} % of the countries.",
+      "median": "{{gap}} compared with the median of the countries ({{median}}).",
+      "eu": "{{gap}} compared with the EU price.",
+      "ea": "{{gap}} compared with the euro area price.",
+      "extremes": "Highest: {{maxGeo}} ({{max}}). Lowest: {{minGeo}} ({{min}}).",
+      "outlierHigh": "The price is unusually high compared with the other countries.",
+      "outlierLow": "The price is unusually low compared with the other countries.",
+      "sensitive": "The rank could easily change: the nearest countries are within 2 % ({{list}}).",
+      "persistentHigh": "The price was in the top quarter of countries in {{share}} % of the last {{periods}} periods.",
+      "persistentLow": "The price was in the bottom quarter of countries in {{share}} % of the last {{periods}} periods.",
+      "regional": "In {{region}} it ranks {{rank}} of {{size}}, {{gap}} compared with the regional average.",
+      "rankShift": {
+        "higherInPps": "Adjusted for purchasing power the price ranks higher ({{rankPps}} of {{cohort}}) than in euro ({{rankEur}}).",
+        "lowerInPps": "Adjusted for purchasing power the price ranks lower ({{rankPps}} of {{cohort}}) than in euro ({{rankEur}}).",
+        "similar": "The rank is similar in euro ({{rankEur}}) and in purchasing power ({{rankPps}}) among {{cohort}} countries."
+      }
+    },
+    "development": {
+      "title": "Development over time",
+      "previous": "{{change}} compared with the previous period ({{period}}).",
+      "year": "{{change}} compared with the same period a year earlier ({{period}}).",
+      "momentum": {
+        "risingAccelerating": "Prices are rising and the rise is speeding up ({{latest}} over the year, against {{previous}} before).",
+        "risingSlowing": "Prices are still rising, but more slowly ({{latest}} over the year, against {{previous}} before).",
+        "fallingAccelerating": "Prices are falling and the fall is speeding up ({{latest}} over the year, against {{previous}} before).",
+        "fallingSlowing": "Prices are still falling, but more slowly ({{latest}} over the year, against {{previous}} before).",
+        "reversal": "The yearly trend has turned around ({{latest}} over the year, against {{previous}} before).",
+        "stableYoy": "The yearly change is small ({{latest}})."
+      },
+      "cagr": "Average yearly change over {{years}} years: {{change}}.",
+      "streak": {
+        "increase": "The price has risen for {{count}} periods in a row.",
+        "decrease": "The price has fallen for {{count}} periods in a row."
+      },
+      "volatility": "Volatility over the last {{periods}} periods: {{value}} percentage points (standard deviation of the changes between periods).",
+      "average": "{{diff}} compared with the average since {{start}}.",
+      "lifetime": "{{change}} since {{start}}; the price is now {{multiplier}} times the first value.",
+      "spike": "Largest rise in one period: {{change}} ({{period}}).",
+      "drop": "Largest fall in one period: {{change}} ({{period}}).",
+      "reversal": {
+        "rising": "After several rises, the price has just fallen.",
+        "falling": "After several falls, the price has just risen."
+      },
+      "seasonal": "The second half of the year is typically {{typical}} compared with the first (over {{years}} years).",
+      "highRegime": "{{share}} % of the periods were in the top fifth of prices ({{price}} or more).",
+      "crisisPeak": "Since the 2021–2023 peak ({{peak}}), the price has changed by {{change}}.",
+      "crisisBefore": "Compared with {{period}}, before the crisis, the price is {{change}}."
+    },
+    "history": {
+      "title": "Historical position",
+      "newHigh": "This is the highest price on record.",
+      "newLow": "This is the lowest price on record.",
+      "peak": "The peak was {{value}} in {{period}}; the price is now {{gap}} from it.",
+      "nearHigh": "The price is within 5 % of its record high.",
+      "nearLow": "The price is within 5 % of its record low.",
+      "percentile": "Higher than {{percent}} % of the {{count}} periods on record."
+    },
+    "europe": {
+      "title": "Across Europe",
+      "counts": "Over the year, prices rose in {{rising}} countries, fell in {{falling}} and stayed stable in {{stable}}.",
+      "eu": "EU price: {{change}} over the year.",
+      "topRising": "Largest rises: {{list}}.",
+      "topFalling": "Largest falls: {{list}}.",
+      "dispersion": {
+        "converging": "Prices across countries are moving closer together.",
+        "diverging": "Prices across countries are moving further apart.",
+        "stable": "The gap between countries is about the same as a year ago."
+      }
+    },
+    "composition": {
+      "title": "What the price is made of",
+      "share": "{{name}}: {{share}} % ({{value}}).",
+      "dominant": "{{name}} makes up more than half of the price.",
+      "taxShare": "Taxes and VAT are {{share}} % of the price, {{delta}} percentage points compared with a year earlier."
+    },
+    "otherLabel": "Compare with",
+    "otherNone": "No comparison",
+    "regions": {
+      "nordicBaltic": "the Nordic and Baltic countries",
+      "western": "Western Europe",
+      "southern": "Southern Europe",
+      "centralEastern": "Central and Eastern Europe"
+    },
+    "fiscal": {
+      "title": "Effect of taxes and levies",
+      "change": "Over the year the price before taxes changed by {{pre}} and the final price by {{final}}.",
+      "cushioned": "Taxes and levies softened the rise in the final price.",
+      "amplified": "Taxes and levies made the rise in the final price larger.",
+      "offsetDecrease": "Taxes and levies reduced the fall in the final price.",
+      "oppositeUp": "The price before taxes fell, but the final price rose because of taxes and levies.",
+      "oppositeDown": "The price before taxes rose, but the final price fell because of taxes and levies.",
+      "neutral": "Taxes and levies had no clear effect on the change."
+    },
+    "bands": {
+      "title": "By consumption band",
+      "pattern": {
+        "flat": "The price is almost the same in every consumption band.",
+        "decreasing": "The price falls as consumption grows.",
+        "increasing": "The price rises as consumption grows.",
+        "mixed": "The price does not change in one direction as consumption grows."
+      },
+      "gap": "{{gap}} in the selected band ({{band}}) compared with the standard band.",
+      "spread": {
+        "widened": "The gap between the smallest and the largest band widened over the year ({{spread}}).",
+        "narrowed": "The gap between the smallest and the largest band narrowed over the year ({{spread}}).",
+        "stable": "The gap between the smallest and the largest band is about the same as a year ago ({{spread}})."
+      }
+    },
+    "cost": {
+      "label": "Your yearly consumption ({{unit}})",
+      "hint": "Enter a yearly consumption to estimate the cost.",
+      "result": "At {{consumption}} the price band is {{band}}: about {{cost}} a year.",
+      "none": "There is no price for that consumption."
+    },
+    "components": {
+      "title": "Annual price components",
+      "period": "Latest annual figures: {{period}}.",
+      "mainUp": "Largest increase over the year: {{name}} ({{delta}}).",
+      "mainDown": "Largest decrease over the year: {{name}} ({{delta}}).",
+      "dominant": "{{name}} explains most of the yearly change.",
+      "versusEu": "Compared with the EU, {{name}} differs most: {{focus}} % of the price against {{eu}} %."
+    },
+    "context": {
+      "title": "Context",
+      "inflation": "Energy prices changed by {{energy}} over the year, while consumer prices overall changed by {{hicp}}.",
+      "crossFuel": "Per kWh, electricity costs {{ratio}} times as much as natural gas ({{electricity}} against {{gas}})."
+    },
+    "compare": {
+      "title": "Comparison with another country",
+      "gap": "{{country}} is {{gap}} ({{abs}}) compared with {{other}}.",
+      "growth": "{{name}} saw the faster yearly change ({{country}} {{a}}, {{other}} {{b}}).",
+      "driver": "The largest difference is in {{name}} ({{gap}})."
+    },
+    "quality": {
+      "title": "About the data",
+      "provisional": "The latest value is provisional.",
+      "estimated": "The latest value is an estimate.",
+      "negativePrice": "The latest price is negative, which is unusual.",
+      "zeroPrice": "The latest price is zero, which is unusual.",
+      "implausibleChange": "The yearly change is very large; check the data before relying on it.",
+      "noComponents": "There are no annual component figures for this country.",
+      "smallGroup": "Only {{n}} countries have a price, so comparisons are less reliable.",
+      "shortHistory": "Only {{count}} periods are available, so trends are less reliable."
+    }
   },
   "share": {
     "label": "Share",
     "title": "Share",
-    "text": "This Eurostat visualisation tool lets you explore the data and customise the view.",
+    "text": "This visualisation tool, created by Eurostat, displays electricity and natural gas prices in the EU and other European countries with a great level of detail. Users can interact with the data and customise the display in many different ways.",
     "copyLink": "Copy link",
     "linkCopied": "Link copied to clipboard.",
     "copyFailed": "The link could not be copied.",
@@ -201,19 +451,21 @@
   },
   "download": {
     "label": "Download chart or data",
-    "png": "Download PNG image",
-    "jpeg": "Download JPEG image",
+    "png": "Download as PNG image",
+    "jpeg": "Download as JPEG image",
     "excel": "Download Excel file",
     "preparing": "Preparing the download…",
     "done": "Download started.",
     "failed": "The download could not be created.",
     "sheet": "Data",
     "columnFilter": "Filter",
-    "columnSelection": "Selection"
+    "columnSelection": "Selection",
+    "image": "Download chart image",
+    "excelData": "Download chart data"
   },
   "embed": {
     "menu": "Embed",
-    "title": "Embed this view",
+    "title": "Embed chart",
     "description": "Copy this code and paste it into the page where the view should appear. Only the main content is shown, without banner or footer, with the filters you have selected now.",
     "codeLabel": "Embed code",
     "copy": "Copy code",
@@ -222,9 +474,95 @@
     "close": "Close"
   },
   "toolContent": {
-    "title": "Example chart",
-    "description": "The main chart of the tool appears here, with the filters of the menu applied.",
-    "hint": "Replace this card with the main chart of your tool.",
-    "unknownChart": "This view is not available."
+    "title": "Energy prices",
+    "subtitle": "{{band}} — {{period}}",
+    "description": "Compare electricity and natural gas prices across countries and consumption bands.",
+    "hint": "Source: Eurostat. Select price components to explore annual price composition.",
+    "dataTable": "View data table",
+    "tableCaption": "Energy prices for {{period}}",
+    "loadError": "Eurostat data could not be loaded.",
+    "renderError": "The Webtools chart could not be displayed.",
+    "unknownChart": "This view is not available.",
+    "subtitleCountry": "Dataset {{dataset}}"
+  },
+  "chart": {
+    "price": "Price",
+    "time": "Period",
+    "priceShare": "Share of price",
+    "totalPrice": "Total",
+    "source": "Source: Eurostat",
+    "components": {
+      "energy": "Price excluding taxes and levies",
+      "taxes": "Rest of taxes and levies",
+      "vat": "VAT and other recoverable taxes and levies"
+    },
+    "productPrice": {
+      "4100": "Gas price",
+      "6000": "Electricity price"
+    },
+    "value": "Value"
+  },
+  "country": {
+    "heading": "{{country}}: prices in detail",
+    "description": "The same prices for one country: by consumption band, by component and over time.",
+    "titleBar": "Consumption levels - {{country}} - {{period}}",
+    "titlePie": "{{country}} - {{period}} - {{band}}",
+    "titleLine": "{{country}} - {{band}}",
+    "toolbar": "Charts for {{country}}",
+    "view": {
+      "bar": "Show bar chart",
+      "pie": "Show pie chart",
+      "line": "Show line chart"
+    },
+    "showTable": "Display table",
+    "showChart": "Show chart",
+    "close": "Close and go back to all countries",
+    "open": "Show the detailed charts for {{country}}",
+    "openHint": "Select a bar to see that country in detail.",
+    "empty": "There are no values for this country with the selected filters.",
+    "tableCaption": "Prices for {{country}}, {{period}}, by consumption band",
+    "pieNegative": "Pie chart not displayed due to negative values",
+    "tableCaptionPie": "Price composition for {{country}}, {{band}}, {{period}}",
+    "tableCaptionLine": "Price over time for {{country}}, {{band}}",
+    "colComponent": "Component",
+    "colPrice": "Price",
+    "colShare": "Price share (%)"
+  },
+  "announce": {
+    "updated": "Chart updated: {{title}}"
+  },
+  "controls": {
+    "label": "Chart options",
+    "aggregatesShow": "Show EU and euro area",
+    "aggregatesHide": "Hide EU and euro area",
+    "detailsShow": "Show details",
+    "detailsHide": "Hide details",
+    "percentageShow": "Show shares in %",
+    "percentageHide": "Show prices",
+    "order": "Select order of the chart",
+    "move": "Move the toolbar",
+    "moveHelp": "Drag to move the toolbar, double-click to hide it. With the keyboard: Space picks it up, the arrow keys move it (Shift for larger steps), Space drops it, Escape cancels, Home puts it back. Enter hides or shows it.",
+    "picked": "Toolbar picked up. Use the arrow keys to move it.",
+    "dropped": "Toolbar dropped.",
+    "cancelled": "Move cancelled.",
+    "resetDone": "Toolbar back in its usual place.",
+    "collapsed": "Toolbar hidden. Click the handle or press Enter to show it again.",
+    "expanded": "Toolbar shown."
+  },
+  "errors": {
+    "noCountries": "Select at least one country to display energy prices.",
+    "dataLoad": "The energy-price data could not be loaded.",
+    "webtoolsApi": "The European Commission Webtools service is unavailable.",
+    "webtoolsLoader": "The European Commission Webtools loader could not be loaded."
+  },
+  "datasets": {
+    "nrg_pc_202": "Gas prices for household consumers - bi-annual data (from 2007 onwards)",
+    "nrg_pc_203": "Gas prices for non-household consumers - bi-annual data (from 2007 onwards)",
+    "nrg_pc_204": "Electricity prices for household consumers - bi-annual data (from 2007 onwards)",
+    "nrg_pc_205": "Electricity prices for non-household consumers - bi-annual data (from 2007 onwards)",
+    "nrg_pc_202_c": "Gas prices components for household consumers - annual data (from 2007 onwards)",
+    "nrg_pc_203_c": "Gas prices components for non-household consumers - annual data (from 2007 onwards)",
+    "nrg_pc_204_c": "Electricity components for prices for household consumers - annual data (from 2007 onwards)",
+    "nrg_pc_205_c": "Electricity components for prices for non-household consumers - annual data (from 2007 onwards)"
   }
 }

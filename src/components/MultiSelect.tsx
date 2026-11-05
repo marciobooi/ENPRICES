@@ -7,6 +7,8 @@ import { ToolbarIcon } from './ToolbarIcon'
 
 export interface MultiSelectLabels {
   placeholder: string
+  /** Shown instead of the list of names when every option is selected ("All selected"). */
+  allSelected?: string
   selectAll: string
   clearAll: string
   close: string
@@ -241,7 +243,7 @@ export function MultiSelect({
               }
             }}
           >
-            {selectedLabels.length > 0 ? selectedLabels.join(', ') : labels.placeholder}
+            {selectedLabels.length === 0 ? labels.placeholder : labels.allSelected && selectedLabels.length === flat.length ? labels.allSelected : selectedLabels.join(', ')}
           </button>
           <div className="ecl-select__icon" aria-hidden="true">
             <span className="select-caret"><ToolbarIcon name="caret-down" /></span>

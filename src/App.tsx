@@ -1,8 +1,11 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { DriveStep } from 'driver.js'
-import { features, filters, menuItems, tourConfig } from './config/toolConfig'
-import { describeFilter, useFilters } from './state/filters'
+import { features, filters, tourConfig, units } from './config/toolConfig'
+import { describeFilter, useDrillState, useFilters } from './state/filters'
+import { resolveEnergyQuery, useCountryPrices, useEnergyPrices } from './hooks/useEnergyPrices'
+import { countryBand, countryPeriod, countryViewTitle, countryViews, type CountryView } from './services/countryChart'
+import { selectedPeriod } from './services/energyChart'
 import { useGuidedTour } from './hooks/useGuidedTour'
 import { useSiteShell } from './hooks/useSiteShell'
 import { DownloadMenu } from './components/DownloadMenu'
@@ -15,7 +18,10 @@ import { RoundButton } from './components/RoundButton'
 import { ShareMenu } from './components/ShareMenu'
 import { SiteSubNavigation } from './components/SubNav'
 import { ToolContent } from './components/ToolContent'
-import { buildToolTable } from './download/toolTable'
+import { CountryContent } from './components/CountryContent'
+import { CountryToolbar } from './components/CountryToolbar'
+import { FloatingControls } from './components/FloatingControls'
+import { buildCountryTable, buildToolTable } from './download/toolTable'
 import './App.css'
 
 function App() {
@@ -24,6 +30,24 @@ function App() {
 
   // The filters (src/config/toolConfig.ts) live in the address: shared links and embedded views show this state.
   const [values, setFilter] = useFilters()
+  const prices = useEnergyPrices(values)
+  const drill = useDrillState()
+  const [showTable, setShowTable] = useState(false)
+  const [countryTable, setCountryTable] = useState(false)
+
+  // Opening or closing a country removes the button that had focus: move focus to the heading of the new view
+  // (WCAG 2.4.3), whose text is then read out. Not on the first render.
+  const openCountry = useRef(drill.chartGeo)
+  useEffect(() => {
+    if (openCountry.current === drill.chartGeo) return
+    openCountry.current = drill.chartGeo
+    document.querySelector<HTMLElement>('#main-content .tool-content h1, #main-content .tool-content h2')?.focus()
+  }, [drill.chartGeo])
+  const countryPrices = useCountryPrices(values, drill.chartGeo)
+  const countryView = (countryViews as readonly string[]).includes(drill.chartView) ? drill.chartView as CountryView : 'bar'
+  const getTable = drill.chartGeo && countryPrices.data
+    ? () => buildCountryTable(countryPrices.data!, values, countryView, t)
+    : prices.data ? () => buildToolTable(prices.data!, t) : undefined
   const [insightsOpen, setInsightsOpen] = useState(false)
 
   // Context added to the contact e-mail: what the person had selected when they wrote.
@@ -34,6 +58,29 @@ function App() {
     })),
     [t, values],
   )
+
+  // Title and subtitle of the view in the top bar: the dataset and the period, then the consumption band.
+  const query = resolveEnergyQuery(values)
+  const shownPeriod = prices.data ? selectedPeriod(prices.data, typeof values.time === 'string' ? values.time : '') : ''
+  const unitAbbreviation = units[query.unit]?.abbr ?? query.unit
+  const viewTitle = drill.chartGeo
+    ? t(`datasets.${query.datasetCode}`)
+    : `${t(`datasets.${query.datasetCode}`)} (EUR/${unitAbbreviation})${shownPeriod ? ` ${shownPeriod}` : ''}`
+  const viewSubtitle = drill.chartGeo
+    ? countryPrices.data ? countryViewTitle(countryPrices.data, values, countryView, t) : ''
+    : `${t(`bands.${query.selectedBand}`, { defaultValue: query.selectedBand })}${shownPeriod ? ` - ${shownPeriod}` : ''} - ${t('chart.components.energy')}`
+
+  // Tells screen readers that the chart changed (the chart itself is redrawn silently).
+  const timeValue = typeof values.time === 'string' ? values.time : ''
+  const announcement = drill.chartGeo
+    ? countryPrices.data
+      ? t('announce.updated', {
+          title: `${t('country.heading', { country: t(`countries.${drill.chartGeo}`, { defaultValue: drill.chartGeo }) })}, ${countryPeriod(countryPrices.data, timeValue)}, ${t(`bands.${countryBand(countryPrices.data, values)}`)}`,
+        })
+      : ''
+    : prices.data
+      ? t('announce.updated', { title: `${t('toolContent.title')}, ${selectedPeriod(prices.data, timeValue)}, ${t(`bands.${String(values.band)}`, { defaultValue: '' })}` })
+      : ''
 
   // The steps come from `tourConfig.steps`, their texts from the locale files.
   const tourSteps = useMemo<DriveStep[]>(
@@ -50,11 +97,24 @@ function App() {
       <SiteNavigation title={t('brand')} />
 
       <SiteSubNavigation
-        title={t('subnav.title')}
-        subtitle={t('subnav.subtitle')}
-        menuItems={menuItems.map(({ labelKey, href }) => ({ label: t(labelKey), href }))}
-        filters={<FilterControls values={values} onChange={setFilter} />}
-        actions={
+        title={viewTitle}
+        subtitle={viewSubtitle}
+        filters={drill.chartGeo ? undefined : <FilterControls values={values} periods={prices.data?.periods} onChange={setFilter} />}
+        actions={drill.chartGeo ? (
+          // While a country is open the top bar has its own buttons, as in the original tool.
+          <CountryToolbar
+            view={countryView}
+            onViewChange={drill.setView}
+            showTable={countryTable}
+            onToggleTable={() => setCountryTable((current) => !current)}
+            onClose={() => {
+              setCountryTable(false)
+              drill.close()
+            }}
+            getTable={getTable}
+            title={viewSubtitle || viewTitle}
+          />
+        ) : (
           <>
             {features.insights && (
               <RoundButton
@@ -65,15 +125,32 @@ function App() {
                 onClick={() => setInsightsOpen(true)}
               />
             )}
-            {features.download && <DownloadMenu getTable={() => buildToolTable(values, t)} />}
+            {features.download && <DownloadMenu getTable={getTable} />}
             {features.share && <ShareMenu emailDetails={emailDetails} />}
             {features.tour && <RoundButton id="tour-button" icon="help" label={t('tour.start')} onClick={startTour} />}
           </>
-        }
+        )}
       />
 
       <main id="main-content" className="visualization-shell">
-        <ToolContent values={values} />
+        {drill.chartGeo ? (
+          <CountryContent
+            countryCode={drill.chartGeo}
+            values={values}
+            state={countryPrices}
+            view={countryView}
+            showTable={countryTable}
+          />
+        ) : (
+          <>
+            <FloatingControls values={values} onChange={setFilter} showTable={showTable} onToggleTable={() => setShowTable((current) => !current)} />
+            <ToolContent values={values} state={prices} onSelectCountry={(code) => {
+                setCountryTable(false)
+                drill.open(code)
+              }}
+              showTable={showTable} />
+          </>
+        )}
       </main>
 
       {features.insights && (
@@ -83,9 +160,11 @@ function App() {
           title={t('insights.title')}
           closeLabel={t('insights.close')}
         >
-          <InsightsContent />
+          <InsightsContent open={insightsOpen} values={values} defaultFocus={drill.chartGeo || (Array.isArray(values.geo) ? values.geo[0] : undefined)} />
         </InsightsPanel>
       )}
+
+      <span className="ecl-u-sr-only" role="status" aria-live="polite">{announcement}</span>
 
       <SiteFooter />
     </>

@@ -2,8 +2,7 @@
  * Tool configuration: every lookup table of the tool lives here (colours, code mappings, dataset
  * definitions, countries, units, images). Components import from this file and never hard-code codes.
  *
- * Per tool: keep the structure, replace the EXAMPLE entries marked below with the tool's own codes.
- * Labels that must be translated belong in src/locales; the labels here are neutral English fallbacks.
+ * The ENPRICES lookup tables. Labels that must be translated belong in src/locales.
  */
 
 /* ------------------------------------------------------------------ */
@@ -17,26 +16,28 @@
  * Open Graph, Twitter Card, canonical, page language), because social crawlers read the HTML and do not run
  * JavaScript. That is why this whole file is pure data: it is also read by Node during the build.
  *
- * Replace every <<PLACEHOLDER>>; `npm run check:release` fails while one is left.
+ * Social metadata mirrors the legacy ENPRICES page.
  */
 export const site = {
   /** Page title and `og:title`. */
-  title: 'Eurostat tools',
-  /** Meta description and `og:description` (about 150 characters shows fully in most networks). */
-  description: 'A multilingual starter for Eurostat data tools.',
-  siteName: 'Eurostat',
+  title: 'Energy prices - Eurostat',
+  socialTitle: 'Energy Prices Visualisation Tool - Eurostat',
+  description: 'This visualisation tool, created by Eurostat, displays electricity and natural gas prices in the EU and other European countries with a great level of detail. Users can interact with the data and customise the display in many different ways.',
+  keywords: 'Prices, energy, data, statistics, gas price, electricity price, price of gas, price of electricity, electricity taxes, energy taxes, gas taxes, taxes on energy, taxes on gas, taxes on electricity, electricity levies, energy levies, gas levies, levies on energy, levies on gas, levies on electricity',
+  author: 'Eurostat',
+  siteName: 'Enprices',
 
   /** Absolute https address of the deployed page: what people share and the canonical address. */
-  url: 'https://ec.europa.eu/eurostat/cache/visualisations/<<TOOL>>/<<TOOL>>.html',
+  url: 'https://ec.europa.eu/eurostat/cache/energy/prices/enprices.html',
 
   /** Preview image shown in the post. The file lives in public/; its address is derived from `url`. */
   image: {
     /** Path inside the deployed folder (the file is public/images/share-preview.png). PNG or JPEG, never SVG. */
-    file: 'images/share-preview.png',
-    type: 'image/png',
+    file: 'images/enprices-share.jpg',
+    type: 'image/jpeg',
     width: 1200,
-    height: 630,
-    alt: 'Eurostat tools: an interactive data tool to explore European statistics.',
+    height: 600,
+    alt: 'Energy prices visualisation tool - Eurostat',
   },
 
   /**
@@ -71,6 +72,7 @@ export const site = {
 
   /** Large image above the text in X; `summary` would show a small square. */
   twitterCard: 'summary_large_image',
+  robots: 'index, follow',
 
   /** Browser UI colour on mobile (ECL primary-180). */
   themeColor: '#082b7a',
@@ -106,15 +108,13 @@ export const euColors = {
   teal: ['#208486', '#92C1C0', '#008D8B', '#00525C'],
 } as const
 
-/** EXAMPLE: one colour per category code. Exposed as CSS variables `--color-<code>` (see applyColorCssVariables). */
+/** One colour per category code. Exposed as CSS variables `--color-<code>` (see applyColorCssVariables). */
 export const categoryColors: Record<string, string> = {
-  TOTAL: euColors.cornflower[0], // all categories aggregate
-  CAT1: euColors.forestGreen[0],
-  CAT2: euColors.cornflower[3],
-  CAT3: euColors.darkGold[2],
-  CAT4: euColors.berry[0],
-  CAT5: euColors.sienna[3],
-  CAT6: euColors.darkOrchid[2],
+  TOTAL: '#0E47CB',
+  X_TAX: '#388AE2',
+  ENERGY: '#06D7FF',
+  VAT: '#19FF99',
+  OTHER: '#4C99FF',
 }
 
 /** Neutral colour for everything that is not highlighted. */
@@ -130,6 +130,27 @@ export const seriesColors = [
   '#1F497D', '#faa519', '#32AFAF', '#F06423', '#C84B96', '#5FB441', '#286EB4',
   '#802F09', '#D73C41', '#5E620F', '#00A5E6', '#0F243E', '#B9C31E', '#1A5757',
 ] as const
+
+/** Colour of each price component (the original ENPRICES palette); codes not listed take `componentFallbackColors`. */
+export const componentColors: Record<string, string> = {
+  TOTAL: '#388AE2',
+  NETC: '#06D7FF',
+  TAX_LEV_X_VAT: '#19FF99',
+  VAT: '#4C99FF',
+  TAX_RNW: '#FFD900',
+  TAX_CAP: '#C88000',
+  TAX_ENV: '#33D129',
+  TAX_NUC: '#FFB800',
+  OTH: '#E67500',
+  NRG_SUP: '#05A0FF',
+}
+
+export const componentFallbackColors = [
+  '#2CB523', '#8C4000', '#0033FF', '#00A68C', '#FF8C00', '#00D98C', '#2673FF', '#FFB300',
+] as const
+
+/** Colour of the three-part breakdown of a semi-annual price: energy, taxes and levies, VAT. */
+export const breakdownColors = { energy: '#388AE2', taxes: '#06D7FF', vat: '#19FF99' } as const
 
 /** Publish the colours as CSS custom properties: `--color-<code lowercased>`. Call once at start-up. */
 export function applyColorCssVariables(root: HTMLElement = document.documentElement): void {
@@ -162,15 +183,16 @@ export interface DatasetDefinition {
   // Labels are translated in the locale files (`indicators.<code>`), not here.
 }
 
-/** EXAMPLE: one entry per Eurostat dataset code used by the tool. */
+/** One entry per Eurostat dataset code used by the tool. */
 export const datasets: Record<string, DatasetDefinition> = {
-  env_example_a: {
-    dimensions: ['indic_env', 'category', 'unit', 'geo', 'time'],
-    codes: {
-      indic_env: ['DE', 'DMC', 'DMI', 'EXP', 'IMP'],
-      category: ['TOTAL', 'CAT1', 'CAT2', 'CAT3', 'CAT4', 'CAT5', 'CAT6'],
-    },
-  },
+  nrg_pc_202: { dimensions: ['freq', 'siec', 'nrg_cons', 'unit', 'tax', 'currency', 'geo', 'time'], codes: { tax: ['X_TAX', 'X_VAT', 'I_TAX'] } },
+  nrg_pc_202_c: { dimensions: ['freq', 'nrg_prc', 'nrg_cons', 'currency', 'unit', 'geo', 'time'], codes: { nrg_prc: ['NRG_SUP', 'NETC', 'TAX_FEE_LEV_CHRG', 'VAT', 'TAX_RNW', 'TAX_CAP', 'TAX_ENV', 'TAX_NUC', 'TAX_FEE_LEV_CHRG_ALLOW', 'TAX_RNW_ALLOW', 'TAX_CAP_ALLOW', 'TAX_ENV_ALLOW', 'TAX_NUC_ALLOW', 'ALLOW_OTH', 'OTH'] } },
+  nrg_pc_203: { dimensions: ['freq', 'siec', 'nrg_cons', 'unit', 'tax', 'currency', 'geo', 'time'], codes: { tax: ['X_TAX', 'X_VAT', 'I_TAX'] } },
+  nrg_pc_203_c: { dimensions: ['freq', 'nrg_prc', 'nrg_cons', 'currency', 'unit', 'geo', 'time'], codes: { nrg_prc: ['NRG_SUP', 'NETC', 'TAX_FEE_LEV_CHRG', 'VAT', 'TAX_RNW', 'TAX_CAP', 'TAX_ENV', 'TAX_NUC', 'TAX_FEE_LEV_CHRG_ALLOW', 'TAX_RNW_ALLOW', 'TAX_CAP_ALLOW', 'TAX_ENV_ALLOW', 'TAX_NUC_ALLOW', 'ALLOW_OTH', 'OTH'] } },
+  nrg_pc_204: { dimensions: ['freq', 'siec', 'nrg_cons', 'unit', 'tax', 'currency', 'geo', 'time'], codes: { tax: ['X_TAX', 'X_VAT', 'I_TAX'] } },
+  nrg_pc_204_c: { dimensions: ['freq', 'nrg_cons', 'nrg_prc', 'currency', 'geo', 'time'], codes: { nrg_prc: ['NRG_SUP', 'NETC', 'TAX_FEE_LEV_CHRG', 'VAT', 'TAX_RNW', 'TAX_CAP', 'TAX_ENV', 'TAX_NUC', 'TAX_FEE_LEV_CHRG_ALLOW', 'TAX_RNW_ALLOW', 'TAX_CAP_ALLOW', 'TAX_ENV_ALLOW', 'TAX_NUC_ALLOW', 'ALLOW_OTH', 'OTH'] } },
+  nrg_pc_205: { dimensions: ['freq', 'siec', 'nrg_cons', 'unit', 'tax', 'currency', 'geo', 'time'], codes: { tax: ['X_TAX', 'X_VAT', 'I_TAX'] } },
+  nrg_pc_205_c: { dimensions: ['freq', 'nrg_prc', 'nrg_cons', 'currency', 'geo', 'time'], codes: { nrg_prc: ['NRG_SUP', 'NETC', 'TAX_FEE_LEV_CHRG', 'VAT', 'TAX_RNW', 'TAX_CAP', 'TAX_ENV', 'TAX_NUC', 'TAX_FEE_LEV_CHRG_ALLOW', 'TAX_RNW_ALLOW', 'TAX_CAP_ALLOW', 'TAX_ENV_ALLOW', 'TAX_NUC_ALLOW', 'ALLOW_OTH', 'OTH'] } },
 }
 
 /* ------------------------------------------------------------------ */
@@ -181,8 +203,8 @@ export const datasets: Record<string, DatasetDefinition> = {
  * Geo codes of the tool. Country and group NAMES are not here: they are translated in the locale files
  * (`countries.<code>` and `countryGroups.<id>` in src/locales/*.json).
  */
-export const allCountries = ["EU27_2020","BE","BG","CZ","DK","DE","EE","IE","EL","ES","FR","HR","IT","CY","LV","LT","LU","HU","MT","NL","AT","PL","PT","RO","SI","SK","FI","SE","IS","LI","NO","ME","MK","AL","RS","TR","BA","XK","MD","UA","GE"];
-export const AGGREGATES_COUNTRY_CODES = ["EU27_2020"];
+export const allCountries = ["EU27_2020","EA","BE","BG","CZ","DK","DE","EE","IE","EL","ES","FR","HR","IT","CY","LV","LT","LU","HU","MT","NL","AT","PL","PT","RO","SI","SK","FI","SE","IS","LI","NO","ME","MK","AL","RS","TR","BA","XK","MD","UA","GE"];
+export const AGGREGATES_COUNTRY_CODES = ["EU27_2020", "EA"];
 export const EU_COUNTRY_CODES = ["BE", "BG", "CZ", "DK", "DE", "EE", "IE", "EL", "ES", "FR", "HR", "IT", "CY", "LV", "LT", "LU", "HU", "MT", "NL", "AT", "PL", "PT", "RO", "SI", "SK", "FI", "SE"];
 export const EFTA_COUNTRY_CODES = ["IS", "LI", "NO"];
 export const ENLARGEMENT_COUNTRY_CODES = [ "BA","ME","MD","MK","GE","AL","RS","TR","UA","XK",]
@@ -210,10 +232,9 @@ export interface UnitDefinition {
 
 /** EXAMPLE units; the base unit of the dataset has conversionFactor 1. */
 export const units: Record<string, UnitDefinition> = {
-  T_HAB: { abbr: 'T_HAB', conversionFactor: 1 },
-  THS_T: { abbr: 'KT', conversionFactor: 1 },
-  MIO_T: { abbr: 'MT', conversionFactor: 0.001 },
-  G_T: { abbr: 'GT', conversionFactor: 0.000001 },
+  KWH: { abbr: 'kWh', conversionFactor: 1 },
+  MWH: { abbr: 'MWh', conversionFactor: 1000 },
+  GJ_GCV: { abbr: 'GJ', conversionFactor: 1 },
 }
 
 /** Convert a value expressed in the base unit into another configured unit. */
@@ -234,13 +255,60 @@ export const images = {
 /* CODES THE TOOL REQUESTS FROM THE API                                */
 /* ------------------------------------------------------------------ */
 
+/**
+ * The tax series Eurostat gives for the half-yearly prices, and the one that is the price shown: the price
+ * excluding taxes and levies. Bars, tables, totals and the insights all use it; change it here to show another.
+ */
+export const PRICE_TAX_CODE = 'X_TAX'
+
 export const apiCodes = {
   geo: allCountries,
-  /** Flow / indicator codes of the tool (fill in per tool). */
-  flow: [] as string[],
-  category: Object.keys(categoryColors),
-  /** Years are queried from the dataset directly. */
-  year: [] as string[],
+  product: ['4100', '6000'],
+  consumer: ['HOUSEHOLD', 'N_HOUSEHOLD'],
+  nrg_cons: [
+    'TOT_GJ', 'GJ_LT20', 'GJ20-199', 'GJ_GE200',
+    'GJ_LT1000', 'GJ1000-9999', 'GJ10000-99999', 'GJ100000-999999', 'GJ1000000-3999999', 'GJ_GE4000000',
+    'TOT_KWH', 'KWH_LT1000', 'KWH1000-2499', 'KWH2500-4999', 'KWH5000-14999', 'KWH_LE15000', 'KWH_GE15000',
+    'MWH_LE149999', 'MWH_LT20', 'MWH20-499', 'MWH500-1999', 'MWH2000-19999', 'MWH20000-69999', 'MWH70000-149999', 'MWH_GE150000',
+  ],
+  tax: ['X_TAX', 'X_VAT', 'I_TAX'],
+}
+
+/** The parts of the annual datasets that make the price without taxes; the others are taxes, levies and VAT. */
+export const PRICE_COMPONENT_CODES = ['NRG_SUP', 'NETC'] as const
+
+export const energyDatasets = {
+  '4100_HOUSEHOLD': {
+    code: 'nrg_pc_202', componentsCode: 'nrg_pc_202_c', defaultBand: 'GJ20-199',
+    defaultComponentsBand: 'TOT_GJ', units: ['GJ_GCV', 'KWH', 'MWH'], componentsUnits: ['GJ_GCV', 'KWH'],
+    componentCodes: ['NETC', 'NRG_SUP', 'OTH', 'TAX_CAP', 'TAX_ENV', 'TAX_RNW', 'VAT'],
+  },
+  '4100_N_HOUSEHOLD': {
+    code: 'nrg_pc_203', componentsCode: 'nrg_pc_203_c', defaultBand: 'GJ10000-99999',
+    defaultComponentsBand: 'TOT_GJ', units: ['GJ_GCV', 'KWH', 'MWH'], componentsUnits: ['GJ_GCV', 'KWH'],
+    componentCodes: ['NETC', 'NRG_SUP', 'OTH', 'TAX_CAP', 'TAX_ENV', 'TAX_RNW', 'VAT'],
+  },
+  '6000_HOUSEHOLD': {
+    code: 'nrg_pc_204', componentsCode: 'nrg_pc_204_c', defaultBand: 'KWH2500-4999',
+    defaultComponentsBand: 'TOT_KWH', units: ['KWH', 'MWH'], componentsUnits: ['KWH', 'MWH'],
+    componentCodes: ['NETC', 'NRG_SUP', 'OTH', 'TAX_CAP', 'TAX_ENV', 'TAX_NUC', 'TAX_RNW', 'VAT'],
+  },
+  '6000_N_HOUSEHOLD': {
+    code: 'nrg_pc_205', componentsCode: 'nrg_pc_205_c', defaultBand: 'MWH500-1999',
+    defaultComponentsBand: 'TOT_KWH', units: ['KWH', 'MWH'], componentsUnits: ['MWH'],
+    componentCodes: ['NETC', 'NRG_SUP', 'OTH', 'TAX_CAP', 'TAX_ENV', 'TAX_NUC', 'TAX_RNW', 'VAT'],
+  },
+} as const
+
+export const consumptionBands: Record<string, readonly string[]> = {
+  nrg_pc_202: ['TOT_GJ', 'GJ_LT20', 'GJ20-199', 'GJ_GE200'],
+  nrg_pc_203: ['TOT_GJ', 'GJ_LT1000', 'GJ1000-9999', 'GJ10000-99999', 'GJ100000-999999', 'GJ1000000-3999999', 'GJ_GE4000000'],
+  nrg_pc_204: ['TOT_KWH', 'KWH_LT1000', 'KWH1000-2499', 'KWH2500-4999', 'KWH5000-14999', 'KWH_GE15000'],
+  nrg_pc_205: ['TOT_KWH', 'MWH_LT20', 'MWH20-499', 'MWH500-1999', 'MWH2000-19999', 'MWH20000-69999', 'MWH70000-149999', 'MWH_GE150000'],
+  nrg_pc_202_c: ['TOT_GJ', 'GJ_LT20', 'GJ20-199', 'GJ_GE200'],
+  nrg_pc_203_c: ['TOT_GJ', 'GJ_LT1000', 'GJ1000-9999', 'GJ10000-99999', 'GJ100000-999999', 'GJ1000000-3999999', 'GJ_GE4000000'],
+  nrg_pc_204_c: ['TOT_KWH', 'KWH_LT1000', 'KWH1000-2499', 'KWH2500-4999', 'KWH5000-14999', 'KWH_LE15000'],
+  nrg_pc_205_c: ['TOT_KWH', 'MWH_LE149999', 'MWH_LT20', 'MWH20-499', 'MWH500-1999', 'MWH2000-19999', 'MWH20000-69999', 'MWH70000-149999', 'MWH_GE150000'],
 }
 
 /* ------------------------------------------------------------------ */
@@ -260,14 +328,19 @@ export const tourConfig = {
    * files), `element` is the CSS selector to highlight. Steps whose element is not in the page are skipped.
    */
   steps: [
-    { id: 'language', element: '#toggleLanguageBtn' },
+    { id: 'chart', element: '.energy-chart' },
     { id: 'menu', element: '#menu-toggle' },
-    { id: 'tool', element: '.toolbar-title' },
+    { id: 'table', element: '#chart-table' },
+    { id: 'order', element: '#chart-order' },
+    { id: 'aggregates', element: '#chart-aggregates' },
+    { id: 'components', element: '#components-toggle' },
+    { id: 'details', element: '#chart-details' },
     { id: 'insights', element: '#insights-button' },
     { id: 'download', element: '#download-button' },
+    { id: 'embed', element: '#share-button' },
+    { id: 'language', element: '#toggleLanguageBtn' },
     { id: 'share', element: '#share-button' },
     { id: 'replay', element: '#tour-button' },
-    { id: 'content', element: '#main-content' },
   ],
 }
 
@@ -303,19 +376,45 @@ export type FilterDefinition =
  * filter and the menu, the address, the shared and embedded views and the contact e-mail all follow.
  */
 export const filters: readonly FilterDefinition[] = [
-  { id: 'unit', type: 'select', nameKey: 'units', options: Object.keys(units), default: 'THS_T' },
-  { id: 'geo', type: 'multiselect', nameKey: 'countries', groupKey: 'countryGroups', options: countryGroups, default: ['EU27_2020'] },
+  { id: 'geo', type: 'multiselect', nameKey: 'countries', groupKey: 'countryGroups', options: countryGroups, default: allCountries },
+  { id: 'product', type: 'select', nameKey: 'products', options: ['6000', '4100'], default: '6000' },
+  { id: 'consumer', type: 'select', nameKey: 'consumers', options: ['HOUSEHOLD', 'N_HOUSEHOLD'], default: 'HOUSEHOLD' },
+  {
+    id: 'time',
+    type: 'select',
+    nameKey: 'periods',
+    options: Array.from({ length: new Date().getFullYear() - 1984 }, (_, index) => 1985 + index)
+      .flatMap((year) => [String(year), `${year}-S1`, `${year}-S2`]),
+    default: `${new Date().getFullYear()}-S1`,
+  },
+  { id: 'band', type: 'select', nameKey: 'bands', options: apiCodes.nrg_cons, default: 'KWH2500-4999' },
+  { id: 'unit', type: 'select', nameKey: 'units', options: Object.keys(units), default: 'KWH' },
+  { id: 'component', type: 'select', nameKey: 'componentModes', options: ['total', 'components'], default: 'total' },
+  { id: 'breakdown', type: 'select', nameKey: 'breakdowns', options: ['total', 'components'], default: 'total' },
+  { id: 'order', type: 'select', nameKey: 'orders', options: ['proto', 'alfa', 'asc', 'desc'], default: 'desc' },
+  { id: 'percentage', type: 'select', nameKey: 'percentageModes', options: ['value', 'percentage'], default: 'value' },
 ]
+
+/** The orders of the original tool: highest first, lowest first, alphabetical and the protocol order of the countries. */
+export const sortOrders = ['desc', 'asc', 'alfa', 'proto'] as const
+
+/** Filters that live in the floating bar of the main chart (FloatingControls) instead of in the menu. */
+export const filtersUnderChart: readonly string[] = ['component', 'breakdown', 'percentage', 'order']
 
 /* ------------------------------------------------------------------ */
 /* MENU                                                                */
 /* ------------------------------------------------------------------ */
 
-/** EXAMPLE links of the menu. `labelKey` is a key in the locale files. */
+/** Links of the menu. `labelKey` is a key in the locale files. */
+/** Eurostat reference metadata (SIMS) of the price datasets, by product: `<base>/<LANGUAGE>/<dataset>_sims.htm`. */
+export const metadataLinks = {
+  base: 'https://ec.europa.eu/eurostat/cache/metadata',
+  datasets: { '4100': 'nrg_pc_202', '6000': 'nrg_pc_204' } as Record<string, string>,
+}
+
 export const menuItems = [
   { labelKey: 'subnav.menuItem1', href: '#main-content' },
-  { labelKey: 'subnav.menuItem2', href: '#main-content' },
-  { labelKey: 'subnav.menuItem3', href: '#main-content' },
+  { labelKey: 'subnav.menuItem2', href: 'https://ec.europa.eu/eurostat/databrowser/' },
 ] as const
 
 /* ------------------------------------------------------------------ */
@@ -349,7 +448,7 @@ export const downloadConfig = {
    */
   imageTarget: '.tool-content',
   /** Start of the file names, followed by the date: `eurostat-tool-2026-11-05.png`. */
-  fileName: 'eurostat-tool',
+  fileName: 'energy-prices',
 }
 
 /* ------------------------------------------------------------------ */
@@ -364,4 +463,3 @@ export const embedConfig = {
   /** Ids of the charts that can be embedded on their own (`?embed=<id>`). */
   charts: ['main'],
 }
-

@@ -1,3 +1,5 @@
+import i18n from '../i18n'
+
 const WEBTOOLS_LOADER_ID = 'european-commission-webtools-loader'
 const UTILITY_CONFIG_PREFIX = 'european-commission-webtools-config'
 
@@ -86,7 +88,7 @@ function loadWebtools(): Promise<void> {
       loader.remove()
       window.removeEventListener('wtReady', renderGloban)
       loaderPromise = undefined
-      reject(new Error('The European Commission Webtools Smart Loader could not be loaded.'))
+      reject(new Error(i18n.t('errors.webtoolsLoader')))
     }
     document.head.append(loader)
   })
@@ -96,6 +98,12 @@ function loadWebtools(): Promise<void> {
 
 export const webtoolsService = {
   initialize: loadWebtools,
+  async renderChart(target: Element, config: object): Promise<void> {
+    await loadWebtools()
+    const wt = getWt()
+    if (!wt) throw new Error(i18n.t('errors.webtoolsApi'))
+    wt.render(target, config)
+  },
   setLanguage,
   getChartEmbedUrl(): string | undefined {
     return import.meta.env.VITE_WEBTOOLS_CHART_URL || undefined

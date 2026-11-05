@@ -56,6 +56,69 @@ const PATHS = {
       <path d="m5 12 7-7 7 7" />
     </>
   ),
+  'chart-bar': (
+    <>
+      <path d="M4 20V4" />
+      <path d="M4 20h16" />
+      <path d="M9 16v-5M13 16V8M17 16v-3" strokeWidth="2.5" />
+    </>
+  ),
+  'chart-pie': (
+    <>
+      <path d="M12 3v9h9" />
+      <path d="M20.5 15.5A9 9 0 1 1 8.5 3.5" />
+    </>
+  ),
+  'chart-line': (
+    <>
+      <path d="M4 20V4" />
+      <path d="M4 20h16" />
+      <path d="m7 15 4-5 3 3 5-6" />
+    </>
+  ),
+  table: (
+    <>
+      <rect x="3" y="4" width="18" height="16" rx="1" />
+      <path d="M3 10h18M3 15h18M9 4v16" />
+    </>
+  ),
+  grip: (
+    <>
+      <circle cx="9" cy="6" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="6" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="9" cy="12" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="12" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="9" cy="18" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="18" r="1.5" fill="currentColor" stroke="none" />
+    </>
+  ),
+  excel: (
+    <>
+      <path d="M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z" />
+      <path d="M14 3v4h4" />
+      <path d="m9.5 11 5 6M14.5 11l-5 6" />
+    </>
+  ),
+  sort: (
+    <>
+      <path d="M3 6h11M3 12h7M3 18h3" />
+      <path d="M18 5v14" />
+      <path d="m15 16 3 3 3-3" />
+    </>
+  ),
+  layers: (
+    <>
+      <rect x="3" y="3" width="12" height="12" rx="1" />
+      <rect x="9" y="9" width="12" height="12" rx="1" />
+    </>
+  ),
+  percent: (
+    <>
+      <path d="M19 5 5 19" />
+      <circle cx="7" cy="7" r="2.5" />
+      <circle cx="17" cy="17" r="2.5" />
+    </>
+  ),
   help: (
     <>
       <path d="M8 8.5a4 4 0 1 1 5.6 3.66c-1 .5-1.6 1.2-1.6 2.34" />

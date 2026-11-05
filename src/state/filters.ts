@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import type { TFunction } from 'i18next'
-import { filters, type FilterDefinition, type FilterGroup } from '../config/toolConfig'
+import { allCountries, filters, type FilterDefinition, type FilterGroup } from '../config/toolConfig'
 import { listParam, stringParam, useUrlState, type ParamSet } from './urlState'
 
 /** The current value of every filter, by filter id: a code for a select, a list of codes for a multiselect. */
@@ -38,4 +38,26 @@ export function useFilters() {
 export function describeFilter(definition: FilterDefinition, value: string | string[], t: TFunction): string {
   const codes = Array.isArray(value) ? value : [value]
   return codes.map((code) => t(`${definition.nameKey}.${code}`)).join(', ')
+}
+
+/**
+ * The charts opened by a click on a country's bar: which country (`chartGeo`, empty = none) and which chart
+ * (`chartView`). They sit in the address like the filters, so the opened view can be shared and embedded.
+ */
+export interface DrillState {
+  chartGeo: string
+  chartView: string
+}
+
+export const drillParams: ParamSet<DrillState> = {
+  chartGeo: stringParam('chartGeo', '', ['', ...allCountries]),
+  chartView: stringParam('chartView', 'bar', ['bar', 'pie', 'line']),
+}
+
+export function useDrillState() {
+  const [state, update] = useUrlState(drillParams)
+  const open = useCallback((chartGeo: string) => update({ chartGeo, chartView: 'bar' }), [update])
+  const close = useCallback(() => update({ chartGeo: '' }), [update])
+  const setView = useCallback((chartView: string) => update({ chartView }), [update])
+  return { chartGeo: state.chartGeo, chartView: state.chartView, open, close, setView } as const
 }

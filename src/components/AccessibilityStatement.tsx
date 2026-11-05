@@ -75,7 +75,7 @@ function TextSection({ id, title, text }: { id: string; title: string; text: Sta
  * Heading levels: the site header already has the page h1, so the statement title is an h2 and sections are h3.
  */
 export function AccessibilityStatement({ config, backHref }: AccessibilityStatementProps) {
-  const { toolName, productionUrl, feedback } = config
+  const { productionUrl, feedback } = config
 
   const sections: Array<Pick<StatementSection, 'id' | 'title'>> = [
     { id: 'compliance-status', title: 'Compliance status' },
@@ -118,11 +118,10 @@ export function AccessibilityStatement({ config, backHref }: AccessibilityStatem
           <p className="ecl-u-type-paragraph">You should be able to:</p>
           <List items={config.youShouldBeAbleTo} />
           <p className="ecl-u-type-paragraph">
-            The tool is assessed against the European accessibility standard{' '}
-            <NewTabLink href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.02.01_60/en_301549v030201p.pdf">EN 301 549</NewTabLink>
-            , which incorporates the{' '}
-            <NewTabLink href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines (WCAG) 2.1</NewTabLink>
-            {' '}level AA.
+            This interactive tool is designed to comply with the technical standard for websites and mobile apps,{' '}
+            EN 301 549, v.3.2.1. This closely follows level AA of the{' '}
+            <NewTabLink href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines (WCAG)</NewTabLink>
+            {' '}version 2.1.
           </p>
         </div>
 
@@ -140,8 +139,8 @@ export function AccessibilityStatement({ config, backHref }: AccessibilityStatem
         <div className="a11y-sections">
           <Section id="compliance-status" title="Compliance status">
             <p className="ecl-u-type-paragraph">
-              This interactive tool is <strong>{COMPLIANCE_LABEL[config.compliance]}</strong> with EN 301 549 and
-              WCAG 2.1 level AA, due to the non-compliances and exemptions listed below. See “
+              This interactive tool is <strong>{COMPLIANCE_LABEL[config.compliance]}</strong> with technical
+              standard EN 301 549 v.3.2.1 and the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA. See “
               <a className="ecl-link" href="#a11y-non-accessible-content">Non-accessible content</a>” for more
               details.
             </p>
@@ -157,8 +156,8 @@ export function AccessibilityStatement({ config, backHref }: AccessibilityStatem
 
           <Section id="feedback" title="Feedback">
             <p className="ecl-u-type-paragraph">
-              We welcome your feedback on the accessibility of {toolName}. Please let us know if you encounter
-              accessibility barriers:
+              We welcome your feedback on the accessibility of the Eurostat website. Please let us know if you
+              encounter accessibility barriers:
             </p>
             <ul className="ecl-unordered-list">
               {feedback.phone && (
@@ -173,10 +172,11 @@ export function AccessibilityStatement({ config, backHref }: AccessibilityStatem
               )}
               {feedback.contactFormUrl && (
                 <li className="ecl-unordered-list__item">
-                  <NewTabLink href={feedback.contactFormUrl}>Contact form</NewTabLink>
+                  <NewTabLink href={feedback.contactFormUrl}>{feedback.contactFormLabel ?? 'Contact form'}</NewTabLink>
                 </li>
               )}
             </ul>
+            {feedback.responseTime && <p className="ecl-u-type-paragraph">{feedback.responseTime}</p>}
           </Section>
 
           <TextSection

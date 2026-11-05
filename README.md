@@ -1,6 +1,6 @@
-# Eurostat React starter
+# ENPRICES 3.0
 
-A Vite + React + TypeScript foundation for multilingual Eurostat data tools. Everything that depends on the tool lives in **one file, `src/config/toolConfig.ts`**, and in the translation files; the rest is shared code.
+The ENPRICES energy-price visualisation tool rebuilt with Vite, React and TypeScript. Tool configuration and translations live in `src/config/toolConfig.ts` and `src/locales/`; data loading, chart configuration and rendering live in the relevant hooks and services.
 
 It includes:
 
@@ -11,6 +11,8 @@ It includes:
 - Building blocks: `Select`, `MultiSelect`, `Card`, `Loading`, `RoundButton`, `Tooltip`, `useFocusTrap`.
 - The state of the tool in the address (every link, shared view and embedded `<iframe>` carries it).
 - A shared Axios client for the Eurostat Statistics API.
+- Eurostat gas and electricity prices for household and non-household consumers, including annual component datasets.
+- Chart rendering through the European Commission Webtools UEC (`service: "chart"`, version 2.0); this project does not load or license Highcharts directly.
 
 ## Run locally
 
@@ -18,6 +20,19 @@ It includes:
 npm install
 npm run dev
 ```
+
+The legacy source is retained under `OLD enprices/` for local reference only and is ignored by Git.
+
+## Energy-price data and charts
+
+- `src/config/toolConfig.ts` maps product and consumer pairs to the four Eurostat price datasets (`nrg_pc_202`–`nrg_pc_205`) and their annual component counterparts (`*_c`), consumption bands, valid units and country groups.
+- `src/hooks/useEnergyPrices.ts` requests the appropriate dataset and extracts either the `tax` dimension for semi-annual total prices or `nrg_prc` for annual component prices. The component toggle switches dataset, year granularity, consumption bands and valid units together.
+- `src/services/energyChart.ts` builds the Webtools UEC configuration for the total, detailed, trend and pie views. The data table and Excel export use the same fetched observations.
+- **Country drill-down.** Clicking a bar (or a country name in the data table) opens that country's charts: bar chart by consumption band, pie chart of the price composition and line chart over time, with a table view, download and a close button. The filter menu is replaced by these controls while it is open. `src/hooks/useEnergyPrices.ts` (`useCountryPrices`) fetches the country across all bands and periods; `src/services/countryChart.ts` builds the charts; `src/components/CountryContent.tsx` is the view. The country and chart are kept in the address as `chartGeo` and `chartView`. Bars carry `className: 'geo-<code>'` so `WebChart` can tell which one was clicked.
+- ENPRICES selections are persisted in the URL so shared links and embedded views preserve the selected product, consumer, band, unit, period, chart, price breakdown, order and countries.
+
+- **Insights.** `src/insights/` holds the calculations ported from the original tool (`compute.ts` from the data on screen, `extra.ts` and `useInsightsData.ts` for the ones that need their own Eurostat datasets: purchasing-power panel, annual components, bands, inflation, the other fuel). They do not depend on the chart toggles and are requested only while the panel is open.
+- **Old links and texts.** Links of the previous tool (`geos`, `detail`, `component=0/1`, ...) are rewritten by `src/state/legacyUrl.ts`. Country, band, component and menu names and the tour texts were taken from the old `labels_*.json` and `tutorial_*.json` files.
 
 | Command | What it does |
 |---|---|
@@ -113,9 +128,9 @@ Webtools icons are used through `WebtoolsIcon` (`set` + `name`, for example `pho
 
 - `src/config/toolConfig.ts`: everything that depends on the tool. `src/locales/*.json`: every text.
 - `src/App.tsx`: the page (banner, toolbar with menu, filters and actions, content, footer). `src/pages/`: the accessibility statement page and the embedded page.
-- `src/components/`: shell (`Nav`, `SubNav`, `Footer`, `LanguageSelector`), controls (`Select`, `MultiSelect`, `FilterControls`, `RoundButton`), content (`ToolContent`, `Card`, `InsightsPanel`, `Loading`), sharing (`ShareMenu`), icons (`ToolbarIcon`, `WebtoolsIcon`), `Tooltip`.
+- `src/components/`: shell (`Nav`, `SubNav`, `Footer`, `LanguageSelector`), controls (`Select`, `MultiSelect`, `FilterControls`, `RoundButton`), content (`ToolContent`, `CountryContent`, `WebChart`, `Card`, `InsightsPanel`, `Loading`), sharing (`ShareMenu`), icons (`ToolbarIcon`, `WebtoolsIcon`), `Tooltip`.
 - `src/state/`: the address-based state (`urlState.ts`, `filters.ts`). `src/embed/`, `src/share/`: embed and share helpers. `src/accessibility/`: the statement.
-- `src/hooks/`: `useFocusTrap`, `useSiteShell`, `useGuidedTour`, `useNeedsScroll`. `src/tour.ts`: the tour helper.
+- `src/hooks/`: `useEnergyPrices` (main and country data), `useFocusTrap`, `useSiteShell`, `useGuidedTour`, `useNeedsScroll`. `src/services/`: `energyChart`, `countryChart`, `webtools`. `src/tour.ts`: the tour helper.
 - `src/api/eurostat.ts`: Axios client and JSON-stat helpers. `src/services/webtools.ts`: Smart Loader, GloBan, cookie kit, analytics.
 - `plugins/siteMeta.ts` and `scripts/`: build-time tags and the release checks.
 
@@ -141,7 +156,7 @@ Webtools icons are used through `WebtoolsIcon` (`set` + `name`, for example `pho
 
 Facebook, LinkedIn and X build the post from the `<meta>` tags of the page's **static HTML** (they do not run JavaScript), so the preview is one language whatever `?language=` the link has. The tags are generated from `site` in `toolConfig.ts` at build time: nothing is written in `index.html`.
 
-Per tool: edit `site` (title, description, image alt text, `url` = the **absolute https** address of the deployed page; the image address is derived from it), replace `public/images/share-preview.png` with the tool's own image (**PNG or JPEG, 1200x630, under 5 MB**; SVG and WebP are not supported by all networks), then `npm run build` and `npm run check:release`.
+Per tool: edit `site` (title, description, image alt text, `url` = the **absolute https** address of the deployed page; the image address is derived from it), replace the preview image (`site.image.file`, now `public/images/enprices-share.jpg`, 1200x600) with the tool's own (**PNG or JPEG, 1200x630 recommended, under 5 MB**; SVG and WebP are not supported by all networks), then `npm run build` and `npm run check:release`.
 
 Facebook and LinkedIn read only the tags (title, summary and quote parameters in a share link are ignored); X uses the text of the link plus the Twitter Card image. After deploying, check one real post per network and refresh the previews with the Facebook Sharing Debugger and the LinkedIn Post Inspector; networks cache previews. The shared address is the current page without its `#fragment`.
 

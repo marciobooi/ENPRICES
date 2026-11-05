@@ -13,6 +13,8 @@ export interface JsonStatDataset {
     }
   }>
   value?: Record<string, number | null> | Array<number | null>
+  /** Data-quality flags ("p" provisional, "e" estimated), by position like `value`. */
+  status?: Record<string, string> | Array<string | null>
 }
 
 export interface TimeSeriesPoint {

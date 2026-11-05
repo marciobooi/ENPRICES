@@ -5,6 +5,8 @@ import { ToolbarIcon } from './ToolbarIcon'
 export interface SubNavMenuItem {
   label: string
   href: string
+  /** Opens in a new tab. */
+  external?: boolean
 }
 
 interface SiteSubNavigationProps {
@@ -55,8 +57,8 @@ export function SiteSubNavigation({ title, subtitle, menuItems, filters, actions
         <div id="main-navigation" className="tool-menu" hidden={!menuOpen}>
           {menuItems && menuItems.length > 0 && (
             <nav className="tool-menu-links" aria-label={t('navigation.label')}>
-              {menuItems.map(({ label, href }) => (
-                <a key={label} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
+              {menuItems.map(({ label, href, external }) => (
+                <a key={label} href={href} onClick={() => setMenuOpen(false)} {...(external ? { target: '_blank', rel: 'noopener' } : {})}>{label}</a>
               ))}
             </nav>
           )}
