@@ -34,6 +34,9 @@ The legacy source is retained under `OLD enprices/` for local reference only and
 - **Insights.** `src/insights/` holds the calculations ported from the original tool (`compute.ts` from the data on screen, `extra.ts` and `useInsightsData.ts` for the ones that need their own Eurostat datasets: purchasing-power panel, annual components, bands, inflation, the other fuel). They do not depend on the chart toggles and are requested only while the panel is open.
 - **Old links and texts.** Links of the previous tool (`geos`, `detail`, `component=0/1`, ...) are rewritten by `src/state/legacyUrl.ts`. Country, band, component and menu names and the tour texts were taken from the old `labels_*.json` and `tutorial_*.json` files.
 
+- **Which price is shown.** `PRICE_TAX_CODE` in `toolConfig.ts` (`X_TAX`, Eurostat's "excluding taxes and levies") is the price of the bars, tables, totals and insights; in the annual datasets it is the sum of `PRICE_COMPONENT_CODES` (energy and supply, network costs). The tax series are always read by their code, never by their position (Eurostat does not keep their order), and only `X_TAX`, `X_VAT` and `I_TAX` are requested.
+- **Details view.** With `ORIGINAL_DETAILS = true` the three parts of a half-yearly price are the figures of the original tool (its formula in `enprices.js`, applied to the series in Eurostat's order): `X_VAT`, `I_TAX - X_VAT` and `X_TAX - I_TAX`. They add up to the plain bar, and the tooltip total is their sum. Set it to `false` for the split by meaning (price without taxes, other taxes, VAT, adding up to the price with all taxes). The annual datasets stack their real components. Countries without a value count as 0 when sorting, as in the original tool.
+
 | Command | What it does |
 |---|---|
 | `npm run dev` / `npm run preview` | Development server / serve the production build |

@@ -59,7 +59,7 @@ export function countryBand(data: CountryPrices, values: FilterValues): string {
   return data.bands.includes(wanted) ? wanted : data.bands[0] ?? ''
 }
 
-const round = (value: number | null) => (value === null ? null : Number(value.toFixed(4)))
+const roundTo = (decimals: number) => (value: number | null) => (value === null ? null : Number(value.toFixed(decimals)))
 
 /** The periods of the line chart: from the first to the last period that has a value for the band, none of the empty ones around. */
 export function linePeriods(data: CountryPrices, band: string): string[] {
@@ -115,6 +115,7 @@ export function createCountryChart(data: CountryPrices, values: FilterValues, vi
   const stacked = values.breakdown === 'components'
   const percentage = values.percentage === 'percentage'
   const decimals = data.unit === 'MWH' ? 0 : 4
+  const round = roundTo(decimals)
   const unitLabel = t(`units.${data.unit}`, { defaultValue: data.unit })
   const parts = pricePartsOf(data, t)
   const bandLabels = data.bands.map((code) => t(`bands.${code}`, { defaultValue: code }))
@@ -136,10 +137,19 @@ export function createCountryChart(data: CountryPrices, values: FilterValues, vi
     if (stacked) {
       plotOptions = { column: { stacking: percentage ? 'percent' : 'normal' }, series: { dataLabels: { enabled: false } } }
       legend = { ...roundLegend }
-      series = stackPartsOf(data, t).map((part) => ({
+      const stack = stackPartsOf(data, t)
+      // The total of a stacked bar is the sum of all its parts, negative ones included, as in the original tool
+      const sumOf = (code: string) => Number(stack.reduce((sum, part) => {
+        const row = rowAt(data, code, period)
+        return sum + (round(row ? part.pick(row) : null) ?? 0)
+      }, 0).toFixed(decimals))
+      series = stack.map((part) => ({
         name: part.name,
         color: part.color,
-        data: data.bands.map((code) => round(((row) => (row ? part.pick(row) : null))(rowAt(data, code, period)))),
+        data: data.bands.map((code) => {
+          const row = rowAt(data, code, period)
+          return { y: round(row ? part.pick(row) : null), customTotal: sumOf(code) }
+        }),
       }))
     } else {
       series = [{

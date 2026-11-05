@@ -25,7 +25,7 @@ export function tooltipTable(options: { decimals: number; unit: string; stacked:
       ? `<tr><td><span style="color:{series.color}">●</span> {series.name}</td><td>${shares ? '{point.percentage:.0f} %' : `{point.y:.${decimals}f}`}</td></tr>`
       : `<tr><td colspan="2"><b>{point.y:.${decimals}f}</b> €/${abbr}</td></tr>`,
     footerFormat: stacked && total && !shares
-      ? `<tr class="TOTAL"><td class="TOTAL">${totalLabel}</td><td class="TOTAL">{point.total:.${decimals}f}</td></tr></tbody></table>`
+      ? `<tr class="TOTAL"><td class="TOTAL">${totalLabel}</td><td class="TOTAL">{point.customTotal:.${decimals}f}</td></tr></tbody></table>`
       : '</tbody></table>',
   }
 }

@@ -8,10 +8,12 @@ import type { FilterValues } from '../state/filters'
 const countryColor = (code: string) => code === 'EU27_2020' ? '#CCA300' : code === 'EA' ? '#208486' : '#0E47CB'
 
 /** A column point that remembers its country, so a click on the bar can open that country's charts. */
-const columnPoint = (row: CountryPrice, y: number | null, color?: string) => ({
+const columnPoint = (row: CountryPrice, y: number | null, color?: string, customTotal?: number) => ({
   y,
   className: `geo-${row.countryCode}`,
   ...(color ? { color } : {}),
+  // The total shown by the tooltip of a stacked bar: the sum of all its parts, negative ones included, as in the original tool
+  ...(customTotal === undefined ? {} : { customTotal }),
 })
 
 function valueOf(values: FilterValues, key: string, fallback: string): string {
@@ -42,8 +44,9 @@ function sortCountries(
   return countries
 }
 
-function priceValue(price: number | null): number | null {
-  return price === null ? null : Number(price.toFixed(4))
+/** A price rounded once, to the decimals the original tool uses: 4, or none for MWh. */
+function priceValue(price: number | null, decimals: number): number | null {
+  return price === null ? null : Number(price.toFixed(decimals))
 }
 
 /** The countries of the period shown, in the order chosen (the same order for the bars and the table). */
@@ -72,24 +75,28 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
     (code) => t(`countries.${code}`, { defaultValue: code }),
   )
   const decimals = data.unit === 'MWH' ? 0 : 4
+  const rounded = (price: number | null) => priceValue(price, decimals)
+  const partsOf = (row: CountryPrice): Array<number | null> =>
+    data.componentMode ? data.componentCodes.map((code) => row.breakdown.find((point) => point.code === code)?.value ?? null) : row.detail
+  const stackTotal = (row: CountryPrice) => Number(partsOf(row).reduce<number>((sum, value) => sum + (rounded(value) ?? 0), 0).toFixed(decimals))
 
   const series: object[] = stacked
     ? data.componentMode
       ? data.componentCodes.map((code, index) => ({
           name: t(`taxComponents.${code}`, { defaultValue: code }),
           color: colorOfComponent(code, index),
-          data: currentCountries.map((row) => columnPoint(row, priceValue(row.breakdown.find((point) => point.code === code)?.value ?? null))),
+          data: currentCountries.map((row) => columnPoint(row, rounded(row.breakdown.find((point) => point.code === code)?.value ?? null), undefined, stackTotal(row))),
         }))
       : [
           // The three parts of the original tool; together they are the plain bar.
-          { name: t('chart.components.energy'), color: breakdownColors.energy, data: currentCountries.map((row) => columnPoint(row, priceValue(row.detail[0] ?? null))) },
-          { name: t('chart.components.taxes'), color: breakdownColors.taxes, data: currentCountries.map((row) => columnPoint(row, priceValue(row.detail[1] ?? null))) },
-          { name: t('chart.components.vat'), color: breakdownColors.vat, data: currentCountries.map((row) => columnPoint(row, priceValue(row.detail[2] ?? null))) },
+          { name: t('chart.components.energy'), color: breakdownColors.energy, data: currentCountries.map((row) => columnPoint(row, rounded(row.detail[0] ?? null), undefined, stackTotal(row))) },
+          { name: t('chart.components.taxes'), color: breakdownColors.taxes, data: currentCountries.map((row) => columnPoint(row, rounded(row.detail[1] ?? null), undefined, stackTotal(row))) },
+          { name: t('chart.components.vat'), color: breakdownColors.vat, data: currentCountries.map((row) => columnPoint(row, rounded(row.detail[2] ?? null), undefined, stackTotal(row))) },
         ]
     : [{
         // The price without taxes and levies, as the original tool names it.
         name: t('chart.components.energy'),
-        data: currentCountries.map((row) => columnPoint(row, priceValue(row.total), countryColor(row.countryCode))),
+        data: currentCountries.map((row) => columnPoint(row, rounded(row.total), countryColor(row.countryCode))),
       }]
 
   return {
