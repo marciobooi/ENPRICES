@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { embedConfig } from '../config/toolConfig'
 import type { EnergyPricesState } from '../hooks/useEnergyPrices'
-import { chartCountryCodes, createEnergyPriceChart, selectedPeriod } from '../services/energyChart'
+import { chartCountryCodes, createEnergyPriceChart, orderedCountries, selectedPeriod } from '../services/energyChart'
 import type { FilterValues } from '../state/filters'
 import { EclNumber, EclRow, EclRowHeader, EclTable } from './EclTable'
 import { Loading } from './Loading'
@@ -47,7 +47,7 @@ export function ToolContent({
   }
 
   const period = data ? selectedPeriod(data, typeof values.time === 'string' ? values.time : '') : ''
-  const currentRows = data?.countries.filter((row) => row.period === period) ?? []
+  const currentRows = data ? orderedCountries(data, values, t) : []
   const showBreakdown = values.breakdown === 'components'
   const canOpenCountry = onSelectCountry
 
@@ -62,7 +62,7 @@ export function ToolContent({
     ? [
         t('filters.geo'),
         ...(showBreakdown ? partNames : []),
-        // Plain: the price without taxes. With the details: the sum of the parts, the price with all taxes.
+        // The sum of the parts when they are shown, otherwise the price without taxes.
         showBreakdown ? t('chart.totalPrice') : t('chart.components.energy'),
       ]
     : []
@@ -72,7 +72,7 @@ export function ToolContent({
         const name = t(`countries.${row.countryCode}`, { defaultValue: row.countryCode })
         const parts = data.componentMode
           ? data.componentCodes.map((code) => row.breakdown.find((point) => point.code === code)?.value)
-          : [row.components.energy, row.components.taxes, row.components.vat]
+          : row.detail
         return (
           <EclRow key={row.countryCode}>
             <EclRowHeader label={columns[0]}>
@@ -90,7 +90,7 @@ export function ToolContent({
             {showBreakdown && parts.map((value, index) => (
               <EclNumber key={columns[index + 1]} label={columns[index + 1]}>{figure(value)}</EclNumber>
             ))}
-            <EclNumber label={columns[columns.length - 1]}>{figure(showBreakdown ? row.allTaxes : row.total)}</EclNumber>
+            <EclNumber label={columns[columns.length - 1]}>{figure(showBreakdown && data.componentMode ? row.allTaxes : row.total)}</EclNumber>
           </EclRow>
         )
       })}

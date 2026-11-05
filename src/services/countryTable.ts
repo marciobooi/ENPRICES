@@ -1,7 +1,7 @@
 import type { TFunction } from 'i18next'
 import type { CountryPrices } from '../hooks/useEnergyPrices'
 import type { FilterValues } from '../state/filters'
-import { countryBand, countryPeriod, linePeriods, pricePartsOf, rowAt, type CountryView } from './countryChart'
+import { countryBand, countryPeriod, linePeriods, pricePartsOf, rowAt, stackPartsOf, type CountryView } from './countryChart'
 
 export interface CountryTable {
   caption: string
@@ -64,16 +64,19 @@ export function countryTableOf(data: CountryPrices, values: FilterValues, view: 
     }
   }
 
+  // The bar chart: the price without taxes per band, or, with the details, the parts it is stacked into and their sum.
+  const details = values.breakdown === 'components'
+  const stack = stackPartsOf(data, t)
   return {
     caption: t('country.tableCaption', { country, period }),
-    headers: [t('filters.band'), withoutTaxes, ...added.map((part) => part.name), total],
+    headers: [t('filters.band'), ...(details ? [...stack.map((part) => part.name), total] : [withoutTaxes])],
     rows: data.bands.map((code) => {
       const row = rowAt(data, code, period)
       return [
         t(`bands.${code}`, { defaultValue: code }),
-        row?.total ?? null,
-        ...added.map((part) => (row ? part.pick(row) : null)),
-        row?.allTaxes ?? null,
+        ...(details
+          ? [...stack.map((part) => (row ? part.pick(row) : null)), (data.componentMode ? row?.allTaxes : row?.total) ?? null]
+          : [row?.total ?? null]),
       ]
     }),
     currentRow: data.bands.indexOf(band),

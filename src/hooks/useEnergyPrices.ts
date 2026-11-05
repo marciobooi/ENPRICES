@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { fetchEurostatDataset, type JsonStatDataset } from '../api/eurostat'
-import { apiCodes, consumptionBands, energyDatasets, PRICE_COMPONENT_CODES, PRICE_TAX_CODE } from '../config/toolConfig'
+import { apiCodes, consumptionBands, energyDatasets, ORIGINAL_DETAILS, PRICE_COMPONENT_CODES, PRICE_TAX_CODE } from '../config/toolConfig'
 import i18n from '../i18n'
 import type { FilterValues } from '../state/filters'
 
@@ -22,6 +22,8 @@ export interface CountryPrice {
   total: number | null
   /** The price with all taxes and levies (half-yearly datasets), for the figures about taxes. */
   allTaxes: number | null
+  /** The three parts the details view stacks for a half-yearly price (see `ORIGINAL_DETAILS`); none for the annual ones. */
+  detail: Array<number | null>
   components: PriceComponents
   breakdown: PriceBreakdown[]
 }
@@ -94,6 +96,7 @@ function scaleValue(value: number | null, factor: number): number | null {
 interface PriceFigures {
   total: number | null
   allTaxes: number | null
+  detail: Array<number | null>
   components: PriceComponents
   breakdown: PriceBreakdown[]
 }
@@ -118,6 +121,7 @@ function priceFigures(
       // The price without taxes is energy and supply plus network costs; with every part it is the price with all taxes.
       total: sumOf(breakdown.filter(({ code }) => (PRICE_COMPONENT_CODES as readonly string[]).includes(code))),
       allTaxes: sumOf(breakdown),
+      detail: [],
       components: { energy: null, taxes: null, vat: null },
       breakdown,
     }
@@ -132,9 +136,22 @@ function priceFigures(
   const includingTaxes = valueFor('tax', 'I_TAX')
   const vat = excludingVat !== null && includingTaxes !== null ? includingTaxes - excludingVat : null
   const taxes = excludingTaxes !== null && vat !== null && includingTaxes !== null ? includingTaxes - (excludingTaxes + vat) : null
+  // The details of the original tool (enprices.js), y = [X_TAX, X_VAT, I_TAX]:
+  //   myXTAX = y[1];  myXVAT = y[0] - y[2];  rest = y[0] - (myXTAX + myXVAT)   ->   parts [myXTAX, rest, myXVAT]
+  const detail = excludingTaxes !== null && excludingVat !== null && includingTaxes !== null
+    ? ORIGINAL_DETAILS
+      ? (() => {
+          const myXTAX = excludingVat
+          const myXVAT = excludingTaxes - includingTaxes
+          const rest = excludingTaxes - (myXTAX + myXVAT)
+          return [scaleValue(myXTAX, factor), scaleValue(rest, factor), scaleValue(myXVAT, factor)]
+        })()
+      : [scaleValue(excludingTaxes, factor), scaleValue(taxes, factor), scaleValue(vat, factor)]
+    : [null, null, null]
   return {
     total: scaleValue(valueFor('tax', PRICE_TAX_CODE), factor),
     allTaxes: scaleValue(includingTaxes, factor),
+    detail,
     components: {
       energy: scaleValue(excludingTaxes, factor),
       taxes: scaleValue(taxes, factor),

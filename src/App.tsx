@@ -68,7 +68,7 @@ function App() {
     : `${t(`datasets.${query.datasetCode}`)} (EUR/${unitAbbreviation})${shownPeriod ? ` ${shownPeriod}` : ''}`
   const viewSubtitle = drill.chartGeo
     ? countryPrices.data ? countryViewTitle(countryPrices.data, values, countryView, t) : ''
-    : `${t(`bands.${query.selectedBand}`, { defaultValue: query.selectedBand })}${shownPeriod ? ` - ${shownPeriod}` : ''} - ${t('chart.components.energy')}`
+    : `${t(`bands.${query.selectedBand}`, { defaultValue: query.selectedBand })}${shownPeriod ? ` - ${shownPeriod}` : ''} ${values.breakdown === 'components' ? '' : `- ${t('chart.components.energy')}`}`.trim()
 
   // Tells screen readers that the chart changed (the chart itself is redrawn silently).
   const timeValue = typeof values.time === 'string' ? values.time : ''

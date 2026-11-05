@@ -37,6 +37,16 @@ export function pricePartsOf(data: CountryPrices, t: TFunction): PricePart[] {
   ]
 }
 
+/** The parts the bars of a country are stacked into: the annual components, or the three parts of the original details. */
+export function stackPartsOf(data: CountryPrices, t: TFunction): PricePart[] {
+  if (data.componentMode) return pricePartsOf(data, t)
+  return [
+    { key: 'energy', name: t('chart.components.energy'), color: breakdownColors.energy, pick: (row) => row.detail[0] ?? null },
+    { key: 'taxes', name: t('chart.components.taxes'), color: breakdownColors.taxes, pick: (row) => row.detail[1] ?? null },
+    { key: 'vat', name: t('chart.components.vat'), color: breakdownColors.vat, pick: (row) => row.detail[2] ?? null },
+  ]
+}
+
 /** The period shown: the one requested if the country has it, otherwise the latest. */
 export function countryPeriod(data: CountryPrices, requested: string): string {
   if (data.periods.includes(requested)) return requested
@@ -126,7 +136,7 @@ export function createCountryChart(data: CountryPrices, values: FilterValues, vi
     if (stacked) {
       plotOptions = { column: { stacking: percentage ? 'percent' : 'normal' }, series: { dataLabels: { enabled: false } } }
       legend = { ...roundLegend }
-      series = parts.map((part) => ({
+      series = stackPartsOf(data, t).map((part) => ({
         name: part.name,
         color: part.color,
         data: data.bands.map((code) => round(((row) => (row ? part.pick(row) : null))(rowAt(data, code, period)))),

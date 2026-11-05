@@ -35,17 +35,21 @@ function sortCountries(
   if (order === 'alfa') return [...countries].sort((a, b) => translate(a.countryCode).localeCompare(translate(b.countryCode)))
   if (order === 'asc' || order === 'desc') {
     const direction = order === 'asc' ? 1 : -1
-    return [...countries].sort((a, b) => {
-      if (a.total === null) return b.total === null ? 0 : 1
-      if (b.total === null) return -1
-      return direction * (a.total - b.total)
-    })
+    // A country without a value counts as 0, as in the original tool, so it moves with the others: first when the
+    // order is ascending, last when it is descending.
+    return [...countries].sort((a, b) => direction * ((a.total ?? 0) - (b.total ?? 0)))
   }
   return countries
 }
 
 function priceValue(price: number | null): number | null {
   return price === null ? null : Number(price.toFixed(4))
+}
+
+/** The countries of the period shown, in the order chosen (the same order for the bars and the table). */
+export function orderedCountries(data: EnergyPrices, values: FilterValues, t: TFunction): CountryPrice[] {
+  const period = selectedPeriod(data, valueOf(values, 'time', ''))
+  return sortCountries(filterCountries(data, period), valueOf(values, 'order', 'desc'), (code) => t(`countries.${code}`, { defaultValue: code }))
 }
 
 export function selectedPeriod(data: EnergyPrices, requested: string): string {
@@ -77,10 +81,10 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
           data: currentCountries.map((row) => columnPoint(row, priceValue(row.breakdown.find((point) => point.code === code)?.value ?? null))),
         }))
       : [
-          // The first part is the price without taxes, the bar of the plain view; the taxes are stacked on top of it.
-          { name: t('chart.components.energy'), color: breakdownColors.energy, data: currentCountries.map((row) => columnPoint(row, priceValue(row.components.energy))) },
-          { name: t('chart.components.taxes'), color: breakdownColors.taxes, data: currentCountries.map((row) => columnPoint(row, priceValue(row.components.taxes))) },
-          { name: t('chart.components.vat'), color: breakdownColors.vat, data: currentCountries.map((row) => columnPoint(row, priceValue(row.components.vat))) },
+          // The three parts of the original tool; together they are the plain bar.
+          { name: t('chart.components.energy'), color: breakdownColors.energy, data: currentCountries.map((row) => columnPoint(row, priceValue(row.detail[0] ?? null))) },
+          { name: t('chart.components.taxes'), color: breakdownColors.taxes, data: currentCountries.map((row) => columnPoint(row, priceValue(row.detail[1] ?? null))) },
+          { name: t('chart.components.vat'), color: breakdownColors.vat, data: currentCountries.map((row) => columnPoint(row, priceValue(row.detail[2] ?? null))) },
         ]
     : [{
         // The price without taxes and levies, as the original tool names it.

@@ -261,6 +261,14 @@ export const images = {
  */
 export const PRICE_TAX_CODE = 'X_TAX'
 
+/**
+ * The three parts of the details view of the half-yearly price. `true`: the figures of the original tool, from its
+ * formula on the three tax series in the order Eurostat gives them (X_TAX, X_VAT, I_TAX): the first part is the series
+ * X_VAT, the second I_TAX - X_VAT, the third X_TAX - I_TAX, and the three add up to the plain bar (X_TAX). `false`:
+ * the split by meaning: the price without taxes, the other taxes and levies, the VAT, adding up to the price with all taxes.
+ */
+export const ORIGINAL_DETAILS = true
+
 export const apiCodes = {
   geo: allCountries,
   product: ['4100', '6000'],
