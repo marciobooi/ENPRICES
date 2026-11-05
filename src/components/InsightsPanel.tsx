@@ -51,9 +51,9 @@ export function InsightsPanel({ open, onClose, title, closeLabel, children, narr
       }}
     >
       {open && (
-        <div ref={panelRef} className="insights-panel">
+        <div ref={panelRef} className="insights-dialog__panel">
           <div className="insights-header">
-            <h2 className="insights-title" id={titleId}>{title}</h2>
+            <h2 className="insights-dialog__title" id={titleId}>{title}</h2>
             <button type="button" className="ecl-button ecl-button--secondary" onClick={onClose}>
               {closeLabel}
             </button>

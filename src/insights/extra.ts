@@ -381,6 +381,8 @@ export function computeDirectComparison(
   const focusPct = percentChange(yoyFocus, valueFocus)
   const otherPct = percentChange(yoyOther, valueOther)
   return {
+    valueFocus,
+    valueOther,
     gapPct: percentChange(valueOther, valueFocus),
     gapAbs: valueFocus - valueOther,
     focusYoyPct: focusPct,

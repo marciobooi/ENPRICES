@@ -31,14 +31,19 @@ import {
 const PERSISTENT_QUARTILE_WINDOW = 8
 const DATA_URL_PARAMS_VERSION = 1
 
-/** Datasets already requested in this visit are not requested again (Eurostat data changes twice a year). */
+/**
+ * Datasets already requested in this visit are not requested again (Eurostat data changes twice a year).
+ * The requests are shared, so none of them is tied to one panel's AbortController: cancelling it (the panel
+ * closed, or React running the effect twice in development) would make every later user of the same request fail
+ * with "canceled". A request nobody waits for any more simply finishes and is kept for next time.
+ */
 const requests = new Map<string, Promise<JsonStatDataset>>()
 
-function request(code: string, params: Record<string, string | string[]>, signal: AbortSignal): Promise<JsonStatDataset> {
+function request(code: string, params: Record<string, string | string[]>): Promise<JsonStatDataset> {
   const key = `${DATA_URL_PARAMS_VERSION}|${code}|${JSON.stringify(params)}`
   const cached = requests.get(key)
   if (cached) return cached
-  const promise = fetchEurostatDataset(code, params, { signal })
+  const promise = fetchEurostatDataset(code, params)
   requests.set(key, promise)
   promise.catch(() => requests.delete(key))
   return promise
@@ -172,12 +177,12 @@ export function useInsightsData(values: FilterValues, focus: string | undefined,
     void (async () => {
       const priceParams = { tax: [...apiCodes.tax], siec: config.siec, unit: unitParam, nrg_cons: band }
       const [panelDs, ppsDs, bandDs, oppositeDs] = await Promise.all([
-        request(dataset, { ...priceParams, currency: 'EUR' }, controller.signal),
-        request(dataset, { ...priceParams, currency: 'PPS' }, controller.signal).catch(() => null),
-        request(dataset, { tax: PRICE_TAX_CODE, siec: config.siec, unit: unitParam, currency: 'EUR', geo: focus }, controller.signal).catch(() => null),
+        request(dataset, { ...priceParams, currency: 'EUR' }),
+        request(dataset, { ...priceParams, currency: 'PPS' }).catch(() => null),
+        request(dataset, { tax: PRICE_TAX_CODE, siec: config.siec, unit: unitParam, currency: 'EUR', geo: focus }).catch(() => null),
         request(opposite.code, {
           tax: PRICE_TAX_CODE, siec: opposite.siec, unit: 'KWH', nrg_cons: DEFAULT_BAND_OPPOSITE[oppositeProduct] ?? opposite.defaultBand, currency: 'EUR', geo: focus,
-        }, controller.signal).catch(() => null),
+        }).catch(() => null),
       ])
 
       const geos = codesInDimension(panelDs, 'geo')
@@ -197,8 +202,8 @@ export function useInsightsData(values: FilterValues, focus: string | undefined,
       }
       if (sendsComponentUnit) componentParams.unit = unitParam
       const [componentDs, hicpDs] = await Promise.all([
-        request(componentDataset, componentParams, controller.signal).catch(() => null),
-        request('prc_hicp_manr', { coicop: 'CP00', unit: 'RCH_A', geo: focus, time: month }, controller.signal).catch(() => null),
+        request(componentDataset, componentParams).catch(() => null),
+        request('prc_hicp_manr', { coicop: 'CP00', unit: 'RCH_A', geo: focus, time: month }).catch(() => null),
       ])
 
       const core = computeInsights(panel, focus, latest)

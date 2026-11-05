@@ -1,0 +1,1166 @@
+/* Insights view: full-bleed replacement for #charts within #enprices, matching
+   the sizing convention already used for #chart (main.css). The nav header,
+   subnavbar toolbar and footer stay untouched/visible around it. */
+#insightsView {
+    width: 97vw;
+    min-height: 73vh;
+    padding: 3rem 1.5rem 2rem;
+}
+
+/* #insightsView already provides the panel's horizontal padding, so the title
+   and the rendered .insights-panel line up on the same edge. */
+#insightsViewBody .insights-panel {
+    padding: 0;
+}
+
+.insights-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0e47cb;
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 2px solid #0e47cb;
+    letter-spacing: -0.01em;
+}
+
+.insights-panel {
+    padding: 1.25rem 1.5rem;
+}
+
+/* Reuses this app's global focus-visible treatment (btn.css) instead of the
+   donor tool's own outline, so the panel matches the rest of ENPRICES. */
+.insights-panel:focus-visible {
+    outline: 3px solid #000;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px rgba(14, 71, 203, 0.3);
+}
+
+.insights-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.insights-meta__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 115px;
+    padding: 0.5rem 0.8rem;
+    background: #fff;
+    border: 1px solid #dce3f0;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.insights-meta__label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #475569;
+    font-weight: 600;
+}
+
+.insights-meta__value {
+    font-size: 0.9rem;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.insights-summary {
+    font-size: 0.94rem;
+    line-height: 1.65;
+    color: #1f2937;
+    background: #eef1fb;
+    border-left: 4px solid #0e47cb;
+    padding: 0.75rem 1.05rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 0.85rem;
+}
+
+.insights-note-list {
+    margin-top: 0.5rem;
+}
+
+.insights-note {
+    font-size: 0.75rem;
+    color: #374151;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.insights-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.insights-section {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 1.4rem 1.65rem 1.65rem;
+    border-left: 4px solid #0e47cb;
+    margin-bottom: 1.75rem;
+    box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.05), 0 1px 4px -1px rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: visible;
+}
+
+.insights-section__title {
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 1.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    overflow: visible;
+}
+
+.insights-section .ecl-popover {
+    position: relative !important;
+    display: inline-flex !important;
+    vertical-align: middle !important;
+}
+
+.insights-section .ecl-popover__container {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    transform: none !important;
+    margin-top: 0.5rem !important;
+    margin-left: 0 !important;
+    z-index: 9999 !important;
+    width: 420px !important;
+    max-width: 88vw !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 12px 28px -5px rgba(15, 23, 42, 0.22), 0 8px 12px -6px rgba(15, 23, 42, 0.12) !important;
+    padding: 1.25rem 1.5rem !important;
+}
+
+.insights-section .ecl-popover__container[hidden] {
+    display: none !important;
+}
+
+.insights-section .ecl-popover__container:not([hidden]) {
+    display: block !important;
+}
+
+.insights-section .ecl-popover__close {
+    position: absolute !important;
+    top: 0.75rem !important;
+    right: 0.75rem !important;
+}
+
+.insights-year-label {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #475569;
+    margin-left: 0.45rem;
+}
+
+/* Metric cards */
+.insights-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-bottom: 1.1rem;
+}
+
+.insight-card {
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 0.8rem 1.05rem;
+    min-width: 135px;
+    flex: 1 1 135px;
+    max-width: 220px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.insight-card--positive {
+    border-left: 3px solid #15803d;
+}
+
+.insight-card--negative {
+    border-left: 3px solid #b91c1c;
+}
+
+.insight-card__label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.35rem;
+}
+
+.insight-card__value {
+    font-size: 1.22rem;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+}
+
+.insight-card__sub {
+    font-size: 0.8rem;
+    color: #334155;
+    margin-top: 0.25rem;
+}
+
+.insight-card__note {
+    font-size: 0.78rem;
+    color: #334155;
+    margin-top: 0.35rem;
+    font-style: italic;
+}
+
+/* Per-card "how is this calculated" disclosure */
+.insight-card__info-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0;
+    border: 1px solid #94a3b8;
+    background: #eef1fb;
+    color: #0e47cb;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 0.72rem;
+    transition: all 0.15s ease-in-out;
+}
+
+.insight-card__info-btn:hover,
+.insight-card__info-btn:focus-visible,
+.insight-card__info-btn[aria-expanded="true"] {
+    color: #fff;
+    background: #0e47cb;
+    border-color: #0e47cb;
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+.insight-card__calc {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed #dce3f0;
+}
+
+.insight-card__calc-explain {
+    font-size: 0.72rem;
+    color: #374151;
+    line-height: 1.4;
+    margin: 0 0 0.35rem;
+}
+
+.insight-card__calc-formula {
+    font-size: 0.72rem;
+    font-family: "Courier New", Courier, monospace;
+    color: #0e47cb;
+    background: #eef1fb;
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    margin: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.35rem;
+    word-break: break-word;
+}
+
+/* Country-distribution position bar (EU comparison section) */
+.insights-distribution {
+    width: 100%;
+    margin: 0.4rem 0 0.85rem;
+}
+
+.insights-distribution__track {
+    position: relative;
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(to right, #cfe0fb, #dce3f0 50%, #f3d9c8);
+    margin: 0 0.6rem;
+}
+
+.insights-distribution__marker {
+    position: absolute;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #0e47cb;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #0e47cb;
+    transform: translate(-50%, -50%);
+}
+
+.insights-distribution__marker--eu {
+    background: #92400e;
+    box-shadow: 0 0 0 1px #92400e;
+    width: 10px;
+    height: 10px;
+}
+
+.insights-distribution__labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: #374151;
+    margin-top: 0.3rem;
+}
+
+.insights-distribution__legend {
+    display: flex;
+    gap: 0.9rem;
+    font-size: 0.7rem;
+    color: #374151;
+    margin-top: 0.3rem;
+}
+
+.insights-distribution__legend-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+}
+
+/* Stacked composition bar */
+.insights-composition-bar {
+    display: flex;
+    width: 100%;
+    height: 1.6rem;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+    border: 1px solid #cbd5e1;
+}
+
+.insights-composition-bar__segment {
+    height: 100%;
+    min-width: 2px;
+}
+
+/* Consumption-band bar chart */
+.insights-band-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    height: 8.5rem;
+    margin: 0.75rem 0 0.5rem;
+    padding: 0.6rem 0.75rem;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
+
+.insights-band-bar {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    gap: 0.25rem;
+}
+
+.insights-band-bar__val {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #0e47cb;
+}
+
+.insights-band-bar__track {
+    flex: 1;
+    width: 100%;
+    max-width: 2.5rem;
+    background: #f1f5f9;
+    border-radius: 4px 4px 0 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.insights-band-bar__fill {
+    width: 100%;
+    background: #0e47cb;
+    border-radius: 3px 3px 0 0;
+    transition: height 0.3s ease;
+}
+
+.insights-band-bar__fill--selected {
+    background: #92400e;
+}
+
+.insights-band-bar__fill--reference {
+    background: #0284c7;
+}
+
+.insights-band-bar__label {
+    font-size: 0.68rem;
+    color: #374151;
+    text-align: center;
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+.insights-band-bar__label--selected {
+    color: #92400e;
+    font-weight: 700;
+}
+
+/* Rank table */
+.insights-rank-table-wrapper {
+    margin-top: 0.5rem;
+    overflow-x: auto;
+}
+
+.insights-rank-table-wrapper:focus-visible {
+    outline: 3px solid #000;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px rgba(14, 71, 203, 0.3);
+    border-radius: 4px;
+}
+
+.insights-rank-table {
+    width: 100%;
+    font-size: 0.83rem;
+}
+
+.insights-rank-table [hidden] {
+    display: none !important;
+}
+
+.insights-rank-table__header--rank,
+.insights-rank-table__cell--rank {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.insights-rank-table__header--numeric,
+.insights-rank-table__cell--numeric {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.insights-rank-table__row--top {
+    background: rgba(14, 71, 203, 0.04);
+}
+
+.insights-rank-table__row--top .insights-rank-table__cell--partner {
+    font-weight: 700;
+}
+
+.insights-rank-table-toggle {
+    margin-top: 0.65rem;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid #94a3b8;
+    border-radius: 999px;
+    background: #fff;
+    color: #0e47cb;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.insights-rank-table-toggle:hover,
+.insights-rank-table-toggle:focus-visible {
+    border-color: #0e47cb;
+    background: #eef1fb;
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+.insights-rank-cards {
+    display: none;
+}
+
+.insights-rank-card {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: #fff;
+    padding: 0.75rem 0.8rem;
+}
+
+.insights-rank-card--top {
+    border-left: 3px solid #0e47cb;
+}
+
+.insights-rank-card__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: baseline;
+    margin-bottom: 0.55rem;
+}
+
+.insights-rank-card__rank {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #374151;
+}
+
+.insights-rank-card__partner {
+    color: #0e47cb;
+    text-align: right;
+}
+
+.insights-rank-card__stats {
+    margin: 0;
+    display: grid;
+    gap: 0.35rem;
+}
+
+.insights-rank-card__stat {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    align-items: baseline;
+}
+
+.insights-rank-card__stat dt {
+    margin: 0;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #374151;
+}
+
+.insights-rank-card__stat dd {
+    margin: 0;
+    text-align: right;
+}
+
+/* Mini profile chips (used for the price-composition breakdown) */
+.insights-mini-profile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 0.85rem;
+}
+
+.insights-sections .ecl-popover__container:before{
+    display: none;
+}
+
+.insights-mini-profile__item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
+}
+
+.insights-mini-profile__label {
+    font-size: 0.76rem;
+    color: #374151;
+}
+
+.insights-mini-profile__value {
+    font-size: 0.84rem;
+    color: #0e47cb;
+    font-weight: 700;
+}
+
+.insights-history-trend {
+    margin-bottom: 0.9rem;
+    padding: 0.75rem 0.85rem;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
+
+.insights-history-trend__title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 0.45rem;
+}
+
+.insights-history-trend__meta {
+    margin-left: 0.45rem;
+    font-weight: 400;
+    color: #374151;
+}
+
+.insights-sparkline {
+    color: #0e47cb;
+}
+
+.insights-sparkline__svg {
+    display: block;
+    width: 100%;
+    height: 320px;
+    overflow: visible;
+}
+
+.insights-sparkline__area {
+    fill: rgba(14, 71, 203, 0.08);
+}
+
+.insights-sparkline__line {
+    fill: none;
+    stroke: #0e47cb;
+    stroke-width: 2.25;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.insights-sparkline__ref-line {
+    stroke-width: 1.5;
+}
+
+.insights-sparkline__ref-line--max {
+    stroke: #b91c1c;
+    stroke-dasharray: 4 3;
+    opacity: 0.75;
+}
+
+.insights-sparkline__ref-line--avg {
+    stroke: #1d4ed8;
+    stroke-dasharray: 5 4;
+    opacity: 0.75;
+}
+
+.insights-sparkline__ref-line--min {
+    stroke: #15803d;
+    stroke-dasharray: 4 3;
+    opacity: 0.75;
+}
+
+.insights-sparkline__marker {
+    stroke: #ffffff;
+    stroke-width: 2;
+}
+
+.insights-sparkline__marker--max {
+    fill: #b91c1c;
+}
+
+.insights-sparkline__marker--min {
+    fill: #15803d;
+}
+
+.insights-sparkline__marker--latest {
+    fill: #0e47cb;
+}
+
+.insights-sparkline__label {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.insights-sparkline__label--max {
+    fill: #b91c1c;
+}
+
+.insights-sparkline__label--min {
+    fill: #15803d;
+}
+
+.insights-sparkline__label--avg {
+    fill: #1d4ed8;
+}
+
+.insights-sparkline__axis {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: #374151;
+    margin-top: 0.25rem;
+}
+
+.insights-sparkline__legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    color: #334155;
+    margin-top: 0.5rem;
+    padding-top: 0.4rem;
+    border-top: 1px dashed #cbd5e1;
+}
+
+.insights-sparkline__legend-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.35rem;
+    vertical-align: middle;
+}
+
+/* Rank movement pills */
+.insights-rank-movement {
+    margin-top: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+}
+
+.insights-rank-movement__label {
+    font-size: 0.78rem;
+    color: #1f2937;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+.insights-rank-movement__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.insight-rank-item {
+    font-size: 0.8rem;
+    background: #eef1fb;
+    padding: 0.18rem 0.55rem;
+    border-radius: 3px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.insight-rank-num {
+    font-weight: 700;
+    color: #374151;
+    min-width: 1.1em;
+}
+
+.insight-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0 0.3em;
+    border-radius: 2px;
+}
+
+.insight-rank-up { color: #155724; font-weight: 700; }
+.insight-rank-down { color: #8b1e1a; font-weight: 700; }
+.insight-rank-same { color: #374151; }
+.insight-rank-new { color: #0f4c5c; font-weight: 700; }
+
+.insight-stable { color: #155724; font-weight: 700; }
+.insight-changed { color: #8b1e1a; font-weight: 700; }
+
+.insights-no-prev {
+    font-size: 0.85rem;
+    color: #374151;
+    font-style: italic;
+    margin: 0;
+}
+
+@media (max-width: 640px) {
+    .insights-rank-table-wrapper {
+        overflow-x: hidden;
+    }
+
+    .insights-rank-table {
+        display: none;
+    }
+
+    .insights-rank-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        width: 100%;
+    }
+}
+
+/* Export Toolbar */
+.insights-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 0.6rem 0.85rem;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
+
+.insights-toolbar__group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.insight-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #0e47cb;
+    background: #eef1fb;
+    border: 1px solid #94a3b8;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.insight-btn:hover,
+.insight-btn:focus-visible {
+    background: #0e47cb;
+    color: #fff;
+    border-color: #0e47cb;
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+.insight-btn--sm {
+    padding: 0.25rem 0.55rem;
+    font-size: 0.72rem;
+}
+
+/* Estimator & Band Finder widget */
+.insights-widget-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+}
+
+.insights-widget-card {
+    flex: 1 1 280px;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+}
+
+.insights-widget-card__title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.insights-input-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+}
+
+.insights-input-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.insight-input,
+.insight-select {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.82rem;
+    border: 1px solid #94a3b8;
+    border-radius: 4px;
+    background: #fff;
+    color: #1e293b;
+}
+
+.insight-input:focus,
+.insight-select:focus,
+.insight-input:focus-visible,
+.insight-select:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+    border-color: #0e47cb;
+    box-shadow: 0 0 0 3px rgba(14, 71, 203, 0.25);
+}
+
+.insights-widget-result {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0e47cb;
+    margin-top: 0.4rem;
+}
+
+.insights-widget-sub {
+    font-size: 0.72rem;
+    color: #374151;
+    margin-top: 0.25rem;
+}
+
+/* Country Direct Comparison */
+.insights-comparison-bar {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #cbd5e1;
+}
+
+.insights-provenance-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.7rem;
+    background: #e9ecef;
+    color: #343a40;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    margin-right: 0.4rem;
+    margin-bottom: 0.4rem;
+}
+
+/* Lightweight Inline Popup Card attached to (i) button */
+.insight-popover-card {
+    position: absolute;
+    z-index: 100000;
+    background: #ffffff;
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.18), 0 4px 6px -2px rgba(0, 0, 0, 0.08);
+    max-width: 440px;
+    width: calc(100vw - 32px);
+    padding: 0.85rem 1rem;
+    animation: popupCardSlide 0.15s ease-out;
+}
+
+.insight-popover-card:focus-visible {
+    outline: 3px solid #000;
+    outline-offset: 2px;
+}
+
+@keyframes popupCardSlide {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.insight-popover-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.65rem;
+    border-bottom: 1px solid #cbd5e1;
+}
+
+.insight-popover-card__title {
+    margin: 0;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #0e47cb;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.insight-popover-card__close {
+    background: transparent;
+    border: 1px solid transparent;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: #334155;
+    cursor: pointer;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+}
+
+.insight-popover-card__close:hover,
+.insight-popover-card__close:focus-visible {
+    color: #0f172a;
+    background: #f1f5f9;
+    border-color: #94a3b8;
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+.insight-popover-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.insight-popover-card__item {
+    font-size: 0.82rem;
+    color: #1e293b;
+    line-height: 1.45;
+}
+
+.insight-popover-card__item strong {
+    color: #0e47cb;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* SVG Donut & Bar Infographics */
+.insights-donut-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1.25rem;
+    padding: 0.85rem 1rem;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    margin-bottom: 0.85rem;
+}
+
+.insights-donut-chart {
+    position: relative;
+    width: 145px;
+    height: 145px;
+    flex-shrink: 0;
+}
+
+.insights-donut-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.insights-donut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+}
+
+.insights-donut-center__val {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #0e47cb;
+    line-height: 1.15;
+}
+
+.insights-donut-center__lbl {
+    font-size: 0.62rem;
+    color: #374151;
+    margin-top: 0.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+}
+
+.insights-donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    flex: 1 1 180px;
+    min-width: 180px;
+}
+
+.insights-donut-legend__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #1e293b;
+    padding: 0.25rem 0.4rem;
+    border-radius: 4px;
+    background: #f8fafc;
+}
+
+.insights-donut-legend__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.insights-donut-legend__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+/* Dual Comparison Bar Chart Infographic */
+.insights-comparison-barchart {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.85rem;
+}
+
+.insights-comparison-barchart__title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 0.75rem;
+}
+
+.insights-comparison-barchart__row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.6rem;
+}
+
+.insights-comparison-barchart__label {
+    width: 110px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #1e293b;
+    flex-shrink: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.insights-comparison-barchart__track {
+    flex: 1;
+    height: 1.4rem;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+}
+
+.insights-comparison-barchart__fill {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.insights-comparison-barchart__value {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #0e47cb;
+    width: 80px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* The ECL selects have no intrinsic width: give the ones in the meta strip and in the sections a real one */
+.insights-meta__item .ecl-form-group {
+    min-width: 16rem;
+    margin: 0;
+}
+
+.insights-section .insights-meta__item {
+    width: 100%;
+}
