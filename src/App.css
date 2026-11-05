@@ -139,7 +139,8 @@
 
 .site-subnavigation {
   position: relative;
-  z-index: 1;
+  /* Above the floating options bar (z-index 5): the download, share and tour popovers open from here. */
+  z-index: 10;
 }
 
 .tool-toolbar {

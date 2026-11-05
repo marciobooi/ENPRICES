@@ -23,7 +23,8 @@ export function buildEmbedUrl(chartId: string = DEFAULT_CHART): string {
   address.hash = ''
   address.searchParams.delete('accessibility')
   address.searchParams.set(EMBED_PARAM, chartId)
-  return address.toString()
+  // Lists of values (countries, ...) stay readable: a comma is valid in a query string, no need for %2C.
+  return address.toString().replace(/%2C/gi, ',')
 }
 
 const escapeAttribute = (value: string) =>

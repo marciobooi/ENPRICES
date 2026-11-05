@@ -111,7 +111,11 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
       exporting: { enabled: false },
       xAxis: {
         categories: currentCountries.map(({ countryCode }) => t(`countries.${countryCode}`, { defaultValue: countryCode })),
-        labels: { rotation: -45, style: { fontSize: '13px' } },
+        labels: {
+          rotation: -45,
+          // A long name wraps onto at most two lines instead of being cut or running into its neighbour.
+          style: { fontSize: '13px', width: '110px', whiteSpace: 'normal', textOverflow: 'ellipsis', lineClamp: 2 },
+        },
       },
       yAxis: {
         title: { text: priceAxisTitle(t, valueOf(values, 'product', '6000'), data.unit, percentage) },
@@ -124,11 +128,11 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
       tooltip: tooltipTable({ decimals, unit: data.unit, stacked, shares: percentage, totalLabel: t('chart.totalPrice') }),
       legend: { ...roundLegend, enabled: stacked },
       series,
-      // Narrow screens: show every 2nd, then every 3rd country name (the bars stay, the tooltip names every country).
+      // Narrow screens: every country name stays, rotated and smaller; a long name wraps onto a second line.
       responsive: {
         rules: [
-          { condition: { maxWidth: 700 }, chartOptions: { xAxis: { labels: { step: 2, style: { fontSize: '11px' } } }, chart: { height: 480 } } },
-          { condition: { maxWidth: 440 }, chartOptions: { xAxis: { labels: { step: 3, style: { fontSize: '10px' } } }, chart: { height: 440 } } },
+          { condition: { maxWidth: 700 }, chartOptions: { xAxis: { labels: { rotation: -90, style: { fontSize: '11px' } } }, chart: { height: 500 } } },
+          { condition: { maxWidth: 440 }, chartOptions: { xAxis: { labels: { rotation: -90, style: { fontSize: '10px' } } }, chart: { height: 480 } } },
         ],
       },
     },

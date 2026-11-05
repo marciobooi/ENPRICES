@@ -61,6 +61,12 @@ export function downloadImage(image: Blob, filename: string): void {
   const link = document.createElement('a')
   link.href = address
   link.download = filename
+  // Attached to the page and released later: some browsers cancel the save if the link or address goes away at once.
+  link.style.display = 'none'
+  document.body.appendChild(link)
   link.click()
-  URL.revokeObjectURL(address)
+  setTimeout(() => {
+    link.remove()
+    URL.revokeObjectURL(address)
+  }, 10000)
 }
