@@ -9,6 +9,11 @@ export interface DownloadTable {
   sheet: string
   headers: string[]
   rows: (string | number)[][]
+  /** Heading above the table: the title and subtitle of the view. */
+  title?: string
+  subtitle?: string
+  /** Lines under the table: source, dataset, link, unit, date. */
+  notes?: string[]
 }
 
 const today = () => new Date().toISOString().slice(0, 10)
@@ -40,7 +45,7 @@ async function loadLogo(): Promise<{ src: string; width: number; height: number 
     const src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`
     const box = /viewBox="[\d.\s-]*?([\d.]+)\s+([\d.]+)"/.exec(svg)
     const ratio = box ? Number(box[1]) / Number(box[2]) : 4
-    const height = 32
+    const height = 20
     return { src, width: Math.round(height * (Number.isFinite(ratio) && ratio > 0 ? ratio : 4)), height }
   } catch {
     return null
@@ -57,7 +62,7 @@ export async function downloadChartImage(type: 'png' | 'jpeg', heading?: { title
     try {
       const logo = await loadLogo()
       const headerHeight = heading?.title || heading?.subtitle ? 90 : 0
-      const footerHeight = logo ? logo.height + 24 : 0
+      const footerHeight = logo ? logo.height + 16 : 0
       const width = chart.chartWidth
       // Only the exported image gets the title and the logo; the chart on screen is not touched.
       chart.exportChartLocal(
@@ -69,8 +74,8 @@ export async function downloadChartImage(type: 'png' | 'jpeg', heading?: { title
             spacingTop: 15,
             spacingBottom: footerHeight + 10,
             events: {
-              load(this: { renderer: { image: (src: string, x: number, y: number, w: number, h: number) => { add: () => void } }; chartHeight: number }) {
-                if (logo) this.renderer.image(logo.src, 10, this.chartHeight - logo.height - 10, logo.width, logo.height).add()
+              load(this: { renderer: { image: (src: string, x: number, y: number, w: number, h: number) => { add: () => void } }; chartHeight: number; chartWidth: number }) {
+                if (logo) this.renderer.image(logo.src, this.chartWidth - logo.width - 10, this.chartHeight - logo.height - 10, logo.width, logo.height).add()
               },
             },
           },
@@ -97,9 +102,43 @@ export async function downloadChartImage(type: 'png' | 'jpeg', heading?: { title
 export async function downloadExcel(table: DownloadTable): Promise<boolean> {
   try {
     const { default: writeXlsxFile } = await import('write-excel-file/universal')
-    const header = table.headers.map((value) => ({ value, fontWeight: 'bold' as const }))
-    const rows = table.rows.map((row) => row.map((value) => ({ value })))
-    const blob = await writeXlsxFile([{ data: [header, ...rows], sheet: table.sheet }]).toBlob()
+    const blue = '#0e47cb'
+    const line = '#c9d1e3'
+    const width = table.headers.length
+    const blank = Array.from({ length: width }, () => null)
+    const title = table.title ? [[{ value: table.title, fontWeight: 'bold' as const, fontSize: 14, textColor: '#003d8d' }, ...blank.slice(1)]] : []
+    const subtitle = table.subtitle ? [[{ value: table.subtitle, fontSize: 11, textColor: '#262b38' }, ...blank.slice(1)]] : []
+    const heading = [...title, ...subtitle]
+    const header = table.headers.map((value) => ({
+      value,
+      fontWeight: 'bold' as const,
+      textColor: '#ffffff',
+      backgroundColor: blue,
+      align: 'center' as const,
+      alignVertical: 'center' as const,
+      wrap: true,
+      height: 34,
+      borderColor: blue,
+    }))
+    const rows = table.rows.map((row) =>
+      row.map((value, column) => ({
+        value,
+        fontWeight: column === 0 ? ('bold' as const) : undefined,
+        align: column === 0 ? ('left' as const) : ('right' as const),
+        bottomBorderColor: line,
+        bottomBorderStyle: 'thin' as const,
+      })),
+    )
+    const notes = table.notes?.length
+      ? [blank, ...table.notes.map((note) => [{ value: note, fontSize: 9, fontStyle: 'italic' as const, textColor: '#5b6272' }, ...blank.slice(1)])]
+      : []
+    const columns = table.headers.map((name, column) => ({
+      width: Math.min(46, Math.max(column === 0 ? 24 : 14, ...[name, ...table.rows.map((row) => row[column])].map((cell) => String(cell ?? '').length + 3))),
+    }))
+    const data = [...heading, ...(heading.length ? [blank] : []), header, ...rows, ...notes]
+    const blob = await writeXlsxFile([
+      { data, sheet: table.sheet, columns, stickyRowsCount: heading.length + (heading.length ? 1 : 0) + 1, showGridLines: false },
+    ]).toBlob()
     downloadImage(blob, fileName('xlsx'))
     return true
   } catch {

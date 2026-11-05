@@ -432,6 +432,11 @@
     }
   },
   "download": {
+    "noteSource": "Quelle: Eurostat, Europäische Kommission",
+    "noteDataset": "Datensatz: {{code}}",
+    "noteLink": "Link zu den Daten: {{url}}",
+    "noteUnit": "Einheit: {{unit}}",
+    "noteDate": "Heruntergeladen am {{date}}",
     "label": "Grafik oder Daten herunterladen",
     "png": "Als PNG-Bild herunterladen",
     "jpeg": "Als JPEG-Bild herunterladen",

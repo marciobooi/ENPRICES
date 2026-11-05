@@ -46,8 +46,8 @@ function App() {
   const countryPrices = useCountryPrices(values, drill.chartGeo)
   const countryView = (countryViews as readonly string[]).includes(drill.chartView) ? drill.chartView as CountryView : 'bar'
   const getTable = drill.chartGeo && countryPrices.data
-    ? () => buildCountryTable(countryPrices.data!, values, countryView, t)
-    : prices.data ? () => buildToolTable(prices.data!, t) : undefined
+    ? () => buildCountryTable(countryPrices.data!, values, countryView, t, { title: viewTitle, subtitle: viewSubtitle })
+    : prices.data ? () => buildToolTable(prices.data!, t, { title: viewTitle, subtitle: viewSubtitle }, shownPeriod) : undefined
   const [insightsOpen, setInsightsOpen] = useState(false)
 
   // Context added to the contact e-mail: what the person had selected when they wrote.

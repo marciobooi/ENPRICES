@@ -450,6 +450,11 @@
     }
   },
   "download": {
+    "noteSource": "Source: Eurostat, European Commission",
+    "noteDataset": "Dataset: {{code}}",
+    "noteLink": "Link to the data: {{url}}",
+    "noteUnit": "Unit: {{unit}}",
+    "noteDate": "Downloaded on {{date}}",
     "label": "Download chart or data",
     "png": "Download as PNG image",
     "jpeg": "Download as JPEG image",

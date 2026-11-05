@@ -459,7 +459,7 @@ export const downloadConfig = {
    * The image is drawn from what is on screen, so it works for charts of any library.
    */
   imageTarget: '.tool-content',
-  /** Logo drawn in the bottom left corner of the downloaded images. */
+  /** Logo drawn in the bottom right corner of the downloaded images. */
   logoUrl: 'https://ec.europa.eu/eurostat/cache/countryfacts/img/estat-logo-horizontal.svg',
   /** Start of the file names, followed by the date: `eurostat-tool-2026-11-05.png`. */
   fileName: 'energy-prices',
