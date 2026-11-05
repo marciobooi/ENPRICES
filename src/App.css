@@ -1479,3 +1479,37 @@
 .sort-menu__option[aria-current='true'] {
   font-weight: 700;
 }
+
+/* Insights page (?insights) */
+.insights-page {
+  max-width: 96rem;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+}
+
+.insights-page__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.5rem 0 1rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 2px solid #0e47cb;
+}
+
+.insights-page__title {
+  margin: 0;
+  color: #0e47cb;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.insights-page__bar .ecl-button {
+  text-decoration: none;
+}
+
+/* The chart tooltip is drawn above the floating options bar (z-index 5) and everything else of the page */
+.highcharts-tooltip-container {
+  z-index: 1200 !important;
+}

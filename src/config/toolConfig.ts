@@ -145,6 +145,12 @@ export const componentColors: Record<string, string> = {
   NRG_SUP: '#05A0FF',
 }
 
+/**
+ * The original tool paints the components by their position in the alphabetical list (its legend reads
+ * Capacity taxes, Energy and supply, Environmental taxes, Network costs, ...), not by their code.
+ */
+export const componentPalette = ['#388AE2', '#06D7FF', '#19FF99', '#4C99FF', '#FFD900', '#C88000', '#33D129', '#FFB800'] as const
+
 export const componentFallbackColors = [
   '#2CB523', '#8C4000', '#0033FF', '#00A68C', '#FF8C00', '#00D98C', '#2673FF', '#FFB300',
 ] as const

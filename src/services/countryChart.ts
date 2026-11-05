@@ -1,7 +1,7 @@
 import type { TFunction } from 'i18next'
 import { breakdownColors, componentColors, componentFallbackColors, units } from '../config/toolConfig'
 import type { BandPrice, CountryPrices } from '../hooks/useEnergyPrices'
-import { priceAxisTitle, roundLegend, tooltipTable } from './chartOptions'
+import { priceAxisTitle, paintByPosition, roundLegend, sortByName, tooltipTable } from './chartOptions'
 import { resolveEnergyQuery } from '../hooks/useEnergyPrices'
 import type { FilterValues } from '../state/filters'
 
@@ -143,14 +143,15 @@ export function createCountryChart(data: CountryPrices, values: FilterValues, vi
         const row = rowAt(data, code, period)
         return sum + (round(row ? part.pick(row) : null) ?? 0)
       }, 0).toFixed(decimals))
-      series = stack.map((part) => ({
+      const stacked = sortByName(stack.map((part) => ({
         name: part.name,
         color: part.color,
         data: data.bands.map((code) => {
           const row = rowAt(data, code, period)
           return { y: round(row ? part.pick(row) : null), customTotal: sumOf(code) }
         }),
-      }))
+      })))
+      series = data.componentMode ? paintByPosition(stacked) : stacked
     } else {
       series = [{
         name: t('chart.totalPrice'),
@@ -193,11 +194,11 @@ export function createCountryChart(data: CountryPrices, values: FilterValues, vi
     const at = (period: string) => rowAt(data, band, period)
     series = [
       { name: t('chart.totalPrice'), color: componentColors.TOTAL, lineWidth: 3, data: shown.map((p) => round(at(p)?.total ?? null)) },
-      ...parts.filter((part) => data.componentMode || part.key !== 'energy').map((part) => ({
+      ...(data.componentMode ? paintByPosition : (list: object[]) => list)(sortByName(parts.filter((part) => data.componentMode || part.key !== 'energy').map((part) => ({
         name: part.name,
         color: part.color,
         data: shown.map((p) => round(((row) => (row ? part.pick(row) : null))(at(p)))),
-      })),
+      })))),
     ]
   }
 

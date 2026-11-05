@@ -11,8 +11,7 @@ import { useSiteShell } from './hooks/useSiteShell'
 import { DownloadMenu } from './components/DownloadMenu'
 import { FilterControls } from './components/FilterControls'
 import { SiteFooter } from './components/Footer'
-import { InsightsContent } from './components/InsightsContent'
-import { InsightsPanel } from './components/InsightsPanel'
+import { insightsHref } from './insights/mode'
 import { SiteNavigation } from './components/Nav'
 import { RoundButton } from './components/RoundButton'
 import { ShareMenu } from './components/ShareMenu'
@@ -48,7 +47,6 @@ function App() {
   const getTable = drill.chartGeo && countryPrices.data
     ? () => buildCountryTable(countryPrices.data!, values, countryView, t, { title: viewTitle, subtitle: viewSubtitle })
     : prices.data ? () => buildToolTable(prices.data!, t, { title: viewTitle, subtitle: viewSubtitle }, shownPeriod) : undefined
-  const [insightsOpen, setInsightsOpen] = useState(false)
 
   // Context added to the contact e-mail: what the person had selected when they wrote.
   const emailDetails = useMemo(
@@ -123,7 +121,7 @@ function App() {
                 icon="lightbulb"
                 label={t('insights.open')}
                 aria-haspopup="dialog"
-                onClick={() => setInsightsOpen(true)}
+                onClick={() => window.location.assign(insightsHref())}
               />
             )}
             {features.download && <DownloadMenu getTable={getTable} heading={{ title: viewTitle, subtitle: viewSubtitle }} />}
@@ -153,17 +151,6 @@ function App() {
           </>
         )}
       </main>
-
-      {features.insights && (
-        <InsightsPanel
-          open={insightsOpen}
-          onClose={() => setInsightsOpen(false)}
-          title={t('insights.title')}
-          closeLabel={t('insights.close')}
-        >
-          <InsightsContent open={insightsOpen} values={values} defaultFocus={drill.chartGeo || (Array.isArray(values.geo) ? values.geo[0] : undefined)} />
-        </InsightsPanel>
-      )}
 
       <span className="ecl-u-sr-only" role="status" aria-live="polite">{announcement}</span>
 

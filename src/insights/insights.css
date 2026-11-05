@@ -1164,3 +1164,27 @@
 .insights-section .insights-meta__item {
     width: 100%;
 }
+
+/* Tooltip of the "How is this calculated?" buttons: the look is the tool's own .tooltip-bubble (white, blue border,
+   above the button, as on the toolbar buttons); this only shows it on hover and on keyboard focus. */
+.insights-section .ecl-popover .insights-tip {
+    /* the section title around it is bold; the bubble is not */
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.12s ease-in;
+}
+
+.insights-section .ecl-popover .ecl-popover__toggle:hover ~ .insights-tip,
+.insights-section .ecl-popover .ecl-popover__toggle:focus-visible ~ .insights-tip {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .insights-section .ecl-popover .insights-tip {
+        transition: none;
+    }
+}

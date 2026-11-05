@@ -399,7 +399,8 @@
       "noComponents": "Aucune composante annuelle n’est disponible pour ce pays.",
       "smallGroup": "Seuls {{n}} pays ont un prix : les comparaisons sont moins fiables.",
       "shortHistory": "Seules {{count}} périodes sont disponibles : les tendances sont moins fiables."
-    }
+    },
+    "back": "Retour à l'outil"
   },
   "share": {
     "label": "Partager",

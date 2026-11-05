@@ -8,6 +8,8 @@ import './index.css'
 import App from './App'
 import { isAccessibilityMode } from './accessibility/mode'
 import { isEmbedMode } from './embed/embed'
+import { isInsightsMode } from './insights/mode'
+import { InsightsPage } from './pages/InsightsPage'
 import { AccessibilityPage } from './pages/AccessibilityPage'
 import { EmbedPage } from './pages/EmbedPage'
 
@@ -15,6 +17,6 @@ applyColorCssVariables()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {isEmbedMode() ? <EmbedPage /> : isAccessibilityMode() ? <AccessibilityPage /> : <App />}
+    {isEmbedMode() ? <EmbedPage /> : isAccessibilityMode() ? <AccessibilityPage /> : isInsightsMode() ? <InsightsPage /> : <App />}
   </StrictMode>,
 )

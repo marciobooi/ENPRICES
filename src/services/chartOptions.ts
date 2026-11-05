@@ -1,10 +1,25 @@
 import type { TFunction } from 'i18next'
-import { units } from '../config/toolConfig'
+import { componentFallbackColors, componentPalette, units } from '../config/toolConfig'
 
 /** Title of the vertical axis as in the original tool: "Electricity price [€/kWh]", or "... %" for shares. */
 export function priceAxisTitle(t: TFunction, product: string, unit: string, shares = false): string {
   const name = t(`chart.productPrice.${product}`, { defaultValue: t('chart.price') })
   return shares ? `${name} %` : `${name} [€/${units[unit]?.abbr ?? unit}]`
+}
+
+/**
+ * Stacked series in alphabetical order of their (translated) names, so the tooltip, the legend and the stack read the
+ * same way in every language. Highcharts lists a shared tooltip in series order.
+ */
+export function sortByName<T extends { name?: string }>(series: T[]): T[] {
+  const collator = new Intl.Collator(document.documentElement.lang || 'en')
+  return [...series].sort((a, b) => collator.compare(a.name ?? '', b.name ?? ''))
+}
+
+/** The original paints the (alphabetical) components by position: the first one blue, the second cyan, and so on. */
+export function paintByPosition<T extends object>(series: T[]): T[] {
+  const colors = [...componentPalette, ...componentFallbackColors]
+  return series.map((entry, index) => ({ ...entry, color: colors[index % colors.length] }))
 }
 
 /** Tooltip in the style of the original tool: a small table with the name of the bar in a dark header. */
@@ -14,6 +29,8 @@ export function tooltipTable(options: { decimals: number; unit: string; stacked:
   return {
     useHTML: true,
     shared: true,
+    // Drawn outside the chart, on top of the page: not clipped by the chart and not covered by the floating options bar.
+    outside: true,
     padding: 0,
     borderWidth: 0,
     shadow: false,

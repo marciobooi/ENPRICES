@@ -1,6 +1,6 @@
 import type { TFunction } from 'i18next'
 import { allCountries, breakdownColors } from '../config/toolConfig'
-import { priceAxisTitle, roundLegend, tooltipTable } from './chartOptions'
+import { priceAxisTitle, paintByPosition, roundLegend, sortByName, tooltipTable } from './chartOptions'
 import { colorOfComponent } from './countryChart'
 import type { EnergyPrices, CountryPrice } from '../hooks/useEnergyPrices'
 import type { FilterValues } from '../state/filters'
@@ -80,7 +80,7 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
     data.componentMode ? data.componentCodes.map((code) => row.breakdown.find((point) => point.code === code)?.value ?? null) : row.detail
   const stackTotal = (row: CountryPrice) => Number(partsOf(row).reduce<number>((sum, value) => sum + (rounded(value) ?? 0), 0).toFixed(decimals))
 
-  const series: object[] = stacked
+  const unsortedSeries: Array<{ name: string; [key: string]: unknown }> = stacked
     ? data.componentMode
       ? data.componentCodes.map((code, index) => ({
           name: t(`taxComponents.${code}`, { defaultValue: code }),
@@ -98,6 +98,8 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
         name: data.componentMode ? t('chart.totalPrice') : t('chart.components.energy'),
         data: currentCountries.map((row) => columnPoint(row, rounded(row.total), countryColor(row.countryCode))),
       }]
+  // Alphabetical, like the tooltip: the stack, the legend and the tooltip list the parts in the same order.
+  const series = stacked ? (data.componentMode ? paintByPosition(sortByName(unsortedSeries)) : sortByName(unsortedSeries)) : unsortedSeries
 
   return {
     service: 'chart',

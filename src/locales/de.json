@@ -399,7 +399,8 @@
       "noComponents": "Für dieses Land liegen keine jährlichen Preisbestandteile vor.",
       "smallGroup": "Nur {{n}} Länder haben einen Preis, Vergleiche sind daher weniger zuverlässig.",
       "shortHistory": "Es liegen nur {{count}} Zeiträume vor, Trends sind daher weniger zuverlässig."
-    }
+    },
+    "back": "Zurück zum Tool"
   },
   "share": {
     "label": "Teilen",

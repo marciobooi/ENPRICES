@@ -145,7 +145,6 @@ function InfoPopover({ title, info, t }: { title: string; info: Info; t: Transla
         className="ecl-button ecl-button--tertiary ecl-popover__toggle"
         aria-controls={id}
         aria-expanded={shown}
-        title={t('iv.HOW_CALCULATED')}
         aria-label={`${t('iv.HOW_CALCULATED')}: ${title}`}
         onClick={() => setShown((current) => !current)}
       >
@@ -155,6 +154,8 @@ function InfoPopover({ title, info, t }: { title: string; info: Info; t: Transla
           </svg>
         </span>
       </button>
+      {/* Shown on hover and keyboard focus (the native title takes a second to appear and not at all on touch or focus) */}
+      {!shown && <span role="tooltip" className="tooltip-bubble insights-tip">{t('iv.HOW_CALCULATED')}</span>}
       <div id={id} className="ecl-popover__container" role="group" aria-label={title} hidden={!shown} style={{ display: shown ? 'block' : 'none' }}>
         <div className="ecl-popover__scrollable">
           <button ref={close} type="button" className="ecl-button ecl-button--tertiary ecl-button--neutral ecl-popover__close ecl-button--icon-only" aria-label={t('insights.close')} onClick={() => { setShown(false); toggle.current?.focus() }}>

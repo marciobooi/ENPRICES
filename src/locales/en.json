@@ -417,7 +417,8 @@
       "noComponents": "There are no annual component figures for this country.",
       "smallGroup": "Only {{n}} countries have a price, so comparisons are less reliable.",
       "shortHistory": "Only {{count}} periods are available, so trends are less reliable."
-    }
+    },
+    "back": "Back to the tool"
   },
   "share": {
     "label": "Share",
