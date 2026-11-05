@@ -13,6 +13,8 @@ export interface ParamDefinition<T> {
   /** Turns the text from the address into a value; return undefined when it is not valid (the fallback is used). */
   parse: (raw: string) => T | undefined
   serialize: (value: T) => string
+  /** Written even when it equals the fallback (a default that changes over time, like "this year", must not drift in a shared link). */
+  alwaysWrite?: boolean
 }
 
 export type ParamSet<T> = { [K in keyof T]: ParamDefinition<T[K]> }
@@ -51,13 +53,18 @@ export function readUrlState<T>(params: ParamSet<T>, search: string = window.loc
   return state
 }
 
-/** Write the state into the address without adding a history entry; other parameters (language, embed) stay. */
+/** Write the state into the address without adding a history entry; other parameters (language, embed) stay. Defaults are not written. */
 export function writeUrlState<T>(params: ParamSet<T>, state: T): void {
   const address = new URL(window.location.href)
   for (const name of Object.keys(params) as Array<keyof T>) {
     const definition = params[name]
-    address.searchParams.set(definition.key, definition.serialize(state[name]))
+    const text = definition.serialize(state[name])
+    // A value that is the default is left out: a shorter address that reads back the same.
+    if (!definition.alwaysWrite && text === definition.serialize(definition.fallback)) address.searchParams.delete(definition.key)
+    else address.searchParams.set(definition.key, text)
   }
+  // Lists stay readable (`geo=BE,FR`): a comma is valid in a query string, no need for %2C.
+  address.search = address.search.replace(/%2C/gi, ',')
   window.history.replaceState(window.history.state, '', address)
 }
 

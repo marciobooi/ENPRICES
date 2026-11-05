@@ -22,7 +22,7 @@ export const filterParams = Object.fromEntries(
   filters.map((definition) => [
     definition.id,
     definition.type === 'select'
-      ? stringParam(definition.id, definition.default, filterCodes(definition))
+      ? { ...stringParam(definition.id, definition.default, filterCodes(definition)), alwaysWrite: definition.id === 'time' }
       : listParam(definition.id, [...definition.default], filterCodes(definition)),
   ]),
 ) as unknown as ParamSet<FilterValues>
