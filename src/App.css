@@ -1,0 +1,1138 @@
+/* Shared popover tokens: language popover and guided tour use the same surface, title, divider and close button */
+:root {
+  --popover-radius: 4px;
+  --popover-shadow: 0 4px 12px rgb(9 49 142 / 20%);
+  --popover-divider: #e9eaeb;
+  --popover-title-color: #262b38;
+  --popover-title-size: 1.5rem;
+  --popover-title-line: 2rem;
+  --popover-text-color: #262b38;
+  --popover-close-size: 2.75rem; /* 44px touch target */
+}
+
+.skip-link {
+  position: absolute;
+  z-index: 20;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.75rem 1rem;
+  transform: translateY(-160%);
+  color: #fff;
+  background: #0a328e;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.site-header {
+  position: relative;
+  background: #fff;
+  color: #262b38;
+}
+
+/* Eurostat app banner (same look as ENPRICES .es_app_top) */
+
+.site-header-main {
+  position: relative;
+  display: grid;
+  min-height: 99px;
+  max-height: 99px;
+  grid-template-columns: minmax(0, 1fr) 250px 300px 190px;
+  align-items: center;
+  gap: 0;
+  padding: 0 1rem;
+  background: #082b7a linear-gradient(125deg, #082b7a 35%, #afdfe9 75%, #fff 100%);
+}
+
+.site-header-title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #f3f6fc;
+  font: normal bold clamp(1.5rem, 3vw, 2.4rem) / 1.1 Arial, sans-serif;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.header-ribbon {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: 99px;
+  justify-self: center;
+  pointer-events: none;
+}
+
+.masthead-language {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+}
+
+.masthead-language-section {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Language popover: layout, arrow and active row come from ECL's .ecl-site-header__language-* styles */
+
+.language-overlay {
+  top: 100%;
+  z-index: 1000;
+  border-radius: var(--popover-radius);
+  box-shadow: var(--popover-shadow);
+  color: var(--popover-text-color);
+}
+
+.round-button.popover-close {
+  --round-button-size: var(--popover-close-size);
+  --round-button-icon-size: 1.25rem;
+
+  flex: none;
+  box-sizing: border-box;
+  width: var(--popover-close-size);
+  height: var(--popover-close-size);
+  min-width: var(--popover-close-size);
+  min-height: var(--popover-close-size);
+  max-width: var(--popover-close-size);
+  max-height: var(--popover-close-size);
+  aspect-ratio: 1;
+}
+
+.language-overlay .ecl-site-header__language-title {
+  color: var(--popover-title-color);
+  font-family: Arial, sans-serif;
+  font-size: var(--popover-title-size);
+  font-weight: 400;
+  line-height: var(--popover-title-line);
+}
+
+.language-overlay .ecl-site-header__language-header {
+  padding-block-end: 1rem;
+  padding-inline-end: 3rem;
+  border-bottom: 1px solid var(--popover-divider);
+}
+
+.eurostat-brand {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+  text-decoration: none;
+}
+
+.eurostat-brand img {
+  display: block;
+  width: auto;
+  max-height: 26px;
+}
+
+.visualization-shell {
+  flex: 1;
+}
+
+.site-subnavigation {
+  position: relative;
+  z-index: 1;
+}
+
+.tool-toolbar {
+  --subnav-bg: #003776;
+
+  display: flex;
+  min-height: 4rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--subnav-bg);
+  color: #fff;
+}
+
+.menu-toggle {
+  --menu-toggle-icon-size: 1.25rem;
+
+  min-width: 0;
+  min-height: 2.5rem;
+  align-self: center;
+  padding: 0 0.75rem;
+}
+
+.menu-toggle .ecl-button__container {
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.menu-toggle .toolbar-icon {
+  display: block;
+  width: var(--menu-toggle-icon-size);
+  height: var(--menu-toggle-icon-size);
+  flex: none;
+}
+
+.toolbar-title {
+  color: #fff;
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.93rem;
+  line-height: 1.35;
+}
+
+.toolbar-title strong,
+.toolbar-title span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toolbar-title strong {
+  font-weight: 700;
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Circular icon button (see RoundButton.tsx).
+   Component tokens -> ECL secondary supplies colour and hover/focus/active/disabled states. */
+
+.round-button:is(a) {
+  text-decoration: none;
+}
+
+.round-button {
+  --round-button-size: 3rem;
+  --round-button-icon-size: 1.5rem;
+
+  display: inline-flex;
+  width: var(--round-button-size);
+  height: var(--round-button-size);
+  min-width: var(--round-button-size);
+  min-height: var(--round-button-size);
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  line-height: 0;
+}
+
+.round-button .ecl-button__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+/* Primary round button states (ECL primary supplies the resting blue fill and white icon).
+   rest:     blue fill, white icon
+   hover:    white fill, blue icon + blue edge (edge keeps it visible on white pages)
+   focus:    same as hover + two-tone ring (white inside, dark outside: >= 3:1 on navy and on white)
+   active:   pale blue fill (primary-20), blue icon
+   expanded: stays white while the thing it opens is open
+   disabled: ECL's faded look, no hover feedback */
+
+.round-button.ecl-button--primary {
+  border: 2px solid transparent;
+}
+
+.round-button.ecl-button--primary:not(:disabled):hover,
+.round-button.ecl-button--primary:not(:disabled):focus-visible,
+.round-button.ecl-button--primary[aria-expanded='true'] {
+  border-color: #0e47cb;
+  background-color: #fff;
+  color: #0e47cb;
+}
+
+.round-button.ecl-button--primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 5px #262b38;
+}
+
+.round-button.ecl-button--primary:not(:disabled):active {
+  border-color: #0e47cb;
+  background-color: #cfdaf5;
+  color: #0e47cb;
+  box-shadow: none;
+}
+
+.round-button.ecl-button--primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.round-button .toolbar-icon {
+  display: block;
+  width: var(--round-button-icon-size);
+  height: var(--round-button-icon-size);
+  flex: none;
+}
+
+/* Tooltip (see Tooltip.tsx) */
+
+.tooltip-host {
+  position: relative;
+  display: inline-flex;
+}
+
+.tooltip-bubble {
+  --tooltip-shift: 0px;
+
+  position: absolute;
+  z-index: 1100;
+  bottom: calc(100% + 0.5rem);
+  left: 50%;
+  padding: 0.5rem 0.75rem;
+  transform: translateX(calc(-50% + var(--tooltip-shift)));
+  border: 2px solid #0e47cb;
+  border-radius: 4px;
+  background: #fff;
+  color: #262b38;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tooltip-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  left: calc(50% - var(--tooltip-shift));
+  width: 10px;
+  height: 10px;
+  transform: translateX(-50%) rotate(45deg);
+  border-right: 2px solid #0e47cb;
+  border-bottom: 2px solid #0e47cb;
+  background: #fff;
+}
+
+.tooltip-bubble--inverted {
+  border-color: #262b38;
+  background: #262b38;
+  color: #fff;
+}
+
+.tooltip-bubble--inverted::before {
+  border-color: #262b38;
+  background: #262b38;
+}
+
+.tool-menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1.5rem 3rem;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #d4d5d7;
+  background: #fff;
+}
+
+.tool-menu[hidden] {
+  display: none;
+}
+
+.tool-menu-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.tool-menu-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.tool-menu-filters .ecl-form-group {
+  /* ECL form groups use inline-size containment (no intrinsic width): give them a real one */
+  flex: 0 0 18rem;
+  max-width: 100%;
+  margin: 0;
+}
+
+/* ECL select: decorative caret (the real control is the native select / toggle button) */
+.ecl-select__icon {
+  pointer-events: none;
+}
+
+.ecl-select__icon .select-caret {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.ecl-select__icon .toolbar-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.2s ease;
+}
+
+/* The selection counter badge is sized by ECL's own rule (width 100%, min-width 1rem, padding) and expects the
+   default content-box. Our global `* { box-sizing: border-box }` would make the padding eat the width. */
+.ecl-select-multiple-selections-counter,
+.ecl-select-multiple-selections-counter * {
+  box-sizing: content-box;
+}
+
+/* Chevron turns up while the list is open (ECL does the same for its own icon class) */
+.ecl-select--active ~ .ecl-select__icon .toolbar-icon {
+  transform: rotate(180deg);
+}
+
+/* Native select while its list is open. Separate rule: browsers without :open would drop a combined selector. */
+.ecl-select:open ~ .ecl-select__icon .toolbar-icon {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ecl-select__icon .toolbar-icon {
+    transition: none;
+  }
+}
+
+/* ECL checkbox tick (inline SVG instead of the Webtools icon font) */
+.ecl-checkbox__icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tool-menu a {
+  color: #082b7a;
+  text-decoration: none;
+}
+
+.tool-menu a:hover {
+  text-decoration: underline;
+}
+
+.toolbar-feedback:empty {
+  display: none;
+}
+
+.toolbar-feedback {
+  margin: 0.5rem 0;
+  color: #0d40b7;
+}
+
+.ecl-mark {
+  border: 2px solid #0d40b7;
+  border-radius: 50%;
+  font-family: inherit;
+  font-weight: 700;
+}
+
+.site-footer {
+  margin-top: auto;
+  border-top: 1px solid #d4d5d7;
+  background: #fff;
+}
+
+.footer-inner {
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.site-footer nav {
+  display: flex;
+  margin-inline-start: auto; /* stays right when the back-to-top button is hidden */
+  flex-wrap: wrap;
+  justify-content: end;
+}
+
+.site-footer nav a {
+  padding: 0.25rem 1rem;
+  border-right: 1px solid #0e47cb;
+  color: #0d40b7;
+  text-decoration: none;
+}
+
+.site-footer nav a:last-child {
+  border: 0;
+}
+
+.site-footer nav a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .tool-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .toolbar-actions {
+    gap: 0.5rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1200px) {
+  .site-header-main {
+    grid-template-columns: minmax(0, 1fr) 190px 220px 190px;
+  }
+
+  .site-header-title {
+    font-size: 2.15rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header-main {
+    min-height: 70px;
+    max-height: none;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: linear-gradient(280deg, #f6fafc 0%, #afdfe9 51%, #3e639d 73%, #122a75 90%, #082b7a 100%);
+  }
+
+  .site-header-title {
+    max-width: 55vw;
+    font-size: 1.5rem;
+    white-space: normal;
+    text-shadow: 0 0 2px #000;
+  }
+
+  .header-ribbon {
+    display: none;
+  }
+
+  .masthead-language {
+    font-size: 0.86rem;
+  }
+
+  .eurostat-brand {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .eurostat-brand img {
+    max-height: 18px;
+  }
+
+  .language-overlay {
+    position: fixed;
+    top: 4.5rem;
+    right: 1rem;
+    left: 1rem;
+    transform: none;
+  }
+
+  .language-overlay::before {
+    display: none;
+  }
+
+  .language-overlay .ecl-site-header__language-category--3-col .ecl-site-header__language-list {
+    column-count: 1;
+  }
+
+  .language-overlay .ecl-site-header__language-link {
+    width: auto;
+  }
+
+  .tool-toolbar {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .menu-toggle {
+    min-width: 50px;
+  }
+
+  .menu-toggle .ecl-button__label {
+    font-size: 0.8rem;
+  }
+
+  .toolbar-title {
+    flex-basis: calc(100% - 65px);
+    font-size: 0.82rem;
+  }
+
+  .toolbar-actions {
+    width: 100%;
+    justify-content: end;
+  }
+
+  .footer-inner {
+    align-items: start;
+    flex-direction: column;
+    padding: 1rem 0.75rem;
+  }
+
+  .site-footer nav {
+    justify-content: start;
+    row-gap: 0.25rem;
+  }
+
+  .site-footer nav a {
+    padding: 0.25rem 0.75rem 0.25rem 0;
+    margin-right: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+*::before,
+*::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Accessibility statement (?accessibility) */
+
+.a11y-statement {
+  padding: 0 1rem 1rem;
+}
+
+.a11y-wrapper {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.a11y-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1.5rem 0;
+}
+
+.a11y-actions .ecl-button {
+  text-decoration: none;
+}
+
+#a11y-statement-title {
+  margin-bottom: 1.5rem;
+}
+
+#a11y-statement-title:focus {
+  outline: none;
+}
+
+.a11y-intro {
+  margin-bottom: 1.5rem;
+}
+
+/* Inline links stay inline in running text */
+
+.a11y-statement p .ecl-link,
+.a11y-statement li .ecl-link {
+  display: inline;
+  padding: 0;
+  min-height: 0;
+  text-decoration: underline;
+}
+
+.a11y-statement .ecl-unordered-list,
+.a11y-statement p.ecl-u-type-paragraph {
+  margin-bottom: 1rem;
+}
+
+/* "On this page" box */
+
+.a11y-toc {
+  padding: 1rem 1.5rem;
+  border-left: 4px solid #0e47cb;
+  border-radius: 0 4px 4px 0;
+  background: #f3f6fc;
+}
+
+.a11y-toc .ecl-u-type-heading-3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+}
+
+.a11y-toc .ecl-unordered-list {
+  margin: 0;
+}
+
+.a11y-statement .ecl-unordered-list__item::marker {
+  color: #0e47cb;
+}
+
+/* Guided tour popover: driver.js only positions it; ECL classes (added in tour.ts) style it */
+.tour-popover {
+  max-width: min(26rem, calc(100vw - 2rem));
+  border-radius: var(--popover-radius);
+  box-shadow: var(--popover-shadow);
+  color: var(--popover-text-color);
+  font-family: Arial, sans-serif;
+}
+
+.tour-popover .driver-popover-footer .ecl-button {
+  min-width: 7rem;
+  justify-content: center;
+  text-align: center;
+}
+
+.tour-popover .popover-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+}
+
+/* Tooltip of the close button: sits above it, right edges aligned */
+.tour-popover .tooltip-bubble--close {
+  top: calc(1.5rem - 0.5rem);
+  right: 1.5rem;
+  bottom: auto;
+  left: auto;
+  transform: translateY(-100%);
+}
+
+.tour-popover .tooltip-bubble--close::before {
+  left: auto;
+  right: calc(var(--popover-close-size) / 2 - 5px);
+  transform: rotate(45deg);
+}
+
+.tour-popover .tooltip-bubble--close[hidden] {
+  display: none;
+}
+
+/* Insights overlay (native modal dialog) */
+.insights-dialog {
+  width: min(72rem, calc(100vw - 2rem));
+  max-width: none;
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 0;
+  border-radius: var(--popover-radius);
+  box-shadow: var(--popover-shadow);
+  color: var(--popover-text-color);
+  font-family: Arial, sans-serif;
+}
+
+.insights-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.insights-dialog::backdrop {
+  background: rgb(38 43 56 / 65%);
+}
+
+.insights-panel {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.insights-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--popover-divider);
+}
+
+.insights-title {
+  margin: 0;
+  font-size: var(--popover-title-size);
+  font-weight: 400;
+  line-height: var(--popover-title-line);
+}
+
+.insights-body {
+  min-height: 0;
+  flex: 1;
+  padding: 1.5rem 2rem 2rem;
+  overflow-y: auto;
+}
+
+.insights-body:focus-visible {
+  outline: 2px solid #0e47cb;
+  outline-offset: -2px;
+}
+
+.insights-hero {
+  margin-bottom: 2rem;
+  padding: 1.5rem 2rem;
+  border-left: 4px solid #0e47cb;
+  background: #f3f6fc;
+}
+
+.insights-hero h3 {
+  margin: 0.5rem 0;
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 2rem;
+}
+
+.insights-hero p {
+  margin: 0;
+}
+
+.insights-kicker {
+  color: #0e47cb;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.insights-section {
+  margin-bottom: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #cfdaf5;
+}
+
+.insights-section h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 2rem;
+}
+
+.insights-section p {
+  margin: 0 0 1rem;
+}
+
+.insights-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1rem;
+  margin: 1rem 0 0;
+}
+
+.insights-kpis > div {
+  padding: 1rem;
+  border: 1px solid #e9eaeb;
+  border-radius: var(--popover-radius);
+  background: #fff;
+}
+
+.insights-kpis dt {
+  color: #515560;
+  font-size: 0.875rem;
+}
+
+.insights-kpis dd {
+  margin: 0.25rem 0 0;
+  color: #0e47cb;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+}
+
+.insights-takeaways {
+  margin-bottom: 0;
+}
+
+/* Webtools icon (WebtoolsIcon.tsx): the SVG Webtools injects fills the sized wrapper and follows the text colour */
+.webtools-icon {
+  display: inline-flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+}
+
+.webtools-icon > .ecl-icon,
+.webtools-icon > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  fill: currentColor;
+}
+
+.webtools-icon > .toolbar-icon {
+  width: 100%;
+  height: 100%;
+}
+
+/* Card (Card.tsx): ECL card surface plus accent bar, header slots, content and footer */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: 1.5rem;
+}
+
+.tool-card {
+  --card-accent: #0e47cb;
+}
+
+/* ECL draws a small tab at the top-left of the card body; it carries the accent colour */
+.tool-card .ecl-card__body::before {
+  background-color: var(--card-accent);
+}
+
+.tool-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.tool-card__icon {
+  display: flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #e7edfa;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.tool-card__heading {
+  min-width: 0;
+  flex: 1;
+}
+
+.tool-card__title {
+  margin-block: 0 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+}
+
+.tool-card__description {
+  margin-block: 0;
+  color: #515560;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+}
+
+.tool-card__actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tool-card__content {
+  margin-top: 1rem;
+}
+
+.tool-card__footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9eaeb;
+  color: #515560;
+  font-size: 0.875rem;
+}
+
+/* Share menu (ShareMenu.tsx): button plus popover of networks */
+.share-menu {
+  position: relative;
+  display: inline-flex;
+}
+
+.share-popover {
+  position: absolute;
+  z-index: 1000;
+  top: calc(100% + 0.75rem);
+  right: 0;
+  min-width: 16rem;
+  padding: 1.5rem;
+  border-radius: var(--popover-radius);
+  background: #fff;
+  box-shadow: var(--popover-shadow);
+  color: var(--popover-text-color);
+  font-family: Arial, sans-serif;
+}
+
+.share-popover::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 1.1rem;
+  width: 12px;
+  height: 12px;
+  transform: rotate(45deg);
+  background: #fff;
+  box-shadow: -2px -2px 4px rgb(9 49 142 / 8%);
+}
+
+.share-popover__title {
+  margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--popover-divider);
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.share-popover__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Divider between items, inset from both sides so it does not run edge to edge */
+.share-popover__list > li + li {
+  margin-inline: 0.5rem;
+  border-top: 1px solid var(--popover-divider);
+}
+
+.share-popover__list > li + li .share-popover__link {
+  margin-inline: -0.5rem;
+  width: calc(100% + 1rem);
+}
+
+.share-popover__link {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.share-popover__link:hover,
+.share-popover__link:focus-visible {
+  background: #e7edfa;
+}
+
+.share-popover__status {
+  min-height: 1.5rem;
+  margin: 0.75rem 0 0;
+  color: #515560;
+  font-size: 0.875rem;
+}
+
+.share-popover__status:empty {
+  display: none;
+}
+
+/* Download menu (DownloadMenu.tsx): same popover as Share, a plain list of formats without title */
+.download-menu {
+  position: relative;
+  display: inline-flex;
+}
+
+.download-popover {
+  min-width: 15rem;
+  padding: 0.5rem;
+}
+
+.download-popover .share-popover__link {
+  padding: 0.75rem 1rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .share-popover {
+    position: fixed;
+    top: 5rem;
+    right: 1rem;
+    left: 1rem;
+  }
+
+  .share-popover::before {
+    display: none;
+  }
+}
+
+/* Main content (page and embedded view) */
+.tool-content {
+  width: min(100% - 3rem, 72rem);
+  margin: 1.5rem auto;
+}
+
+.tool-content__selection {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+}
+
+.tool-content__selection dt {
+  color: #515560;
+  font-size: 0.875rem;
+}
+
+.tool-content__selection dd {
+  margin: 0.25rem 0 0;
+  font-size: 1rem;
+}
+
+.tool-content__message {
+  margin: 1.5rem;
+  color: #d7003d;
+}
+
+/* Embedded view: only the content, tight to the edges of the frame the host page gives it */
+.embed-shell {
+  min-height: 100vh;
+  background: #fff;
+}
+
+.embed-shell .tool-content {
+  width: auto;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+/* Embed dialog */
+.insights-dialog--narrow {
+  width: min(40rem, calc(100vw - 2rem));
+}
+
+.embed-code {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 0.875rem;
+}
+
+.embed-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.embed-status {
+  margin: 0;
+  color: #515560;
+  font-size: 0.875rem;
+}
+
+.embed-status:empty {
+  display: none;
+}
+
+/* Loading (Loading.tsx, ECL spinner): ECL animates without end; for reduced motion show a still arc and the text */
+@media (prefers-reduced-motion: reduce) {
+  .ecl-spinner__loader {
+    animation: none;
+  }
+
+  .ecl-spinner__circle {
+    animation: none;
+    stroke-dasharray: 60, 200;
+  }
+}
+
+.share-popover .loading {
+  margin-top: 0.75rem;
+}
+
+.share-popover .ecl-spinner {
+  margin: 0;
+}
+

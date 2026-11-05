@@ -1,0 +1,230 @@
+{
+  "brand": "Eurostat-Tools",
+  "navigation": {
+    "skip": "Zum Hauptinhalt springen",
+    "label": "Hauptnavigation",
+    "menu": "Menü",
+    "eurostatHome": "Eurostat-Startseite",
+    "selectLanguage": "Sprache auswählen",
+    "closeLanguageDialog": "Sprachauswahl schließen",
+    "officialLanguages": "Amtssprachen der EU:",
+    "language": "Sprache"
+  },
+  "toolbar": {
+    "label": "Diagramm-Werkzeuge"
+  },
+  "menu": {
+    "filters": "Filter"
+  },
+  "filters": {
+    "unit": "Einheit",
+    "geo": "Länder"
+  },
+  "multiSelect": {
+    "placeholder": "Optionen auswählen",
+    "selectAll": "Alle auswählen",
+    "clearAll": "Alle löschen",
+    "close": "Schließen",
+    "search": "Suchen",
+    "noResults": "Keine Ergebnisse",
+    "selected": "Ausgewählt:",
+    "optionsAvailable": "Verfügbare Optionen:"
+  },
+  "form": {
+    "required": "(erforderlich)"
+  },
+  "countryGroups": {
+    "aggregates": "Aggregate",
+    "eu": "Europäische Union",
+    "efta": "EFTA-Länder",
+    "enlargement": "Erweiterungs- und Nachbarländer"
+  },
+  "countries": {
+    "EU27_2020": "Europäische Union - 27 Länder (ab 2020)",
+    "BE": "Belgien",
+    "BG": "Bulgarien",
+    "CZ": "Tschechien",
+    "DK": "Dänemark",
+    "DE": "Deutschland",
+    "EE": "Estland",
+    "IE": "Irland",
+    "EL": "Griechenland",
+    "ES": "Spanien",
+    "FR": "Frankreich",
+    "HR": "Kroatien",
+    "IT": "Italien",
+    "CY": "Zypern",
+    "LV": "Lettland",
+    "LT": "Litauen",
+    "LU": "Luxemburg",
+    "HU": "Ungarn",
+    "MT": "Malta",
+    "NL": "Niederlande",
+    "AT": "Österreich",
+    "PL": "Polen",
+    "PT": "Portugal",
+    "RO": "Rumänien",
+    "SI": "Slowenien",
+    "SK": "Slowakei",
+    "FI": "Finnland",
+    "SE": "Schweden",
+    "IS": "Island",
+    "LI": "Liechtenstein",
+    "NO": "Norwegen",
+    "ME": "Montenegro",
+    "MK": "Nordmazedonien",
+    "AL": "Albanien",
+    "RS": "Serbien",
+    "TR": "Türkei",
+    "BA": "Bosnien und Herzegowina",
+    "XK": "Kosovo*",
+    "MD": "Moldau",
+    "UA": "Ukraine",
+    "GE": "Georgien"
+  },
+  "units": {
+    "T_HAB": "Tonnen pro Kopf",
+    "THS_T": "Tausend Tonnen",
+    "MIO_T": "Millionen Tonnen",
+    "G_T": "Gigatonnen"
+  },
+  "indicators": {
+    "DE": "Inländische Entnahme",
+    "DMC": "Inländischer Verbrauch",
+    "DMI": "Direkte Einsätze",
+    "EXP": "Exporte",
+    "IMP": "Importe"
+  },
+  "tour": {
+    "start": "Rundgang starten",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "done": "Fertig",
+    "close": "Rundgang schließen",
+    "progress": "{{current}} von {{total}}",
+    "welcomeTitle": "Einführung",
+    "welcomeDescription": "Willkommen zum Tutorial des Visualisierungstools {{tool}}. Dieser Rundgang zeigt Ihnen die wichtigsten Möglichkeiten, mit dem Tool zu arbeiten.",
+    "languageTitle": "Sprache wählen",
+    "languageDescription": "Wechseln Sie zwischen Englisch, Französisch und Deutsch.",
+    "menuTitle": "Navigation",
+    "menuDescription": "Öffnen Sie das Menü, um zwischen den Bereichen des Tools zu wechseln.",
+    "insightsTitle": "Übersicht",
+    "insightsDescription": "Öffnen Sie eine Zusammenfassung der in dieser Ansicht gezeigten Daten.",
+    "shareTitle": "Teilen",
+    "shareDescription": "Teilen Sie dieses Tool in sozialen Netzwerken, per E-Mail oder kopieren Sie den Link.",
+    "downloadTitle": "Herunterladen",
+    "downloadDescription": "Laden Sie die Grafik als Bild oder ihre Daten als Excel-Datei herunter.",
+    "toolTitle": "Aktuelle Ansicht",
+    "toolDescription": "Titel und Untertitel beschreiben, was Sie gerade sehen.",
+    "replayTitle": "Rundgang wiederholen",
+    "replayDescription": "Mit dieser Schaltfläche sehen Sie den Rundgang jederzeit erneut.",
+    "contentTitle": "Ihre Inhalte",
+    "contentDescription": "Die Diagramme und Daten des Tools erscheinen hier."
+  },
+  "subnav": {
+    "title": "Beispieltitel",
+    "subtitle": "Beispiel-Untertitel",
+    "menuItem1": "Menüpunkt 1",
+    "menuItem2": "Menüpunkt 2",
+    "menuItem3": "Menüpunkt 3"
+  },
+  "footer": {
+    "label": "Fußzeilennavigation",
+    "backToTop": "Nach oben",
+    "privacy": "Datenschutz",
+    "legal": "Rechtlicher Hinweis",
+    "cookies": "Cookies",
+    "accessibility": "Barrierefreiheit"
+  },
+  "loading": {
+    "text": "Wird geladen"
+  },
+  "insights": {
+    "open": "Gesamtübersicht",
+    "close": "Schließen",
+    "title": "Gesamtübersicht",
+    "kicker": "Überblick über das Tool",
+    "heading": "Die Indikatoren auf einen Blick",
+    "intro": "Diese Ansicht fasst die Daten des Tools zusammen. Die Werte behalten ihre ursprüngliche Einheit und sollten nicht direkt über verschiedene Einheiten hinweg verglichen werden.",
+    "coverageTitle": "Datenabdeckung",
+    "coverageText": "Die aktuelle Ansicht kombiniert mehrere Länder, Ländergruppen und Einheiten.",
+    "kpiCountries": "Länder",
+    "kpiGroups": "Ländergruppen",
+    "kpiUnits": "Einheiten",
+    "kpiDatasets": "Datensätze",
+    "groupsTitle": "Ländergruppen",
+    "groupsText": "Die Länder der Ansicht, gruppiert wie in den Filtern.",
+    "groupCountries_one": "{{count}} Land",
+    "groupCountries_other": "{{count}} Länder",
+    "readTitle": "So lesen Sie diese Übersicht",
+    "readIntro": "Die Übersicht beschreibt Richtung und wichtigste Beiträge, nicht einen einzelnen Indikator.",
+    "rising": "Steigend",
+    "risingText": "der letzte Wert liegt über den Werten früherer Jahre.",
+    "falling": "Fallend",
+    "fallingText": "der letzte Wert liegt unter den Werten früherer Jahre.",
+    "stable": "Stabil",
+    "stableText": "es ist kein klarer Anstieg oder Rückgang erkennbar.",
+    "takeawaysTitle": "Wichtigste Erkenntnisse",
+    "takeaway1": "In dieser Ansicht sind {{countries}} Länder in {{groups}} Gruppen verfügbar.",
+    "takeaway2": "{{units}} Einheiten sind konfiguriert: Werte verschiedener Einheiten nicht vergleichen.",
+    "takeaway3": "Ersetzen Sie dieses Beispiel durch die Auswertungen Ihres eigenen Tools."
+  },
+  "share": {
+    "label": "Teilen",
+    "title": "Teilen",
+    "text": "Mit diesem Eurostat-Visualisierungstool können Sie die Daten erkunden und die Ansicht anpassen.",
+    "copyLink": "Link kopieren",
+    "linkCopied": "Link in die Zwischenablage kopiert.",
+    "copyFailed": "Der Link konnte nicht kopiert werden.",
+    "opensNewWindow": "(öffnet in einem neuen Fenster)",
+    "networks": {
+      "x": "X",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "email": "E-Mail"
+    },
+    "email": {
+      "greeting": "Guten Tag,",
+      "yourMessage": "Bitte schreiben Sie hier Ihre Frage oder Ihren Kommentar:",
+      "contextHeading": "Technischer Kontext (bitte beibehalten, er hilft uns bei der Antwort):",
+      "tool": "Tool",
+      "address": "Adresse",
+      "language": "Sprache",
+      "date": "Datum",
+      "window": "Fenster",
+      "browser": "Browser",
+      "preparing": "E-Mail und Screenshot werden vorbereitet…",
+      "screenshotCopied": "Ein Screenshot dieser Ansicht befindet sich in Ihrer Zwischenablage: Fügen Sie ihn hier mit Strg+V ein.",
+      "screenshotSaved": "Ein Screenshot dieser Ansicht wurde als {{file}} gespeichert: Bitte fügen Sie ihn dieser Nachricht bei.",
+      "screenshotNone": "Es konnte kein Screenshot erstellt werden: Bitte beschreiben Sie, was Sie sehen."
+    }
+  },
+  "download": {
+    "label": "Grafik oder Daten herunterladen",
+    "png": "PNG-Bild herunterladen",
+    "jpeg": "JPEG-Bild herunterladen",
+    "excel": "Excel-Datei herunterladen",
+    "preparing": "Download wird vorbereitet…",
+    "done": "Download gestartet.",
+    "failed": "Der Download konnte nicht erstellt werden.",
+    "sheet": "Daten",
+    "columnFilter": "Filter",
+    "columnSelection": "Auswahl"
+  },
+  "embed": {
+    "menu": "Einbetten",
+    "title": "Diese Ansicht einbetten",
+    "description": "Kopieren Sie diesen Code und fügen Sie ihn in die Seite ein, auf der die Ansicht erscheinen soll. Es wird nur der Hauptinhalt angezeigt, ohne Banner und Fußzeile, mit den Filtern, die Sie jetzt ausgewählt haben.",
+    "codeLabel": "Einbettungscode",
+    "copy": "Code kopieren",
+    "copied": "Einbettungscode in die Zwischenablage kopiert.",
+    "copyFailed": "Der Code konnte nicht kopiert werden: Markieren und kopieren Sie ihn manuell.",
+    "close": "Schließen"
+  },
+  "toolContent": {
+    "title": "Beispieldiagramm",
+    "description": "Hier erscheint das Hauptdiagramm des Tools, mit den Filtern des Menüs.",
+    "hint": "Ersetzen Sie diese Karte durch das Hauptdiagramm Ihres Tools.",
+    "unknownChart": "Diese Ansicht ist nicht verfügbar."
+  }
+}

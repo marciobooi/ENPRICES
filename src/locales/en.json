@@ -1,0 +1,230 @@
+{
+  "brand": "Eurostat tools",
+  "navigation": {
+    "skip": "Skip to main content",
+    "label": "Main navigation",
+    "menu": "Menu",
+    "eurostatHome": "Eurostat home",
+    "selectLanguage": "Select language",
+    "closeLanguageDialog": "Close language selection",
+    "officialLanguages": "Official EU languages:",
+    "language": "Language"
+  },
+  "toolbar": {
+    "label": "Chart tools"
+  },
+  "menu": {
+    "filters": "Filters"
+  },
+  "filters": {
+    "unit": "Unit",
+    "geo": "Countries"
+  },
+  "multiSelect": {
+    "placeholder": "Select options",
+    "selectAll": "Select all",
+    "clearAll": "Clear all",
+    "close": "Close",
+    "search": "Search",
+    "noResults": "No results found",
+    "selected": "Selected:",
+    "optionsAvailable": "Options available:"
+  },
+  "form": {
+    "required": "(required)"
+  },
+  "countryGroups": {
+    "aggregates": "Aggregates",
+    "eu": "European Union",
+    "efta": "EFTA countries",
+    "enlargement": "Enlargement and neighbouring countries"
+  },
+  "countries": {
+    "EU27_2020": "European Union - 27 countries (from 2020)",
+    "BE": "Belgium",
+    "BG": "Bulgaria",
+    "CZ": "Czechia",
+    "DK": "Denmark",
+    "DE": "Germany",
+    "EE": "Estonia",
+    "IE": "Ireland",
+    "EL": "Greece",
+    "ES": "Spain",
+    "FR": "France",
+    "HR": "Croatia",
+    "IT": "Italy",
+    "CY": "Cyprus",
+    "LV": "Latvia",
+    "LT": "Lithuania",
+    "LU": "Luxembourg",
+    "HU": "Hungary",
+    "MT": "Malta",
+    "NL": "Netherlands",
+    "AT": "Austria",
+    "PL": "Poland",
+    "PT": "Portugal",
+    "RO": "Romania",
+    "SI": "Slovenia",
+    "SK": "Slovakia",
+    "FI": "Finland",
+    "SE": "Sweden",
+    "IS": "Iceland",
+    "LI": "Liechtenstein",
+    "NO": "Norway",
+    "ME": "Montenegro",
+    "MK": "North Macedonia",
+    "AL": "Albania",
+    "RS": "Serbia",
+    "TR": "Türkiye",
+    "BA": "Bosnia and Herzegovina",
+    "XK": "Kosovo*",
+    "MD": "Moldova",
+    "UA": "Ukraine",
+    "GE": "Georgia"
+  },
+  "units": {
+    "T_HAB": "Tonnes per capita",
+    "THS_T": "Thousand tonnes",
+    "MIO_T": "Million tonnes",
+    "G_T": "Gigatonnes"
+  },
+  "indicators": {
+    "DE": "Domestic extraction",
+    "DMC": "Domestic consumption",
+    "DMI": "Direct inputs",
+    "EXP": "Exports",
+    "IMP": "Imports"
+  },
+  "tour": {
+    "start": "Take a tour",
+    "next": "Next",
+    "previous": "Previous",
+    "done": "Done",
+    "close": "Close tour",
+    "progress": "{{current}} of {{total}}",
+    "welcomeTitle": "Introduction",
+    "welcomeDescription": "Welcome to the tutorial of the {{tool}} visualisation tool. This guided tour will show you the main ways of interacting with the tool.",
+    "languageTitle": "Choose your language",
+    "languageDescription": "Switch the tool between English, French and German.",
+    "menuTitle": "Navigate",
+    "menuDescription": "Open the menu to move between the sections of the tool.",
+    "insightsTitle": "Insights",
+    "insightsDescription": "Open a summary of the data shown in this view.",
+    "shareTitle": "Share",
+    "shareDescription": "Share this tool on social networks, by e-mail, or copy its link.",
+    "downloadTitle": "Download",
+    "downloadDescription": "Download the chart as an image, or its data as an Excel file.",
+    "toolTitle": "Current view",
+    "toolDescription": "The title and subtitle describe what you are looking at.",
+    "replayTitle": "Replay the tour",
+    "replayDescription": "Use this button whenever you want to see this tour again.",
+    "contentTitle": "Your content",
+    "contentDescription": "The charts and data of the tool appear here."
+  },
+  "subnav": {
+    "title": "Example title",
+    "subtitle": "Example subtitle",
+    "menuItem1": "Menu item 1",
+    "menuItem2": "Menu item 2",
+    "menuItem3": "Menu item 3"
+  },
+  "footer": {
+    "label": "Footer navigation",
+    "backToTop": "Back to top",
+    "privacy": "Privacy policy",
+    "legal": "Legal notice",
+    "cookies": "Cookies",
+    "accessibility": "Accessibility"
+  },
+  "loading": {
+    "text": "Loading"
+  },
+  "insights": {
+    "open": "Global insights",
+    "close": "Close",
+    "title": "Global insights",
+    "kicker": "Tool overview",
+    "heading": "Indicators at a glance",
+    "intro": "This view summarises the data of the tool. Values keep their original units and should not be compared directly across different units.",
+    "coverageTitle": "Data coverage",
+    "coverageText": "The current view combines several countries, country groups and units.",
+    "kpiCountries": "Countries",
+    "kpiGroups": "Country groups",
+    "kpiUnits": "Units",
+    "kpiDatasets": "Datasets",
+    "groupsTitle": "Country groups",
+    "groupsText": "The countries of the view, grouped as in the filters.",
+    "groupCountries_one": "{{count}} country",
+    "groupCountries_other": "{{count}} countries",
+    "readTitle": "How to read this overview",
+    "readIntro": "The overview describes direction and leading contributors, not a single indicator.",
+    "rising": "Rising",
+    "risingText": "the latest value is moving up versus earlier years.",
+    "falling": "Falling",
+    "fallingText": "the latest value is moving down versus earlier years.",
+    "stable": "Stable",
+    "stableText": "no clear increase or decrease is detected.",
+    "takeawaysTitle": "Key takeaways",
+    "takeaway1": "{{countries}} countries in {{groups}} groups are available in this view.",
+    "takeaway2": "{{units}} units are configured: do not compare values across different units.",
+    "takeaway3": "Replace this example content with the insights of your own tool."
+  },
+  "share": {
+    "label": "Share",
+    "title": "Share",
+    "text": "This Eurostat visualisation tool lets you explore the data and customise the view.",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied to clipboard.",
+    "copyFailed": "The link could not be copied.",
+    "opensNewWindow": "(opens in a new window)",
+    "networks": {
+      "x": "X",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "email": "Email"
+    },
+    "email": {
+      "greeting": "Hello,",
+      "yourMessage": "Please write your question or comment here:",
+      "contextHeading": "Technical context (please keep it, it helps us answer you):",
+      "tool": "Tool",
+      "address": "Address",
+      "language": "Language",
+      "date": "Date",
+      "window": "Window",
+      "browser": "Browser",
+      "preparing": "Preparing the e-mail and a screenshot…",
+      "screenshotCopied": "A screenshot of this view is in your clipboard: paste it here with Ctrl+V.",
+      "screenshotSaved": "A screenshot of this view was saved as {{file}}: please attach it to this message.",
+      "screenshotNone": "A screenshot could not be created: please describe what you see."
+    }
+  },
+  "download": {
+    "label": "Download chart or data",
+    "png": "Download PNG image",
+    "jpeg": "Download JPEG image",
+    "excel": "Download Excel file",
+    "preparing": "Preparing the download…",
+    "done": "Download started.",
+    "failed": "The download could not be created.",
+    "sheet": "Data",
+    "columnFilter": "Filter",
+    "columnSelection": "Selection"
+  },
+  "embed": {
+    "menu": "Embed",
+    "title": "Embed this view",
+    "description": "Copy this code and paste it into the page where the view should appear. Only the main content is shown, without banner or footer, with the filters you have selected now.",
+    "codeLabel": "Embed code",
+    "copy": "Copy code",
+    "copied": "Embed code copied to clipboard.",
+    "copyFailed": "The code could not be copied: select it and copy it manually.",
+    "close": "Close"
+  },
+  "toolContent": {
+    "title": "Example chart",
+    "description": "The main chart of the tool appears here, with the filters of the menu applied.",
+    "hint": "Replace this card with the main chart of your tool.",
+    "unknownChart": "This view is not available."
+  }
+}

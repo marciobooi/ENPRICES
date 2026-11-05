@@ -1,0 +1,57 @@
+@import '@ecl/preset-eu/dist/styles/optional/ecl-reset.css';
+@import '@ecl/preset-eu/dist/styles/optional/ecl-eu-default.css';
+@import '@ecl/preset-eu/dist/styles/optional/ecl-eu-utilities.css';
+@import '@ecl/preset-eu/dist/styles/ecl-eu.css';
+@import '@ecl/preset-eu/dist/styles/ecl-eu-print.css' print;
+/* driver.js structure only: its look lives in a lowest-priority layer so ECL classes always win */
+@import 'driver.js/dist/driver.css' layer(driver);
+
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  color: #262b38;
+  background: #fff;
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button,
+select {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+select:focus-visible {
+  outline: 3px solid #ffcc00;
+  outline-offset: 3px;
+}
+
+#root {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+#globan .wt-globan--invalid-domain {
+  display: none;
+}
