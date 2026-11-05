@@ -113,6 +113,7 @@ function App() {
             }}
             getTable={getTable}
             title={viewSubtitle || viewTitle}
+            heading={viewTitle}
           />
         ) : (
           <>
@@ -125,7 +126,7 @@ function App() {
                 onClick={() => setInsightsOpen(true)}
               />
             )}
-            {features.download && <DownloadMenu getTable={getTable} />}
+            {features.download && <DownloadMenu getTable={getTable} heading={{ title: viewTitle, subtitle: viewSubtitle }} />}
             {features.share && <ShareMenu emailDetails={emailDetails} />}
             {features.tour && <RoundButton id="tour-button" icon="help" label={t('tour.start')} onClick={startTour} />}
           </>

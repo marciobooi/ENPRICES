@@ -113,8 +113,8 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
         categories: currentCountries.map(({ countryCode }) => t(`countries.${countryCode}`, { defaultValue: countryCode })),
         labels: {
           rotation: -45,
-          // A long name wraps onto at most two lines instead of being cut or running into its neighbour.
-          style: { fontSize: '13px', width: '110px', whiteSpace: 'normal', textOverflow: 'ellipsis', lineClamp: 2 },
+          // One line per name: a rotated name that wraps onto two lines runs into its neighbour.
+          style: { fontSize: '13px', whiteSpace: 'nowrap' },
         },
       },
       yAxis: {
@@ -128,7 +128,7 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
       tooltip: tooltipTable({ decimals, unit: data.unit, stacked, shares: percentage, totalLabel: t('chart.totalPrice') }),
       legend: { ...roundLegend, enabled: stacked },
       series,
-      // Narrow screens: every country name stays, rotated and smaller; a long name wraps onto a second line.
+      // Narrow screens: every country name stays, rotated and smaller.
       responsive: {
         rules: [
           { condition: { maxWidth: 700 }, chartOptions: { xAxis: { labels: { rotation: -90, style: { fontSize: '11px' } } }, chart: { height: 500 } } },

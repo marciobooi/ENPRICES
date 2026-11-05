@@ -18,13 +18,15 @@ interface CountryToolbarProps {
   onClose: () => void
   getTable?: () => DownloadTable
   title: string
+  /** The dataset title, written on the downloaded image above `title`. */
+  heading?: string
 }
 
 /**
  * The buttons of the top bar while a country is open. As in the original tool they replace the buttons of the main
  * view, in three groups: the views (bar, pie and line chart, table), the downloads (image, Excel, embed) and close.
  */
-export function CountryToolbar({ view, onViewChange, showTable, onToggleTable, onClose, getTable, title }: CountryToolbarProps) {
+export function CountryToolbar({ view, onViewChange, showTable, onToggleTable, onClose, getTable, title, heading }: CountryToolbarProps) {
   const { t } = useTranslation()
   const [status, setStatus] = useState('')
 
@@ -59,7 +61,7 @@ export function CountryToolbar({ view, onViewChange, showTable, onToggleTable, o
         />
       </div>
       <div className="toolbar-group">
-        {features.download && <DownloadMenu formats={['png', 'jpeg']} label={t('download.image')} />}
+        {features.download && <DownloadMenu formats={['png', 'jpeg']} label={t('download.image')} heading={{ title: heading, subtitle: title }} />}
         {features.download && getTable && (
           <RoundButton id="excel-button" icon="excel" label={t('download.excelData')} onClick={() => void saveExcel()} />
         )}

@@ -16,6 +16,8 @@ interface DownloadMenuProps {
   formats?: readonly DownloadFormat[]
   /** Name of the button (default: `download.label`). */
   label?: string
+  /** Title and subtitle written on the downloaded image (the chart on screen has none). */
+  heading?: { title?: string; subtitle?: string }
 }
 
 /**
@@ -24,7 +26,7 @@ interface DownloadMenuProps {
  * works for any chart library, Webtools' Highcharts wrapper included, with no export module or licence needed.
  * Focus stays in the menu while it is open; Escape or a click outside closes it.
  */
-export function DownloadMenu({ getTable, formats: offered, label }: DownloadMenuProps) {
+export function DownloadMenu({ getTable, formats: offered, label, heading }: DownloadMenuProps) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -67,7 +69,7 @@ export function DownloadMenu({ getTable, formats: offered, label }: DownloadMenu
 
     let done = false
     if (format === 'excel') done = getTable ? await downloadExcel(getTable()) : false
-    else done = await downloadChartImage(format)
+    else done = await downloadChartImage(format, heading)
 
     setStatus(done ? t('download.done') : t('download.failed'))
     setBusy(false)
