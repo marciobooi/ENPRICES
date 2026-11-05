@@ -49,7 +49,7 @@ export function countryTableOf(data: CountryPrices, values: FilterValues, view: 
 
   // The first part of a half-yearly price is the price without taxes, which is the `total`: it is not listed twice.
   const added = data.componentMode ? parts : parts.filter((part) => part.key !== 'energy')
-  const withoutTaxes = t('chart.components.energy')
+  const withoutTaxes = data.componentMode ? total : t('chart.components.energy')
 
   if (view === 'line') {
     return {

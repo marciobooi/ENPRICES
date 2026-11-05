@@ -11,7 +11,7 @@ export function buildToolTable(data: EnergyPrices, t: TFunction): DownloadTable 
   const added = data.componentMode
     ? data.componentCodes.map((code) => t(`taxComponents.${code}`, { defaultValue: code }))
     : [t('chart.components.taxes'), t('chart.components.vat')]
-  const headers = [t('filters.geo'), t('filters.time'), t('chart.components.energy'), ...added, t('chart.totalPrice')]
+  const headers = [t('filters.geo'), t('filters.time'), data.componentMode ? t('chart.totalPrice') : t('chart.components.energy'), ...added, t('chart.totalPrice')]
 
   return {
     sheet: t('download.sheet'),

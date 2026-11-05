@@ -63,7 +63,7 @@ export function ToolContent({
         t('filters.geo'),
         ...(showBreakdown ? partNames : []),
         // The sum of the parts when they are shown, otherwise the price without taxes.
-        showBreakdown ? t('chart.totalPrice') : t('chart.components.energy'),
+        showBreakdown || data.componentMode ? t('chart.totalPrice') : t('chart.components.energy'),
       ]
     : []
   const dataTable = data ? (

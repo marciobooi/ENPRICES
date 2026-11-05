@@ -282,27 +282,31 @@ export const apiCodes = {
   tax: ['X_TAX', 'X_VAT', 'I_TAX'],
 }
 
-/** The parts of the annual datasets that make the price without taxes; the others are taxes, levies and VAT. */
-export const PRICE_COMPONENT_CODES = ['NRG_SUP', 'NETC'] as const
+/**
+ * The parts of the annual datasets that make the plain bar. `null`: all of them, as in the original tool, which sums
+ * every component (taxes and VAT included). A list such as ['NRG_SUP', 'NETC'] gives the price without taxes instead.
+ */
+export const PRICE_COMPONENT_CODES: readonly string[] | null = null
 
+/** `siec` is the energy product of the half-yearly datasets (G3000 natural gas, E7000 electricity): it is always requested. */
 export const energyDatasets = {
   '4100_HOUSEHOLD': {
-    code: 'nrg_pc_202', componentsCode: 'nrg_pc_202_c', defaultBand: 'GJ20-199',
+    code: 'nrg_pc_202', siec: 'G3000', componentsCode: 'nrg_pc_202_c', defaultBand: 'GJ20-199',
     defaultComponentsBand: 'TOT_GJ', units: ['GJ_GCV', 'KWH', 'MWH'], componentsUnits: ['GJ_GCV', 'KWH'],
     componentCodes: ['NETC', 'NRG_SUP', 'OTH', 'TAX_CAP', 'TAX_ENV', 'TAX_RNW', 'VAT'],
   },
   '4100_N_HOUSEHOLD': {
-    code: 'nrg_pc_203', componentsCode: 'nrg_pc_203_c', defaultBand: 'GJ10000-99999',
+    code: 'nrg_pc_203', siec: 'G3000', componentsCode: 'nrg_pc_203_c', defaultBand: 'GJ10000-99999',
     defaultComponentsBand: 'TOT_GJ', units: ['GJ_GCV', 'KWH', 'MWH'], componentsUnits: ['GJ_GCV', 'KWH'],
     componentCodes: ['NETC', 'NRG_SUP', 'OTH', 'TAX_CAP', 'TAX_ENV', 'TAX_RNW', 'VAT'],
   },
   '6000_HOUSEHOLD': {
-    code: 'nrg_pc_204', componentsCode: 'nrg_pc_204_c', defaultBand: 'KWH2500-4999',
+    code: 'nrg_pc_204', siec: 'E7000', componentsCode: 'nrg_pc_204_c', defaultBand: 'KWH2500-4999',
     defaultComponentsBand: 'TOT_KWH', units: ['KWH', 'MWH'], componentsUnits: ['KWH', 'MWH'],
     componentCodes: ['NETC', 'NRG_SUP', 'OTH', 'TAX_CAP', 'TAX_ENV', 'TAX_NUC', 'TAX_RNW', 'VAT'],
   },
   '6000_N_HOUSEHOLD': {
-    code: 'nrg_pc_205', componentsCode: 'nrg_pc_205_c', defaultBand: 'MWH500-1999',
+    code: 'nrg_pc_205', siec: 'E7000', componentsCode: 'nrg_pc_205_c', defaultBand: 'MWH500-1999',
     defaultComponentsBand: 'TOT_KWH', units: ['KWH', 'MWH'], componentsUnits: ['MWH'],
     componentCodes: ['NETC', 'NRG_SUP', 'OTH', 'TAX_CAP', 'TAX_ENV', 'TAX_NUC', 'TAX_RNW', 'VAT'],
   },

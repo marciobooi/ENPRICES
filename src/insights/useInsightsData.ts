@@ -170,13 +170,13 @@ export function useInsightsData(values: FilterValues, focus: string | undefined,
     const opposite = energyDatasets[`${oppositeProduct}_${consumer}` as keyof typeof energyDatasets]
 
     void (async () => {
-      const priceParams = { tax: [...apiCodes.tax], unit: unitParam, nrg_cons: band }
+      const priceParams = { tax: [...apiCodes.tax], siec: config.siec, unit: unitParam, nrg_cons: band }
       const [panelDs, ppsDs, bandDs, oppositeDs] = await Promise.all([
         request(dataset, { ...priceParams, currency: 'EUR' }, controller.signal),
         request(dataset, { ...priceParams, currency: 'PPS' }, controller.signal).catch(() => null),
-        request(dataset, { tax: PRICE_TAX_CODE, unit: unitParam, currency: 'EUR', geo: focus }, controller.signal).catch(() => null),
+        request(dataset, { tax: PRICE_TAX_CODE, siec: config.siec, unit: unitParam, currency: 'EUR', geo: focus }, controller.signal).catch(() => null),
         request(opposite.code, {
-          tax: PRICE_TAX_CODE, unit: 'KWH', nrg_cons: DEFAULT_BAND_OPPOSITE[oppositeProduct] ?? opposite.defaultBand, currency: 'EUR', geo: focus,
+          tax: PRICE_TAX_CODE, siec: opposite.siec, unit: 'KWH', nrg_cons: DEFAULT_BAND_OPPOSITE[oppositeProduct] ?? opposite.defaultBand, currency: 'EUR', geo: focus,
         }, controller.signal).catch(() => null),
       ])
 

@@ -113,13 +113,14 @@ function priceFigures(
 
   if (componentMode) {
     const breakdown = componentCodes.map((code) => ({ code, value: scaleValue(valueFor('nrg_prc', code), factor) }))
+    const priceCodes = PRICE_COMPONENT_CODES
     const sumOf = (parts: PriceBreakdown[]) => {
       const available = parts.flatMap(({ value }) => value === null ? [] : [value])
       return available.length > 0 ? available.reduce((sum, value) => sum + value, 0) : null
     }
     return {
-      // The price without taxes is energy and supply plus network costs; with every part it is the price with all taxes.
-      total: sumOf(breakdown.filter(({ code }) => (PRICE_COMPONENT_CODES as readonly string[]).includes(code))),
+      // As in the original tool the plain bar is the sum of the components; the details show the same sum, part by part.
+      total: sumOf(priceCodes ? breakdown.filter(({ code }) => priceCodes.includes(code)) : breakdown),
       allTaxes: sumOf(breakdown),
       detail: [],
       components: { energy: null, taxes: null, vat: null },
@@ -168,7 +169,9 @@ function usableComponentCodes(
 ): string[] {
   if (!componentMode) return []
   const available = codesInDimension(dataset, 'nrg_prc')
-  return selectedComponentCodes.filter((code) => available.includes(code))
+  // Alphabetical by code (network costs, energy and supply, other, the taxes, VAT): the order of the original tool's tooltip,
+  // used for the stacks, the tooltips, the tables and the Excel files alike.
+  return selectedComponentCodes.filter((code) => available.includes(code)).sort((a, b) => a.localeCompare(b, 'en'))
 }
 
 export function loadEnergyPrices(
@@ -219,6 +222,7 @@ export function resolveEnergyQuery(values: FilterValues) {
     sendsUnit,
     selectedBand,
     selectedComponentCodes: datasetConfig.componentCodes as readonly string[],
+    siec: datasetConfig.siec,
   }
 }
 
@@ -227,7 +231,7 @@ export function useEnergyPrices(values: FilterValues): EnergyPricesState {
   const [state, setState] = useState<StoredEnergyPricesState>()
   const geos = useMemo(() => Array.isArray(values.geo) ? values.geo : [], [values.geo])
   const {
-    componentMode, datasetCode, unit, unitDimension, sendsUnit, selectedBand, selectedComponentCodes,
+    componentMode, datasetCode, unit, unitDimension, sendsUnit, selectedBand, selectedComponentCodes, siec,
   } = resolveEnergyQuery(values)
   const requestKey = JSON.stringify({ componentMode, datasetCode, geos, selectedBand, unit, unitDimension })
 
@@ -239,7 +243,10 @@ export function useEnergyPrices(values: FilterValues): EnergyPricesState {
     const params: Record<string, string | string[]> = { geo: geos, nrg_cons: selectedBand, currency: 'EUR' }
     if (sendsUnit) params.unit = unitDimension
     // Only the three tax series are requested.
-    if (!componentMode) params.tax = [...apiCodes.tax]
+    if (!componentMode) {
+      params.tax = [...apiCodes.tax]
+      params.siec = siec
+    }
 
     void fetchEurostatDataset(datasetCode, params, { signal: controller.signal }).then((dataset) => {
       if (!controller.signal.aborted) {
@@ -260,7 +267,7 @@ export function useEnergyPrices(values: FilterValues): EnergyPricesState {
     })
 
     return () => controller.abort()
-  }, [componentMode, datasetCode, geos, requestKey, selectedBand, selectedComponentCodes, sendsUnit, unit, unitDimension])
+  }, [componentMode, datasetCode, geos, requestKey, selectedBand, selectedComponentCodes, sendsUnit, siec, unit, unitDimension])
 
   if (geos.length === 0) {
     return { loading: false, error: new Error(i18n.t('errors.noCountries')) }
@@ -326,7 +333,7 @@ export function buildCountryPrices(
 /** Fetch one country across every consumption band and period: the data behind the charts a click on a bar opens. */
 export function useCountryPrices(values: FilterValues, countryCode: string): CountryPricesState {
   const [state, setState] = useState<StoredCountryPricesState>()
-  const { componentMode, datasetCode, unit, unitDimension, sendsUnit, selectedComponentCodes } = resolveEnergyQuery(values)
+  const { componentMode, datasetCode, unit, unitDimension, sendsUnit, selectedComponentCodes, siec } = resolveEnergyQuery(values)
   const requestKey = JSON.stringify({ componentMode, datasetCode, unit, unitDimension, countryCode })
 
   useEffect(() => {
@@ -334,7 +341,10 @@ export function useCountryPrices(values: FilterValues, countryCode: string): Cou
     const controller = new AbortController()
     const params: Record<string, string | string[]> = { geo: countryCode, currency: 'EUR' }
     if (sendsUnit) params.unit = unitDimension
-    if (!componentMode) params.tax = [...apiCodes.tax]
+    if (!componentMode) {
+      params.tax = [...apiCodes.tax]
+      params.siec = siec
+    }
 
     void fetchEurostatDataset(datasetCode, params, { signal: controller.signal }).then((dataset) => {
       if (controller.signal.aborted) return
@@ -355,7 +365,7 @@ export function useCountryPrices(values: FilterValues, countryCode: string): Cou
     })
 
     return () => controller.abort()
-  }, [componentMode, countryCode, datasetCode, requestKey, selectedComponentCodes, sendsUnit, unit, unitDimension])
+  }, [componentMode, countryCode, datasetCode, requestKey, selectedComponentCodes, sendsUnit, siec, unit, unitDimension])
 
   if (!countryCode) return { loading: false }
   if (!state || state.requestKey !== requestKey) return { loading: true }

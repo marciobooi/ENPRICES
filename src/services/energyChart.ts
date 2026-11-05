@@ -94,8 +94,8 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
           { name: t('chart.components.vat'), color: breakdownColors.vat, data: currentCountries.map((row) => columnPoint(row, rounded(row.detail[2] ?? null), undefined, stackTotal(row))) },
         ]
     : [{
-        // The price without taxes and levies, as the original tool names it.
-        name: t('chart.components.energy'),
+        // The price without taxes and levies (half-yearly), or the sum of the components (annual), as in the original tool.
+        name: data.componentMode ? t('chart.totalPrice') : t('chart.components.energy'),
         data: currentCountries.map((row) => columnPoint(row, rounded(row.total), countryColor(row.countryCode))),
       }]
 
@@ -124,6 +124,13 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
       tooltip: tooltipTable({ decimals, unit: data.unit, stacked, shares: percentage, totalLabel: t('chart.totalPrice') }),
       legend: { ...roundLegend, enabled: stacked },
       series,
+      // Narrow screens: show every 2nd, then every 3rd country name (the bars stay, the tooltip names every country).
+      responsive: {
+        rules: [
+          { condition: { maxWidth: 700 }, chartOptions: { xAxis: { labels: { step: 2, style: { fontSize: '11px' } } }, chart: { height: 480 } } },
+          { condition: { maxWidth: 440 }, chartOptions: { xAxis: { labels: { step: 3, style: { fontSize: '10px' } } }, chart: { height: 440 } } },
+        ],
+      },
     },
   }
 }
