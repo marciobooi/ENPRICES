@@ -66,6 +66,11 @@ export function PeriodRange({ periods, from, to, onChange }: PeriodRangeProps) {
           onChange={(event) => set(low, Math.max(Number(event.target.value), low + 1))}
         />
       </div>
+      {/* The oldest and the newest period there is, at the two ends of the track (the sentence below says what is set) */}
+      <div className="period-range__ends" aria-hidden="true">
+        <span>{periods[0]}</span>
+        <span>{periods[last]}</span>
+      </div>
       <p id={sentenceId} className="period-range__sentence" role="status" aria-live="polite">
         <Trans i18nKey="country.periodFiltered" values={{ from: periods[low], to: periods[high] }} components={{ b: <strong /> }} />
       </p>

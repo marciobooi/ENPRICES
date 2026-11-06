@@ -110,7 +110,7 @@ async function svgToJpeg(svg: string): Promise<Blob | null> {
 }
 
 /** Save the chart (the element of `downloadConfig.imageTarget`) as PNG or JPEG. Returns false when it fails. */
-export async function downloadChartImage(type: 'png' | 'jpeg', heading?: { title?: string; subtitle?: string }): Promise<boolean> {
+export async function downloadChartImage(type: 'png' | 'jpeg', heading?: { title?: string; subtitle?: string; source?: string }): Promise<boolean> {
   const target = document.querySelector<HTMLElement>(downloadConfig.imageTarget)
   if (!target) return false
   // The chart exports itself (Highcharts, in the browser, no server): exactly what is drawn, sharp at any size.
@@ -130,7 +130,8 @@ export async function downloadChartImage(type: 'png' | 'jpeg', heading?: { title
           spacingTop: 15,
           spacingBottom: footerHeight + 10,
           events: {
-            load(this: { renderer: { image: (src: string, x: number, y: number, w: number, h: number) => { add: () => void } }; chartHeight: number; chartWidth: number }) {
+            load(this: { renderer: { image: (src: string, x: number, y: number, w: number, h: number) => { add: () => void }; text: (text: string, x: number, y: number) => { css: (style: Record<string, string>) => { add: () => void } } }; chartHeight: number; chartWidth: number }) {
+                if (heading?.source) this.renderer.text(heading.source, 10, this.chartHeight - 14).css({ fontSize: '12px', color: '#262b38' }).add()
               if (logo) this.renderer.image(logo.src, this.chartWidth - logo.width - 10, this.chartHeight - logo.height - 10, logo.width, logo.height).add()
             },
           },

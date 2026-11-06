@@ -333,6 +333,10 @@ export const consumptionBands: Record<string, readonly string[]> = {
 /* GUIDED TOUR                                                         */
 /* ------------------------------------------------------------------ */
 
+/** Address of a dataset in the Eurostat data browser (`lang` is en, fr or de). */
+export const eurostatDatasetUrl = (dataset: string, lang: string) =>
+  `https://ec.europa.eu/eurostat/databrowser/view/${dataset}/default/table?lang=${lang}`
+
 export const tourConfig = {
   /** Start the tour when the tool loads. */
   autoStart: true,

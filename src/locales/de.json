@@ -878,5 +878,10 @@
     "3": "3 Nachkommastellen",
     "2": "2 Nachkommastellen",
     "1": "1 Nachkommastelle"
+  },
+  "source": {
+    "label": "Quelle: Eurostat",
+    "link": "Zugang zum Datensatz",
+    "newTab": "(öffnet in einem neuen Tab)"
   }
 }

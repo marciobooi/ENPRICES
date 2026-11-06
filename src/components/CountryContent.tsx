@@ -7,6 +7,7 @@ import type { FilterValues } from '../state/filters'
 import { EclNumber, EclRow, EclRowHeader, EclTable } from './EclTable'
 import { Loading } from './Loading'
 import { PeriodRange } from './PeriodRange'
+import { SourceNote } from './SourceNote'
 import { WebChart } from './WebChart'
 
 interface CountryContentProps {
@@ -41,7 +42,7 @@ export function CountryContent({ countryCode, values, state, view, showTable = f
   return (
     <div className="tool-content country-content">
       <Heading className="ecl-u-sr-only" tabIndex={-1}>{t('country.heading', { country })}</Heading>
-      {loading && <Loading stage />}
+      {loading && !data && <Loading stage />}
       {error && <p className="tool-content__message" role="alert">{t('toolContent.loadError')} {error.message}</p>}
       {data && !error && !hasData && <p className="tool-content__message" role="status">{t('country.empty')}</p>}
       {data && !error && hasData && pieBlocked && !showTable && <p className="tool-content__message" role="status">{t('country.pieNegative')}</p>}
@@ -70,6 +71,7 @@ export function CountryContent({ countryCode, values, state, view, showTable = f
           ))}
         </EclTable>
       )}
+      {data && !error && hasData && <SourceNote dataset={data.dataset} />}
     </div>
   )
 }

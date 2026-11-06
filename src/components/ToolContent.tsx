@@ -7,6 +7,7 @@ import { chartCountryCodes, createEnergyPriceChart, orderedCountries, selectedPe
 import type { FilterValues } from '../state/filters'
 import { EclNumber, EclRow, EclRowHeader, EclTable } from './EclTable'
 import { Loading } from './Loading'
+import { SourceNote } from './SourceNote'
 import { WebChart } from './WebChart'
 
 interface ToolContentProps {
@@ -103,7 +104,7 @@ export function ToolContent({
   return (
     <div className="tool-content">
       <Heading className="ecl-u-sr-only" tabIndex={-1}>{t('toolContent.title')}</Heading>
-      {loading && <Loading stage />}
+      {loading && !data && <Loading stage />}
       {error && <p className="tool-content__message" role="alert">{t('toolContent.loadError')} {error.message}</p>}
       {data && !error && chartConfig && (
         <>
@@ -124,6 +125,7 @@ export function ToolContent({
               {dataTable}
             </details>
           )}
+          <SourceNote dataset={data.dataset} />
         </>
       )}
     </div>

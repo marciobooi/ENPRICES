@@ -272,7 +272,11 @@ export function useEnergyPrices(values: FilterValues): EnergyPricesState {
   if (geos.length === 0) {
     return { loading: false, error: new Error(i18n.t('errors.noCountries')) }
   }
-  if (!state || state.requestKey !== requestKey) return { loading: true }
+  // While the next answer is on its way the chart keeps showing the last one (of the same dataset), so it can move
+  // to the new values instead of being replaced by a spinner and drawn again.
+  if (!state || state.requestKey !== requestKey) {
+    return { data: state?.data?.dataset === datasetCode ? state.data : undefined, loading: true }
+  }
   return state
 }
 
@@ -368,6 +372,9 @@ export function useCountryPrices(values: FilterValues, countryCode: string): Cou
   }, [componentMode, countryCode, datasetCode, requestKey, selectedComponentCodes, sendsUnit, siec, unit, unitDimension])
 
   if (!countryCode) return { loading: false }
-  if (!state || state.requestKey !== requestKey) return { loading: true }
+  if (!state || state.requestKey !== requestKey) {
+    const last = state?.data
+    return { data: last?.dataset === datasetCode && last.countryCode === countryCode ? last : undefined, loading: true }
+  }
   return state
 }

@@ -18,7 +18,7 @@ interface DownloadMenuProps {
   /** Name of the button (default: `download.label`). */
   label?: string
   /** Title and subtitle written on the downloaded image (the chart on screen has none). */
-  heading?: { title?: string; subtitle?: string }
+  heading?: { title?: string; subtitle?: string; source?: string }
 }
 
 /**

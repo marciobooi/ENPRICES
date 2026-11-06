@@ -114,6 +114,7 @@ function App() {
             getTable={getTable}
             title={viewSubtitle || viewTitle}
             heading={viewTitle}
+            source={`${t('source.label')} (${query.datasetCode})`}
           />
         ) : (
           <>
@@ -126,7 +127,7 @@ function App() {
                 onClick={() => window.location.assign(insightsHref())}
               />
             )}
-            {features.download && <DownloadMenu getTable={getTable} heading={{ title: viewTitle, subtitle: viewSubtitle }} />}
+            {features.download && <DownloadMenu getTable={getTable} heading={{ title: viewTitle, subtitle: viewSubtitle, source: `${t('source.label')} (${query.datasetCode})` }} />}
             {features.share && <ShareMenu emailDetails={emailDetails} />}
             {features.tour && <RoundButton id="tour-button" icon="help" label={t('tour.start')} onClick={startTour} />}
           </>

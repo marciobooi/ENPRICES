@@ -878,5 +878,10 @@
     "3": "3 décimales",
     "2": "2 décimales",
     "1": "1 décimale"
+  },
+  "source": {
+    "label": "Source : Eurostat",
+    "link": "accès au jeu de données",
+    "newTab": "(s'ouvre dans un nouvel onglet)"
   }
 }

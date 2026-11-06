@@ -1668,17 +1668,19 @@
   pointer-events: auto;
 }
 
-/* Keyboard focus: the pin turns black with a blue glow (an outline would be cut by the pin shape) */
+/* Keyboard focus: the pin turns white with a dark outline (drawn as an image, because a border would be cut by the pin's clip-path) */
 .period-range__input:focus-visible {
   outline: none;
 }
 
 .period-range__input:focus-visible::-webkit-slider-thumb {
-  background: #000;
+  clip-path: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 28'%3E%3Cpath d='M1.5 1.5h11v17.5L7 26.5 1.5 19z' fill='%23fff' stroke='%23262b38' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
 }
 
 .period-range__input:focus-visible::-moz-range-thumb {
-  background: #000;
+  clip-path: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 28'%3E%3Cpath d='M1.5 1.5h11v17.5L7 26.5 1.5 19z' fill='%23fff' stroke='%23262b38' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
 }
 
 .period-range__sentence {
@@ -1702,4 +1704,32 @@
     forced-color-adjust: none;
     background: Highlight;
   }
+}
+
+/* The chart keeps showing the last figures while new ones are on their way: a little lighter, not replaced by a spinner */
+.energy-chart[aria-busy='true'] {
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+/* Oldest and newest period, in grey under the two ends of the track (#6b7385 on white is 4.8:1) */
+.period-range__ends {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.35rem;
+  color: #6b7385;
+  font-size: 0.875rem;
+}
+
+/* Source under every chart: "Source: Eurostat - access to dataset" */
+.source-note {
+  margin: 1rem 1rem 0.5rem;
+  text-align: center;
+}
+
+.source-note .ecl-link {
+  display: inline;
+  padding: 0;
+  min-height: 0;
+  text-decoration: underline;
 }
