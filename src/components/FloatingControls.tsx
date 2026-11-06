@@ -180,6 +180,13 @@ function Switch({ id, checked, hideLabel, showLabel, onChange }: SwitchProps) {
         // One fixed name: a switch already announces on or off, so a name that changes with the state would be read twice.
         aria-label={showLabel}
         onChange={(event) => onChange(event.target.checked)}
+        // Space is the checkbox's own key; Enter also works, as the switch pattern allows.
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') {
+            event.preventDefault()
+            onChange(!checked)
+          }
+        }}
       />
       <span className={`switch-row__label${checked ? ' switch-row__label--on' : ''}`} aria-hidden="true" onClick={() => onChange(true)}>{showLabel}</span>
     </div>
