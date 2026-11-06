@@ -57,6 +57,27 @@ export async function fetchEurostatDataset(
   }
 }
 
+const shared = new Map<string, Promise<JsonStatDataset>>()
+
+/**
+ * The same request is answered once per visit (Eurostat data changes twice a year): the charts, the country view and
+ * the insights share it. It is not cancellable, because every caller shares it: a caller that no longer wants the
+ * answer just ignores it.
+ */
+export function fetchEurostatDatasetShared(
+  datasetCode: string,
+  params: Record<string, string | number | boolean | Array<string | number>> = {},
+): Promise<JsonStatDataset> {
+  const key = `${datasetCode}?${JSON.stringify(params)}`
+  let request = shared.get(key)
+  if (!request) {
+    request = fetchEurostatDataset(datasetCode, params)
+    shared.set(key, request)
+    request.catch(() => shared.delete(key))
+  }
+  return request
+}
+
 /**
  * Convert a JSON-stat dataset to chart points along `dimensionId` (default `time`).
  * Every other dimension must have exactly one category: filter the request (geo, unit, ...) first.

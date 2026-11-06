@@ -1,8 +1,10 @@
-import { useId, useMemo, useRef } from 'react'
+import { useId, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AGGREGATES_COUNTRY_CODES } from '../config/toolConfig'
 import { useDraggableToolbar } from '../hooks/useDraggableToolbar'
 import { useRovingToolbar } from '../hooks/useRovingToolbar'
+import { resolveEnergyQuery } from '../hooks/useEnergyPrices'
+import { nextDecimals, priceDecimals } from '../services/decimals'
 import { switchComponentMode } from '../state/componentMode'
 import type { FilterValues } from '../state/filters'
 import { RoundButton } from './RoundButton'
@@ -38,6 +40,12 @@ export function FloatingControls({ values, onChange, showTable, onToggleTable }:
   const barRef = useRef<HTMLDivElement>(null)
   const drag = useDraggableToolbar(barRef, messages)
   const roving = useRovingToolbar(barRef)
+
+  // Decimals of every price (4, 3, 2, 1, 4, ...). MWh prices are whole numbers, so the button has nothing to change there.
+  const wholeNumbers = resolveEnergyQuery(values).unit === 'MWH'
+  const decimals = priceDecimals(wholeNumbers ? 'KWH' : resolveEnergyQuery(values).unit, values)
+  const next = nextDecimals(decimals)
+  const [decimalsMessage, setDecimalsMessage] = useState('')
 
   return (
     <div
@@ -114,6 +122,21 @@ export function FloatingControls({ values, onChange, showTable, onToggleTable }:
           {!showTable && (
             <SortMenu value={typeof values.order === 'string' ? values.order : 'desc'} onChange={(order) => onChange('order', order)} />
           )}
+          {!showTable && (
+            <RoundButton
+              id="chart-decimals"
+              icon="table"
+              text={String(decimals)}
+              label={wholeNumbers ? t('controls.decimalsWhole') : t('controls.decimalsLabel', { count: decimals, next })}
+              aria-disabled={wholeNumbers || undefined}
+              onClick={() => {
+                if (wholeNumbers) return
+                onChange('decimals', String(next))
+                // Announced, because nothing else tells a screen reader that every figure changed.
+                setDecimalsMessage(t('controls.decimalsSet', { count: next }))
+              }}
+            />
+          )}
           <RoundButton
             id="chart-table"
             icon={showTable ? 'chart-bar' : 'table'}
@@ -126,6 +149,7 @@ export function FloatingControls({ values, onChange, showTable, onToggleTable }:
       )}
 
       <span className="ecl-u-sr-only" role="status" aria-live="polite">{drag.message}</span>
+      <span className="ecl-u-sr-only" role="status" aria-live="polite">{decimalsMessage}</span>
     </div>
   )
 }
@@ -153,7 +177,8 @@ function Switch({ id, checked, hideLabel, showLabel, onChange }: SwitchProps) {
         type="checkbox"
         role="switch"
         checked={checked}
-        aria-label={checked ? hideLabel : showLabel}
+        // One fixed name: a switch already announces on or off, so a name that changes with the state would be read twice.
+        aria-label={showLabel}
         onChange={(event) => onChange(event.target.checked)}
       />
       <span className={`switch-row__label${checked ? ' switch-row__label--on' : ''}`} aria-hidden="true" onClick={() => onChange(true)}>{showLabel}</span>

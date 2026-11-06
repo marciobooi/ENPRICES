@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { downloadConfig } from '../config/toolConfig'
 import { useFocusTrap } from '../hooks/useFocusTrap'
+import { useOutsideClose } from '../hooks/useOutsideClose'
 import { downloadChartImage, downloadExcel, type DownloadFormat, type DownloadTable } from '../download/download'
 import { RoundButton } from './RoundButton'
 
@@ -49,15 +50,9 @@ export function DownloadMenu({ getTable, formats: offered, label, heading }: Dow
     closeOnOutsideClick: false,
   })
 
+
   // A click outside closes the menu and leaves focus on whatever was clicked.
-  useEffect(() => {
-    if (!open) return
-    const onPointerDown = (event: PointerEvent) => {
-      if (!wrapperRef.current?.contains(event.target as Node)) flushSync(() => setOpen(false))
-    }
-    document.addEventListener('pointerdown', onPointerDown, true)
-    return () => document.removeEventListener('pointerdown', onPointerDown, true)
-  }, [open])
+  useOutsideClose(wrapperRef, open, () => setOpen(false))
 
   const run = async (format: DownloadFormat) => {
     if (busy) return

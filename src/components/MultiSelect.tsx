@@ -1,6 +1,7 @@
-import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { useId, useMemo, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { useFocusTrap } from '../hooks/useFocusTrap'
+import { useOutsideClose } from '../hooks/useOutsideClose'
 import { FieldLabel } from './FieldLabel'
 import { flattenOptions, isSelectGroup, type SelectItem, type SelectOption } from './selectTypes'
 import { ToolbarIcon } from './ToolbarIcon'
@@ -151,21 +152,11 @@ export function MultiSelect({
     closeOnOutsideClick: false,
   })
 
-  // A click outside closes the control and leaves focus on whatever was clicked. flushSync makes the trap
-  // release before the browser moves focus, so it does not pull focus back into the dropdown.
-  useEffect(() => {
-    if (!open) return
-    const onPointerDown = (event: PointerEvent) => {
-      if (!wrapperRef.current?.contains(event.target as Node)) {
-        flushSync(() => {
-          setOpen(false)
-          setQuery('')
-        })
-      }
-    }
-    document.addEventListener('pointerdown', onPointerDown, true)
-    return () => document.removeEventListener('pointerdown', onPointerDown, true)
-  }, [open])
+  // A click outside closes the control and leaves focus on whatever was clicked.
+  useOutsideClose(wrapperRef, open, () => {
+    setOpen(false)
+    setQuery('')
+  })
 
   const toggleValue = (value: string) =>
     onChange(selected.has(value) ? values.filter((current) => current !== value) : [...values, value])

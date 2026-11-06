@@ -26,7 +26,8 @@
     "breakdown": "Preisaufschlüsselung",
     "order": "Wählen Sie die Länderreihenfolge",
     "percentage": "Anzeige",
-    "geo": "Länder"
+    "geo": "Länder",
+    "decimals": "Nachkommastellen"
   },
   "products": {
     "4100": "Gas",
@@ -552,7 +553,11 @@
     "cancelled": "Verschieben abgebrochen.",
     "resetDone": "Werkzeugleiste wieder an ihrem üblichen Platz.",
     "collapsed": "Werkzeugleiste ausgeblendet. Klicken Sie auf den Griff oder drücken Sie die Eingabetaste, um sie wieder anzuzeigen.",
-    "expanded": "Werkzeugleiste angezeigt."
+    "expanded": "Werkzeugleiste angezeigt.",
+    "decimalsLabel": "Angezeigte Nachkommastellen: {{count}}. Klicken für {{next}}",
+    "decimalsWhole": "Nachkommastellen: Preise in MWh werden als ganze Zahlen angezeigt",
+    "decimalsSet_one": "Die Preise werden jetzt mit {{count}} Nachkommastelle angezeigt.",
+    "decimalsSet_other": "Die Preise werden jetzt mit {{count}} Nachkommastellen angezeigt."
   },
   "errors": {
     "noCountries": "Wählen Sie mindestens ein Land aus, um Energiepreise anzuzeigen.",
@@ -860,5 +865,11 @@
     "ANOMALY_ZERO": "Der aktuelle Wert ist genau null, was auf ein Datenproblem hindeuten kann.",
     "ANOMALY_IMPLAUSIBLE": "Die jährliche Veränderung ist ungewöhnlich groß und könnte eher auf einen Datenbruch als auf eine echte Preisbewegung hindeuten.",
     "DEVELOPMENT": "Entwicklung im Zeitverlauf"
+  },
+  "decimalModes": {
+    "4": "4 Nachkommastellen",
+    "3": "3 Nachkommastellen",
+    "2": "2 Nachkommastellen",
+    "1": "1 Nachkommastelle"
   }
 }

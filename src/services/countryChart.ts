@@ -2,6 +2,7 @@ import type { TFunction } from 'i18next'
 import { breakdownColors, componentColors, componentFallbackColors, units } from '../config/toolConfig'
 import type { BandPrice, CountryPrices } from '../hooks/useEnergyPrices'
 import { priceAxisTitle, paintByPosition, roundLegend, sortByName, tooltipTable } from './chartOptions'
+import { priceDecimals } from './decimals'
 import { resolveEnergyQuery } from '../hooks/useEnergyPrices'
 import type { FilterValues } from '../state/filters'
 
@@ -114,7 +115,7 @@ export function createCountryChart(data: CountryPrices, values: FilterValues, vi
   const band = countryBand(data, values)
   const stacked = values.breakdown === 'components'
   const percentage = values.percentage === 'percentage'
-  const decimals = data.unit === 'MWH' ? 0 : 4
+  const decimals = priceDecimals(data.unit, values)
   const round = roundTo(decimals)
   const unitLabel = t(`units.${data.unit}`, { defaultValue: data.unit })
   const parts = pricePartsOf(data, t)
@@ -178,7 +179,7 @@ export function createCountryChart(data: CountryPrices, values: FilterValues, vi
           enabled: true,
           y: -10,
           style: { fontSize: '.8rem', fontWeight: 'normal' },
-          format: `<b>{point.name}</b>:<br>{point.percentage:.1f} %<br>${t('chart.value')} : {point.y:,.2f} €/${units[data.unit]?.abbr ?? data.unit}`,
+          format: `<b>{point.name}</b>:<br>{point.percentage:.1f} %<br>${t('chart.value')} : {point.y:,.${decimals}f} €/${units[data.unit]?.abbr ?? data.unit}`,
         },
       },
     }

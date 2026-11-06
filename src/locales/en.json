@@ -26,7 +26,8 @@
     "breakdown": "Price breakdown",
     "order": "Select countries order",
     "percentage": "Display values",
-    "geo": "Countries"
+    "geo": "Countries",
+    "decimals": "Decimals"
   },
   "products": {
     "4100": "Natural gas",
@@ -553,7 +554,11 @@
     "cancelled": "Move cancelled.",
     "resetDone": "Toolbar back in its usual place.",
     "collapsed": "Toolbar hidden. Click the handle or press Enter to show it again.",
-    "expanded": "Toolbar shown."
+    "expanded": "Toolbar shown.",
+    "decimalsLabel": "Decimals shown: {{count}}. Click for {{next}}",
+    "decimalsWhole": "Decimals: prices in MWh are shown as whole numbers",
+    "decimalsSet_one": "Prices are now shown with {{count}} decimal.",
+    "decimalsSet_other": "Prices are now shown with {{count}} decimals."
   },
   "errors": {
     "noCountries": "Select at least one country to display energy prices.",
@@ -861,5 +866,11 @@
     "ANOMALY_ZERO": "The latest value is exactly zero, which may indicate a data issue.",
     "ANOMALY_IMPLAUSIBLE": "The annual change is unusually large and may reflect a data break rather than a genuine price movement.",
     "DEVELOPMENT": "Development over time"
+  },
+  "decimalModes": {
+    "4": "4 decimals",
+    "3": "3 decimals",
+    "2": "2 decimals",
+    "1": "1 decimal"
   }
 }

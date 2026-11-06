@@ -1513,3 +1513,18 @@
 .highcharts-tooltip-container {
   z-index: 1200 !important;
 }
+
+/* Decimals button: the number itself is the icon */
+.round-button__text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Loading in the middle of the content area, not at its top */
+.loading--stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}

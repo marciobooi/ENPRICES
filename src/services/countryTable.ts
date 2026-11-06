@@ -1,6 +1,7 @@
 import type { TFunction } from 'i18next'
 import type { CountryPrices } from '../hooks/useEnergyPrices'
 import type { FilterValues } from '../state/filters'
+import { priceDecimals } from './decimals'
 import { countryBand, countryPeriod, linePeriods, pricePartsOf, rowAt, stackPartsOf, type CountryView } from './countryChart'
 
 export interface CountryTable {
@@ -27,7 +28,7 @@ export function countryTableOf(data: CountryPrices, values: FilterValues, view: 
   const country = t(`countries.${data.countryCode}`, { defaultValue: data.countryCode })
   const bandName = t(`bands.${band}`, { defaultValue: band })
   const parts = pricePartsOf(data, t)
-  const decimals = data.unit === 'MWH' ? 0 : 4
+  const decimals = priceDecimals(data.unit, values)
   const total = t('chart.totalPrice')
 
   if (view === 'pie') {

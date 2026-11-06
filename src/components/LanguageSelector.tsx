@@ -21,8 +21,19 @@ export function LanguageSelector() {
     ignoreOutsideClick: [buttonRef],
   })
 
+  // A real address (the same view in that language), so "open in new tab" and copying the link work; a plain click
+  // switches the language without reloading.
+  const languageHref = (code: string) => {
+    const address = new URL(window.location.href)
+    address.searchParams.set('language', code)
+    address.hash = ''
+    return `${address.pathname}${address.search.replace(/%2C/gi, ',')}`
+  }
+
   const changeLanguage = (code: string) => {
     void i18n.changeLanguage(code)
+    // The address follows the language, so a shared or bookmarked link opens in the language that was on screen.
+    window.history.replaceState(window.history.state, '', languageHref(code))
     setOpen(false)
   }
 
@@ -78,7 +89,7 @@ export function LanguageSelector() {
                       className={`ecl-site-header__language-item${selected ? ' ecl-site-header__language-link--active' : ''}`}
                     >
                       <a
-                        href="#"
+                        href={languageHref(code)}
                         className="ecl-link ecl-link--standalone ecl-site-header__language-link"
                         lang={code}
                         aria-current={selected ? 'true' : undefined}

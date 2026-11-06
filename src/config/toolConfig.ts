@@ -411,13 +411,15 @@ export const filters: readonly FilterDefinition[] = [
   { id: 'breakdown', type: 'select', nameKey: 'breakdowns', options: ['total', 'components'], default: 'total' },
   { id: 'order', type: 'select', nameKey: 'orders', options: ['proto', 'alfa', 'asc', 'desc'], default: 'desc' },
   { id: 'percentage', type: 'select', nameKey: 'percentageModes', options: ['value', 'percentage'], default: 'value' },
+  // Decimals of the prices in every chart, tooltip and table (the button of the floating bar goes 4, 3, 2, 1, 4, ...).
+  { id: 'decimals', type: 'select', nameKey: 'decimalModes', options: ['4', '3', '2', '1'], default: '4' },
 ]
 
 /** The orders of the original tool: highest first, lowest first, alphabetical and the protocol order of the countries. */
 export const sortOrders = ['desc', 'asc', 'alfa', 'proto'] as const
 
 /** Filters that live in the floating bar of the main chart (FloatingControls) instead of in the menu. */
-export const filtersUnderChart: readonly string[] = ['component', 'breakdown', 'percentage', 'order']
+export const filtersUnderChart: readonly string[] = ['component', 'breakdown', 'percentage', 'order', 'decimals']
 
 /* ------------------------------------------------------------------ */
 /* MENU                                                                */

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { fetchEurostatDataset, type JsonStatDataset } from '../api/eurostat'
+import { fetchEurostatDatasetShared, type JsonStatDataset } from '../api/eurostat'
 import { apiCodes, consumptionBands, energyDatasets, ORIGINAL_DETAILS, PRICE_COMPONENT_CODES, PRICE_TAX_CODE } from '../config/toolConfig'
 import i18n from '../i18n'
 import type { FilterValues } from '../state/filters'
@@ -248,7 +248,7 @@ export function useEnergyPrices(values: FilterValues): EnergyPricesState {
       params.siec = siec
     }
 
-    void fetchEurostatDataset(datasetCode, params, { signal: controller.signal }).then((dataset) => {
+    void fetchEurostatDatasetShared(datasetCode, params).then((dataset) => {
       if (!controller.signal.aborted) {
         setState({
           requestKey,
@@ -346,7 +346,7 @@ export function useCountryPrices(values: FilterValues, countryCode: string): Cou
       params.siec = siec
     }
 
-    void fetchEurostatDataset(datasetCode, params, { signal: controller.signal }).then((dataset) => {
+    void fetchEurostatDatasetShared(datasetCode, params).then((dataset) => {
       if (controller.signal.aborted) return
       const data = buildCountryPrices(dataset, datasetCode, unit, componentMode, selectedComponentCodes, countryCode)
       setState({

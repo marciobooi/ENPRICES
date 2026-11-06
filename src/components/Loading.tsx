@@ -17,6 +17,8 @@ interface LoadingProps {
   showText?: boolean
   /** ECL `centered`: centred horizontally at the top of the nearest positioned container (a card, a chart frame). */
   centered?: boolean
+  /** Fill the area of the content (about 60% of the window high) and put the spinner in the middle of it. */
+  stage?: boolean
   /** ECL `overlay`: cover the page with a white overlay and centre the spinner. Mouse and keyboard are blocked. */
   overlay?: boolean
   /** `inverted` is white, for dark backgrounds. */
@@ -36,6 +38,7 @@ export function Loading({
   text,
   showText = true,
   centered = false,
+  stage = false,
   overlay = false,
   variant = 'primary',
   className = '',
@@ -86,7 +89,7 @@ export function Loading({
   }
 
   return (
-    <div role="status" aria-live="polite" className="loading">
+    <div role="status" aria-live="polite" className={`loading${stage && loading ? ' loading--stage' : ''}`}>
       {loading && spinner}
     </div>
   )

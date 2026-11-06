@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SiteFooter } from '../components/Footer'
 import { InsightsContent } from '../components/InsightsContent'
@@ -16,8 +16,9 @@ import '../App.css'
 export function InsightsPage() {
   const { t } = useTranslation()
   useSiteShell()
-  const values = readUrlState(filterParams)
-  const drill = readUrlState(drillParams)
+  // Read once: the page changes nothing, and a new object on every render would look like a new selection.
+  const values = useMemo(() => readUrlState(filterParams), [])
+  const drill = useMemo(() => readUrlState(drillParams), [])
 
   useEffect(() => {
     document.title = `${t('insights.title')} - ${t('brand')} - Eurostat`

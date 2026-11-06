@@ -2,6 +2,7 @@ import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'rea
 import { useTranslation } from 'react-i18next'
 import '../insights/insights.css'
 import { allCountries, breakdownColors, componentColors, componentFallbackColors, units } from '../config/toolConfig'
+import { priceDecimals } from '../services/decimals'
 import { AGGREGATES, type HistoryPoint } from '../insights/compute'
 import { computeAnnualCost } from '../insights/extra'
 import { useInsightsData, type InsightsBundle } from '../insights/useInsightsData'
@@ -61,7 +62,7 @@ export function InsightsContent({ values, defaultFocus, open }: InsightsContentP
       <p className="ecl-u-sr-only" role="status" aria-live="polite">
         {data && !error ? `${t('insights.title')}: ${t(`countries.${focus}`, { defaultValue: focus })}, ${data.core.latestPeriod}` : ''}
       </p>
-      {loading && <Loading centered />}
+      {loading && <Loading stage />}
       {error && <p className="insights-no-prev" role="alert">{t('toolContent.loadError')} {error.message}</p>}
       {data && !error && (
         <InsightsBody
@@ -75,6 +76,7 @@ export function InsightsContent({ values, defaultFocus, open }: InsightsContentP
           product={product}
           consumer={consumer}
           unitName={unitName}
+          decimals={priceDecimals(data.unit, values)}
           consumption={consumption}
           onConsumption={setConsumption}
         />
@@ -313,13 +315,13 @@ interface BodyProps {
   product: string
   consumer: string
   unitName: string
+  decimals: number
   consumption: string
   onConsumption: (value: string) => void
 }
 
-function InsightsBody({ data, focus, other, onOther, geoOptions, language, t, product, consumer, unitName, consumption, onConsumption }: BodyProps) {
+function InsightsBody({ data, focus, other, onOther, geoOptions, language, t, product, consumer, unitName, decimals, consumption, onConsumption }: BodyProps) {
   const { core } = data
-  const decimals = data.unit === 'MWH' ? 0 : 4
   const num = new Intl.NumberFormat(language, { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
   const one = new Intl.NumberFormat(language, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
   const plain = new Intl.NumberFormat(language, { maximumFractionDigits: 0 })

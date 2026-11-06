@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { embedConfig } from '../config/toolConfig'
 import type { EnergyPricesState } from '../hooks/useEnergyPrices'
+import { priceDecimals } from '../services/decimals'
 import { chartCountryCodes, createEnergyPriceChart, orderedCountries, selectedPeriod } from '../services/energyChart'
 import type { FilterValues } from '../state/filters'
 import { EclNumber, EclRow, EclRowHeader, EclTable } from './EclTable'
@@ -51,7 +52,7 @@ export function ToolContent({
   const showBreakdown = values.breakdown === 'components'
   const canOpenCountry = onSelectCountry
 
-  const decimals = data?.unit === 'MWH' ? 0 : 4
+  const decimals = priceDecimals(data?.unit ?? 'KWH', values)
   const figure = (value: number | null | undefined) => value?.toFixed(decimals) ?? '-'
   const partNames = data
     ? data.componentMode
@@ -102,7 +103,7 @@ export function ToolContent({
   return (
     <div className="tool-content">
       <Heading className="ecl-u-sr-only" tabIndex={-1}>{t('toolContent.title')}</Heading>
-      {loading && <Loading centered />}
+      {loading && <Loading stage />}
       {error && <p className="tool-content__message" role="alert">{t('toolContent.loadError')} {error.message}</p>}
       {data && !error && chartConfig && (
         <>

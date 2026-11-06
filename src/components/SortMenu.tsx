@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { sortOrders } from '../config/toolConfig'
 import { useFocusTrap } from '../hooks/useFocusTrap'
+import { useOutsideClose } from '../hooks/useOutsideClose'
 import { RoundButton } from './RoundButton'
 import { ToolbarIcon } from './ToolbarIcon'
 
@@ -33,14 +34,8 @@ export function SortMenu({ value, onChange }: SortMenuProps) {
     closeOnOutsideClick: false,
   })
 
-  useEffect(() => {
-    if (!open) return
-    const onPointerDown = (event: PointerEvent) => {
-      if (!wrapperRef.current?.contains(event.target as Node)) flushSync(() => setOpen(false))
-    }
-    document.addEventListener('pointerdown', onPointerDown, true)
-    return () => document.removeEventListener('pointerdown', onPointerDown, true)
-  }, [open])
+
+  useOutsideClose(wrapperRef, open, () => setOpen(false))
 
   return (
     <div ref={wrapperRef} className="download-menu">

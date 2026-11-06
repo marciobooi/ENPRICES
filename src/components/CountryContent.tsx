@@ -37,7 +37,7 @@ export function CountryContent({ countryCode, values, state, view, showTable = f
   return (
     <div className="tool-content country-content">
       <Heading className="ecl-u-sr-only" tabIndex={-1}>{t('country.heading', { country })}</Heading>
-      {loading && <Loading centered />}
+      {loading && <Loading stage />}
       {error && <p className="tool-content__message" role="alert">{t('toolContent.loadError')} {error.message}</p>}
       {data && !error && !hasData && <p className="tool-content__message" role="status">{t('country.empty')}</p>}
       {data && !error && hasData && pieBlocked && !showTable && <p className="tool-content__message" role="status">{t('country.pieNegative')}</p>}
@@ -50,7 +50,7 @@ export function CountryContent({ countryCode, values, state, view, showTable = f
             <EclRow key={String(name)} current={index === table.currentRow}>
               <EclRowHeader label={table.headers[0]}>{name}</EclRowHeader>
               {cells.map((cell, column) => (
-                <EclNumber key={column} label={table.headers[column + 1]}>
+                <EclNumber key={table.headers[column + 1]} label={table.headers[column + 1]}>
                   {cell === null ? '-' : typeof cell === 'number' ? cell.toFixed(table.shareColumns.includes(column + 1) ? 1 : table.decimals) : cell}
                 </EclNumber>
               ))}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, type KeyboardEvent, type RefObject } from 'react'
+import { useLayoutEffect, useRef, type KeyboardEvent, type RefObject } from 'react'
 
 const ITEMS = 'button, input[type="checkbox"]'
 
@@ -26,8 +26,8 @@ export function useRovingToolbar(ref: RefObject<HTMLElement | null>) {
     })
   }
 
-  // Controls come and go with the state of the chart, so the Tab stop is set again after every render.
-  useEffect(apply)
+  // Controls come and go with the state of the chart, so the Tab stop is set again after every render (before the browser paints).
+  useLayoutEffect(apply)
 
   return {
     onFocus: (event: React.FocusEvent<HTMLElement>) => {

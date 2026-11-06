@@ -26,7 +26,8 @@
     "breakdown": "Composition du prix",
     "order": "Sélectionner les pays commander",
     "percentage": "Affichage",
-    "geo": "Pays"
+    "geo": "Pays",
+    "decimals": "Décimales"
   },
   "products": {
     "4100": "Gaz naturel",
@@ -552,7 +553,11 @@
     "cancelled": "Déplacement annulé.",
     "resetDone": "Barre d’outils remise à sa place habituelle.",
     "collapsed": "Barre d’outils masquée. Cliquez sur la poignée ou appuyez sur Entrée pour la réafficher.",
-    "expanded": "Barre d’outils affichée."
+    "expanded": "Barre d’outils affichée.",
+    "decimalsLabel": "Décimales affichées : {{count}}. Cliquer pour {{next}}",
+    "decimalsWhole": "Décimales : les prix en MWh sont affichés en nombres entiers",
+    "decimalsSet_one": "Les prix sont maintenant affichés avec {{count}} décimale.",
+    "decimalsSet_other": "Les prix sont maintenant affichés avec {{count}} décimales."
   },
   "errors": {
     "noCountries": "Sélectionnez au moins un pays pour afficher les prix de l’énergie.",
@@ -860,5 +865,11 @@
     "ANOMALY_ZERO": "La dernière valeur est exactement nulle, ce qui peut indiquer un problème de données.",
     "ANOMALY_IMPLAUSIBLE": "La variation annuelle est inhabituellement importante et pourrait refléter une rupture de série plutôt qu'un réel mouvement de prix.",
     "DEVELOPMENT": "Évolution dans le temps"
+  },
+  "decimalModes": {
+    "4": "4 décimales",
+    "3": "3 décimales",
+    "2": "2 décimales",
+    "1": "1 décimale"
   }
 }

@@ -1,7 +1,8 @@
-import { useEffect, useId, useRef, useState, type MouseEvent } from 'react'
+import { useId, useRef, useState, type MouseEvent } from 'react'
 import { flushSync } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { useFocusTrap } from '../hooks/useFocusTrap'
+import { useOutsideClose } from '../hooks/useOutsideClose'
 import { features } from '../config/toolConfig'
 import { buildEmbedCode, buildEmbedUrl } from '../embed/embed'
 import { buildContactEmail, type EmailDetail } from '../share/email'
@@ -68,20 +69,12 @@ export function ShareMenu({ url, title, text, emailDetails = [] }: ShareMenuProp
     closeOnOutsideClick: false,
   })
 
+
   // A click outside closes the popover and leaves focus on whatever was clicked.
-  useEffect(() => {
-    if (!open) return
-    const onPointerDown = (event: PointerEvent) => {
-      if (!wrapperRef.current?.contains(event.target as Node)) {
-        flushSync(() => {
-          setOpen(false)
-          setStatus('')
-        })
-      }
-    }
-    document.addEventListener('pointerdown', onPointerDown, true)
-    return () => document.removeEventListener('pointerdown', onPointerDown, true)
-  }, [open])
+  useOutsideClose(wrapperRef, open, () => {
+    setOpen(false)
+    setStatus('')
+  })
 
   const content = (): ShareContent => ({
     url: url ?? shareableUrl(),

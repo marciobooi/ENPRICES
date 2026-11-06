@@ -1,6 +1,7 @@
 import type { TFunction } from 'i18next'
 import { allCountries, breakdownColors } from '../config/toolConfig'
 import { priceAxisTitle, paintByPosition, roundLegend, sortByName, tooltipTable } from './chartOptions'
+import { priceDecimals } from './decimals'
 import { colorOfComponent } from './countryChart'
 import type { EnergyPrices, CountryPrice } from '../hooks/useEnergyPrices'
 import type { FilterValues } from '../state/filters'
@@ -74,7 +75,7 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
     order,
     (code) => t(`countries.${code}`, { defaultValue: code }),
   )
-  const decimals = data.unit === 'MWH' ? 0 : 4
+  const decimals = priceDecimals(data.unit, values)
   const rounded = (price: number | null) => priceValue(price, decimals)
   const partsOf = (row: CountryPrice): Array<number | null> =>
     data.componentMode ? data.componentCodes.map((code) => row.breakdown.find((point) => point.code === code)?.value ?? null) : row.detail

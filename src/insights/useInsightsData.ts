@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchEurostatDataset, type JsonStatDataset } from '../api/eurostat'
+import { fetchEurostatDatasetShared, type JsonStatDataset } from '../api/eurostat'
 import { apiCodes, consumptionBands, energyDatasets, PRICE_TAX_CODE } from '../config/toolConfig'
 import { codesInDimension, filterValue, loadEnergyPrices, valueAt as datasetValue } from '../hooks/useEnergyPrices'
 import type { FilterValues } from '../state/filters'
@@ -29,25 +29,10 @@ import {
 } from './extra'
 
 const PERSISTENT_QUARTILE_WINDOW = 8
-const DATA_URL_PARAMS_VERSION = 1
 
-/**
- * Datasets already requested in this visit are not requested again (Eurostat data changes twice a year).
- * The requests are shared, so none of them is tied to one panel's AbortController: cancelling it (the panel
- * closed, or React running the effect twice in development) would make every later user of the same request fail
- * with "canceled". A request nobody waits for any more simply finishes and is kept for next time.
- */
-const requests = new Map<string, Promise<JsonStatDataset>>()
-
-function request(code: string, params: Record<string, string | string[]>): Promise<JsonStatDataset> {
-  const key = `${DATA_URL_PARAMS_VERSION}|${code}|${JSON.stringify(params)}`
-  const cached = requests.get(key)
-  if (cached) return cached
-  const promise = fetchEurostatDataset(code, params)
-  requests.set(key, promise)
-  promise.catch(() => requests.delete(key))
-  return promise
-}
+/** Shared with the charts: the same dataset is requested once per visit. */
+const request = (code: string, params: Record<string, string | string[]>): Promise<JsonStatDataset> =>
+  fetchEurostatDatasetShared(code, params)
 
 /** The data-quality flag Eurostat gives a value ("p" provisional, "e" estimated), if any. */
 function statusAt(dataset: JsonStatDataset, coordinates: Record<string, string>): string | null {
