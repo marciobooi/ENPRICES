@@ -67,7 +67,7 @@ export function FloatingControls({ values, onChange, showTable, onToggleTable }:
         aria-expanded={!drag.collapsed}
         {...drag.handleProps}
       >
-        <ToolbarIcon name="grip" />
+        <ToolbarIcon name={drag.collapsed ? 'expand' : drag.grabbed ? 'move' : 'grip'} />
       </button>
       <span id={helpId} className="ecl-u-sr-only">{t('controls.moveHelp')}</span>
 

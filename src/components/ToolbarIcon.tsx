@@ -76,16 +76,6 @@ const PATHS = {
       <path d="M3 10h18M3 15h18M9 4v16" />
     </>
   ),
-  grip: (
-    <>
-      <circle cx="9" cy="6" r="1.5" fill="currentColor" stroke="none" />
-      <circle cx="15" cy="6" r="1.5" fill="currentColor" stroke="none" />
-      <circle cx="9" cy="12" r="1.5" fill="currentColor" stroke="none" />
-      <circle cx="15" cy="12" r="1.5" fill="currentColor" stroke="none" />
-      <circle cx="9" cy="18" r="1.5" fill="currentColor" stroke="none" />
-      <circle cx="15" cy="18" r="1.5" fill="currentColor" stroke="none" />
-    </>
-  ),
   excel: (
     <>
       <path d="M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z" />
@@ -135,6 +125,11 @@ const PATHS = {
  */
 const WEBTOOLS_ICONS = {
   lightbulb: 'lightbulb',
+  // The handle of the floating bar: six dots to take hold of, four arrows while it is picked up, a double arrow when it
+  // is tucked away and can be brought back.
+  grip: 'dots-six-vertical',
+  move: 'arrows-out-cardinal',
+  expand: 'caret-double-left',
   // The pie view of a country: the icon of the Webtools set.
   'chart-pie': 'chart-pie-slice',
 } as const
@@ -145,6 +140,8 @@ export function ToolbarIcon({ name, className = '' }: { name: ToolbarIconName; c
   if (name in WEBTOOLS_ICONS) {
     return (
       <WebtoolsIcon
+        // Webtools replaces the icon element with its own drawing, so a different icon needs a new element
+        key={name}
         set="phosphor"
         name={WEBTOOLS_ICONS[name as keyof typeof WEBTOOLS_ICONS]}
         className={`toolbar-icon ${className}`.trim()}

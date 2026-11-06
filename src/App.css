@@ -1733,3 +1733,13 @@
   min-height: 0;
   text-decoration: underline;
 }
+
+/* Dragging: the bar is moved by writing its transform directly, so give the browser a layer to move */
+.floating-controls--dragging {
+  will-change: transform;
+}
+
+.floating-controls__handle .webtools-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}

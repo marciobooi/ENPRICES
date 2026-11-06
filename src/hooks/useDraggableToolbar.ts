@@ -12,7 +12,7 @@ const BIG_STEP = 64
 /** Space kept between the bar and the edge of the window. */
 const MARGIN = 8
 /** A click that follows a move of more than this many pixels was a drag, not a click. */
-const DRAG_THRESHOLD = 4
+const DRAG_THRESHOLD = 3
 
 function readStored(): Offset {
   try {
@@ -75,20 +75,42 @@ export function useDraggableToolbar(ref: RefObject<HTMLElement | null>, messages
     collapsedRef.current = collapsed
   }, [visual.x, visual.y, collapsed]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const clamp = useCallback((next: Offset): Offset => {
+  /** How far the bar may travel from where it is drawn without 'offset': read from the page once per move or drag. */
+  const limits = useCallback(() => {
     const element = ref.current
-    if (!element) return next
+    if (!element) return null
     const rect = element.getBoundingClientRect()
     const baseLeft = rect.left - applied.current.x
     const baseTop = rect.top - applied.current.y
     const minX = MARGIN - baseLeft
-    const maxX = window.innerWidth - MARGIN - (baseLeft + rect.width)
     const minY = MARGIN - baseTop
-    const maxY = window.innerHeight - MARGIN - (baseTop + rect.height)
     return {
-      x: collapsedRef.current ? 0 : Math.round(Math.min(Math.max(next.x, minX), Math.max(minX, maxX))),
-      y: Math.round(Math.min(Math.max(next.y, minY), Math.max(minY, maxY))),
+      minX,
+      maxX: Math.max(minX, window.innerWidth - MARGIN - (baseLeft + rect.width)),
+      minY,
+      maxY: Math.max(minY, window.innerHeight - MARGIN - (baseTop + rect.height)),
     }
+  }, [ref])
+
+  const clampTo = useCallback((box: ReturnType<typeof limits>, next: Offset): Offset => {
+    if (!box) return next
+    return {
+      x: collapsedRef.current ? 0 : Math.round(Math.min(Math.max(next.x, box.minX), box.maxX)),
+      y: Math.round(Math.min(Math.max(next.y, box.minY), box.maxY)),
+    }
+  }, [])
+
+  const clamp = useCallback((next: Offset): Offset => clampTo(limits(), next), [clampTo, limits])
+
+  // While the pointer drags the bar, its position is written straight to the element (once per frame): React is not asked
+  // to render on every pointer move, and the limits are measured once at the start of the drag. The position is given to
+  // React when the pointer is released.
+  const dragLimits = useRef<ReturnType<typeof limits>>(null)
+  const frame = useRef(0)
+  const paint = useCallback(() => {
+    frame.current = 0
+    const element = ref.current
+    if (element) element.style.transform = `translate3d(${applied.current.x}px, ${applied.current.y}px, 0)`
   }, [ref])
 
   const move = useCallback((next: Offset) => setOffset(clamp(next)), [clamp])
@@ -109,6 +131,8 @@ export function useDraggableToolbar(ref: RefObject<HTMLElement | null>, messages
   // Keep the bar in view when the window changes size or the page scrolls to its end.
   useEffect(() => {
     const keepInView = () => setOffset((current) => {
+      // Not while the pointer is carrying the bar: it is placed by the drag.
+      if (pointerStart.current?.moved) return current
       const next = clamp(current)
       return next.x === current.x && next.y === current.y ? current : next
     })
@@ -135,6 +159,7 @@ export function useDraggableToolbar(ref: RefObject<HTMLElement | null>, messages
       if (event.button !== 0) return
       event.currentTarget.setPointerCapture(event.pointerId)
       pointerStart.current = { pointer: { x: event.clientX, y: event.clientY }, offset: applied.current, moved: false }
+      dragLimits.current = limits()
       setDragging(true)
     },
     onPointerMove: (event: PointerEvent<HTMLButtonElement>) => {
@@ -144,16 +169,24 @@ export function useDraggableToolbar(ref: RefObject<HTMLElement | null>, messages
       const dy = event.clientY - start.pointer.y
       if (!start.moved && Math.hypot(dx, dy) < DRAG_THRESHOLD) return
       start.moved = true
-      move({ x: start.offset.x + dx, y: start.offset.y + dy })
+      applied.current = clampTo(dragLimits.current, { x: start.offset.x + dx, y: start.offset.y + dy })
+      if (!frame.current) frame.current = window.requestAnimationFrame(paint)
     },
     onPointerUp: () => {
       if (!pointerStart.current) return
       setDragging(false)
-      if (pointerStart.current.moved) finish()
+      if (pointerStart.current.moved) {
+        window.cancelAnimationFrame(frame.current)
+        paint()
+        setOffset(applied.current)
+        finish()
+      }
       // `moved` stays on the record until the click that follows has been looked at
       window.setTimeout(() => { pointerStart.current = null }, 0)
     },
     onPointerCancel: () => {
+      window.cancelAnimationFrame(frame.current)
+      frame.current = 0
       pointerStart.current = null
       setDragging(false)
     },
