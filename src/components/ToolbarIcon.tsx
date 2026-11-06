@@ -63,12 +63,6 @@ const PATHS = {
       <path d="M9 16v-5M13 16V8M17 16v-3" strokeWidth="2.5" />
     </>
   ),
-  'chart-pie': (
-    <>
-      <path d="M12 3v9h9" />
-      <path d="M20.5 15.5A9 9 0 1 1 8.5 3.5" />
-    </>
-  ),
   'chart-line': (
     <>
       <path d="M4 20V4" />
@@ -119,6 +113,14 @@ const PATHS = {
       <circle cx="17" cy="17" r="2.5" />
     </>
   ),
+  // ".00": the decimals of the prices. Webtools' Phosphor set has no such icon, so it is drawn here.
+  decimals: (
+    <>
+      <circle cx="4" cy="17" r="1.4" fill="currentColor" stroke="none" />
+      <ellipse cx="11" cy="12" rx="2.6" ry="5" />
+      <ellipse cx="19" cy="12" rx="2.6" ry="5" />
+    </>
+  ),
   help: (
     <>
       <path d="M8 8.5a4 4 0 1 1 5.6 3.66c-1 .5-1.6 1.2-1.6 2.34" />
@@ -133,6 +135,8 @@ const PATHS = {
  */
 const WEBTOOLS_ICONS = {
   lightbulb: 'lightbulb',
+  // The pie view of a country: the icon of the Webtools set.
+  'chart-pie': 'chart-pie-slice',
 } as const
 
 export type ToolbarIconName = keyof typeof PATHS | keyof typeof WEBTOOLS_ICONS

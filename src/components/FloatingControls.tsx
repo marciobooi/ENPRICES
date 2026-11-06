@@ -125,8 +125,8 @@ export function FloatingControls({ values, onChange, showTable, onToggleTable }:
           {!showTable && (
             <RoundButton
               id="chart-decimals"
-              icon="table"
-              text={String(decimals)}
+              icon="decimals"
+              data-digits={decimals}
               label={wholeNumbers ? t('controls.decimalsWhole') : t('controls.decimalsLabel', { count: decimals, next })}
               aria-disabled={wholeNumbers || undefined}
               onClick={() => {

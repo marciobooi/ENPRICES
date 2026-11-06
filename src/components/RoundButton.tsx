@@ -6,8 +6,6 @@ interface RoundButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'aria-label'> {
   /** Icon from the toolbar icon set. */
   icon: ToolbarIconName
-  /** A short text (a number) drawn instead of the icon. */
-  text?: string
   /** Accessible name; also used as the tooltip text unless `tooltip` is given. */
   label: string
   /** Tooltip text. Pass `false` to disable the tooltip. */
@@ -24,7 +22,6 @@ interface RoundButtonProps
  */
 export function RoundButton({
   icon,
-  text,
   label,
   tooltip,
   variant = 'primary',
@@ -38,7 +35,7 @@ export function RoundButton({
 
   const content = (
     <span className="ecl-button__container">
-      {text ? <span className="round-button__text" aria-hidden="true">{text}</span> : <ToolbarIcon name={icon} />}
+      <ToolbarIcon name={icon} />
       <span className="ecl-button__label" data-ecl-label="true">{label}</span>
     </span>
   )

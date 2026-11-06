@@ -72,7 +72,8 @@
 
 .masthead-language-section {
   position: relative;
-  z-index: 3;
+  /* Above the top bar with the tool's buttons (z-index 10) and the floating options bar (5): the language list opens over them */
+  z-index: 30;
   display: flex;
   justify-self: center;
   align-items: center;
@@ -1514,17 +1515,34 @@
   z-index: 1200 !important;
 }
 
-/* Decimals button: the number itself is the icon */
-.round-button__text {
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
 /* Loading in the middle of the content area, not at its top */
 .loading--stage {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 60vh;
+}
+
+/* Decimals button: ".00" icon with the current number as a small badge (the name and tooltip say it in words) */
+.round-button[data-digits] {
+  position: relative;
+}
+
+.round-button[data-digits]::after {
+  content: attr(data-digits);
+  position: absolute;
+  top: -0.2rem;
+  right: -0.2rem;
+  display: grid;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  place-items: center;
+  border: 1px solid #0e47cb;
+  border-radius: 50%;
+  background: #fff;
+  color: #0e47cb;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
 }
