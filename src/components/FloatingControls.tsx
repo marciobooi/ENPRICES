@@ -101,7 +101,7 @@ export function FloatingControls({ values, onChange, showTable, onToggleTable }:
               id="chart-percentage"
               icon="percent"
               label={t(percentage ? 'controls.percentageHide' : 'controls.percentageShow')}
-              aria-pressed={percentage}
+              data-active={percentage || undefined}
               onClick={() => onChange('percentage', percentage ? 'value' : 'percentage')}
             />
           )}
@@ -110,7 +110,7 @@ export function FloatingControls({ values, onChange, showTable, onToggleTable }:
               id="chart-aggregates"
               icon="layers"
               label={t(hasAggregates ? 'controls.aggregatesHide' : 'controls.aggregatesShow')}
-              aria-pressed={hasAggregates}
+              data-active={hasAggregates || undefined}
               onClick={() => onChange(
                 'geo',
                 hasAggregates
@@ -141,7 +141,7 @@ export function FloatingControls({ values, onChange, showTable, onToggleTable }:
             id="chart-table"
             icon={showTable ? 'chart-bar' : 'table'}
             label={t(showTable ? 'country.showChart' : 'country.showTable')}
-            aria-pressed={showTable}
+            data-active={showTable || undefined}
             onClick={onToggleTable}
           />
         </div>

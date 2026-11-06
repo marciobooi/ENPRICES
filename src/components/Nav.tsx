@@ -12,7 +12,7 @@ export function SiteNavigation({ title }: SiteNavigationProps) {
   return (
     <>
       <a className="skip-link" href="#main-content">{t('navigation.skip')}</a>
-      <header id="top" className="site-header">
+      <header id="top" className="site-header" tabIndex={-1}>
         <div id="euGlobanContainer" />
         <div className="site-header-main">
           <h1 className="site-header-title">{title}</h1>

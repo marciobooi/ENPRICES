@@ -56,7 +56,8 @@ export function CountryToolbar({ view, onViewChange, showTable, onToggleTable, o
           id="country-view-table"
           icon={showTable ? viewIcons[view] : 'table'}
           label={t(showTable ? 'country.showChart' : 'country.showTable')}
-          aria-pressed={showTable}
+          // The name says what the button does next (it changes), so it is not also a pressed toggle: the state would be told twice.
+          data-active={showTable || undefined}
           onClick={onToggleTable}
         />
       </div>

@@ -14,7 +14,20 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-inner">
         {needsScroll && (
-          <RoundButton href="#top" icon="arrow-up" variant="primary" label={t('footer.backToTop')} />
+          <RoundButton
+            href="#top"
+            icon="arrow-up"
+            variant="primary"
+            label={t('footer.backToTop')}
+            onClick={(event) => {
+              // Scroll up without adding "#top" to the address and the history; keyboard focus goes to the top of the
+              // page too (not left at the footer), so the next Tab starts from there. The scroll itself is smooth
+              // unless the person asked for reduced motion (src/index.css).
+              event.preventDefault()
+              window.scrollTo({ top: 0 })
+              document.getElementById('top')?.focus({ preventScroll: true })
+            }}
+          />
         )}
         <nav aria-label={t('footer.label')}>
           <a className="ecl-link" href={localizedLink(site.links.footer.privacy, language)} target="_blank" rel="noopener">{t('footer.privacy')}</a>

@@ -1225,7 +1225,8 @@
   margin-left: 1.5rem;
 }
 
-.toolbar-actions .round-button[aria-pressed='true']:not(:disabled) {
+.toolbar-actions .round-button[aria-pressed='true']:not(:disabled),
+.toolbar-actions .round-button[data-active]:not(:disabled) {
   box-shadow: none;
 }
 
@@ -1253,7 +1254,9 @@
 
 /* The button of the view that is showing looks like a hovered one: white, with a blue icon and border */
 .toolbar-actions .round-button[aria-pressed='true'],
-.floating-controls .round-button[aria-pressed='true'] {
+.toolbar-actions .round-button[data-active],
+.floating-controls .round-button[aria-pressed='true'],
+.floating-controls .round-button[data-active] {
   background-color: #fff;
   border-color: #0e47cb;
   color: #0e47cb;
@@ -1579,4 +1582,9 @@
   font-weight: 700;
   line-height: 1;
   pointer-events: none;
+}
+
+/* The header only receives focus from the back-to-top button, to start the next Tab at the top: no ring on it */
+#top:focus {
+  outline: none;
 }
