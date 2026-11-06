@@ -1588,3 +1588,9 @@
 #top:focus {
   outline: none;
 }
+
+/* A tooltip of the floating bar opens upwards, over the top bar with the tool's buttons (z-index 10): while one is
+   showing, the bar goes above it. */
+.floating-controls:has(.tooltip-bubble) {
+  z-index: 20;
+}
