@@ -202,7 +202,9 @@
     "countryTitle": "Ouvrir un pays",
     "countryDescription": "Cliquez sur une barre pour voir le détail de ce pays : ses prix par niveau de consommation, la répartition du prix dans un graphique circulaire et l'évolution du prix dans le temps.",
     "decimalsTitle": "Décimales",
-    "decimalsDescription": "Cliquez ici pour changer le nombre de décimales des prix : 4, 3, 2 ou 1. Tous les graphiques, infobulles et tableaux suivent."
+    "decimalsDescription": "Cliquez ici pour changer le nombre de décimales des prix : 4, 3, 2 ou 1. Tous les graphiques, infobulles et tableaux suivent.",
+    "timelineTitle": "Période",
+    "timelineDescription": "Choisissez la période du graphique sur la ligne du temps, ou appuyez sur lecture pour voir comment les prix évoluent d'une période à l'autre."
   },
   "subnav": {
     "title": "Prix de l'énergie",
@@ -883,5 +885,12 @@
     "label": "Source : Eurostat",
     "link": "accès au jeu de données",
     "newTab": "(s'ouvre dans un nouvel onglet)"
+  },
+  "timeline": {
+    "label": "Période",
+    "slider": "Sélectionner la période",
+    "play": "Lancer l'animation à travers les périodes",
+    "pause": "Mettre l'animation en pause",
+    "playing": "Lecture des périodes"
   }
 }

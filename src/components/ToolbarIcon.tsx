@@ -125,6 +125,9 @@ const PATHS = {
  */
 const WEBTOOLS_ICONS = {
   lightbulb: 'lightbulb',
+  // The animation of the period timeline
+  play: 'play',
+  pause: 'pause',
   // The handle of the floating bar: six dots to take hold of, four arrows while it is picked up, a double arrow when it
   // is tucked away and can be brought back.
   grip: 'dots-six-vertical',

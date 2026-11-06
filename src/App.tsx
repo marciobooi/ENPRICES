@@ -12,6 +12,7 @@ import { DownloadMenu } from './components/DownloadMenu'
 import { FilterControls } from './components/FilterControls'
 import { SiteFooter } from './components/Footer'
 import { insightsHref } from './insights/mode'
+import { PeriodTimeline } from './components/PeriodTimeline'
 import { SiteNavigation } from './components/Nav'
 import { RoundButton } from './components/RoundButton'
 import { ShareMenu } from './components/ShareMenu'
@@ -32,6 +33,8 @@ function App() {
   const prices = useEnergyPrices(values)
   const drill = useDrillState()
   const [showTable, setShowTable] = useState(false)
+  // While the timeline plays every period, the chart is not announced at each step (the timeline says it is playing).
+  const [playing, setPlaying] = useState(false)
   const [countryTable, setCountryTable] = useState(false)
 
   // Opening or closing a country removes the button that had focus: move focus to the heading of the new view
@@ -72,7 +75,9 @@ function App() {
 
   // Tells screen readers that the chart changed (the chart itself is redrawn silently).
   const timeValue = typeof values.time === 'string' ? values.time : ''
-  const announcement = drill.chartGeo
+  const announcement = playing
+    ? ''
+    : drill.chartGeo
     ? countryPrices.data
       ? t('announce.updated', {
           title: `${t('country.heading', { country: t(`countries.${drill.chartGeo}`, { defaultValue: drill.chartGeo }) })}, ${countryPeriod(countryPrices.data, timeValue)}, ${t(`bands.${countryBand(countryPrices.data, values)}`)}`,
@@ -152,6 +157,14 @@ function App() {
                 drill.open(code)
               }}
               showTable={showTable} />
+            {prices.data && (
+              <PeriodTimeline
+                periods={prices.data.periods}
+                selected={shownPeriod}
+                onSelect={(period) => setFilter('time', period)}
+                onPlayingChange={setPlaying}
+              />
+            )}
           </>
         )}
       </main>

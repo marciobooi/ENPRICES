@@ -202,7 +202,9 @@
     "countryTitle": "Ein Land öffnen",
     "countryDescription": "Klicken Sie auf einen Balken, um die Details dieses Landes zu sehen: seine Preise nach Verbrauchsstufe, die Preisbestandteile in einem Kreisdiagramm und die Preisentwicklung im Zeitverlauf.",
     "decimalsTitle": "Nachkommastellen",
-    "decimalsDescription": "Klicken Sie hier, um die Anzahl der Nachkommastellen der Preise zu ändern: 4, 3, 2 oder 1. Alle Diagramme, Tooltips und Tabellen folgen."
+    "decimalsDescription": "Klicken Sie hier, um die Anzahl der Nachkommastellen der Preise zu ändern: 4, 3, 2 oder 1. Alle Diagramme, Tooltips und Tabellen folgen.",
+    "timelineTitle": "Zeitraum",
+    "timelineDescription": "Wählen Sie den Zeitraum des Diagramms auf der Zeitleiste oder starten Sie die Animation, um zu sehen, wie sich die Preise von Zeitraum zu Zeitraum ändern."
   },
   "subnav": {
     "title": "Energiepreise",
@@ -883,5 +885,12 @@
     "label": "Quelle: Eurostat",
     "link": "Zugang zum Datensatz",
     "newTab": "(öffnet in einem neuen Tab)"
+  },
+  "timeline": {
+    "label": "Zeitraum",
+    "slider": "Zeitraum auswählen",
+    "play": "Animation durch die Zeiträume starten",
+    "pause": "Animation anhalten",
+    "playing": "Zeiträume werden abgespielt"
   }
 }

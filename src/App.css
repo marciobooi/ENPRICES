@@ -1743,3 +1743,180 @@
   width: 1.5rem;
   height: 1.5rem;
 }
+
+/* Period timeline of the main view (PeriodTimeline.tsx): play button and a slider with a tick for every period */
+.period-timeline {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 1rem 1rem 0.5rem;
+  padding: 1.75rem 1.5rem 0.5rem 1rem;
+  background: #fff;
+  border: 1px solid #d7dbe6;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgb(14 71 203 / 8%), 0 10px 28px rgb(14 71 203 / 16%);
+}
+
+.period-timeline .round-button {
+  --round-button-size: 3rem;
+}
+
+/* The button sits in the tooltip's wrapper, which is what the row lays out: its centre goes on the line of the track
+   (the track is 1.5rem high, at the top of the slider) */
+.period-timeline .tooltip-host {
+  flex: none;
+  align-self: flex-start;
+  margin-top: -0.75rem;
+}
+
+.period-timeline__slider {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 2rem;
+}
+
+/* The period of the thumb, in a blue bubble above it */
+.period-timeline__bubble {
+  position: absolute;
+  top: -1.9rem;
+  z-index: 1;
+  padding: 0.15rem 0.6rem;
+  transform: translateX(-50%);
+  border-radius: 0.4rem;
+  background: #0e47cb;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.period-timeline__bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -0.35rem;
+  border: 0.35rem solid transparent;
+  border-top-color: #0e47cb;
+}
+
+.period-timeline__track {
+  position: relative;
+  height: 1.5rem;
+}
+
+.period-timeline__input {
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 1.5rem;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* The track: blue up to the thumb, grey after it */
+.period-timeline__input::-webkit-slider-runnable-track {
+  height: 0.5rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(to right, #0e47cb var(--filled), #cccccc var(--filled));
+}
+
+.period-timeline__input::-moz-range-track {
+  height: 0.5rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(to right, #0e47cb var(--filled), #cccccc var(--filled));
+}
+
+.period-timeline__input::-webkit-slider-thumb {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  margin-top: -8px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #0e47cb;
+  box-shadow: 0 0 0 1px #0e47cb, 0 2px 4px rgb(0 0 0 / 30%);
+  cursor: grab;
+}
+
+.period-timeline__input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #0e47cb;
+  box-shadow: 0 0 0 1px #0e47cb, 0 2px 4px rgb(0 0 0 / 30%);
+  cursor: grab;
+}
+
+/* Keyboard focus: a dark ring around the thumb */
+.period-timeline__input:focus-visible {
+  outline: none;
+}
+
+.period-timeline__input:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 6px #262b38;
+}
+
+.period-timeline__input:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 6px #262b38;
+}
+
+.period-timeline__ticks {
+  position: relative;
+  height: 1.75rem;
+  margin-top: 0.15rem;
+}
+
+.period-timeline__tick {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 0.5rem;
+  background: #a3a7ae;
+}
+
+.period-timeline__label {
+  position: absolute;
+  top: 0.6rem;
+  transform: translateX(-50%);
+  color: #5b6272;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.period-timeline__label--selected {
+  color: #000;
+  font-weight: 700;
+}
+
+@media (max-width: 40rem) {
+  .period-timeline {
+    gap: 0.75rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (forced-colors: active) {
+  .period-timeline__input::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, Highlight var(--filled), GrayText var(--filled));
+    forced-color-adjust: none;
+  }
+
+  .period-timeline__input::-webkit-slider-thumb {
+    forced-color-adjust: none;
+    background: Highlight;
+    border-color: Canvas;
+  }
+
+  .period-timeline__bubble {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+}

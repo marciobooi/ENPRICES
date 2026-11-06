@@ -220,7 +220,9 @@
     "countryTitle": "Open a country",
     "countryDescription": "Click on a bar to see the details of that country: its prices by consumption level, the parts of the price in a pie chart and how the price developed over time.",
     "decimalsTitle": "Decimals",
-    "decimalsDescription": "Click here to change how many decimals the prices show: 4, 3, 2 or 1. Every chart, tooltip and table follows."
+    "decimalsDescription": "Click here to change how many decimals the prices show: 4, 3, 2 or 1. Every chart, tooltip and table follows.",
+    "timelineTitle": "Period",
+    "timelineDescription": "Choose the period of the chart on the timeline, or press play to see how the prices change from one period to the next."
   },
   "subnav": {
     "title": "Energy prices",
@@ -884,5 +886,12 @@
     "label": "Source: Eurostat",
     "link": "access to dataset",
     "newTab": "(opens in a new tab)"
+  },
+  "timeline": {
+    "label": "Period",
+    "slider": "Select the period",
+    "play": "Play the animation through the periods",
+    "pause": "Pause the animation",
+    "playing": "Playing the periods"
   }
 }

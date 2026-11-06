@@ -357,6 +357,7 @@ export const tourConfig = {
     { id: 'table', element: '#chart-table' },
     { id: 'order', element: '#chart-order' },
     { id: 'decimals', element: '#chart-decimals' },
+    { id: 'timeline', element: '#period-timeline' },
     { id: 'aggregates', element: '#chart-aggregates' },
     { id: 'components', element: '#components-toggle' },
     { id: 'details', element: '#chart-details' },
@@ -426,8 +427,8 @@ export const filters: readonly FilterDefinition[] = [
 /** The orders of the original tool: highest first, lowest first, alphabetical and the protocol order of the countries. */
 export const sortOrders = ['desc', 'asc', 'alfa', 'proto'] as const
 
-/** Filters that live in the floating bar of the main chart (FloatingControls) instead of in the menu. */
-export const filtersUnderChart: readonly string[] = ['component', 'breakdown', 'percentage', 'order', 'decimals']
+/** Filters that are not in the menu: the floating bar of the main chart has them (FloatingControls), and `time` is the timeline under it (PeriodTimeline). */
+export const filtersUnderChart: readonly string[] = ['component', 'breakdown', 'percentage', 'order', 'decimals', 'time']
 
 /* ------------------------------------------------------------------ */
 /* MENU                                                                */
