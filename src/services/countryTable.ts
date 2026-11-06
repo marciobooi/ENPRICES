@@ -2,7 +2,7 @@ import type { TFunction } from 'i18next'
 import type { CountryPrices } from '../hooks/useEnergyPrices'
 import type { FilterValues } from '../state/filters'
 import { priceDecimals } from './decimals'
-import { countryBand, countryPeriod, linePeriods, pricePartsOf, rowAt, stackPartsOf, type CountryView } from './countryChart'
+import { countryBand, countryPeriod, visibleLinePeriods, pricePartsOf, rowAt, stackPartsOf, type CountryView } from './countryChart'
 
 export interface CountryTable {
   caption: string
@@ -56,7 +56,7 @@ export function countryTableOf(data: CountryPrices, values: FilterValues, view: 
     return {
       caption: t('country.tableCaptionLine', { country, band: bandName }),
       headers: [t('chart.time'), withoutTaxes, ...added.map((part) => part.name)],
-      rows: linePeriods(data, band).map((p) => {
+      rows: visibleLinePeriods(data, band, values).map((p) => {
         const row = rowAt(data, band, p)
         return [p, row?.total ?? null, ...added.map((part) => (row ? part.pick(row) : null))]
       }),

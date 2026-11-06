@@ -47,17 +47,23 @@ export function describeFilter(definition: FilterDefinition, value: string | str
 export interface DrillState {
   chartGeo: string
   chartView: string
+  /** The period range of the line chart (empty = from the first / to the last period). */
+  lineFrom: string
+  lineTo: string
 }
 
 export const drillParams: ParamSet<DrillState> = {
   chartGeo: stringParam('chartGeo', '', ['', ...allCountries]),
   chartView: stringParam('chartView', 'bar', ['bar', 'pie', 'line']),
+  lineFrom: stringParam('lineFrom', ''),
+  lineTo: stringParam('lineTo', ''),
 }
 
 export function useDrillState() {
   const [state, update] = useUrlState(drillParams)
-  const open = useCallback((chartGeo: string) => update({ chartGeo, chartView: 'bar' }), [update])
+  const open = useCallback((chartGeo: string) => update({ chartGeo, chartView: 'bar', lineFrom: '', lineTo: '' }), [update])
   const close = useCallback(() => update({ chartGeo: '' }), [update])
   const setView = useCallback((chartView: string) => update({ chartView }), [update])
-  return { chartGeo: state.chartGeo, chartView: state.chartView, open, close, setView } as const
+  const setRange = useCallback((lineFrom: string, lineTo: string) => update({ lineFrom, lineTo }), [update])
+  return { chartGeo: state.chartGeo, chartView: state.chartView, lineFrom: state.lineFrom, lineTo: state.lineTo, open, close, setView, setRange } as const
 }

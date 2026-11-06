@@ -536,7 +536,10 @@
     "tableCaptionLine": "Évolution du prix pour {{country}}, {{band}}",
     "colComponent": "Composante",
     "colPrice": "Prix",
-    "colShare": "Part du prix (%)"
+    "colShare": "Part du prix (%)",
+    "rangeFrom": "Première période affichée",
+    "rangeTo": "Dernière période affichée",
+    "periodFiltered": "Période filtrée de <b>{{from}}</b> à <b>{{to}}</b>."
   },
   "announce": {
     "updated": "Graphique mis à jour : {{title}}"

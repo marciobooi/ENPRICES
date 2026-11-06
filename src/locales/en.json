@@ -537,7 +537,10 @@
     "tableCaptionLine": "Price over time for {{country}}, {{band}}",
     "colComponent": "Component",
     "colPrice": "Price",
-    "colShare": "Price share (%)"
+    "colShare": "Price share (%)",
+    "rangeFrom": "First period shown",
+    "rangeTo": "Last period shown",
+    "periodFiltered": "Period filtered from <b>{{from}}</b> to <b>{{to}}</b>."
   },
   "announce": {
     "updated": "Chart updated: {{title}}"

@@ -43,9 +43,11 @@ function App() {
     document.querySelector<HTMLElement>('#main-content .tool-content h1, #main-content .tool-content h2')?.focus()
   }, [drill.chartGeo])
   const countryPrices = useCountryPrices(values, drill.chartGeo)
+  // The charts of a country also take the period range of the line chart.
+  const countryValues = useMemo(() => ({ ...values, lineFrom: drill.lineFrom, lineTo: drill.lineTo }), [values, drill.lineFrom, drill.lineTo])
   const countryView = (countryViews as readonly string[]).includes(drill.chartView) ? drill.chartView as CountryView : 'bar'
   const getTable = drill.chartGeo && countryPrices.data
-    ? () => buildCountryTable(countryPrices.data!, values, countryView, t, { title: viewTitle, subtitle: viewSubtitle })
+    ? () => buildCountryTable(countryPrices.data!, countryValues, countryView, t, { title: viewTitle, subtitle: viewSubtitle })
     : prices.data ? () => buildToolTable(prices.data!, t, { title: viewTitle, subtitle: viewSubtitle }, shownPeriod) : undefined
 
   // Context added to the contact e-mail: what the person had selected when they wrote.
@@ -135,7 +137,8 @@ function App() {
         {drill.chartGeo ? (
           <CountryContent
             countryCode={drill.chartGeo}
-            values={values}
+            values={countryValues}
+            onRange={drill.setRange}
             state={countryPrices}
             view={countryView}
             showTable={countryTable}

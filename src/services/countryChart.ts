@@ -75,6 +75,13 @@ export function linePeriods(data: CountryPrices, band: string): string[] {
   return data.periods.slice(first, last + 1)
 }
 
+/** The periods of the line chart inside the range the slider has set (`lineFrom` .. `lineTo`, both included). */
+export function visibleLinePeriods(data: CountryPrices, band: string, values: FilterValues): string[] {
+  const from = typeof values.lineFrom === 'string' ? values.lineFrom : ''
+  const to = typeof values.lineTo === 'string' ? values.lineTo : ''
+  return linePeriods(data, band).filter((period) => (!from || period >= from) && (!to || period <= to))
+}
+
 export function rowAt(data: CountryPrices, band: string, period: string): BandPrice | undefined {
   return data.rows.find((row) => row.band === band && row.period === period)
 }
@@ -189,7 +196,7 @@ export function createCountryChart(data: CountryPrices, values: FilterValues, vi
       : { ...roundLegend }
     series = [{ type: 'pie', name: `EUR/${unitLabel}`, colorByPoint: true, data: slices }]
   } else {
-    const shown = linePeriods(data, band)
+    const shown = visibleLinePeriods(data, band, values)
     xAxis = { categories: shown, title: { text: t('chart.time') }, labels: { rotation: -45 } }
     legend = { ...roundLegend }
     const at = (period: string) => rowAt(data, band, period)

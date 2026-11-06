@@ -1594,3 +1594,112 @@
 .floating-controls:has(.tooltip-bubble) {
   z-index: 20;
 }
+
+/* Period range of the line chart (PeriodRange.tsx): two native range inputs on one track, drawn with the ECL blue */
+.period-range {
+  max-width: 100%;
+  margin: 0.5rem 1rem 1.5rem;
+}
+
+.period-range__track {
+  position: relative;
+  height: 2.25rem;
+}
+
+/* The grey track and the blue bar between the two pins */
+.period-range__track::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: #cccccc;
+}
+
+.period-range__bar {
+  position: absolute;
+  bottom: 0;
+  height: 4px;
+  background: #0e47cb;
+}
+
+.period-range__input {
+  appearance: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1.75rem;
+  margin: 0;
+  background: transparent;
+  /* Only the pins catch the pointer, so both can be reached when they overlap */
+  pointer-events: none;
+}
+
+.period-range__input::-webkit-slider-runnable-track {
+  background: transparent;
+}
+
+.period-range__input::-moz-range-track {
+  background: transparent;
+}
+
+.period-range__input::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 28px;
+  border: 0;
+  background: #0e47cb;
+  /* A pin: a flat top and a point at the bottom, as in the original tool */
+  clip-path: polygon(0 0, 100% 0, 100% 68%, 50% 100%, 0 68%);
+  cursor: grab;
+  pointer-events: auto;
+}
+
+.period-range__input::-moz-range-thumb {
+  width: 14px;
+  height: 28px;
+  border: 0;
+  border-radius: 0;
+  background: #0e47cb;
+  clip-path: polygon(0 0, 100% 0, 100% 68%, 50% 100%, 0 68%);
+  cursor: grab;
+  pointer-events: auto;
+}
+
+/* Keyboard focus: the pin turns black with a blue glow (an outline would be cut by the pin shape) */
+.period-range__input:focus-visible {
+  outline: none;
+}
+
+.period-range__input:focus-visible::-webkit-slider-thumb {
+  background: #000;
+}
+
+.period-range__input:focus-visible::-moz-range-thumb {
+  background: #000;
+}
+
+.period-range__sentence {
+  margin: 0.75rem 0 0;
+  text-align: center;
+}
+
+@media (forced-colors: active) {
+  .period-range__track::before,
+  .period-range__bar {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+
+  .period-range__input::-webkit-slider-thumb {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+
+  .period-range__input::-moz-range-thumb {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+}

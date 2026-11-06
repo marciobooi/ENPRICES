@@ -536,7 +536,10 @@
     "tableCaptionLine": "Preisentwicklung für {{country}}, {{band}}",
     "colComponent": "Bestandteil",
     "colPrice": "Preis",
-    "colShare": "Preisanteil (%)"
+    "colShare": "Preisanteil (%)",
+    "rangeFrom": "Erster angezeigter Zeitraum",
+    "rangeTo": "Letzter angezeigter Zeitraum",
+    "periodFiltered": "Zeitraum gefiltert von <b>{{from}}</b> bis <b>{{to}}</b>."
   },
   "announce": {
     "updated": "Diagramm aktualisiert: {{title}}"

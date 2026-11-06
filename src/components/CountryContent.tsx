@@ -1,11 +1,12 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CountryPricesState } from '../hooks/useEnergyPrices'
-import { countryHasData, createCountryChart, pieHasNegativePart, type CountryView } from '../services/countryChart'
+import { countryBand, countryHasData, createCountryChart, linePeriods, pieHasNegativePart, type CountryView } from '../services/countryChart'
 import { countryTableOf } from '../services/countryTable'
 import type { FilterValues } from '../state/filters'
 import { EclNumber, EclRow, EclRowHeader, EclTable } from './EclTable'
 import { Loading } from './Loading'
+import { PeriodRange } from './PeriodRange'
 import { WebChart } from './WebChart'
 
 interface CountryContentProps {
@@ -16,6 +17,8 @@ interface CountryContentProps {
   /** Show the table of the figures instead of the chart (the table button of the top bar). */
   showTable?: boolean
   headingLevel?: 1 | 2
+  /** Called with the first and the last period of the line chart when its range slider moves. */
+  onRange?: (from: string, to: string) => void
 }
 
 /**
@@ -23,7 +26,7 @@ interface CountryContentProps {
  * (pie) and its evolution over time (line), or a table of the same figures. The buttons that change the view are in
  * the top bar (`CountryToolbar`), as in the original tool.
  */
-export function CountryContent({ countryCode, values, state, view, showTable = false, headingLevel = 2 }: CountryContentProps) {
+export function CountryContent({ countryCode, values, state, view, showTable = false, headingLevel = 2, onRange }: CountryContentProps) {
   const { t } = useTranslation()
   const { data, error, loading } = state
   const country = t(`countries.${countryCode}`, { defaultValue: countryCode })
@@ -33,6 +36,7 @@ export function CountryContent({ countryCode, values, state, view, showTable = f
 
   const table = useMemo(() => data ? countryTableOf(data, values, view, t) : undefined, [data, t, values, view])
   const Heading = `h${headingLevel}` as 'h1' | 'h2'
+  const allPeriods = data && view === 'line' ? linePeriods(data, countryBand(data, values)) : []
 
   return (
     <div className="tool-content country-content">
@@ -43,6 +47,14 @@ export function CountryContent({ countryCode, values, state, view, showTable = f
       {data && !error && hasData && pieBlocked && !showTable && <p className="tool-content__message" role="status">{t('country.pieNegative')}</p>}
       {data && config && hasData && !pieBlocked && !showTable && (
         <WebChart config={config} label={t(`country.view.${view}`)} busy={loading} />
+      )}
+      {data && !error && hasData && view === 'line' && onRange && allPeriods.length > 2 && (
+        <PeriodRange
+          periods={allPeriods}
+          from={typeof values.lineFrom === 'string' ? values.lineFrom : ''}
+          to={typeof values.lineTo === 'string' ? values.lineTo : ''}
+          onChange={onRange}
+        />
       )}
       {table && showTable && (
         <EclTable caption={table.caption} headers={table.headers}>

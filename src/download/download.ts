@@ -28,6 +28,7 @@ interface HighchartsChart {
   chartWidth: number
   chartHeight: number
   exportChartLocal: (options: Record<string, unknown>, chartOptions?: Record<string, unknown>) => void
+  getSVG: (chartOptions?: Record<string, unknown>) => string
 }
 
 /** The Highcharts chart drawn inside an element (the Webtools chart service loads Highcharts on the page). */
@@ -36,19 +37,75 @@ function findHighchart(element: HTMLElement): HighchartsChart | undefined {
   return highcharts?.charts.find((chart): chart is HighchartsChart => !!chart && typeof chart.exportChartLocal === 'function' && element.contains(chart.container))
 }
 
-/** The Eurostat logo, as a data address (an image of another address would block the export). Null when it can't be loaded. */
+/**
+ * The Eurostat logo as a PNG on a white background, in a data address. The SVG has a transparent background, which a
+ * JPEG turns black, so it is drawn onto white first; its size comes from its viewBox, so the proportions are right.
+ * Null when it can't be loaded.
+ */
 async function loadLogo(): Promise<{ src: string; width: number; height: number } | null> {
   try {
     const response = await fetch(downloadConfig.logoUrl)
     if (!response.ok) return null
     const svg = await response.text()
-    const src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`
-    const box = /viewBox="[\d.\s-]*?([\d.]+)\s+([\d.]+)"/.exec(svg)
+    const box = /viewBox="\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)\s*"/.exec(svg)
     const ratio = box ? Number(box[1]) / Number(box[2]) : 4
     const height = 20
-    return { src, width: Math.round(height * (Number.isFinite(ratio) && ratio > 0 ? ratio : 4)), height }
+    const width = Math.round(height * (Number.isFinite(ratio) && ratio > 0 ? ratio : 4))
+    const address = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }))
+    try {
+      const image = new Image()
+      await new Promise<void>((resolve, reject) => {
+        image.onload = () => resolve()
+        image.onerror = () => reject(new Error('logo'))
+        image.src = address
+      })
+      const scale = 4
+      const canvas = document.createElement('canvas')
+      canvas.width = width * scale
+      canvas.height = height * scale
+      const context = canvas.getContext('2d')
+      if (!context) return null
+      context.fillStyle = '#ffffff'
+      context.fillRect(0, 0, canvas.width, canvas.height)
+      context.drawImage(image, 0, 0, canvas.width, canvas.height)
+      return { src: canvas.toDataURL('image/png'), width, height }
+    } finally {
+      URL.revokeObjectURL(address)
+    }
   } catch {
     return null
+  }
+}
+
+/**
+ * An SVG chart as a JPEG on a white background. A JPEG has no transparency, so anything not painted comes out black;
+ * drawing onto a white canvas of exactly the SVG's own size leaves no unpainted corner.
+ */
+async function svgToJpeg(svg: string): Promise<Blob | null> {
+  const size = /viewBox="0 0 ([\d.]+) ([\d.]+)"/.exec(svg)
+  if (!size) return null
+  const width = Math.round(Number(size[1]))
+  const height = Math.round(Number(size[2]))
+  const scale = 2
+  const address = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }))
+  try {
+    const image = new Image()
+    await new Promise<void>((resolve, reject) => {
+      image.onload = () => resolve()
+      image.onerror = () => reject(new Error('chart image'))
+      image.src = address
+    })
+    const canvas = document.createElement('canvas')
+    canvas.width = width * scale
+    canvas.height = height * scale
+    const context = canvas.getContext('2d')
+    if (!context) return null
+    context.fillStyle = '#ffffff'
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    context.drawImage(image, 0, 0, canvas.width, canvas.height)
+    return await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.92))
+  } finally {
+    URL.revokeObjectURL(address)
   }
 }
 
@@ -65,28 +122,37 @@ export async function downloadChartImage(type: 'png' | 'jpeg', heading?: { title
       const footerHeight = logo ? logo.height + 16 : 0
       const width = chart.chartWidth
       // Only the exported image gets the title and the logo; the chart on screen is not touched.
-      chart.exportChartLocal(
-        { type: type === 'png' ? 'image/png' : 'image/jpeg', filename: fileName(type === 'png' ? 'png' : 'jpg').replace(/\.[^.]+$/, ''), scale: 2, sourceWidth: chart.chartWidth, sourceHeight: chart.chartHeight + headerHeight + footerHeight },
-        {
-          chart: {
-            backgroundColor: '#ffffff',
-            height: chart.chartHeight + headerHeight + footerHeight,
-            spacingTop: 15,
-            spacingBottom: footerHeight + 10,
-            events: {
-              load(this: { renderer: { image: (src: string, x: number, y: number, w: number, h: number) => { add: () => void } }; chartHeight: number; chartWidth: number }) {
-                if (logo) this.renderer.image(logo.src, this.chartWidth - logo.width - 10, this.chartHeight - logo.height - 10, logo.width, logo.height).add()
-              },
+      const totalHeight = chart.chartHeight + headerHeight + footerHeight
+      const chartOptions = {
+        chart: {
+          backgroundColor: '#ffffff',
+          height: totalHeight,
+          spacingTop: 15,
+          spacingBottom: footerHeight + 10,
+          events: {
+            load(this: { renderer: { image: (src: string, x: number, y: number, w: number, h: number) => { add: () => void } }; chartHeight: number; chartWidth: number }) {
+              if (logo) this.renderer.image(logo.src, this.chartWidth - logo.width - 10, this.chartHeight - logo.height - 10, logo.width, logo.height).add()
             },
           },
-          title: heading?.title
-            ? { text: heading.title, align: 'left', style: { fontSize: '16px', fontWeight: 'bold', color: '#003d8d', width: `${width - 40}px` } }
-            : { text: '' },
-          subtitle: heading?.subtitle
-            ? { text: heading.subtitle, align: 'left', style: { fontSize: '13px', color: '#262b38', width: `${width - 40}px` } }
-            : { text: '' },
         },
-      )
+        title: heading?.title
+          ? { text: heading.title, align: 'left', style: { fontSize: '16px', fontWeight: 'bold', color: '#003d8d', width: `${width - 40}px` } }
+          : { text: '' },
+        subtitle: heading?.subtitle
+          ? { text: heading.subtitle, align: 'left', style: { fontSize: '13px', color: '#262b38', width: `${width - 40}px` } }
+          : { text: '' },
+      }
+      if (type === 'png') {
+        chart.exportChartLocal(
+          { type: 'image/png', filename: fileName('png').replace(/\.[^.]+$/, ''), scale: 2, sourceWidth: chart.chartWidth, sourceHeight: totalHeight },
+          chartOptions,
+        )
+      } else {
+        // The SVG is drawn onto white by us (see `svgToJpeg`): Highcharts leaves unpainted areas of a JPEG black.
+        const jpeg = await svgToJpeg(chart.getSVG({ ...chartOptions, chart: { ...chartOptions.chart, width } }))
+        if (!jpeg) throw new Error('jpeg')
+        downloadImage(jpeg, fileName('jpg'))
+      }
       return true
     } catch {
       // fall back to a screenshot of the page area
