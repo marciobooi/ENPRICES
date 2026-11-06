@@ -891,6 +891,14 @@
     "slider": "Sélectionner la période",
     "play": "Lancer l'animation à travers les périodes",
     "pause": "Mettre l'animation en pause",
-    "playing": "Lecture des périodes"
+    "playing": "Lecture des périodes",
+    "move": "Déplacer la ligne du temps",
+    "moveHelp": "Faites glisser pour déplacer la ligne du temps, double-cliquez pour la masquer. Au clavier : Espace la saisit, les flèches la déplacent (Maj pour de plus grands pas), Espace la dépose, Échap annule, Début la remet en place. Entrée la masque ou l'affiche.",
+    "picked": "Ligne du temps saisie. Utilisez les flèches pour la déplacer.",
+    "dropped": "Ligne du temps déposée.",
+    "cancelled": "Déplacement annulé.",
+    "resetDone": "Ligne du temps remise à sa place.",
+    "collapsed": "Ligne du temps masquée au bord. Appuyez sur Entrée sur la poignée pour l'afficher.",
+    "expanded": "Ligne du temps affichée."
   }
 }

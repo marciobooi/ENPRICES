@@ -333,6 +333,9 @@ export const consumptionBands: Record<string, readonly string[]> = {
 /* GUIDED TOUR                                                         */
 /* ------------------------------------------------------------------ */
 
+/** How long the period timeline stays on one period while it plays, and the time the bars take to move to the next. */
+export const timelineStepMs = 1000
+
 /** Address of a dataset in the Eurostat data browser (`lang` is en, fr or de). */
 export const eurostatDatasetUrl = (dataset: string, lang: string) =>
   `https://ec.europa.eu/eurostat/databrowser/view/${dataset}/default/table?lang=${lang}`

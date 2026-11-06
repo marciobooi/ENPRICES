@@ -5,7 +5,7 @@ import { features, filters, tourConfig, units } from './config/toolConfig'
 import { describeFilter, useDrillState, useFilters } from './state/filters'
 import { resolveEnergyQuery, useCountryPrices, useEnergyPrices } from './hooks/useEnergyPrices'
 import { countryBand, countryPeriod, countryViewTitle, countryViews, type CountryView } from './services/countryChart'
-import { selectedPeriod } from './services/energyChart'
+import { orderedCountries, selectedPeriod } from './services/energyChart'
 import { useGuidedTour } from './hooks/useGuidedTour'
 import { useSiteShell } from './hooks/useSiteShell'
 import { DownloadMenu } from './components/DownloadMenu'
@@ -35,6 +35,8 @@ function App() {
   const [showTable, setShowTable] = useState(false)
   // While the timeline plays every period, the chart is not announced at each step (the timeline says it is playing).
   const [playing, setPlaying] = useState(false)
+  // The countries in the places they had when the animation started: the bars then only grow and shrink.
+  const [playOrder, setPlayOrder] = useState<string[]>([])
   const [countryTable, setCountryTable] = useState(false)
 
   // Opening or closing a country removes the button that had focus: move focus to the heading of the new view
@@ -152,7 +154,7 @@ function App() {
         ) : (
           <>
             <FloatingControls values={values} onChange={setFilter} showTable={showTable} onToggleTable={() => setShowTable((current) => !current)} />
-            <ToolContent values={values} state={prices} onSelectCountry={(code) => {
+            <ToolContent values={playOrder.length > 0 ? { ...values, playOrder } : values} state={prices} onSelectCountry={(code) => {
                 setCountryTable(false)
                 drill.open(code)
               }}
@@ -162,7 +164,17 @@ function App() {
                 periods={prices.data.periods}
                 selected={shownPeriod}
                 onSelect={(period) => setFilter('time', period)}
-                onPlayingChange={setPlaying}
+                onPlayingChange={(isPlaying) => {
+                  setPlaying(isPlaying)
+                  if (!isPlaying || !prices.data) {
+                    setPlayOrder([])
+                    return
+                  }
+                  // Every country the data has, the ones of the period shown first, in the order chosen.
+                  const shown = orderedCountries(prices.data, values, t).map((row) => row.countryCode)
+                  const others = [...new Set(prices.data.countries.map((row) => row.countryCode))].filter((code) => !shown.includes(code))
+                  setPlayOrder([...shown, ...others])
+                }}
               />
             )}
           </>

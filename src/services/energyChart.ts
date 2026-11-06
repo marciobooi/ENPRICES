@@ -50,9 +50,44 @@ function priceValue(price: number | null, decimals: number): number | null {
   return price === null ? null : Number(price.toFixed(decimals))
 }
 
+/**
+ * While the period timeline plays, the countries keep the places they had when it started (`playOrder`), so from one
+ * period to the next the bars only grow and shrink instead of jumping to new places. A country with no figure in a period
+ * keeps its place with no bar (`gaps`) or, for the table, is left out.
+ */
+function lockedCountries(data: EnergyPrices, period: string, playOrder: readonly string[], gaps: boolean): CountryPrice[] {
+  const rows = new Map(filterCountries(data, period).map((row) => [row.countryCode, row]))
+  return playOrder.flatMap((code) => {
+    const row = rows.get(code)
+    if (row) return [row]
+    if (!gaps) return []
+    return [{ countryCode: code, period, total: null, allTaxes: null, detail: [null, null, null], components: { energy: null, taxes: null, vat: null }, breakdown: [] } as CountryPrice]
+  })
+}
+
+const playOrderOf = (values: FilterValues): string[] => (Array.isArray(values.playOrder) ? values.playOrder : [])
+
+/** The value axis while the timeline plays: the same from the first period to the last, so the bars are measured against one scale. */
+function playAxis(data: EnergyPrices, stacked: boolean, decimals: number): { min: number; max: number } {
+  let low = 0
+  let high = 0
+  for (const row of data.countries) {
+    const parts = stacked
+      ? data.componentMode ? data.componentCodes.map((code) => row.breakdown.find((point) => point.code === code)?.value ?? null) : row.detail
+      : [row.total]
+    const numbers = parts.filter((value): value is number => value !== null)
+    high = Math.max(high, numbers.filter((value) => value > 0).reduce((sum, value) => sum + value, 0))
+    low = Math.min(low, numbers.filter((value) => value < 0).reduce((sum, value) => sum + value, 0))
+  }
+  const round = (value: number) => Number(value.toFixed(Math.max(2, decimals)))
+  return { min: round(low * 1.05), max: round(high * 1.05) }
+}
+
 /** The countries of the period shown, in the order chosen (the same order for the bars and the table). */
 export function orderedCountries(data: EnergyPrices, values: FilterValues, t: TFunction): CountryPrice[] {
   const period = selectedPeriod(data, valueOf(values, 'time', ''))
+  const playOrder = playOrderOf(values)
+  if (playOrder.length > 0) return lockedCountries(data, period, playOrder, false)
   return sortCountries(filterCountries(data, period), valueOf(values, 'order', 'desc'), (code) => t(`countries.${code}`, { defaultValue: code }))
 }
 
@@ -70,11 +105,10 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
   const stacked = valueOf(values, 'breakdown', 'total') === 'components'
   const percentage = stacked && valueOf(values, 'percentage', 'value') === 'percentage'
   const order = valueOf(values, 'order', 'desc')
-  const currentCountries = sortCountries(
-    filterCountries(data, period),
-    order,
-    (code) => t(`countries.${code}`, { defaultValue: code }),
-  )
+  const playOrder = playOrderOf(values)
+  const currentCountries = playOrder.length > 0
+    ? lockedCountries(data, period, playOrder, true)
+    : sortCountries(filterCountries(data, period), order, (code) => t(`countries.${code}`, { defaultValue: code }))
   const decimals = priceDecimals(data.unit, values)
   const rounded = (price: number | null) => priceValue(price, decimals)
   const partsOf = (row: CountryPrice): Array<number | null> =>
@@ -122,6 +156,7 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
         },
       },
       yAxis: {
+        ...(playOrder.length > 0 && !percentage ? playAxis(data, stacked, decimals) : {}),
         title: { text: priceAxisTitle(t, valueOf(values, 'product', '6000'), data.unit, percentage) },
         labels: { format: percentage ? '{value}%' : '{value:.2f}' },
       },
@@ -146,9 +181,9 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
 /** Country codes in the order the bars are drawn (countries without a value have no bar). */
 export function chartCountryCodes(data: EnergyPrices, values: FilterValues, t: TFunction): string[] {
   const period = selectedPeriod(data, valueOf(values, 'time', ''))
-  return sortCountries(
-    filterCountries(data, period),
-    valueOf(values, 'order', 'desc'),
-    (code) => t(`countries.${code}`, { defaultValue: code }),
+  const playOrder = playOrderOf(values)
+  return (playOrder.length > 0
+    ? lockedCountries(data, period, playOrder, true)
+    : sortCountries(filterCountries(data, period), valueOf(values, 'order', 'desc'), (code) => t(`countries.${code}`, { defaultValue: code }))
   ).filter((row) => row.total !== null).map((row) => row.countryCode)
 }

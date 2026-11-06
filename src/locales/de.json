@@ -891,6 +891,14 @@
     "slider": "Zeitraum auswählen",
     "play": "Animation durch die Zeiträume starten",
     "pause": "Animation anhalten",
-    "playing": "Zeiträume werden abgespielt"
+    "playing": "Zeiträume werden abgespielt",
+    "move": "Zeitleiste verschieben",
+    "moveHelp": "Ziehen, um die Zeitleiste zu verschieben, Doppelklick zum Ausblenden. Mit der Tastatur: Leertaste nimmt sie auf, die Pfeiltasten verschieben sie (Umschalt für größere Schritte), Leertaste legt sie ab, Escape bricht ab, Pos1 setzt sie zurück. Eingabe blendet sie aus oder ein.",
+    "picked": "Zeitleiste aufgenommen. Mit den Pfeiltasten verschieben.",
+    "dropped": "Zeitleiste abgelegt.",
+    "cancelled": "Verschieben abgebrochen.",
+    "resetDone": "Zeitleiste wieder an ihrem Platz.",
+    "collapsed": "Zeitleiste am Rand ausgeblendet. Eingabe am Griff blendet sie ein.",
+    "expanded": "Zeitleiste eingeblendet."
   }
 }

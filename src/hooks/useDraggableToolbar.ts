@@ -14,9 +14,9 @@ const MARGIN = 8
 /** A click that follows a move of more than this many pixels was a drag, not a click. */
 const DRAG_THRESHOLD = 3
 
-function readStored(): Offset {
+function readStored(key: string): Offset {
   try {
-    const value = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? 'null') as Partial<Offset> | null
+    const value = JSON.parse(window.localStorage.getItem(key) ?? 'null') as Partial<Offset> | null
     if (value && Number.isFinite(value.x) && Number.isFinite(value.y)) return { x: value.x as number, y: value.y as number }
   } catch {
     /* storage can be blocked: the bar then simply starts at its usual place */
@@ -24,9 +24,9 @@ function readStored(): Offset {
   return { x: 0, y: 0 }
 }
 
-function readCollapsed(): boolean {
+function readCollapsed(key: string): boolean {
   try {
-    return window.localStorage.getItem(COLLAPSED_KEY) === 'true'
+    return window.localStorage.getItem(key) === 'true'
   } catch {
     return false
   }
@@ -56,9 +56,14 @@ export interface DragMessages {
  * handle is left at the edge of the window; a click (or Enter) brings it back. The bar stays inside the window and
  * remembers where it was left and whether it was tucked away.
  */
-export function useDraggableToolbar(ref: RefObject<HTMLElement | null>, messages: DragMessages) {
-  const [offset, setOffset] = useState<Offset>(readStored)
-  const [collapsed, setCollapsedState] = useState(readCollapsed)
+export function useDraggableToolbar(
+  ref: RefObject<HTMLElement | null>,
+  messages: DragMessages,
+  /** Where the position and the tucked-away state are remembered (each bar has its own). */
+  keys: { position: string; collapsed: string } = { position: STORAGE_KEY, collapsed: COLLAPSED_KEY },
+) {
+  const [offset, setOffset] = useState<Offset>(() => readStored(keys.position))
+  const [collapsed, setCollapsedState] = useState(() => readCollapsed(keys.collapsed))
   const [dragging, setDragging] = useState(false)
   const [grabbed, setGrabbed] = useState(false)
   const [message, setMessage] = useState('')
@@ -117,16 +122,16 @@ export function useDraggableToolbar(ref: RefObject<HTMLElement | null>, messages
 
   const setCollapsed = useCallback((value: boolean) => {
     setCollapsedState(value)
-    store(COLLAPSED_KEY, value)
+    store(keys.collapsed, value)
     setMessage(value ? messages.collapsed : messages.expanded)
     if (!value) lastExpanded.current = Date.now()
-  }, [messages.collapsed, messages.expanded])
+  }, [keys.collapsed, messages.collapsed, messages.expanded])
 
   const reset = useCallback(() => {
     setOffset({ x: 0, y: 0 })
-    store(STORAGE_KEY, { x: 0, y: 0 })
+    store(keys.position, { x: 0, y: 0 })
     setMessage(messages.reset)
-  }, [messages.reset])
+  }, [keys.position, messages.reset])
 
   // Keep the bar in view when the window changes size or the page scrolls to its end.
   useEffect(() => {
@@ -150,8 +155,8 @@ export function useDraggableToolbar(ref: RefObject<HTMLElement | null>, messages
     offsetRef.current = offset
   }, [offset])
   const finish = useCallback(
-    () => store(STORAGE_KEY, { x: collapsedRef.current ? offsetRef.current.x : applied.current.x, y: applied.current.y }),
-    [],
+    () => store(keys.position, { x: collapsedRef.current ? offsetRef.current.x : applied.current.x, y: applied.current.y }),
+    [keys.position],
   )
 
   const handleProps = {

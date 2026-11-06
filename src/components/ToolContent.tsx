@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { embedConfig } from '../config/toolConfig'
 import type { EnergyPricesState } from '../hooks/useEnergyPrices'
+import { timelineStepMs } from '../config/toolConfig'
 import { priceDecimals } from '../services/decimals'
 import { chartCountryCodes, createEnergyPriceChart, orderedCountries, selectedPeriod } from '../services/energyChart'
 import type { FilterValues } from '../state/filters'
@@ -115,6 +116,8 @@ export function ToolContent({
               busy={loading}
               onSelectCountry={canOpenCountry ? onSelectCountry : undefined}
               fallbackCodes={barCodes}
+              // While the timeline plays the bars glide from one period to the next over the whole step
+              animation={Array.isArray(values.playOrder) && values.playOrder.length > 0 ? timelineStepMs : undefined}
             />
           )}
           {canOpenCountry && !showTable && <p className="ecl-u-sr-only">{t('country.openHint')}</p>}

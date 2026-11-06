@@ -11,6 +11,8 @@ interface WebChartProps {
   onSelectCountry?: (code: string) => void
   /** Country codes in the order of the first series: used when the click cannot be matched by class name. */
   fallbackCodes?: readonly string[]
+  /** Milliseconds the bars take to move to a new configuration (default: Highcharts' own, short, move). */
+  animation?: number
 }
 
 const GEO_CLASS = /(?:^|\s)geo-([A-Za-z0-9_]+)/
@@ -18,7 +20,7 @@ const GEO_CLASS = /(?:^|\s)geo-([A-Za-z0-9_]+)/
 /** The part of a Highcharts chart that is used here (Webtools loads Highcharts on the page). */
 interface LiveChart {
   container: HTMLElement
-  update: (options: Record<string, unknown>, redraw?: boolean, oneToOne?: boolean, animation?: boolean | object) => void
+  update: (options: Record<string, unknown>, redraw?: boolean, oneToOne?: boolean, animation?: boolean | { duration: number }) => void
 }
 
 interface ChartConfig {
@@ -47,7 +49,7 @@ function kindOf(config: object): string {
  * screen (`chart.update`), so a changed filter, a switch or the period slider moves the bars and lines to their new
  * values instead of tearing the chart down and drawing it again (no blank flash, no replay of the opening animation).
  */
-export function WebChart({ config, label, busy = false, onSelectCountry, fallbackCodes }: WebChartProps) {
+export function WebChart({ config, label, busy = false, onSelectCountry, fallbackCodes, animation }: WebChartProps) {
   const { t } = useTranslation()
   const target = useRef<HTMLDivElement>(null)
   const request = useRef(0)
@@ -65,7 +67,7 @@ export function WebChart({ config, label, busy = false, onSelectCountry, fallbac
       try {
         const data = (config as ChartConfig).data as Record<string, unknown>
         // `true` for the third argument: series are matched one to one, so a removed series goes away.
-        live.update(data, true, true)
+        live.update(data, true, true, animation === undefined ? undefined : { duration: animation })
         return
       } catch {
         // the chart cannot take this configuration: draw it again from scratch below
@@ -81,7 +83,7 @@ export function WebChart({ config, label, busy = false, onSelectCountry, fallbac
         setFailure({ config, error: renderError instanceof Error ? renderError : new Error(t('toolContent.renderError')) })
       }
     })
-  }, [config, t])
+  }, [config, t, animation])
 
   // Only when the chart goes away (another view, another page) is the drawing removed.
   useEffect(() => {

@@ -1,6 +1,9 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { timelineStepMs } from '../config/toolConfig'
+import { useDraggableToolbar } from '../hooks/useDraggableToolbar'
 import { RoundButton } from './RoundButton'
+import { ToolbarIcon } from './ToolbarIcon'
 
 interface PeriodTimelineProps {
   /** The periods the data has, oldest first. */
@@ -12,8 +15,8 @@ interface PeriodTimelineProps {
   onPlayingChange?: (playing: boolean) => void
 }
 
-/** Time the animation stays on a period. */
-const STEP_MS = 900
+const POSITION_KEY = 'enprices-timeline-position-v1'
+const COLLAPSED_KEY = 'enprices-timeline-collapsed-v1'
 /** Width one tick label needs, so the labels shown never touch. */
 const LABEL_WIDTH = 64
 /** The thumb is 24px wide: the track it can travel is 24px shorter than the slider. */
@@ -23,6 +26,8 @@ const THUMB = 24
  * The period of the main view as a timeline: a play button that steps through the periods, and a slider with a tick for
  * every period and a label for as many of them as fit. It is a native range input (arrow keys, Home, End, Page Up and
  * Down; screen readers read the period as the value) drawn with the ECL blue. It replaces the period list of the menu.
+ * Like the options bar it floats: drag its handle (or pick it up with Space and use the arrow keys) to move it, double-click
+ * the handle (or press Enter on it) to tuck it away to the edge, click it to bring it back.
  */
 export function PeriodTimeline({ periods, selected, onSelect, onPlayingChange }: PeriodTimelineProps) {
   const { t } = useTranslation()
@@ -30,6 +35,13 @@ export function PeriodTimeline({ periods, selected, onSelect, onPlayingChange }:
   const [playing, setPlaying] = useState(false)
   const [width, setWidth] = useState(0)
   const track = useRef<HTMLDivElement>(null)
+  const barRef = useRef<HTMLDivElement>(null)
+  const helpId = useId()
+  const messages = useMemo(
+    () => ({ picked: t('timeline.picked'), dropped: t('timeline.dropped'), cancelled: t('timeline.cancelled'), reset: t('timeline.resetDone'), collapsed: t('timeline.collapsed'), expanded: t('timeline.expanded') }),
+    [t],
+  )
+  const drag = useDraggableToolbar(barRef, messages, { position: POSITION_KEY, collapsed: COLLAPSED_KEY })
   const last = periods.length - 1
   const index = Math.max(0, periods.indexOf(selected))
 
@@ -58,7 +70,7 @@ export function PeriodTimeline({ periods, selected, onSelect, onPlayingChange }:
         setPlaying(false)
         onPlayingChange?.(false)
       }
-    }, STEP_MS)
+    }, timelineStepMs)
     return () => window.clearTimeout(timer)
   }, [playing, index, last, periods, onSelect, onPlayingChange])
 
@@ -77,12 +89,34 @@ export function PeriodTimeline({ periods, selected, onSelect, onPlayingChange }:
   // period (its own label is shown, in bold).
   // Ticks no closer than 6px: on a narrow screen only some periods get one, so they stay separate marks, not a solid bar.
   const tickEvery = Math.max(1, Math.ceil(periods.length / Math.max(2, Math.floor(width / 6))))
-  const near = Math.ceil(every / 2)
+  const near = every
   const labelled = (i: number) =>
     i === index || ((i % every === 0 || (i === last && last % every >= every * 0.6)) && Math.abs(i - index) >= near)
 
   return (
-    <div className="period-timeline" id="period-timeline" role="group" aria-label={t('timeline.label')}>
+    <div
+      ref={barRef}
+      className={`period-timeline${drag.dragging ? ' period-timeline--dragging' : ''}${drag.grabbed ? ' period-timeline--grabbed' : ''}${drag.collapsed ? ' period-timeline--collapsed' : ''}`}
+      id="period-timeline"
+      role="group"
+      aria-label={t('timeline.label')}
+      style={drag.style}
+    >
+      <button
+        type="button"
+        id="timeline-move"
+        className="floating-controls__handle period-timeline__handle"
+        aria-label={t('timeline.move')}
+        aria-describedby={helpId}
+        aria-pressed={drag.grabbed}
+        aria-expanded={!drag.collapsed}
+        {...drag.handleProps}
+      >
+        <ToolbarIcon name={drag.collapsed ? 'expand' : drag.grabbed ? 'move' : 'grip'} />
+      </button>
+      <span id={helpId} className="ecl-u-sr-only">{t('timeline.moveHelp')}</span>
+      {!drag.collapsed && (
+        <>
       <RoundButton
         id="timeline-play"
         icon={playing ? 'pause' : 'play'}
@@ -125,7 +159,9 @@ export function PeriodTimeline({ periods, selected, onSelect, onPlayingChange }:
           ))}
         </div>
       </div>
-      <span className="ecl-u-sr-only" role="status" aria-live="polite">{playing ? t('timeline.playing') : ''}</span>
+        </>
+      )}
+      <span className="ecl-u-sr-only" role="status" aria-live="polite">{playing ? t('timeline.playing') : drag.message}</span>
     </div>
   )
 }

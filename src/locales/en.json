@@ -892,6 +892,14 @@
     "slider": "Select the period",
     "play": "Play the animation through the periods",
     "pause": "Pause the animation",
-    "playing": "Playing the periods"
+    "playing": "Playing the periods",
+    "move": "Move the timeline",
+    "moveHelp": "Drag to move the timeline, double-click to hide it. With the keyboard: Space picks it up, the arrow keys move it (Shift for larger steps), Space drops it, Escape cancels, Home puts it back. Enter hides or shows it.",
+    "picked": "Timeline picked up. Use the arrow keys to move it.",
+    "dropped": "Timeline dropped.",
+    "cancelled": "Move cancelled.",
+    "resetDone": "Timeline back in its place.",
+    "collapsed": "Timeline hidden at the edge. Press Enter on the handle to show it.",
+    "expanded": "Timeline shown."
   }
 }
