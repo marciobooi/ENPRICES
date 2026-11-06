@@ -216,7 +216,11 @@
     "detailsTitle": "Details",
     "detailsDescription": "Use this option to see in details.",
     "embedTitle": "Embed",
-    "embedDescription": "Use this button to embed the chart in other tools or websites."
+    "embedDescription": "Use this button to embed the chart in other tools or websites.",
+    "countryTitle": "Open a country",
+    "countryDescription": "Click on a bar to see the details of that country: its prices by consumption level, the parts of the price in a pie chart and how the price developed over time.",
+    "decimalsTitle": "Decimals",
+    "decimalsDescription": "Click here to change how many decimals the prices show: 4, 3, 2 or 1. Every chart, tooltip and table follows."
   },
   "subnav": {
     "title": "Energy prices",

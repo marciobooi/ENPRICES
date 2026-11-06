@@ -209,12 +209,15 @@ export function createCountryChart(data: CountryPrices, values: FilterValues, vi
     service: 'chart',
     version: '2.0',
     menu: false,
+    // No data table next to the chart (the tool has its own table view): without this Webtools tries to build one
+    // and, for a big stacked chart, logs "dataset is too big to display the data table together with the chart".
+    options: { table: { view: 'standalone' } },
     data: {
       chart,
       title: { text: '' },
       subtitle: { text: '' },
       credits: { enabled: false },
-      exporting: { enabled: false },
+      exporting: { enabled: false, showTable: false },
       xAxis,
       yAxis,
       plotOptions,

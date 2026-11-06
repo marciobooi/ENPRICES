@@ -72,14 +72,48 @@ export interface TourLabels {
   progress: string
 }
 
+/** Step element that means "the whole first bar of the chart" (all its stacked parts), see `firstBarOverlay`. */
+export const FIRST_BAR = '@first-bar'
+const OVERLAY_ATTRIBUTE = 'data-tour-bar'
+
+/**
+ * A bar of a stacked chart is made of one element per part, so highlighting one element shows only a slice of it. This
+ * draws an invisible box around all the parts of the first bar (they share the class `geo-<code>`), and the tour
+ * highlights that box. Null when the chart has no bars (table view, no data).
+ */
+function firstBarOverlay(): HTMLElement | null {
+  const first = document.querySelector('.energy-chart .highcharts-point[class*="geo-"]')
+  const code = /(?:^|\s)geo-([A-Za-z0-9_]+)/.exec(first?.getAttribute('class') ?? '')?.[1]
+  if (!code) return null
+  const parts = [...document.querySelectorAll('.energy-chart .highcharts-point')].filter((point) =>
+    point.classList.contains(`geo-${code}`),
+  )
+  const boxes = parts.map((part) => part.getBoundingClientRect()).filter((box) => box.width > 0)
+  if (boxes.length === 0) return null
+  const left = Math.min(...boxes.map((box) => box.left))
+  const top = Math.min(...boxes.map((box) => box.top))
+  const right = Math.max(...boxes.map((box) => box.right))
+  const bottom = Math.max(...boxes.map((box) => box.bottom))
+  const overlay = document.createElement('div')
+  overlay.setAttribute(OVERLAY_ATTRIBUTE, '')
+  overlay.setAttribute('aria-hidden', 'true')
+  overlay.style.cssText = `position:absolute;pointer-events:none;left:${left + window.scrollX}px;top:${top + window.scrollY}px;width:${right - left}px;height:${bottom - top}px`
+  document.body.appendChild(overlay)
+  return overlay
+}
+
 /**
  * Start the guided tour. Steps whose element is not in the page are skipped.
  * Focus returns to the element that had it before the tour started.
  */
 export function startGuidedTour(steps: DriveStep[], labels: TourLabels, onEnd?: () => void): void {
-  const available = steps.filter(
-    (step) => typeof step.element !== 'string' || document.querySelector(step.element),
-  )
+  const available = steps.flatMap((step): DriveStep[] => {
+    if (step.element === FIRST_BAR) {
+      const bar = firstBarOverlay()
+      return bar ? [{ ...step, element: bar }] : []
+    }
+    return typeof step.element !== 'string' || document.querySelector(step.element) ? [step] : []
+  })
   if (available.length === 0) return
 
   const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null
@@ -134,6 +168,7 @@ export function startGuidedTour(steps: DriveStep[], labels: TourLabels, onEnd?: 
       requestAnimationFrame(() => popover.nextButton.focus())
     },
     onDestroyed: () => {
+      document.querySelectorAll(`[${OVERLAY_ATTRIBUTE}]`).forEach((element) => element.remove())
       releaseTrap?.()
       releaseTrap = null
       appRoot?.removeAttribute('inert')

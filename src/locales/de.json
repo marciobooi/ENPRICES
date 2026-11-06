@@ -198,7 +198,11 @@
     "detailsTitle": "Details",
     "detailsDescription": "Verwenden Sie diese Option, um Details anzuzeigen.",
     "embedTitle": "Einbetten",
-    "embedDescription": "Verwenden Sie diese Schaltfläche, um das Diagramm in andere Tools oder Websites einzubetten."
+    "embedDescription": "Verwenden Sie diese Schaltfläche, um das Diagramm in andere Tools oder Websites einzubetten.",
+    "countryTitle": "Ein Land öffnen",
+    "countryDescription": "Klicken Sie auf einen Balken, um die Details dieses Landes zu sehen: seine Preise nach Verbrauchsstufe, die Preisbestandteile in einem Kreisdiagramm und die Preisentwicklung im Zeitverlauf.",
+    "decimalsTitle": "Nachkommastellen",
+    "decimalsDescription": "Klicken Sie hier, um die Anzahl der Nachkommastellen der Preise zu ändern: 4, 3, 2 oder 1. Alle Diagramme, Tooltips und Tabellen folgen."
   },
   "subnav": {
     "title": "Energiepreise",

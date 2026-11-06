@@ -198,7 +198,11 @@
     "detailsTitle": "Détails",
     "detailsDescription": "Utilisez cette option pour voir les détails.",
     "embedTitle": "Intégrer",
-    "embedDescription": "Utilisez ce bouton pour intégrer le graphique dans d'autres outils ou sites web."
+    "embedDescription": "Utilisez ce bouton pour intégrer le graphique dans d'autres outils ou sites web.",
+    "countryTitle": "Ouvrir un pays",
+    "countryDescription": "Cliquez sur une barre pour voir le détail de ce pays : ses prix par niveau de consommation, la répartition du prix dans un graphique circulaire et l'évolution du prix dans le temps.",
+    "decimalsTitle": "Décimales",
+    "decimalsDescription": "Cliquez ici pour changer le nombre de décimales des prix : 4, 3, 2 ou 1. Tous les graphiques, infobulles et tableaux suivent."
   },
   "subnav": {
     "title": "Prix de l'énergie",

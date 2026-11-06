@@ -106,12 +106,15 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
     service: 'chart',
     version: '2.0',
     menu: false,
+    // No data table next to the chart (the tool has its own table view): without this Webtools tries to build one
+    // and, for a big stacked chart, logs "dataset is too big to display the data table together with the chart".
+    options: { table: { view: 'standalone' } },
     data: {
       chart: { type: 'column', height: 560, style: { fontFamily: 'Arial, sans-serif' }, backgroundColor: 'transparent' },
       title: { text: '' },
       subtitle: { text: '' },
       credits: { enabled: false },
-      exporting: { enabled: false },
+      exporting: { enabled: false, showTable: false },
       xAxis: {
         categories: currentCountries.map(({ countryCode }) => t(`countries.${countryCode}`, { defaultValue: countryCode })),
         labels: {

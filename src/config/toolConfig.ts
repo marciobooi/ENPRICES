@@ -347,9 +347,12 @@ export const tourConfig = {
    */
   steps: [
     { id: 'chart', element: '.energy-chart' },
+    // The whole first bar of the chart (all its stacked parts), to show that it can be clicked.
+    { id: 'country', element: '@first-bar' },
     { id: 'menu', element: '#menu-toggle' },
     { id: 'table', element: '#chart-table' },
     { id: 'order', element: '#chart-order' },
+    { id: 'decimals', element: '#chart-decimals' },
     { id: 'aggregates', element: '#chart-aggregates' },
     { id: 'components', element: '#components-toggle' },
     { id: 'details', element: '#chart-details' },
@@ -357,8 +360,9 @@ export const tourConfig = {
     { id: 'download', element: '#download-button' },
     { id: 'embed', element: '#share-button' },
     { id: 'language', element: '#toggleLanguageBtn' },
-    { id: 'share', element: '#share-button' },
+    // The last two: first where to see the tour again, then the end of the tour.
     { id: 'replay', element: '#tour-button' },
+    { id: 'share', element: '#share-button' },
   ],
 }
 
