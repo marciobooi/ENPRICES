@@ -1927,7 +1927,7 @@
   top: 0.5rem;
   transform: translateX(-50%);
   color: #5b6272;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   white-space: nowrap;
 }
 
@@ -1960,4 +1960,25 @@
     background: Highlight;
     color: HighlightText;
   }
+}
+
+/* The language button's tooltip opens upwards, over the Webtools banner at the top of the page (z-index 40) */
+.masthead-language-section:has(.tooltip-bubble) {
+  z-index: 60;
+}
+
+/* The handle sits in the tooltip's wrapper now: the wrapper takes the handle's place in the bar and gives it its full height */
+.tooltip-host:has(> .floating-controls__handle) {
+  display: flex;
+  align-self: stretch;
+}
+
+.tooltip-host > .floating-controls__handle {
+  align-self: stretch;
+  height: auto;
+}
+
+/* The timeline's tooltips (its handle) open over the chart, like those of the options bar */
+.period-timeline:has(.tooltip-bubble) {
+  z-index: 20;
 }

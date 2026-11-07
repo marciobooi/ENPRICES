@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { site } from '../config/toolConfig'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 import { RoundButton } from './RoundButton'
+import { Tooltip } from './Tooltip'
 
 const LANGUAGES = site.languages
 
@@ -13,6 +14,7 @@ export function LanguageSelector() {
   const overlayRef = useRef<HTMLDivElement>(null)
   const language = i18n.resolvedLanguage ?? 'en'
   const languageName = LANGUAGES.find(({ code }) => code === language)?.name ?? LANGUAGES[0].name
+  const buttonName = t('navigation.changeLanguage', { language: languageName })
 
   useFocusTrap(overlayRef, {
     active: open,
@@ -39,12 +41,14 @@ export function LanguageSelector() {
 
   return (
     <div id="lang-section" className="masthead-language-section">
+      {/* The tooltip says the same as the button's name, so it is not announced a second time */}
+      <Tooltip content={buttonName} announce={false}>
       <button
         ref={buttonRef}
         id="toggleLanguageBtn"
         className="masthead-language ecl-button ecl-button--secondary"
         type="button"
-        aria-label={`${t('navigation.language')}: ${languageName}`}
+        aria-label={buttonName}
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls={open ? 'language-list-overlay' : undefined}
@@ -55,6 +59,7 @@ export function LanguageSelector() {
           <span className="ecl-button__label" data-ecl-label="true">{languageName}</span>
         </span>
       </button>
+      </Tooltip>
 
       {open && (
         <div

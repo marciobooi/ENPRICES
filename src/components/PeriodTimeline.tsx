@@ -4,6 +4,7 @@ import { timelineStepMs } from '../config/toolConfig'
 import { useDraggableToolbar } from '../hooks/useDraggableToolbar'
 import { RoundButton } from './RoundButton'
 import { ToolbarIcon } from './ToolbarIcon'
+import { Tooltip } from './Tooltip'
 
 interface PeriodTimelineProps {
   /** The periods the data has, oldest first. */
@@ -18,7 +19,7 @@ interface PeriodTimelineProps {
 const POSITION_KEY = 'enprices-timeline-position-v1'
 const COLLAPSED_KEY = 'enprices-timeline-collapsed-v1'
 /** Width one tick label needs, so the labels shown never touch. */
-const LABEL_WIDTH = 64
+const LABEL_WIDTH = 60
 /** The thumb is 24px wide: the track it can travel is 24px shorter than the slider. */
 const THUMB = 24
 
@@ -85,13 +86,17 @@ export function PeriodTimeline({ periods, selected, onSelect, onPlayingChange }:
 
   const every = Math.max(1, Math.ceil(periods.length / Math.max(2, Math.floor(width / LABEL_WIDTH))))
   const at = (i: number) => `calc(${(i / last) * 100}% + ${THUMB / 2 - (i / last) * THUMB}px)`
-  // A label at every n-th period (and at the last when it is not too near the one before), none right beside the selected
-  // period (its own label is shown, in bold).
   // Ticks no closer than 6px: on a narrow screen only some periods get one, so they stay separate marks, not a solid bar.
   const tickEvery = Math.max(1, Math.ceil(periods.length / Math.max(2, Math.floor(width / 6))))
-  const near = every
-  const labelled = (i: number) =>
-    i === index || ((i % every === 0 || (i === last && last % every >= every * 0.6)) && Math.abs(i - index) >= near)
+  // The labels: the selected period always, then the last, the first and every n-th one, each only if it is at least a
+  // label's width away from the labels already chosen, so no two ever overlap.
+  const x = (i: number) => (i / last) * Math.max(width - THUMB, 1)
+  const candidates = [index, last, 0, ...Array.from({ length: last + 1 }, (_, i) => i).filter((i) => i % every === 0)]
+  const shown = new Set<number>()
+  for (const candidate of candidates) {
+    if ([...shown].every((other) => Math.abs(x(candidate) - x(other)) >= LABEL_WIDTH)) shown.add(candidate)
+  }
+  const labelled = (i: number) => shown.has(i)
 
   return (
     <div
@@ -102,18 +107,21 @@ export function PeriodTimeline({ periods, selected, onSelect, onPlayingChange }:
       aria-label={t('timeline.label')}
       style={drag.style}
     >
-      <button
-        type="button"
-        id="timeline-move"
-        className="floating-controls__handle period-timeline__handle"
-        aria-label={t('timeline.move')}
-        aria-describedby={helpId}
-        aria-pressed={drag.grabbed}
-        aria-expanded={!drag.collapsed}
-        {...drag.handleProps}
-      >
-        <ToolbarIcon name={drag.collapsed ? 'expand' : drag.grabbed ? 'move' : 'grip'} />
-      </button>
+      {/* What the handle does, also when only the tab is left at the edge: the help text already describes it for screen readers */}
+      <Tooltip content={t(drag.collapsed ? 'timeline.showTip' : 'timeline.handleTip')} announce={false}>
+        <button
+          type="button"
+          id="timeline-move"
+          className="floating-controls__handle period-timeline__handle"
+          aria-label={t('timeline.move')}
+          aria-describedby={helpId}
+          aria-pressed={drag.grabbed}
+          aria-expanded={!drag.collapsed}
+          {...drag.handleProps}
+        >
+          <ToolbarIcon name={drag.collapsed ? 'expand' : drag.grabbed ? 'move' : 'grip'} />
+        </button>
+      </Tooltip>
       <span id={helpId} className="ecl-u-sr-only">{t('timeline.moveHelp')}</span>
       {!drag.collapsed && (
         <>

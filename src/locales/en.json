@@ -8,7 +8,8 @@
     "selectLanguage": "Select language",
     "closeLanguageDialog": "Close language selection",
     "officialLanguages": "Official EU languages:",
-    "language": "Language"
+    "language": "Language",
+    "changeLanguage": "Change language, current language is {{language}}"
   },
   "toolbar": {
     "label": "Chart tools"
@@ -567,7 +568,9 @@
     "decimalsLabel": "Decimals shown: {{count}}. Click for {{next}}",
     "decimalsWhole": "Decimals: prices in MWh are shown as whole numbers",
     "decimalsSet_one": "Prices are now shown with {{count}} decimal.",
-    "decimalsSet_other": "Prices are now shown with {{count}} decimals."
+    "decimalsSet_other": "Prices are now shown with {{count}} decimals.",
+    "handleTip": "Drag to move. Double-click to hide.",
+    "showTip": "Show the options bar"
   },
   "errors": {
     "noCountries": "Select at least one country to display energy prices.",
@@ -900,6 +903,8 @@
     "cancelled": "Move cancelled.",
     "resetDone": "Timeline back in its place.",
     "collapsed": "Timeline hidden at the edge. Press Enter on the handle to show it.",
-    "expanded": "Timeline shown."
+    "expanded": "Timeline shown.",
+    "handleTip": "Drag to move. Double-click to hide.",
+    "showTip": "Show the timeline"
   }
 }

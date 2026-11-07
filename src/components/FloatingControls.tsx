@@ -9,6 +9,7 @@ import { switchComponentMode } from '../state/componentMode'
 import type { FilterValues } from '../state/filters'
 import { RoundButton } from './RoundButton'
 import { SortMenu } from './SortMenu'
+import { Tooltip } from './Tooltip'
 import { ToolbarIcon } from './ToolbarIcon'
 
 interface FloatingControlsProps {
@@ -57,18 +58,21 @@ export function FloatingControls({ values, onChange, showTable, onToggleTable }:
       onFocus={roving.onFocus}
       onKeyDown={roving.onKeyDown}
     >
-      <button
-        type="button"
-        id="chart-move"
-        className="floating-controls__handle"
-        aria-label={t('controls.move')}
-        aria-describedby={helpId}
-        aria-pressed={drag.grabbed}
-        aria-expanded={!drag.collapsed}
-        {...drag.handleProps}
-      >
-        <ToolbarIcon name={drag.collapsed ? 'expand' : drag.grabbed ? 'move' : 'grip'} />
-      </button>
+      {/* What the handle does, also when only the tab is left at the edge: the help text already describes it for screen readers */}
+      <Tooltip content={t(drag.collapsed ? 'controls.showTip' : 'controls.handleTip')} announce={false}>
+        <button
+          type="button"
+          id="chart-move"
+          className="floating-controls__handle"
+          aria-label={t('controls.move')}
+          aria-describedby={helpId}
+          aria-pressed={drag.grabbed}
+          aria-expanded={!drag.collapsed}
+          {...drag.handleProps}
+        >
+          <ToolbarIcon name={drag.collapsed ? 'expand' : drag.grabbed ? 'move' : 'grip'} />
+        </button>
+      </Tooltip>
       <span id={helpId} className="ecl-u-sr-only">{t('controls.moveHelp')}</span>
 
       {!drag.collapsed && (

@@ -8,7 +8,8 @@
     "selectLanguage": "Sprache auswählen",
     "closeLanguageDialog": "Sprachauswahl schließen",
     "officialLanguages": "Amtssprachen der EU:",
-    "language": "Sprache"
+    "language": "Sprache",
+    "changeLanguage": "Sprache ändern, aktuelle Sprache: {{language}}"
   },
   "toolbar": {
     "label": "Diagramm-Werkzeuge"
@@ -566,7 +567,9 @@
     "decimalsLabel": "Angezeigte Nachkommastellen: {{count}}. Klicken für {{next}}",
     "decimalsWhole": "Nachkommastellen: Preise in MWh werden als ganze Zahlen angezeigt",
     "decimalsSet_one": "Die Preise werden jetzt mit {{count}} Nachkommastelle angezeigt.",
-    "decimalsSet_other": "Die Preise werden jetzt mit {{count}} Nachkommastellen angezeigt."
+    "decimalsSet_other": "Die Preise werden jetzt mit {{count}} Nachkommastellen angezeigt.",
+    "handleTip": "Ziehen zum Verschieben. Doppelklick zum Ausblenden.",
+    "showTip": "Optionsleiste anzeigen"
   },
   "errors": {
     "noCountries": "Wählen Sie mindestens ein Land aus, um Energiepreise anzuzeigen.",
@@ -899,6 +902,8 @@
     "cancelled": "Verschieben abgebrochen.",
     "resetDone": "Zeitleiste wieder an ihrem Platz.",
     "collapsed": "Zeitleiste am Rand ausgeblendet. Eingabe am Griff blendet sie ein.",
-    "expanded": "Zeitleiste eingeblendet."
+    "expanded": "Zeitleiste eingeblendet.",
+    "handleTip": "Ziehen zum Verschieben. Doppelklick zum Ausblenden.",
+    "showTip": "Zeitleiste anzeigen"
   }
 }

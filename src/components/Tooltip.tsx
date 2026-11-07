@@ -22,7 +22,8 @@ interface TooltipProps {
 const SHOW_DELAY_MS = 150
 /** Moving to a neighbouring trigger within this window shows its tooltip with no delay. */
 const HANDOVER_MS = 400
-const VIEWPORT_MARGIN = 8
+/** Space kept between a tooltip and the edge of the window (the page area: the scrollbar is not counted). */
+const VIEWPORT_MARGIN = 20
 
 // Only one tooltip is ever visible: opening one closes the previous one immediately.
 let closeActive: (() => void) | null = null
@@ -70,8 +71,9 @@ export function Tooltip({ content, inverted = false, announce = true, children }
   useLayoutEffect(() => {
     if (!visible || !bubbleRef.current) return
     const { left, right } = bubbleRef.current.getBoundingClientRect()
+    const pageWidth = document.documentElement.clientWidth
     if (left < VIEWPORT_MARGIN) setShift(VIEWPORT_MARGIN - left)
-    else if (right > window.innerWidth - VIEWPORT_MARGIN) setShift(window.innerWidth - VIEWPORT_MARGIN - right)
+    else if (right > pageWidth - VIEWPORT_MARGIN) setShift(pageWidth - VIEWPORT_MARGIN - right)
   }, [visible])
 
   // Keep any description the trigger already has and add the tooltip while it is visible.

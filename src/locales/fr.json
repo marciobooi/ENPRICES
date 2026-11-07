@@ -8,7 +8,8 @@
     "selectLanguage": "Sélectionner la langue",
     "closeLanguageDialog": "Fermer la sélection de langue",
     "officialLanguages": "Langues officielles de l'UE :",
-    "language": "Langue"
+    "language": "Langue",
+    "changeLanguage": "Changer de langue, langue actuelle : {{language}}"
   },
   "toolbar": {
     "label": "Outils du graphique"
@@ -566,7 +567,9 @@
     "decimalsLabel": "Décimales affichées : {{count}}. Cliquer pour {{next}}",
     "decimalsWhole": "Décimales : les prix en MWh sont affichés en nombres entiers",
     "decimalsSet_one": "Les prix sont maintenant affichés avec {{count}} décimale.",
-    "decimalsSet_other": "Les prix sont maintenant affichés avec {{count}} décimales."
+    "decimalsSet_other": "Les prix sont maintenant affichés avec {{count}} décimales.",
+    "handleTip": "Faites glisser pour déplacer. Double-cliquez pour masquer.",
+    "showTip": "Afficher la barre d'options"
   },
   "errors": {
     "noCountries": "Sélectionnez au moins un pays pour afficher les prix de l’énergie.",
@@ -899,6 +902,8 @@
     "cancelled": "Déplacement annulé.",
     "resetDone": "Ligne du temps remise à sa place.",
     "collapsed": "Ligne du temps masquée au bord. Appuyez sur Entrée sur la poignée pour l'afficher.",
-    "expanded": "Ligne du temps affichée."
+    "expanded": "Ligne du temps affichée.",
+    "handleTip": "Faites glisser pour déplacer. Double-cliquez pour masquer.",
+    "showTip": "Afficher la ligne du temps"
   }
 }

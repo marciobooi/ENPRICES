@@ -156,7 +156,9 @@ export function createEnergyPriceChart(data: EnergyPrices, values: FilterValues,
         },
       },
       yAxis: {
-        ...(playOrder.length > 0 && !percentage ? playAxis(data, stacked, decimals) : {}),
+        // Fixed while the timeline plays. Otherwise explicitly free again: a chart that is updated keeps the limits of the
+        // configuration before, so a scale fixed for a run would stay on the chart afterwards.
+        ...(playOrder.length > 0 && !percentage ? playAxis(data, stacked, decimals) : { min: null, max: null }),
         title: { text: priceAxisTitle(t, valueOf(values, 'product', '6000'), data.unit, percentage) },
         labels: { format: percentage ? '{value}%' : '{value:.2f}' },
       },
