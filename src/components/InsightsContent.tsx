@@ -751,7 +751,7 @@ function InsightsBody({ data, focus, other, onOther, geoOptions, language, t, pr
       {longTerm}
       <Section title={label(v('COMPOSITION'), data.componentPeriod ?? period)} t={t} info={sectionInfo('EXPLAIN_COMPOSITION', 'CALC_COMPOSITION', 'PURPOSE_PRETAX')}>{compositionBody}</Section>
       <Section title={label(v('FISCAL_EFFECT'), period)} t={t} info={sectionInfo('EXPLAIN_FISCAL', 'CALC_FISCAL', 'PURPOSE_FINAL')}>{fiscalBody}</Section>
-      <Section title={label(v('PPS_PERSPECTIVE'), period)} t={t} info={sectionInfo('EXPLAIN_PPS', 'CALC_PPS', 'PURPOSE_RANK_SHIFT')}>{ppsBody}</Section>
+      {!isEu && shift && <Section title={label(v('PPS_PERSPECTIVE'), period)} t={t} info={sectionInfo('EXPLAIN_PPS', 'CALC_PPS', 'PURPOSE_RANK_SHIFT')}>{ppsBody}</Section>}
       {europe && <Section title={label(v('EUROPE_SNAPSHOT'), period)} t={t} info={sectionInfo('EXPLAIN_EUROPE', 'CALC_EUROPE', 'PURPOSE_DISPERSION')}>{europeBody}</Section>}
       {bandSection}
       {inflation}

@@ -121,6 +121,14 @@ export function startGuidedTour(steps: DriveStep[], labels: TourLabels, onEnd?: 
   let releaseTrap: (() => void) | null = null
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+  let refreshTimer: number | undefined
+  const scheduleRefresh = () => {
+    window.clearTimeout(refreshTimer)
+    refreshTimer = window.setTimeout(() => tour.refresh(), 150)
+  }
+  // While the page is still scrolling (the smooth scroll to the step), each scroll event pushes the refresh back.
+  window.addEventListener('scroll', scheduleRefresh, { passive: true })
+
   const tour: Driver = driver({
     steps: available,
     showProgress: true,
@@ -142,9 +150,14 @@ export function startGuidedTour(steps: DriveStep[], labels: TourLabels, onEnd?: 
     overlayOpacity: 0.65,
     stagePadding: 8,
     stageRadius: 8,
+    // Gap between the highlight and the popover (driver.js default is 10): the popover's arrow sits in it.
+    popoverOffset: 20,
     onHighlightStarted: () => {
       // The whole app is unreachable (no Tab, no click, hidden from screen readers) while the tour runs.
       appRoot?.setAttribute('inert', '')
+      // A step far from the previous one makes the page scroll smoothly; the popover is placed before that scroll has
+      // finished and ends up in the wrong place. Place it again once the page has stopped moving.
+      scheduleRefresh()
     },
     onPopoverRender: (popover, { state }) => {
       applyEclClasses(popover, labels.close)
@@ -168,6 +181,8 @@ export function startGuidedTour(steps: DriveStep[], labels: TourLabels, onEnd?: 
       requestAnimationFrame(() => popover.nextButton.focus())
     },
     onDestroyed: () => {
+      window.clearTimeout(refreshTimer)
+      window.removeEventListener('scroll', scheduleRefresh)
       document.querySelectorAll(`[${OVERLAY_ATTRIBUTE}]`).forEach((element) => element.remove())
       releaseTrap?.()
       releaseTrap = null
