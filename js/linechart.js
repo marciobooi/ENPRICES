@@ -114,6 +114,7 @@ function createLineChart() {
         subtitle: null,
         xAxis: {"categories": lineCat},
         yAxisFormat: "{value:.2f}",
+        yAxisTitle: getYAxisTitle(),
         tooltipFormatter: tooltipFormatter,
         creditsText: credits(),
         creditsHref: 'https://ec.europa.eu/eurostat/databrowser/view/'+REF.dataset+'/default/table?lang=EN',

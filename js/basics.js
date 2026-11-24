@@ -411,6 +411,15 @@ function tooltipTable(points) {
   }
 }
 
+// Y-axis title (price + currency/unit) shared by the line and bar charts, so
+// the unit is shown in every view of the expanded chart.
+function getYAxisTitle() {
+  const product = languageNameSpace.labels["PRICE_" + REF.product];
+  return REF.percentage == 1
+    ? product + " " + languageNameSpace.labels['%']
+    : product + " [" + languageNameSpace.labels["S_" + REF.currency] + "/" + languageNameSpace.labels["S_" + REF.unit] + "]";
+}
+
 function getTitle() {
   const geoLabel = languageNameSpace.labels[REF.chartGeo];
   const time = REF.time;

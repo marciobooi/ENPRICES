@@ -99,6 +99,7 @@ function auxiliarBarGraph() {
     subtitle: null,
     xAxis: xAxis,
     yAxisFormat: "{value:.2f}",
+    yAxisTitle: getYAxisTitle(),
     tooltipFormatter: tooltipFormatter,
     creditsText: credits(),
     creditsHref: "",
